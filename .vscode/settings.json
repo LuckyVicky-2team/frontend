@@ -1,4 +1,12 @@
 {
     "editor.formatOnSave": true,
-    "prettier.configPath": ".prettierrc"
+    "prettier.configPath": ".prettierrc",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.insertSpaces": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "javascript.format.enable": false,
+    "eslint.alwaysShowStatus": true,
+    "files.autoSave": "onFocusChange"
 }

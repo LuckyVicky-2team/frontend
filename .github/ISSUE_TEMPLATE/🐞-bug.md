@@ -1,7 +1,7 @@
 ---
-name: "\U0001F41E Bug "
+name: '🐞 Bug'
 about: BUG 발생 시 작성해주세요
-title: 'error: 설명을 작성해주세요'
+title: '[BUG] 설명을 작성해주세요'
 labels: bug
 assignees: ''
 ---

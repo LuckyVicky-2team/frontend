@@ -13,6 +13,7 @@
     "prettier": "prettier --write src/**/*.{tsx,css}"
   },
   "dependencies": {
+    "@netlify/plugin-nextjs": "^5.5.1",
     "@tanstack/react-query": "^5.51.11",
     "axios": "^1.7.2",
     "husky": "^9.1.1",

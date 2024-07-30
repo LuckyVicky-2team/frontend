@@ -1,13 +1,13 @@
 {
   "name": "frontend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint:fix": "next lint --fix",
     "lint:strict": "next lint 'src/**/*.{js,jsx,ts,tsx}'",
     "prettier": "prettier --write 'src/**/*.{tsx,css,scss}'"

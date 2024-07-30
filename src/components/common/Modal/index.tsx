@@ -1,3 +1,5 @@
+import styles from './Modal.module.scss';
+
 interface IModalProps {
   modalOpen: boolean;
   onClose: () => void;
@@ -16,7 +18,8 @@ function Modal({ modalOpen, onClose }: IModalProps) {
             left: '0',
             right: '0',
           }}
-          onClick={onClose}>
+          onClick={onClose}
+          className={styles.modalBackground}>
           <div
             onClick={e => {
               e.stopPropagation();

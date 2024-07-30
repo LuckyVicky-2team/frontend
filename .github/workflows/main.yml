@@ -52,5 +52,5 @@ jobs:
           region: ${{ secrets.AWS_REGION }}
           application_name: LuckyFE
           environment_name: LuckyFE-env
-          version_label: '2024-07-29T06-21-33-500Z'
+          version_label: '${{ steps.timestamp.outputs.date }}'
           deployment_package: deploy.zip

@@ -7,20 +7,20 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-    title: 'BoardGo!',
-    description: 'LuckyVicky Team project BoardGo!',
+  title: 'BoardGo!',
+  description: 'LuckyVicky Team project BoardGo!',
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="ko">
-            <body className={inter.className}>
-                <ReactQueryProvider>{children}</ReactQueryProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="ko">
+      <body className={inter.className}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
+    </html>
+  );
 }

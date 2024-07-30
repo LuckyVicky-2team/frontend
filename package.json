@@ -7,10 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky",
+    "prepare": "husky install",
     "lint:fix": "next lint --fix",
     "lint:strict": "next lint 'src/**/*.{js,jsx,ts,tsx}'",
-    "prettier": "prettier --write src/**/*.{tsx,css,scss}"
+    "prettier": "prettier --write 'src/**/*.{tsx,css,scss}'"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.51.11",

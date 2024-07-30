@@ -1,56 +1,56 @@
 name: Deploy Next.js application
 
 on:
-    pull_request:
-        branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-    build-and-deploy:
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: ['20.x']
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20.x']
 
-        steps:
-            - name: Checkout source code.
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout source code.
+        uses: actions/checkout@v3
 
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-                  cache: 'npm'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-            - name: Install dependencies
-              run: npm install
+      - name: Install dependencies
+        run: npm install
 
-            - name: Run build
-              run: npm run build
+      - name: Run build
+        run: npm run build
 
-            - name: Configure AWS credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: ${{ secrets.AWS_REGION }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-            - name: Current timestamp
-              id: timestamp
-              run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S-%3NZ')"
+      - name: Current timestamp
+        id: timestamp
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H-%M-%S-%3NZ')"
 
-            - name: remove node_modules
-              run: rm -rf node_modules
+      - name: remove node_modules
+        run: rm -rf node_modules
 
-            - name: Generate deployment package # (1)
-              run: zip ./deploy.zip -r * .[^.]*
+      - name: Generate deployment package # (1)
+        run: zip ./deploy.zip -r * .[^.]*
 
-            - name: Deploy to EB
-              uses: einaregilsson/beanstalk-deploy@v20
-              with:
-                  aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  region: ${{ secrets.AWS_REGION }}
-                  application_name: LuckyFE
-                  environment_name: LuckyFE-env
-                  version_label: '${{ steps.timestamp.outputs.date }}'
-                  deployment_package: deploy.zip
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: ${{ secrets.AWS_REGION }}
+          application_name: LuckyFE
+          environment_name: LuckyFE-env
+          version_label: '${{ steps.timestamp.outputs.date }}'
+          deployment_package: deploy.zip

@@ -110,3 +110,6 @@ a {
 .react-datepicker-popper {
   z-index: 9999 !important;
 }
+.react-datepicker-wrapper {
+  width: 100%;
+}

@@ -1,6 +1,7 @@
 import Modal from '@/components/common/Modal';
 import { FormProvider, useForm } from 'react-hook-form';
 import styles from './CreateGatheringModal.module.scss';
+import DatePicker from '@/components/common/DatePicker';
 
 interface CreateGatheringFormValues {
   image: string;
@@ -25,7 +26,7 @@ function CreateGatheringModal({
   const methods = useForm<CreateGatheringFormValues>({
     mode: 'all',
   });
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, control } = methods;
 
   const onSubmit = (gatheringInfo: CreateGatheringFormValues) => {
     console.log({ gatheringInfo });
@@ -59,6 +60,15 @@ function CreateGatheringModal({
             <div className={styles.inputContainer}>
               <label htmlFor="date">날짜</label>
               <input id="date" {...register} />
+              <DatePicker
+                control={control}
+                name="date"
+                id="date"
+                label="날짜"
+                hasLabel
+                placeholder="날짜를 선택해 주세요."
+                className={styles.datePicker}
+              />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title">인원</label>

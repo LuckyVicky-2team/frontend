@@ -3,6 +3,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import styles from './CreateGatheringModal.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 
+// 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
+
 interface CreateGatheringFormValues {
   image: string;
   title: string;
@@ -26,7 +28,12 @@ function CreateGatheringModal({
   const methods = useForm<CreateGatheringFormValues>({
     mode: 'all',
   });
-  const { register, handleSubmit, control } = methods;
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+  } = methods;
 
   const onSubmit = (gatheringInfo: CreateGatheringFormValues) => {
     console.log({ gatheringInfo });
@@ -39,27 +46,31 @@ function CreateGatheringModal({
           <div className={styles.inputArea}>
             <div className={styles.inputContainer}>
               <label htmlFor="image">이미지</label>
-              <input id="image" {...register} />
+              <input id="image" {...register('image')} />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title">제목</label>
-              <input id="title" {...register} />
+              <input
+                id="title"
+                {...register('title', { required: '제목을 입력해 주세요.' })}
+              />
+              {errors.title && errors.title.message}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="tags">태그</label>
-              <input id="tags" {...register} />
+              <input id="tags" {...register('tags')} />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="content">내용</label>
               <textarea id="content" {...register('content')} />
+              {errors.content && errors.content.message}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="location">위치</label>
-              <input id="location" {...register} />
+              <input id="location" {...register('location')} />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="date">날짜</label>
-              <input id="date" {...register} />
               <DatePicker
                 control={control}
                 name="date"
@@ -72,13 +83,34 @@ function CreateGatheringModal({
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title">인원</label>
-              <input id="title" {...register} />
+              <input id="title" {...register('participants')} />
             </div>
             <div className={styles.inputContainer}>
+              {/* <div>모임 유형 선택</div>
+              <label htmlFor="free">자유</label>
+              <input
+                id="free"
+                type="radio"
+                value="free"
+                {...register('type')}
+              />
+              <label htmlFor="accept">수락</label>
+              <input
+                id="accept"
+                type="radio"
+                value="accept"
+                {...register('type')}
+              /> */}
               <label htmlFor="type">모임 유형</label>
-              <input id="type" {...register} />
+              <select id="type" {...register('type')}>
+                <option value="free">자유</option>
+                <option value="accept">수락</option>
+              </select>
             </div>
           </div>
+          <button type="submit" disabled={!isValid}>
+            생성하기
+          </button>
         </form>
       </FormProvider>
     </Modal>

@@ -9,10 +9,8 @@ function SongeunPage() {
       style={{
         backgroundColor: 'white',
         height: '100vh',
-        zIndex: '1',
       }}>
-      <div style={{ zIndex: '10', backgroundColor: 'yellow' }}>zindex: 10</div>
-      <button type="button" onClick={handleModalOpen} style={{ zIndex: '2' }}>
+      <button type="button" onClick={handleModalOpen}>
         모달 클릭
       </button>
       <Modal modalOpen={modalOpen} onClose={handleModalClose} />

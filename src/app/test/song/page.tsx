@@ -9,10 +9,19 @@ function SongeunPage() {
       style={{
         backgroundColor: 'white',
         height: '100vh',
+        zIndex: '100',
       }}>
-      <button type="button" onClick={handleModalOpen}>
-        모달 클릭
-      </button>
+      <div
+        style={{
+          backgroundColor: 'yellow',
+          height: '100px',
+          width: '300px',
+          zIndex: '50',
+        }}>
+        <button type="button" onClick={handleModalOpen}>
+          모달 클릭
+        </button>
+      </div>
       <Modal modalOpen={modalOpen} onClose={handleModalClose} />
     </div>
   );

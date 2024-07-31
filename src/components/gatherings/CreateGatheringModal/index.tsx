@@ -11,7 +11,7 @@ function CreateGatheringModal({
 }: ICreateGatheringModalProps) {
   return (
     <Modal modalOpen={modalOpen} onClose={onClose}>
-      ss
+      ssss
     </Modal>
   );
 }

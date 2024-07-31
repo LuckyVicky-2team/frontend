@@ -1,3 +1,5 @@
+'use client';
+
 import CreateGatheringModal from '@/components/gatherings/CreateGatheringModal';
 import useModal from '@/hooks/useModal';
 

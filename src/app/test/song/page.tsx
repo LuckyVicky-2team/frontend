@@ -21,8 +21,8 @@ function SongeunPage() {
         <button type="button" onClick={handleModalOpen}>
           모달 클릭
         </button>
+        <Modal modalOpen={modalOpen} onClose={handleModalClose} />
       </div>
-      <Modal modalOpen={modalOpen} onClose={handleModalClose} />
     </div>
   );
 }

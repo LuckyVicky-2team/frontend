@@ -9,6 +9,8 @@ interface ITagProps {
   backgroundColor?: string;
   fontColor?: string;
   size?: 'small' | 'medium' | 'large';
+  onClick?: () => void;
+  className?: string;
 }
 
 function Tag({
@@ -16,15 +18,18 @@ function Tag({
   backgroundColor = '#ffffff',
   fontColor = '#000000',
   size = 'medium',
+  onClick,
+  className,
 }: ITagProps) {
   return (
     <div
-      className={styles.tag}
+      className={`${styles.tag} ${className}`}
       data-size={size}
       style={{
         background: `${backgroundColor}`,
         color: `${fontColor}`,
-      }}>
+      }}
+      onClick={onClick}>
       {children}
     </div>
   );

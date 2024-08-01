@@ -57,6 +57,7 @@ export default function TagInput({ defaultValues, setItems }: ITagInputProps) {
           return (
             <Tag
               key={idx}
+              className={styles.value}
               onClick={() => handleClickTagRemove(value)}
               size="large">
               {value}

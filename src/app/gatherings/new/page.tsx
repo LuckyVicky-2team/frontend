@@ -86,6 +86,7 @@ function NewGatheringPage() {
               <select
                 id="title"
                 {...register('participants')}
+                // onChange={e => setValue('participants', Number(e.target.value))}
                 style={{ width: 100 }}>
                 {Array.from({ length: 30 }, (_, i) => i + 1).map(number => {
                   return (

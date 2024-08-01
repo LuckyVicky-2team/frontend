@@ -96,10 +96,23 @@ a {
   }
 }
 
-/* 송은 추가한 코드 */
+/******************** 송은 추가한 코드 ****************************/
 .react-datepicker-popper {
   z-index: 9999 !important;
 }
 .react-datepicker-wrapper {
   width: 100%;
 }
+/* input box color */
+/* 크롬 자동입력 시 input 배경이 파란색으로 되는 현상을 방지 */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+/* *************************************************************** */

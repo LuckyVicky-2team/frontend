@@ -19,20 +19,6 @@ interface NewGatheringFormValues {
   type: 'free' | 'accept';
 }
 
-// const resolver: Resolver<NewGatheringFormValues> = async values => {
-//   return {
-//     values: values,
-//     errors: !values.gatheringDate
-//       ? {
-//           gatheringDate: {
-//             type: 'required',
-//             message: 'This is required.',
-//           },
-//         }
-//       : {},
-//   };
-// };
-
 function NewGatheringPage() {
   const methods = useForm<NewGatheringFormValues>({
     mode: 'all',

@@ -36,71 +36,74 @@ function NewGatheringPage() {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.inputArea}>
-          <div className={styles.inputContainer}>
-            <FileInput id="image" setValue={setValue} />
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="title">제목</label>
-            <input
-              id="title"
-              {...register('title', { required: '제목을 입력해 주세요.' })}
-            />
-            {errors.title && errors.title.message}
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="tags">태그</label>
-            <input id="tags" {...register('tags')} />
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="content">내용</label>
-            <textarea
-              id="content"
-              {...register('content', { required: '내용을 입력해 주세요.' })}
-            />
-            {errors.content && errors.content.message}
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="location">위치</label>
-            <input id="location" {...register('location')} />
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="gatheringDate">날짜</label>
-            <DatePicker
-              control={control}
-              name="gatheringDate"
-              id="gatheringDate"
-              label="날짜"
-              hasLabel
-              placeholder="날짜를 선택해 주세요."
-              className={styles.datePicker}
-            />
-            {errors.gatheringDate && errors.gatheringDate.message}
-          </div>
-          <div className={styles.inputContainer}>
-            <label htmlFor="title">인원</label>
-            <select
-              id="title"
-              {...register('participants')}
-              style={{ width: 100 }}>
-              {Array.from({ length: 30 }, (_, i) => i + 1).map(number => {
-                return (
-                  <option key={number} value={number} style={{ height: 10 }}>
-                    {number}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className={styles.inputContainer}>
-            {/* <div>모임 유형 선택</div>
+    <>
+      <h1 className={styles.header}>모임 개설</h1>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles.inputArea}>
+            <div className={styles.inputContainer}>
+              <FileInput id="image" setValue={setValue} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="title">제목</label>
+              <input
+                id="title"
+                {...register('title', { required: '제목을 입력해 주세요.' })}
+              />
+              {errors.title && errors.title.message}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="tags">태그</label>
+              <input id="tags" {...register('tags')} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="content">내용</label>
+              <textarea
+                id="content"
+                {...register('content', { required: '내용을 입력해 주세요.' })}
+              />
+              {errors.content && errors.content.message}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="location">위치</label>
+              <input id="location" {...register('location')} />
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="gatheringDate">날짜</label>
+              <DatePicker
+                control={control}
+                name="gatheringDate"
+                id="gatheringDate"
+                label="날짜"
+                hasLabel
+                placeholder="날짜를 선택해 주세요."
+                className={styles.datePicker}
+              />
+              {errors.gatheringDate && errors.gatheringDate.message}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="title">인원</label>
+              <select
+                id="title"
+                {...register('participants')}
+                style={{ width: 100 }}>
+                {Array.from({ length: 30 }, (_, i) => i + 1).map(number => {
+                  return (
+                    <option key={number} value={number} style={{ height: 10 }}>
+                      {number}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+            <div className={styles.inputContainer}>
+              <div>모임 유형 선택</div>
               <label htmlFor="free">자유</label>
               <input
                 id="free"
                 type="radio"
                 value="free"
+                defaultChecked
                 {...register('type')}
               />
               <label htmlFor="accept">수락</label>
@@ -109,19 +112,15 @@ function NewGatheringPage() {
                 type="radio"
                 value="accept"
                 {...register('type')}
-              /> */}
-            <label htmlFor="type">모임 유형</label>
-            <select id="type" {...register('type')}>
-              <option value="free">자유</option>
-              <option value="accept">수락</option>
-            </select>
+              />
+            </div>
           </div>
-        </div>
-        <button type="submit" disabled={!isValid}>
-          생성하기
-        </button>
-      </form>
-    </FormProvider>
+          <button type="submit" disabled={!isValid}>
+            생성하기
+          </button>
+        </form>
+      </FormProvider>
+    </>
   );
 }
 export default NewGatheringPage;

@@ -3,7 +3,7 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { ko } from 'date-fns/locale/ko';
 import styles from './DatePicker.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-import CalendarContainer from './CalenderContainer';
+// import CalendarContainer from './CalenderContainer';
 
 interface IDatePickerProps<F extends FieldValues> {
   control: Control<F>;
@@ -27,6 +27,7 @@ function DatePicker<F extends FieldValues>({
   return (
     <div className={`${styles.inputContainer} ${className}`}>
       <Controller
+        rules={control ? { required: '날짜를 입력해 주세요' } : {}}
         control={control}
         name={name}
         render={({ field: { value, ...fieldProps } }) => {
@@ -41,7 +42,7 @@ function DatePicker<F extends FieldValues>({
               selected={value}
               required={true}
               showTimeSelect
-              popperContainer={CalendarContainer}
+              // popperContainer={CalendarContainer}
             />
           );
         }}

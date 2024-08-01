@@ -1,31 +1,70 @@
-import { useRef } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react';
 import styles from './FileInput.module.scss';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
+import { UseFormSetValue } from 'react-hook-form';
 import Image from 'next/image';
 import useFilePreview from '@/hooks/useFilePreview';
 
-interface IFileInputProps {
-  id: string;
-  selectedImageUrl?: string; //원래 저장되어 있던 이미지
-  setValue: UseFormSetValue<FieldValues>;
+// 사용 예시
+// react hook form 을 쓸 경우
+
+// react hook form 을 안 쓸 경우
+
+interface NewGatheringFormValues {
+  image: string;
+  title: string;
+  tags: string;
+  content: string;
+  location: string;
+  gatheringDate: Date; //만나는 날짜 === 마감일
+  participants: number;
+  type: 'free' | 'accept';
 }
 
-function FileInput({ id, selectedImageUrl, setValue }: IFileInputProps) {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const { filePreview, setFilePreview } = useFilePreview(
-    inputRef.current?.files,
-    selectedImageUrl
-  );
+interface IFileInputProps {
+  id:
+    | 'type'
+    | 'title'
+    | 'content'
+    | 'image'
+    | 'tags'
+    | 'location'
+    | 'gatheringDate'
+    | 'participants';
+  selectedImageUrl?: string; //원래 저장되어 있던 이미지
+  setValue?: UseFormSetValue<NewGatheringFormValues>; //react hook form을 쓸 경우 사용. NewGatheringFormValues와 다른 interface를 사용하고 싶다면 직접 추가해 주세요.
+  setImage?: Dispatch<SetStateAction<string>>; //react hook form을 안 쓸 경우 사용
+  width?: number;
+  height?: number;
+}
 
-  // const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setFilePreview(e.)
-  // };
+function FileInput({
+  id,
+  selectedImageUrl,
+  setValue,
+  setImage,
+  width = 100,
+  height = 100,
+}: IFileInputProps) {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const { filePreview, setFilePreview, updateFilePreview } =
+    useFilePreview(selectedImageUrl);
+
+  const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      updateFilePreview(e.target.files);
+      // 'imageUrl' 부분은 나중에 수정하겠습니다.
+      setValue && setValue(id, 'imageUrl');
+      setImage && setImage('imageUrl');
+    }
+  };
+
   const handleDeleteImage = () => {
     if (inputRef.current) {
       inputRef.current.value = '';
     }
     setFilePreview('');
-    setValue && setValue(id, null);
+    //이미지가 없을 때 백엔드 쪽에 ''를 넘길 것인지 null을 넘길 것인 지 상의해야 함
+    setValue && setValue(id, '');
   };
   return (
     <div className={styles.imageUploadBox}>
@@ -36,7 +75,8 @@ function FileInput({ id, selectedImageUrl, setValue }: IFileInputProps) {
               src={filePreview}
               alt="이미지 미리보기"
               className={styles.filePreview}
-              fill
+              width={width}
+              height={height}
             />
           </div>
         ) : (
@@ -45,8 +85,8 @@ function FileInput({ id, selectedImageUrl, setValue }: IFileInputProps) {
               className={styles.imageIcon}
               src={''}
               alt="기본 이미지"
-              width={30}
-              height={30}
+              width={width}
+              height={height}
             />
           </div>
         )}
@@ -58,7 +98,7 @@ function FileInput({ id, selectedImageUrl, setValue }: IFileInputProps) {
         accept="image/*"
         ref={inputRef}
         style={{ display: 'none' }}
-        // onChange={handleFileInputChange}
+        onChange={handleFileInputChange}
       />
       {inputRef.current?.files && inputRef.current?.files?.length > 0 && (
         <button

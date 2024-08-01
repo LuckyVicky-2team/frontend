@@ -1,0 +1,45 @@
+.main {
+  overflow: hidden;
+}
+
+.container {
+  max-width: 630px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 100px 15px;
+  background: #999;
+  height: 100vh;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.deadUl {
+  display: flex;
+  align-items: normal;
+  justify-content: normal;
+  gap: 1%;
+}
+.deadLi {
+  width: 24%;
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+
+  .deadLiImg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 50px 0;
+  }
+  .info {
+    padding: 5px;
+    box-sizing: border-box;
+  }
+}

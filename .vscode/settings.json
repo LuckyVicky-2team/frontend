@@ -1,6 +1,6 @@
 {
   "editor.formatOnSave": true,
-  "prettier.configPath": ".prettierrc", // 혹은 다른 Prettier 설정 파일 경로
+  "prettier.configPath": ".prettierrc",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.insertSpaces": true,
 

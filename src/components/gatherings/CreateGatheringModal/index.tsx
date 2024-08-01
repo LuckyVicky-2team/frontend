@@ -4,6 +4,7 @@ import styles from './CreateGatheringModal.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
+// 생성일 추가? (상의)
 
 interface CreateGatheringFormValues {
   image: string;
@@ -11,7 +12,7 @@ interface CreateGatheringFormValues {
   tags: string;
   content: string;
   location: string;
-  date: Date;
+  gatheringDate: Date; //만나는 날짜 === 마감일
   participants: number;
   type: 'free' | 'accept';
 }
@@ -70,11 +71,11 @@ function CreateGatheringModal({
               <input id="location" {...register('location')} />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="date">날짜</label>
+              <label htmlFor="gatheringDate">날짜</label>
               <DatePicker
                 control={control}
-                name="date"
-                id="date"
+                name="gatheringDate"
+                id="gatheringDate"
                 label="날짜"
                 hasLabel
                 placeholder="날짜를 선택해 주세요."

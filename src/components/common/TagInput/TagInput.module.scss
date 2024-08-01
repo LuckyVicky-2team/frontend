@@ -3,4 +3,8 @@
   display: flex;
   gap: 5px;
   margin-top: 10px;
+
+  .value {
+    cursor: pointer;
+  }
 }

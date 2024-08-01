@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Script
           type="text/javascript"
-          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&autoload=false`}
+          src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&autoload=false&libraries=services`}
           strategy="beforeInteractive"
         />
         <ReactQueryProvider>{children}</ReactQueryProvider>

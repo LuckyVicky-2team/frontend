@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import getCurrentCoordinate from '@/apis/geolocationApi';
 import styles from './KakaoMap.module.scss';
 
 declare global {
@@ -15,23 +16,61 @@ interface IKakaoMapProps {
 }
 
 export default function KakaoMap({ className }: IKakaoMapProps) {
+  // const [places, setPlaces] = useState<any[]>([]);
+  // const [pages, setPages] = useState<any>();
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    window.kakao.maps.load(() => {
-      const options = {
-        // 지도를 생성할 때 필요한 기본 옵션
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표.
-        level: 3, // 지도의 레벨(확대, 축소 정도)
+    window.kakao.maps.load(async () => {
+      const locPosition = await getCurrentCoordinate();
+
+      const mapOptions = {
+        center: locPosition,
+        level: 3,
       };
 
-      // eslint-disable-next-line no-unused-vars
-      const map = new window.kakao.maps.Map(mapRef.current, options); //지도 생성 및 객체 리턴
+      const map = new window.kakao.maps.Map(mapRef.current, mapOptions);
 
-      const zoomControl = new window.kakao.maps.ZoomControl(); // 지도 줌 컨트롤 바 선언
-      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT); // 지도 줌 컨트롤 바 오른쪽에 생성
+      const zoomControl = new window.kakao.maps.ZoomControl();
+      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+      const ps = new window.kakao.maps.services.Places();
+
+      // const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+
+      function searchPlaces() {
+        const keyword = '보드카페';
+
+        const searchOptions = {
+          location: locPosition,
+          radius: 10000,
+        };
+
+        ps.keywordSearch(keyword, placesSearchCB, searchOptions);
+      }
+
+      function placesSearchCB(data: any, status: any, pagination: any) {
+        if (status === window.kakao.maps.services.Status.OK) {
+          console.log(data);
+          console.log(pagination);
+          // setPlaces(data);
+        } else if (status === window.kakao.maps.services.Status.ERROR) {
+          console.log('지도 생성 중 오류가 발생했습니다.');
+          return;
+        }
+      }
+
+      searchPlaces();
     });
   }, []);
 
-  return <div className={`${styles.map} ${className}`} ref={mapRef}></div>;
+  return (
+    <>
+      <div className={`${styles.map} ${className}`} ref={mapRef}></div>
+      <div className={styles.menu_wrap}>
+        <ul className={styles.placesList}></ul>
+        <div className={styles.pagination}></div>
+      </div>
+    </>
+  );
 }

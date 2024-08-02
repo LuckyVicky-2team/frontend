@@ -10,12 +10,12 @@ interface IIconButtonProps {
   className?: string;
 }
 
-const IconButton = ({
+export default function IconButton({
   clickIconButtonHandler,
   className,
   imgUrl,
   size,
-}: IIconButtonProps) => {
+}: IIconButtonProps) {
   return (
     <>
       <div
@@ -26,6 +26,4 @@ const IconButton = ({
       </div>
     </>
   );
-};
-
-export default IconButton;
+}

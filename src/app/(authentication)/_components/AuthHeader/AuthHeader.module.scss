@@ -1,8 +1,11 @@
 .logo {
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  .pageName {
+    position: relative;
+  }
 
   .title {
     color: #3e82f1;

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from './AuthHeader.module.scss';
 
 interface IAuthHeaderProps {
@@ -14,16 +15,18 @@ export default function AuthHeader({
 }: IAuthHeaderProps) {
   return (
     <div className={styles.logo}>
-      {hasImage && (
-        <Image
-          src={'/assets/icons/logo.svg'}
-          alt="logo"
-          width={86}
-          height={87}
-          className={styles.logoImage}
-        />
-      )}
-      <h1 className={styles.title}>BOGO</h1>
+      <Link href="/" className={styles.pageName}>
+        {hasImage && (
+          <Image
+            src={'/assets/icons/logo.svg'}
+            alt="logo"
+            width={86}
+            height={87}
+            className={styles.logoImage}
+          />
+        )}
+        <h1 className={styles.title}>BOGO</h1>
+      </Link>
       <h2 className={styles.subTitle}>{title}</h2>
       {text && <p className={styles.text}>{text}</p>}
     </div>

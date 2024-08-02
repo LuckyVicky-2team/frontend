@@ -1,9 +1,9 @@
-import AuthInput from '../_components/AuthInput';
-import AuthHeader from '../_components/AuthHeader';
-import styles from './Signin.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import AuthInput from '../_components/AuthInput';
+import AuthHeader from '../_components/AuthHeader';
 import SpeechBalloon from '../_components/SpeechBalloon';
+import styles from './Signin.module.scss';
 
 export default function Signin() {
   return (

@@ -1,9 +1,9 @@
+import Link from 'next/link';
 import BackButton from '@/components/common/BackButton';
-import styles from './Signup.module.scss';
 import AuthHeader from '../_components/AuthHeader';
 import AuthInput from '../_components/AuthInput';
 import AuthSubmitButton from '../_components/AuthSubmitButton';
-import Link from 'next/link';
+import styles from './Signup.module.scss';
 
 export default function Signup() {
   return (

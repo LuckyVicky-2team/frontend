@@ -62,8 +62,15 @@
   }
 
   &.email {
+    position: relative;
     color: #3e82f1;
     border: 2px solid #3e82f1;
+
+    .balloon {
+      position: absolute;
+      top: -20px;
+      right: 3px;
+    }
   }
 
   &.google {

@@ -3,6 +3,7 @@ import AuthHeader from '../_components/AuthHeader';
 import styles from './Signin.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import SpeechBalloon from '../_components/SpeechBalloon';
 
 export default function Signin() {
   return (
@@ -31,6 +32,11 @@ export default function Signin() {
         </Link>
         <Link className={`${styles.button} ${styles.email}`} href="/signup">
           이메일로 회원가입하기
+          <SpeechBalloon
+            className={styles.balloon}
+            balloonDimension={{ width: 115, height: 35 }}
+            textPosition={{ x: 22, y: 19 }}
+          />
         </Link>
         <button className={`${styles.button} ${styles.google}`}>
           <Image

@@ -103,6 +103,11 @@ a {
 .react-datepicker-wrapper {
   width: 100%;
 }
+.react-datepicker__input-container {
+  height: 100%;
+  display: flex !important;
+  margin: 0;
+}
 /* input box color */
 /* 크롬 자동입력 시 input 배경이 파란색으로 되는 현상을 방지 */
 input:-webkit-autofill {

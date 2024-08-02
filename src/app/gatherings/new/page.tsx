@@ -74,8 +74,6 @@ function NewGatheringPage() {
                 control={control}
                 name="gatheringDate"
                 id="gatheringDate"
-                label="날짜"
-                hasLabel
                 placeholder="날짜를 선택해 주세요."
                 className={styles.datePicker}
               />

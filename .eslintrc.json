@@ -15,10 +15,16 @@
     "browser": true,
     "node": true
   },
+  "globals": {
+    "Window": "readonly"
+  },
   "rules": {
     "indent": ["error", 2],
     "no-empty": "warn",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^Window$" }
+    ],
     "no-cond-assign": ["error", "always"],
     "prettier/prettier": [
       "error",

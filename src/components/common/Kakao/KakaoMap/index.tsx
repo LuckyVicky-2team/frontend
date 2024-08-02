@@ -5,7 +5,6 @@ import getCurrentCoordinate from '@/apis/geolocationApi';
 import styles from './KakaoMap.module.scss';
 
 declare global {
-  // eslint-disable-next-line no-unused-vars
   interface Window {
     kakao: any;
   }

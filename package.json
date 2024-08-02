@@ -21,7 +21,6 @@
     "react-datepicker": "^7.3.0",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
-    "react-overlays": "^5.2.1",
     "sass": "^1.77.8",
     "zustand": "^4.5.4"
   },

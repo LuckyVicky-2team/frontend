@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: Pretendard;
+  line-height: 20px;
+}
+
+.inputContainer {
+  position: relative;
+
+  .eyeButton {
+    position: absolute;
+    right: 12px;
+    top: 9px;
+    margin: 0;
+  }
+}

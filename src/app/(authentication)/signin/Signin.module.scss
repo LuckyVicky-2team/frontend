@@ -1,5 +1,5 @@
 .container {
-  padding: 104px 23px 43px 25px;
+  padding: 104px 25px 43px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -10,7 +10,7 @@
   flex-direction: column;
   gap: 24px;
 
-  .button {
+  button {
     margin-top: 5px;
   }
 }

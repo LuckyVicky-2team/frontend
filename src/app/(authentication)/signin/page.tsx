@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function Signin() {
   return (
     <div className={styles.container}>
-      <AuthHeader hasImage={true} />
+      <AuthHeader hasImage={true} title="로그인" />
       <form className={styles.form}>
         <AuthInput
           labelName="아이디"
@@ -29,9 +29,9 @@ export default function Signin() {
         <Link href="/" className={styles.guideLink}>
           BOGO가 처음이신가요?
         </Link>
-        <button className={`${styles.button} ${styles.email}`}>
+        <Link className={`${styles.button} ${styles.email}`} href="/signup">
           이메일로 회원가입하기
-        </button>
+        </Link>
         <button className={`${styles.button} ${styles.google}`}>
           <Image
             src="/assets/icons/google_logo.svg"

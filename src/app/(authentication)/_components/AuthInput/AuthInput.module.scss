@@ -21,10 +21,11 @@
 
 .inputContainer {
   position: relative;
-}
 
-.eyeButton {
-  position: absolute;
-  right: 16px;
-  top: 8px;
+  .eyeButton {
+    position: absolute;
+    right: 12px;
+    top: 9px;
+    margin: 0;
+  }
 }

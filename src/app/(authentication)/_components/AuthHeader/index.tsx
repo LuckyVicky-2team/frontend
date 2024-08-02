@@ -3,10 +3,15 @@ import styles from './AuthHeader.module.scss';
 
 interface IAuthHeaderProps {
   hasImage?: boolean;
+  title: string;
   text?: string;
 }
 
-export default function AuthHeader({ hasImage, text }: IAuthHeaderProps) {
+export default function AuthHeader({
+  hasImage,
+  title,
+  text,
+}: IAuthHeaderProps) {
   return (
     <div className={styles.logo}>
       {hasImage && (
@@ -19,7 +24,7 @@ export default function AuthHeader({ hasImage, text }: IAuthHeaderProps) {
         />
       )}
       <h1 className={styles.title}>BOGO</h1>
-      <h2 className={styles.subTitle}>로그인</h2>
+      <h2 className={styles.subTitle}>{title}</h2>
       {text && <p className={styles.text}>{text}</p>}
     </div>
   );

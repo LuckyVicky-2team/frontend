@@ -2,6 +2,7 @@
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
 import Header from './_components/Header/Header';
+import Footer from './_components/Footer/Footer';
 import Image from 'next/image';
 import styles from './main.module.scss';
 // import Banner from './img/banner.png';
@@ -41,6 +42,7 @@ export default function Main() {
             <GenreGather />
           </div>
         </div>
+        <Footer />
       </div>
     </main>
   );

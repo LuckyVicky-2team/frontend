@@ -1,0 +1,49 @@
+.space {
+  width: 100%;
+  padding: 30px 0;
+}
+
+.footerContent {
+  box-shadow: 0 -4px 10px rgb(0, 122, 255, 0.12);
+  padding: 15px 0;
+  z-index: 3;
+  background: #fff;
+  max-height: 630px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 630px;
+  width: 100%;
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    li {
+      width: 23%;
+      display: block;
+      a {
+        display: block;
+        width: 100%;
+        .ico {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .tag {
+          width: 100%;
+          display: block;
+          text-align: center;
+          margin-top: 5px;
+          color: #999;
+        }
+      }
+    }
+  }
+}

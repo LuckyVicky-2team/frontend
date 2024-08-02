@@ -23,6 +23,31 @@
     color: #007aff;
     font-weight: 800;
   }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 20%;
+  gap: 15%;
   button {
+    position: relative;
+    img {
+      width: 25px;
+      height: 25px;
+    }
+    span {
+      width: 10px;
+      height: 10px;
+      display: block;
+      border-radius: 100%;
+      background: red;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+  a {
   }
 }

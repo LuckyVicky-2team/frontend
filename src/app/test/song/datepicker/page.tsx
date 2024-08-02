@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './Example.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 
-function ExamplePage() {
+export default function ExamplePage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   return (
     <div className={styles.aaa}>
@@ -17,5 +17,3 @@ function ExamplePage() {
     </div>
   );
 }
-
-export default ExamplePage;

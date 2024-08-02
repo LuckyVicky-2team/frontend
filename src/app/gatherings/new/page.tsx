@@ -19,7 +19,7 @@ interface NewGatheringFormValues {
   type: 'free' | 'accept';
 }
 
-function NewGatheringPage() {
+export default function NewGatheringPage() {
   const methods = useForm<NewGatheringFormValues>({
     mode: 'all',
   });
@@ -122,4 +122,3 @@ function NewGatheringPage() {
     </>
   );
 }
-export default NewGatheringPage;

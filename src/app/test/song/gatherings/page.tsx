@@ -2,7 +2,7 @@
 // import useModal from '@/hooks/useModal';
 import Link from 'next/link';
 
-function GatheringsPage() {
+export default function GatheringsPage() {
   // const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   return (
     <div>
@@ -14,4 +14,3 @@ function GatheringsPage() {
     </div>
   );
 }
-export default GatheringsPage;

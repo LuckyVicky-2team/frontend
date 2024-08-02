@@ -1,0 +1,39 @@
+.title {
+  font-size: 20px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+.title2 {
+  font-size: 22px;
+  color: #2d7dff;
+  font-weight: 800;
+  margin-top: 10px;
+  display: block;
+}
+
+.recommendList {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  li {
+    width: 22%;
+    display: block;
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      .img {
+        display: block;
+      }
+      .tag {
+        display: block;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+    }
+  }
+}

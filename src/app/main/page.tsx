@@ -1,4 +1,7 @@
 // import DeadLineGather from './_components/DaedLineGather';
+import RecommendCase from './_components/RecommendCase';
+import GenreGather from './_components/GenreGather';
+import Header from './_components/Header/Header';
 import Image from 'next/image';
 import styles from './main.module.scss';
 // import Banner from './img/banner.png';
@@ -8,6 +11,7 @@ export default function Main() {
   return (
     <main>
       <div className={styles.container}>
+        <Header />
         <div className={styles.banner}>
           <h2>
             BOGO
@@ -28,8 +32,14 @@ export default function Main() {
             </button>
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div className={styles.contentContainerWrap}>
           {/* <DeadLineGather /> */}
+          <div className={styles.contentContainer}>
+            <RecommendCase />
+          </div>
+          <div className={styles.contentContainer}>
+            <GenreGather />
+          </div>
         </div>
       </div>
     </main>

@@ -5,6 +5,8 @@
   background: #fff;
   height: 100vh;
   overflow: scroll;
+  padding-bottom: 1000px;
+  position: relative;
 }
 
 .banner {
@@ -34,23 +36,32 @@
   position: relative;
   .searchBar {
     width: 80%;
-    position: absolute; top: -10%;left: 50%; transform: translateX(-50%);
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
     background: #fff;
     box-shadow: 1px 1px 6px #999;
     border-radius: 10px;
-    padding: 25px 15px; box-sizing: border-box;
-    display: flex; align-items: center; justify-content: space-between;
-    transform: translate(-50%,-50%);
+    padding: 25px 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translate(-50%, -50%);
     input {
-        width: 80%;
-        outline:none;
+      width: 80%;
+      outline: none;
     }
     button {
-        outline:none;
+      outline: none;
     }
   }
 }
 
-.contentContainer {
-    padding: 0 15px;
+.contentContainerWrap {
+  padding: 0 15px;
+  .contentContainer {
+    margin-top: 100px;
+  }
 }

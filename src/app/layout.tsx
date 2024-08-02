@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
-import './globals.css';
+import './globals.scss';
 import '@/styles/reset.scss';
 
 const inter = Inter({ subsets: ['latin'] });

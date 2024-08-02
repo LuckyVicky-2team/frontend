@@ -19,5 +19,8 @@
   ],
   "eslint.options": {
     "configFile": ".eslintrc.js"
-  }
+  },
+  // settings.json className={} 이거로 자동완성
+  "javascript.preferences.jsxAttributeCompletionStyle": "braces",
+  "typescript.preferences.jsxAttributeCompletionStyle": "braces"
 }

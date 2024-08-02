@@ -6,14 +6,17 @@
   width: 100%;
   height: 40px;
   padding: 10px 45px 10px 16px;
-  border: none;
   border-radius: 12px;
   background-color: #f9fafb;
   font-size: 14px;
-  font-family: Pretendard;
   font-weight: 500;
   line-height: 20px;
   color: #1f2937;
+  outline: none;
+
+  &.error {
+    border: 2px solid #dc2626;
+  }
 
   &::placeholder {
     color: #9ca3af;
@@ -22,27 +25,4 @@
   &:focus {
     border: 2px solid #3e82f1;
   }
-
-  &.error {
-    border: 2px solid #dc2626;
-  }
-}
-
-.errorMessage {
-  margin-top: 10px;
-  color: #dc2626;
-  font-weight: 600;
-  font-size: 14px;
-  font-family: Pretendard;
-  line-height: 20px;
-}
-
-.inputContainer {
-  position: relative;
-}
-
-.eyeButton {
-  position: absolute;
-  right: 16px;
-  top: 8px;
 }

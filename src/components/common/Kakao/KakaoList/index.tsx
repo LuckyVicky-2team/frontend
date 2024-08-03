@@ -1,7 +1,7 @@
 'use client';
 
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { IPlaceInfo } from '@/types/kakao';
+import { IPlaceInfo, StatusType } from '@/types/kakao';
 import PlaceSearchBar from './PlaceSearchBar';
 import PlaceListItem from './PlaceListItem';
 import styles from './KakaoList.module.scss';
@@ -33,20 +33,15 @@ export default function KakaoList({ className }: IKakaoListProps) {
       window.kakao.maps.load(() => {
         const ps = new window.kakao.maps.services.Places();
 
-        ps.keywordSearch(
-          keyword,
-          (data: IPlaceInfo[], status: 'OK' | 'ERROR' | 'ZERO_RESULT') => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              setPlaces(data);
-            } else if (
-              status === window.kakao.maps.services.Status.ZERO_RESULT
-            ) {
-              setPlaces([]);
-            } else if (status === window.kakao.maps.services.Status.ERROR) {
-              console.log('error');
-            }
+        ps.keywordSearch(keyword, (data: IPlaceInfo[], status: StatusType) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            setPlaces(data);
+          } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+            setPlaces([]);
+          } else if (status === window.kakao.maps.services.Status.ERROR) {
+            throw new Error('리스트를 불러올 수 없습니다.');
           }
-        );
+        });
       });
     }
   };
@@ -68,8 +63,8 @@ export default function KakaoList({ className }: IKakaoListProps) {
           const distance = calculateDistance(
             myPosition.x,
             myPosition.y,
-            +place.x,
-            +place.y
+            parseFloat(place.x),
+            parseFloat(place.y)
           );
           place.distance = String(distance.toFixed(2));
           return <PlaceListItem key={place.id} index={idx} item={place} />;

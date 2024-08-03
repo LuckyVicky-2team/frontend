@@ -1,24 +1,21 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import getCurrentCoordinate from '@/apis/geolocationApi';
+import { IPlaceInfo, StatusType } from '@/types/kakao';
 import styles from './KakaoMap.module.scss';
 
 interface IKakaoMapProps {
   className?: string;
+  keyword: string;
 }
 
-export default function KakaoMap({ className }: IKakaoMapProps) {
-  // const [places, setPlaces] = useState<any[]>([]);
-  // const [pages, setPages] = useState<any>();
+export default function KakaoMap({ className, keyword }: IKakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    window.kakao.maps.load(async () => {
-      const locPosition = await getCurrentCoordinate();
-
+    window.kakao.maps.load(() => {
       const mapOptions = {
-        center: locPosition,
+        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
       };
 
@@ -29,41 +26,36 @@ export default function KakaoMap({ className }: IKakaoMapProps) {
 
       const ps = new window.kakao.maps.services.Places();
 
-      // const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+      const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
-      function searchPlaces() {
-        const keyword = '보드카페';
+      const displayMarker = (place: IPlaceInfo) => {
+        const marker = new window.kakao.maps.Marker({
+          map,
+          position: new window.kakao.maps.LatLng(place.y, place.x),
+        });
 
-        const searchOptions = {
-          location: locPosition,
-          radius: 10000,
-        };
+        infowindow.setContent(
+          `<div class="${styles.infowindow}">${place.place_name}</div>`
+        );
 
-        ps.keywordSearch(keyword, placesSearchCB, searchOptions);
-      }
+        window.kakao.maps.event.addListener(marker, 'mouseover', () => {
+          infowindow.open(map, marker);
+        });
+        window.kakao.maps.event.addListener(marker, 'mouseout', () => {
+          infowindow.close(map, marker);
+        });
+      };
 
-      function placesSearchCB(data: any, status: any, pagination: any) {
+      ps.keywordSearch(keyword, (data: IPlaceInfo[], status: StatusType) => {
         if (status === window.kakao.maps.services.Status.OK) {
-          console.log(data);
-          console.log(pagination);
-          // setPlaces(data);
+          displayMarker(data[0]);
+          map.setCenter(new window.kakao.maps.LatLng(data[0].y, data[0].x));
         } else if (status === window.kakao.maps.services.Status.ERROR) {
-          console.log('지도 생성 중 오류가 발생했습니다.');
-          return;
+          throw new Error('지도를 불러올 수 없습니다.');
         }
-      }
-
-      searchPlaces();
+      });
     });
-  }, []);
+  }, [keyword]);
 
-  return (
-    <>
-      <div className={`${styles.map} ${className}`} ref={mapRef}></div>
-      <div className={styles.menu_wrap}>
-        <ul className={styles.placesList}></ul>
-        <div className={styles.pagination}></div>
-      </div>
-    </>
-  );
+  return <div className={`${styles.map} ${className}`} ref={mapRef}></div>;
 }

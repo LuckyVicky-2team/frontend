@@ -19,4 +19,6 @@ interface IPlaceInfo {
   y: string;
 }
 
-export { IPlaceInfo };
+type StatusType = 'OK' | 'ERROR' | 'ZERO_RESULT';
+
+export { IPlaceInfo, StatusType };

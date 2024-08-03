@@ -4,12 +4,6 @@ import { useEffect, useRef } from 'react';
 import getCurrentCoordinate from '@/apis/geolocationApi';
 import styles from './KakaoMap.module.scss';
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
 interface IKakaoMapProps {
   className?: string;
 }

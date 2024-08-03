@@ -1,5 +1,9 @@
-import KakaoMap from '@/components/common/Kakao/KakaoMap';
+import KakaoList from '@/components/common/Kakao/KakaoList';
 
 export default function YongTest() {
-  return <KakaoMap />;
+  return (
+    <>
+      <KakaoList />
+    </>
+  );
 }

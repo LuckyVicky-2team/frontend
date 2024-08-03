@@ -1,10 +1,12 @@
 'use client';
 
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { IPlaceInfo } from '@/types/kakao';
 import PlaceSearchBar from './PlaceSearchBar';
 import PlaceListItem from './PlaceListItem';
 import styles from './KakaoList.module.scss';
+import getCurrentCoordinate from '@/apis/geolocationApi';
+import calculateDistance from '@/utils/calculateDistance';
 
 interface IKakaoListProps {
   className?: string;
@@ -12,6 +14,10 @@ interface IKakaoListProps {
 
 export default function KakaoList({ className }: IKakaoListProps) {
   const [places, setPlaces] = useState<IPlaceInfo[]>([]);
+  const [myPosition, setMyPosition] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
   const handleSearchPlaces = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -30,7 +36,6 @@ export default function KakaoList({ className }: IKakaoListProps) {
         ps.keywordSearch(
           keyword,
           (data: IPlaceInfo[], status: 'OK' | 'ERROR' | 'ZERO_RESULT') => {
-            console.log(status);
             if (status === window.kakao.maps.services.Status.OK) {
               setPlaces(data);
             } else if (
@@ -46,11 +51,27 @@ export default function KakaoList({ className }: IKakaoListProps) {
     }
   };
 
+  useEffect(() => {
+    const getPosition = async () => {
+      const myPosition = await getCurrentCoordinate();
+      setMyPosition(myPosition);
+    };
+
+    getPosition();
+  }, []);
+
   return (
     <div className={`${styles.list} ${className}`}>
       <PlaceSearchBar onKeyUp={handleSearchPlaces} />
       <div className={styles.items}>
         {places.map((place, idx) => {
+          const distance = calculateDistance(
+            myPosition.x,
+            myPosition.y,
+            +place.x,
+            +place.y
+          );
+          place.distance = String(distance.toFixed(2));
           return <PlaceListItem key={place.id} index={idx} item={place} />;
         })}
       </div>

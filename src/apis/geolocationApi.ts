@@ -1,11 +1,11 @@
-const getCurrentCoordinate = async () => {
+const getCurrentCoordinate = async (): Promise<{ x: number; y: number }> => {
   return new Promise((res, rej) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         const lat = position.coords.latitude; // 위도
         const lon = position.coords.longitude; // 경도
 
-        const coordinate = new window.kakao.maps.LatLng(lat, lon);
+        const coordinate = { x: lon, y: lat };
         res(coordinate);
       });
     } else {

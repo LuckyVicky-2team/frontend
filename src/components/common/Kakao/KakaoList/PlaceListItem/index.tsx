@@ -22,7 +22,7 @@ export default function PlaceListItem({ item, index }: IPlaceListItemProps) {
       <div className={styles.infoArea}>
         <div className={styles.address}>{item.road_address_name}</div>
         <div className={styles.otherInfo}>
-          {`${+item.distance / 100}km`}
+          {`${item.distance}km`}
           {item.phone && <span className={styles.phone}>{item.phone}</span>}
         </div>
       </div>

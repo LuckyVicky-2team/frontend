@@ -49,7 +49,6 @@ export default function KakaoMap({ className, keyword }: IKakaoMapProps) {
       ps.keywordSearch(
         keyword,
         (data: IPlaceInfo[], status: StatusType) => {
-          console.log(data);
           if (status === window.kakao.maps.services.Status.OK) {
             displayMarker(data[0]);
             map.setCenter(new window.kakao.maps.LatLng(data[0].y, data[0].x));

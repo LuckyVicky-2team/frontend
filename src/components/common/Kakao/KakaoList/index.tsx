@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import getCurrentCoordinate from '@/apis/geolocationApi';
-import styles from './KakaoList.module.scss';
+import { KeyboardEvent, useState } from 'react';
 import { IPlaceInfo } from '@/types/kakao';
 import PlaceSearchBar from './PlaceSearchBar';
 import PlaceListItem from './PlaceListItem';
+import styles from './KakaoList.module.scss';
 
 interface IKakaoListProps {
   className?: string;
@@ -14,40 +13,42 @@ interface IKakaoListProps {
 export default function KakaoList({ className }: IKakaoListProps) {
   const [places, setPlaces] = useState<IPlaceInfo[]>([]);
 
-  useEffect(() => {
-    window.kakao.maps.load(async () => {
-      const locPosition = await getCurrentCoordinate();
+  const handleSearchPlaces = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const targetValue = e.currentTarget.value;
 
-      const ps = new window.kakao.maps.services.Places();
-
-      function searchPlaces() {
-        const keyword = '보드카페';
-
-        const searchOptions = {
-          location: locPosition,
-          radius: 10000,
-        };
-
-        ps.keywordSearch(keyword, placesSearchCB, searchOptions);
+      if (!targetValue) {
+        setPlaces([]);
+        return;
       }
 
-      function placesSearchCB(data: any, status: 'OK' | 'ERORR') {
-        if (status === window.kakao.maps.services.Status.OK) {
-          console.log(data);
-          setPlaces(data);
-        } else if (status === window.kakao.maps.services.Status.ERROR) {
-          console.log('지도 생성 중 오류가 발생했습니다.');
-          return;
-        }
-      }
+      const keyword = `${targetValue} 보드카페`;
 
-      searchPlaces();
-    });
-  }, []);
+      window.kakao.maps.load(() => {
+        const ps = new window.kakao.maps.services.Places();
+
+        ps.keywordSearch(
+          keyword,
+          (data: IPlaceInfo[], status: 'OK' | 'ERROR' | 'ZERO_RESULT') => {
+            console.log(status);
+            if (status === window.kakao.maps.services.Status.OK) {
+              setPlaces(data);
+            } else if (
+              status === window.kakao.maps.services.Status.ZERO_RESULT
+            ) {
+              setPlaces([]);
+            } else if (status === window.kakao.maps.services.Status.ERROR) {
+              console.log('error');
+            }
+          }
+        );
+      });
+    }
+  };
 
   return (
     <div className={`${styles.list} ${className}`}>
-      <PlaceSearchBar />
+      <PlaceSearchBar onKeyUp={handleSearchPlaces} />
       <div className={styles.items}>
         {places.map((place, idx) => {
           return <PlaceListItem key={place.id} index={idx} item={place} />;

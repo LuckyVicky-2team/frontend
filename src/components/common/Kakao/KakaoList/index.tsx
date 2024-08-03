@@ -5,6 +5,7 @@ import getCurrentCoordinate from '@/apis/geolocationApi';
 import styles from './KakaoList.module.scss';
 import { IPlaceInfo } from '@/types/kakao';
 import PlaceSearchBar from './PlaceSearchBar';
+import PlaceListItem from './PlaceListItem';
 
 interface IKakaoListProps {
   className?: string;
@@ -48,12 +49,8 @@ export default function KakaoList({ className }: IKakaoListProps) {
     <div className={`${styles.list} ${className}`}>
       <PlaceSearchBar />
       <div className={styles.items}>
-        {places.map(place => {
-          return (
-            <div key={place.id}>
-              <div></div>
-            </div>
-          );
+        {places.map((place, idx) => {
+          return <PlaceListItem key={place.id} index={idx} item={place} />;
         })}
       </div>
     </div>

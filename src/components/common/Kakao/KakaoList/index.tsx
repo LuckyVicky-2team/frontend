@@ -33,15 +33,21 @@ export default function KakaoList({ className }: IKakaoListProps) {
       window.kakao.maps.load(() => {
         const ps = new window.kakao.maps.services.Places();
 
-        ps.keywordSearch(keyword, (data: IPlaceInfo[], status: StatusType) => {
-          if (status === window.kakao.maps.services.Status.OK) {
-            setPlaces(data);
-          } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
-            setPlaces([]);
-          } else if (status === window.kakao.maps.services.Status.ERROR) {
-            throw new Error('리스트를 불러올 수 없습니다.');
-          }
-        });
+        ps.keywordSearch(
+          keyword,
+          (data: IPlaceInfo[], status: StatusType) => {
+            if (status === window.kakao.maps.services.Status.OK) {
+              setPlaces(data);
+            } else if (
+              status === window.kakao.maps.services.Status.ZERO_RESULT
+            ) {
+              setPlaces([]);
+            } else if (status === window.kakao.maps.services.Status.ERROR) {
+              throw new Error('리스트를 불러올 수 없습니다.');
+            }
+          },
+          { size: 5 }
+        );
       });
     }
   };

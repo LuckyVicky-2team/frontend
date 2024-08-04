@@ -35,9 +35,11 @@ export default function NewGatheringPage() {
 
   const onSubmit = (gatheringInfo: NewGatheringFormValues) => {
     console.log({ gatheringInfo });
-    // const { contentWithoutHtml: _, ...info } = gatheringInfo;
-    // console.log(info); //최종적으로 제출할 객체
+    const { contentWithoutHtml, ...info } = gatheringInfo;
+    void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
+    console.log(info); //최종적으로 제출할 객체
   };
+
   return (
     <>
       <h1 className={styles.header}>모임 개설</h1>
@@ -61,16 +63,13 @@ export default function NewGatheringPage() {
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="content">내용</label>
-              <textarea
-                id="content"
-                {...register('content', { required: '내용을 입력해 주세요.' })}
-              />
               <TextEditor
-                onChangeWithReactHookForm={
-                  register('content', { required: true }).onChange
-                }
+                name="content"
+                id="content"
+                // onChangeWithReactHookForm={register('content').onChange}
+                register={register}
               />
-              {errors.content && errors.content.message}
+              {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="location">위치</label>

@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import styles from './New.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
+import TextEditor from '@/components/common/TextEditor';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -13,6 +14,7 @@ interface NewGatheringFormValues {
   title: string;
   tags: string;
   content: string;
+  contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
   location: string;
   gatheringDate: Date; //만나는 날짜 === 마감일
   participants: number;
@@ -33,8 +35,9 @@ export default function NewGatheringPage() {
 
   const onSubmit = (gatheringInfo: NewGatheringFormValues) => {
     console.log({ gatheringInfo });
+    // const { contentWithoutHtml: _, ...info } = gatheringInfo;
+    // console.log(info); //최종적으로 제출할 객체
   };
-
   return (
     <>
       <h1 className={styles.header}>모임 개설</h1>
@@ -61,6 +64,11 @@ export default function NewGatheringPage() {
               <textarea
                 id="content"
                 {...register('content', { required: '내용을 입력해 주세요.' })}
+              />
+              <TextEditor
+                onChangeWithReactHookForm={
+                  register('content', { required: true }).onChange
+                }
               />
               {errors.content && errors.content.message}
             </div>

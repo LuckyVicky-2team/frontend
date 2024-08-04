@@ -14,6 +14,7 @@ interface NewGatheringFormValues {
   title: string;
   tags: string;
   content: string;
+  contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
   location: string;
   gatheringDate: Date; //만나는 날짜 === 마감일
   participants: number;

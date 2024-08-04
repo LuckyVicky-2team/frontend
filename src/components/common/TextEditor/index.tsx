@@ -10,6 +10,10 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 import 'react-quill/dist/quill.snow.css';
 import { toolbarOptions } from './toolBarOptions';
 
+const modules = {
+  toolbar: toolbarOptions,
+};
+
 interface NewGatheringFormValues {
   image: string;
   title: string;
@@ -43,10 +47,6 @@ export default function TextEditor({
   name,
   id,
 }: ITextEditorProps) {
-  const modules = {
-    toolbar: toolbarOptions,
-  };
-
   // react-quill에 정의된 onChange함수:
   // interface ReactQuillProps {
   //   ...
@@ -63,27 +63,26 @@ export default function TextEditor({
     const text = value; //html이 포함된 text
     const textWithoutHtml = editor.getText().replace(/\n/g, ''); //html이 포함되지 않은 text
     onChange && onChange(text);
-    name &&
-      register &&
+
+    if (name && register) {
+      // HTML이 포함된 텍스트 업데이트
       register(name).onChange({
         target: { name, value: text },
       });
-    name &&
-      register &&
-      // onChangeWithReactHookForm({
-      //   target: { name: nameWithoutHtml(name), value: textWithoutHtml },
-      // });
+
+      // HTML이 포함되지 않은 텍스트 업데이트
       register(`${name}WithoutHtml`, {
         required: '내용을 입력해 주세요.',
       }).onChange({
         target: { name: `${name}WithoutHtml`, value: textWithoutHtml },
       });
+    }
   };
 
   return (
     <ReactQuill
       id={id}
-      style={{ width: '400px', height: '250px' }}
+      style={{ width: '400px' }}
       modules={modules}
       onChange={handleTextChange}>
       <div style={{ width: '400px', height: '200px' }} />

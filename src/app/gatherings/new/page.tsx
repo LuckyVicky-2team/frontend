@@ -5,6 +5,7 @@ import styles from './New.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
+import { useEffect, useState } from 'react';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -33,12 +34,23 @@ export default function NewGatheringPage() {
     formState: { errors, isValid },
   } = methods;
 
+  const [editorVisible, setEditorVisible] = useState(false);
+
   const onSubmit = (gatheringInfo: NewGatheringFormValues) => {
     console.log({ gatheringInfo });
     const { contentWithoutHtml, ...info } = gatheringInfo;
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
     console.log(info); //최종적으로 제출할 객체
   };
+
+  //화면에서 갑자기 textEditor 요소가 사라지는 현상 수정
+  useEffect(() => {
+    setEditorVisible(true);
+  }, []);
+
+  if (!editorVisible) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

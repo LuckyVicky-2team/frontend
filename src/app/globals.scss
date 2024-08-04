@@ -40,3 +40,13 @@ input:-webkit-autofill:active {
   display: flex !important;
   margin: 0;
 }
+
+//react quill
+.ql-container {
+  border-bottom-left-radius: 1.5em;
+  border-bottom-right-radius: 1.5em;
+}
+.ql-toolbar {
+  border-top-left-radius: 1.5em;
+  border-top-right-radius: 1.5em;
+}

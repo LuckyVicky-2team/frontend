@@ -8,6 +8,7 @@ const ReactQuill = dynamic(() => import('react-quill'), {
   ssr: false,
 });
 import 'react-quill/dist/quill.snow.css';
+import { toolbarOptions } from './toolBarOptions';
 
 interface NewGatheringFormValues {
   image: string;
@@ -43,13 +44,7 @@ export default function TextEditor({
   id,
 }: ITextEditorProps) {
   const modules = {
-    toolbar: {
-      container: [
-        ['image'],
-        [{ header: [1, 2, 3, 4, 5, false] }],
-        ['bold', 'underline'],
-      ],
-    },
+    toolbar: toolbarOptions,
   };
 
   // react-quill에 정의된 onChange함수:

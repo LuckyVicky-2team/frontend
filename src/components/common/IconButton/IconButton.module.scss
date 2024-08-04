@@ -1,14 +1,10 @@
-.icon {
-  border-radius: 100%;
-  cursor: pointer;
-  overflow: hidden;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.iconContainer {
+  position: relative;
+  .icon {
+    border-radius: 100%;
+    cursor: pointer;
+    overflow: hidden;
   }
-
   &[data-size='xsmall'] {
     width: 16px;
     height: 16px;

@@ -45,5 +45,34 @@
         }
       }
     }
+    .on {
+      a {
+        .ico {
+          transform: translateY(-50%);
+          position: relative;
+          &::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 70px;
+            border-radius: 40%;
+            background: #fff;
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            z-index: 0;
+            box-shadow: -41px -48px 65px rgba(0, 122, 255, 0.12);
+          }
+          img {
+            z-index: 1;
+          }
+        }
+        .tag {
+          z-index: 1;
+          position: relative;
+        }
+      }
+    }
   }
 }

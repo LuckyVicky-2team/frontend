@@ -29,7 +29,7 @@ const Footer = () => {
               <span className={styles.tag}>내모임</span>
             </Link>
           </li>
-          <li>
+          <li className={styles.on}>
             <Link href="/">
               <span className={styles.ico}>
                 <Image src={FooterMenu3} alt="푸터메뉴1" />

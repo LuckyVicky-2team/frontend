@@ -31,6 +31,9 @@ const RecommendCase = () => {
           </Link>
         </li>
         <li>
+          <span className={styles.bubble}>
+            <span className={styles.font}>인기</span>
+          </span>
           <Link href="/">
             <span className={styles.img}>
               <Image src={ReImg3} alt="1" />

@@ -1,11 +1,10 @@
-// import DeadLineGather from './_components/DaedLineGather';
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
+import MainNav from './_components/MainNav/MainNav';
 import Header from './_components/Header/Header';
 import Footer from './_components/Footer/Footer';
 import Image from 'next/image';
 import styles from './main.module.scss';
-// import Banner from './img/banner.png';
 import SearchBtn from './img/search.png';
 
 export default function Main() {
@@ -33,8 +32,10 @@ export default function Main() {
             </button>
           </div>
         </div>
+        <div className={styles.contentContainer}>
+          <MainNav />
+        </div>
         <div className={styles.contentContainerWrap}>
-          {/* <DeadLineGather /> */}
           <div className={styles.contentContainer}>
             <RecommendCase />
           </div>

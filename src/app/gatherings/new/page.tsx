@@ -85,12 +85,14 @@ export default function NewGatheringPage() {
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="content">내용</label>
-              <TextEditor
-                name="content"
-                id="content"
-                // onChangeWithReactHookForm={register('content').onChange}
-                register={register}
-              />
+              {editorVisible && (
+                <TextEditor
+                  name="content"
+                  id="content"
+                  // onChangeWithReactHookForm={register('content').onChange}
+                  register={register}
+                />
+              )}
               {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
             </div>
             <div className={styles.inputContainer}>

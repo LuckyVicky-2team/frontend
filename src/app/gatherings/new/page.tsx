@@ -5,7 +5,7 @@ import styles from './New.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
@@ -37,8 +37,6 @@ export default function NewGatheringPage() {
     setValue,
     formState: { errors, isValid },
   } = methods;
-
-  const [editorVisible, setEditorVisible] = useState(false);
   const [freeButtonclick, setFreeButtonClick] = useState(true);
 
   const onSubmit = (gatheringInfo: NewGatheringFormValues) => {
@@ -47,15 +45,6 @@ export default function NewGatheringPage() {
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
     console.log(info); //최종적으로 제출할 객체
   };
-
-  //화면에서 갑자기 textEditor 요소가 사라지는 현상 수정
-  useEffect(() => {
-    setEditorVisible(true);
-  }, []);
-
-  if (!editorVisible) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
@@ -86,14 +75,12 @@ export default function NewGatheringPage() {
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="content">내용</label>
-              {editorVisible && (
-                <TextEditor
-                  name="content"
-                  id="content"
-                  // onChangeWithReactHookForm={register('content').onChange}
-                  register={register}
-                />
-              )}
+              <TextEditor
+                name="content"
+                id="content"
+                // onChangeWithReactHookForm={register('content').onChange}
+                register={register}
+              />
               {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
             </div>
             <div className={styles.inputContainer}>

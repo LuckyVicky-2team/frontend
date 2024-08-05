@@ -84,7 +84,7 @@ function FileInput({
           <div className={styles.imagePreview}>
             <Image
               className={styles.imageIcon}
-              src={''}
+              src={'/assets/images/rectangle.png'}
               alt="기본 이미지"
               width={width}
               height={height}

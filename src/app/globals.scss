@@ -42,9 +42,11 @@ input:-webkit-autofill:active {
 }
 
 //react quill
-.ql-container {
+.ql-container.ql-snow {
   border-bottom-left-radius: 1.5em;
   border-bottom-right-radius: 1.5em;
+  width: 400px;
+  height: 200px;
 }
 .ql-toolbar {
   border-top-left-radius: 1.5em;

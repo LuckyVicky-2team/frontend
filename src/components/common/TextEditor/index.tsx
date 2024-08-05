@@ -83,8 +83,8 @@ export default function TextEditor({
       id={id}
       style={{ width: '400px' }}
       modules={modules}
-      onChange={handleTextChange}>
-      <div style={{ width: '400px', height: '200px' }} />
-    </ReactQuill>
+      onChange={handleTextChange}
+      theme="snow"
+    />
   );
 }

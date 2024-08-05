@@ -88,6 +88,7 @@ function FileInput({
               alt="기본 이미지"
               width={width}
               height={height}
+              priority
             />
           </div>
         )}

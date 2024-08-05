@@ -167,7 +167,10 @@ export default function NewGatheringPage() {
               />
             </div>
           </div>
-          <button type="submit" disabled={!isValid}>
+          <button
+            type="submit"
+            disabled={!isValid}
+            className={styles.submitButton}>
             생성하기
           </button>
         </form>

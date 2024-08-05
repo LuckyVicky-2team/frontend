@@ -6,6 +6,7 @@ import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import { useEffect, useState } from 'react';
+import SelectBox from '@/components/common/SelectBox';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -116,19 +117,14 @@ export default function NewGatheringPage() {
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title">인원</label>
-              <select
+              <SelectBox
+                className={styles.selectBox}
                 id="title"
-                {...register('participants')}
-                // onChange={e => setValue('participants', Number(e.target.value))}
-                style={{ width: 100 }}>
-                {Array.from({ length: 30 }, (_, i) => i + 1).map(number => {
-                  return (
-                    <option key={number} value={number} style={{ height: 10 }}>
-                      {number}
-                    </option>
-                  );
-                })}
-              </select>
+                clickOptionHandler={e =>
+                  setValue('participants', Number(e.target.value))
+                }
+                optionSet={Array.from({ length: 30 }, (_, i) => i + 1)}
+              />
             </div>
             <div className={styles.inputContainer}>
               <div>모임 유형 선택</div>

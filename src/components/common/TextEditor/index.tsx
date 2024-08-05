@@ -53,7 +53,6 @@ export default function TextEditor({
   //   onChange?(value: string, delta: DeltaStatic, source: Sources, editor: UnprivilegedEditor): void;
   //   ...
   // }
-
   const handleTextChange = (
     value: string,
     delta: any,

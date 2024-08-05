@@ -17,13 +17,12 @@ export default function IconButton({
   size,
 }: IIconButtonProps) {
   return (
-    <>
+    <div data-size={size} className={styles.iconContainer}>
       <div
-        data-size={size}
         className={`${styles.icon} ${className}`}
         onClick={clickIconButtonHandler}>
-        <Image alt="icon" src={imgUrl} width={0} height={0} sizes="100vw" />
+        <Image alt="icon" src={imgUrl} fill />
       </div>
-    </>
+    </div>
   );
 }

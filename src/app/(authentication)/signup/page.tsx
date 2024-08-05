@@ -18,10 +18,18 @@ export default function Signup() {
         />
         <form className={styles.form}>
           <AuthInput labelName="이름" />
-          <AuthInput labelName="아이디" />
+          <AuthInput labelName="아이디" type="email" />
           <AuthInput labelName="닉네임" />
-          <AuthInput labelName="비밀번호" isPasswordInput={true} />
-          <AuthInput labelName="비밀번호 확인" isPasswordInput={true} />
+          <AuthInput
+            labelName="비밀번호"
+            isPasswordInput={true}
+            type="password"
+          />
+          <AuthInput
+            labelName="비밀번호 확인"
+            isPasswordInput={true}
+            type="password"
+          />
           <AuthSubmitButton>확인</AuthSubmitButton>
         </form>
         <div className={styles.linkContainer}>

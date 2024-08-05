@@ -1,8 +1,8 @@
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
 import MainNav from './_components/MainNav/MainNav';
-import Header from './_components/Header/Header';
-import Footer from './_components/Footer/Footer';
+// import Header from './_components/Header/Header';
+// import Footer from './_components/Footer/Footer';
 import Image from 'next/image';
 import styles from './main.module.scss';
 import SearchBtn from './img/search.png';
@@ -11,7 +11,7 @@ export default function Main() {
   return (
     <main>
       <div className={styles.container}>
-        <Header />
+        {/* <Header /> */}
         <div className={styles.banner}>
           <h2>
             BOGO
@@ -43,7 +43,7 @@ export default function Main() {
             <GenreGather />
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </main>
   );

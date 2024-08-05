@@ -40,3 +40,40 @@ input:-webkit-autofill:active {
   display: flex !important;
   margin: 0;
 }
+
+body {
+  max-width: 600px;
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+  overflow-y: scroll;
+  padding-top: 73px;
+  padding-bottom: 71px;
+}
+.rootContainer {
+  position: relative;
+  &::after {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    transform: translateX(-300px);
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    height: 100%;
+  }
+  &::before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 50%;
+    transform: translateX(300px);
+    width: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    height: 100%;
+  }
+}

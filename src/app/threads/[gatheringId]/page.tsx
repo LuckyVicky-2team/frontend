@@ -1,3 +1,3 @@
-export default function ThreadDetail() {
+export default function ThreadDetailPage() {
   return;
 }

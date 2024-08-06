@@ -15,11 +15,14 @@
   "dependencies": {
     "@tanstack/react-query": "^5.51.11",
     "axios": "^1.7.2",
+    "draft-js": "^0.11.7",
     "husky": "^9.1.4",
     "next": "14.2.5",
     "react": "^18",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
+    "react-quill": "^2.0.0",
     "sass": "^1.77.8",
     "zustand": "^4.5.4"
   },

@@ -8,6 +8,7 @@ interface IKakaoMapProps {
   lat: number;
   lon: number;
   placeName: string;
+  index?: number;
 }
 
 export default function KakaoMap({
@@ -15,6 +16,7 @@ export default function KakaoMap({
   lat,
   lon,
   placeName,
+  index,
 }: IKakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
@@ -30,10 +32,35 @@ export default function KakaoMap({
       const zoomControl = new window.kakao.maps.ZoomControl();
       map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
-      const marker = new window.kakao.maps.Marker({
-        map,
-        position: new window.kakao.maps.LatLng(lat, lon),
-      });
+      const setMarker = (idx: number | undefined) => {
+        let markerImage;
+
+        if (idx !== undefined) {
+          const imageSrc =
+            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+          const imageSize = new window.kakao.maps.Size(36, 37);
+          const imgOptions = {
+            spriteSize: new window.kakao.maps.Size(36, 691),
+            spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10),
+            offset: new window.kakao.maps.Point(13, 37),
+          };
+          markerImage = new window.kakao.maps.MarkerImage(
+            imageSrc,
+            imageSize,
+            imgOptions
+          );
+        }
+
+        const marker = new window.kakao.maps.Marker({
+          map,
+          position: new window.kakao.maps.LatLng(lat, lon),
+          image: markerImage,
+        });
+
+        return marker;
+      };
+
+      const marker = setMarker(index);
 
       const infowindow = new window.kakao.maps.InfoWindow({
         zIndex: 1,
@@ -56,7 +83,7 @@ export default function KakaoMap({
         window.kakao.maps.event.removeListener(marker, 'mouseout', closeInfo);
       };
     });
-  }, [lat, lon, placeName]);
+  }, [lat, lon, placeName, index]);
 
   return <div className={`${styles.map} ${className}`} ref={mapRef}></div>;
 }

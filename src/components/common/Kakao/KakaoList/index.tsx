@@ -5,7 +5,7 @@ import { IPlaceInfo, StatusType } from '@/types/kakao';
 import PlaceSearchBar from './PlaceSearchBar';
 import PlaceListItem from './PlaceListItem';
 import styles from './KakaoList.module.scss';
-import getCurrentCoordinate from '@/apis/geolocationApi';
+import getCurrentCoordinate from '@/api/geolocationApi';
 import calculateDistance from '@/utils/calculateDistance';
 import KakaoMap from '../KakaoMap';
 

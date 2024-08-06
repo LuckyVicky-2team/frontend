@@ -1,0 +1,76 @@
+'use client';
+import React, { useState, ChangeEvent } from 'react';
+import styles from './Gatherings.module.scss';
+import { genre, gatheringsList } from '@/data/dummyData';
+import { city, areas } from '@/data/locationData';
+import SelectBox from '@/components/common/SelectBox';
+import Card from './_components/Card';
+
+export default function Gatherings() {
+  const [selectCity, setSelectCity] = useState<string | undefined>();
+  const [selectArea, setSelectArea] = useState<string | undefined>();
+
+  // TODO @haewon
+  // verify logged in user
+  // 로그인한 유저 -> 유저정보 가져옴 , 로그인x, 비회원 -> localStorage 정보가져옴
+
+  const changeCityLocation = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectCity(e.target.value);
+    setSelectArea('');
+  };
+  const changeAreaLocation = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectArea(e.target.value);
+  };
+
+  return (
+    <>
+      <div>
+        <main>
+          <section className={styles.searchTabHeader}>
+            <div className={styles.filter}>
+              {/* 장르, 지역 선택 필터 */}
+              <div>
+                <SelectBox
+                  id="genre"
+                  optionTitle="선택"
+                  clickOptionHandler={value => {
+                    console.log(value);
+                  }}
+                  optionSet={genre}
+                />
+                <SelectBox
+                  id="city"
+                  optionTitle="시/도 선택"
+                  optionSet={city}
+                  clickOptionHandler={changeCityLocation}
+                />
+                <SelectBox
+                  id="area"
+                  optionTitle="구/군 선택"
+                  optionSet={selectCity ? areas[selectCity] : []}
+                  clickOptionHandler={changeAreaLocation}
+                  isDisabled={!selectCity}
+                  value={selectArea}
+                />
+              </div>
+
+              <div>{/* 날짜 데이터 피커 */}</div>
+            </div>
+
+            <button>모임 만들기</button>
+          </section>
+          <div className={styles.sortType}>
+            <button>마감임박 순</button>
+            <button>참여인원 순</button>
+          </div>
+          <section className={styles.cardContainer}>
+            {/* 찜 버튼 - 사용자 식별 필요*/}
+            {gatheringsList.map(el => {
+              return <Card key={el.id} {...el} />;
+            })}
+          </section>
+        </main>
+      </div>
+    </>
+  );
+}

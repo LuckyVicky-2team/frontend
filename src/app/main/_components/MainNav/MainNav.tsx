@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './MainNav.module.scss';
 import Image from 'next/image';
-import Timer from '../../img/time.png';
-import Fire from '../../img/fire.png';
 
 const MainNav = () => {
   return (
@@ -16,7 +14,12 @@ const MainNav = () => {
             마감됩니다!
           </p>
         </div>
-        <Image src={Timer} alt="마감임박 네비메뉴 이미지" />
+        <Image
+          width={111}
+          height={111}
+          src={'/assets/mainImages/time.png'}
+          alt="마감임박 네비메뉴 이미지"
+        />
       </div>
       <div className={styles.mainNavContent}>
         <div>
@@ -27,7 +30,12 @@ const MainNav = () => {
             지금 핫해요!
           </p>
         </div>
-        <Image src={Fire} alt="인기모임 네비메뉴 이미지" />
+        <Image
+          width={111}
+          height={111}
+          src={'/assets/mainImages/fire.png'}
+          alt="인기모임 네비메뉴 이미지"
+        />
       </div>
     </div>
   );

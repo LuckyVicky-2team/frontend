@@ -2,11 +2,6 @@
 import React, { useState } from 'react';
 import styles from './Footer.module.scss';
 import Image from 'next/image';
-import FooterMenu1 from '../../img/f1.svg';
-import FooterMenu2 from '../../img/f2.svg';
-import FooterMenu3 from '../../img/f3.svg';
-import FooterMenu4 from '../../img/f4.svg';
-import FooterMenu5 from '../../img/f5.svg';
 import Link from 'next/link';
 const Footer = () => {
   const [on, setOn] = useState(3);
@@ -28,7 +23,21 @@ const Footer = () => {
             {/* <Link href="/"> */}
             <span className={styles.a}>
               <span className={styles.ico}>
-                <Image src={FooterMenu1} alt="푸터메뉴1" />
+                {on === 1 ? (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f1_fill.svg'}
+                    alt="푸터메뉴1"
+                  />
+                ) : (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f3.svg'}
+                    alt="푸터메뉴1"
+                  />
+                )}
               </span>
               <span className={styles.tag}>채팅방</span>
             </span>
@@ -42,7 +51,21 @@ const Footer = () => {
             {/* <Link href="/"> */}
             <span className={styles.a}>
               <span className={styles.ico}>
-                <Image src={FooterMenu2} alt="푸터메뉴1" />
+                {on === 2 ? (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f2_fill.svg'}
+                    alt="푸터메뉴1"
+                  />
+                ) : (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f2.svg'}
+                    alt="푸터메뉴1"
+                  />
+                )}
               </span>
               <span className={styles.tag}>내모임</span>
             </span>
@@ -56,7 +79,21 @@ const Footer = () => {
             <Link href="/main">
               <span className={styles.a}>
                 <span className={styles.ico}>
-                  <Image src={FooterMenu3} alt="푸터메뉴1" />
+                  {on === 3 ? (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/f1_fill.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  ) : (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/f3.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  )}
                 </span>
                 <span className={styles.tag}>홈</span>
               </span>
@@ -70,7 +107,21 @@ const Footer = () => {
             {/* <Link href="/"> */}
             <span className={styles.a}>
               <span className={styles.ico}>
-                <Image src={FooterMenu4} alt="푸터메뉴1" />
+                {on === 4 ? (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f4_fill.svg'}
+                    alt="푸터메뉴1"
+                  />
+                ) : (
+                  <Image
+                    width={24}
+                    height={24}
+                    src={'/assets/mainImages/f4.svg'}
+                    alt="푸터메뉴1"
+                  />
+                )}
               </span>
               <span className={styles.tag}>모임목록</span>
             </span>
@@ -84,7 +135,21 @@ const Footer = () => {
             <Link href="/signin">
               <span className={styles.a}>
                 <span className={styles.ico}>
-                  <Image src={FooterMenu5} alt="푸터메뉴1" />
+                  {on === 5 ? (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/f5_fill.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  ) : (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/smile.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  )}
                 </span>
                 <span className={styles.tag}>내정보</span>
               </span>

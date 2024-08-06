@@ -1,11 +1,9 @@
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
+import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
-// import Header from './_components/Header/Header';
-// import Footer from './_components/Footer/Footer';
 import Image from 'next/image';
 import styles from './main.module.scss';
-import SearchBtn from './img/search.png';
 
 export default function Main() {
   return (
@@ -28,7 +26,11 @@ export default function Main() {
               placeholder={'나에게 딱! 맞는 모임을 추천해주세요'}
             />
             <button type="button">
-              <Image src={SearchBtn} alt="검색이미지"></Image>
+              <Image
+                src={'/assets/mainImages/search.png'}
+                width={24}
+                height={24}
+                alt="검색이미지"></Image>
             </button>
           </div>
         </div>
@@ -41,6 +43,9 @@ export default function Main() {
           </div>
           <div className={styles.contentContainer}>
             <GenreGather />
+          </div>
+          <div className={styles.contentContainer}>
+            <DeadLineGather />
           </div>
         </div>
         {/* <Footer /> */}

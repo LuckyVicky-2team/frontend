@@ -47,18 +47,31 @@
   justify-content: normal;
   margin-top: 80px;
   width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  // scrollbar-width: none;
+  cursor: grab;
   li {
-    display: block;
+    display: inline-block;
     width: 32%;
     margin-right: 3%;
+    vertical-align: top;
     a {
       display: block;
       width: 100%;
+      position: relative;
+      .deadLineIco {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 10;
+      }
       .img {
         width: 100%;
         img {
           display: block;
           width: 100%;
+          pointer-events: none;
         }
       }
       .tag {

@@ -44,10 +44,9 @@ input:-webkit-autofill:active {
 body {
   max-width: 600px;
   width: 100%;
-  padding: 0 15px;
   margin: 0 auto;
   overflow-y: scroll;
-  padding-top: 73px;
+  padding-top: 60px;
   padding-bottom: 71px;
 }
 .rootContainer {
@@ -61,7 +60,7 @@ body {
     width: 1px;
     transform: translateX(-300px);
     background: rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    z-index: 16;
     height: 100%;
   }
   &::before {
@@ -73,7 +72,7 @@ body {
     transform: translateX(300px);
     width: 1px;
     background: rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    z-index: 16;
     height: 100%;
   }
 }

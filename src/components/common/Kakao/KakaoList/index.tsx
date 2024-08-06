@@ -7,6 +7,7 @@ import PlaceListItem from './PlaceListItem';
 import styles from './KakaoList.module.scss';
 import getCurrentCoordinate from '@/apis/geolocationApi';
 import calculateDistance from '@/utils/calculateDistance';
+import KakaoMap from '../KakaoMap';
 
 interface IKakaoListProps {
   className?: string;
@@ -18,6 +19,7 @@ export default function KakaoList({ className }: IKakaoListProps) {
     x: 0,
     y: 0,
   });
+  const [selectedPlace, setSelectedPlace] = useState<IPlaceInfo | null>(null);
 
   const handleSearchPlaces = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -28,7 +30,7 @@ export default function KakaoList({ className }: IKakaoListProps) {
         return;
       }
 
-      const keyword = `${targetValue} 보드카페`;
+      const keyword = `${targetValue}`;
 
       window.kakao.maps.load(() => {
         const ps = new window.kakao.maps.services.Places();
@@ -73,9 +75,23 @@ export default function KakaoList({ className }: IKakaoListProps) {
             parseFloat(place.y)
           );
           place.distance = String(distance.toFixed(2));
-          return <PlaceListItem key={place.id} index={idx} item={place} />;
+          return (
+            <button
+              onClick={() => {
+                setSelectedPlace(place);
+              }}
+              key={place.id}
+              className={styles.itemButton}>
+              <PlaceListItem index={idx} item={place} />
+            </button>
+          );
         })}
       </div>
+      <KakaoMap
+        lat={selectedPlace ? parseFloat(selectedPlace.y) : 37}
+        lon={selectedPlace ? parseFloat(selectedPlace.x) : 128}
+        placeName={selectedPlace ? selectedPlace.place_name : '한국'}
+      />
     </div>
   );
 }

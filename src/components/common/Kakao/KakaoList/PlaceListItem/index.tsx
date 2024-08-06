@@ -1,6 +1,6 @@
+import Link from 'next/link';
 import { IPlaceInfo } from '@/types/kakao';
 import styles from './PlaceListItem.module.scss';
-import Link from 'next/link';
 
 interface IPlaceListItemProps {
   item: IPlaceInfo;

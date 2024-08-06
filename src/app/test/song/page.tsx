@@ -2,7 +2,7 @@
 import Modal from '@/components/common/Modal';
 import useModal from '@/hooks/useModal';
 
-function SongeunPage() {
+export default function SongeunPage() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   return (
     <div
@@ -28,4 +28,3 @@ function SongeunPage() {
     </div>
   );
 }
-export default SongeunPage;

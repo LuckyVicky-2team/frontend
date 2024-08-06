@@ -1,0 +1,54 @@
+@import '@/styles/reset.scss';
+
+@font-face {
+  font-family: 'LaundryGothicOTF';
+  src: url('/assets/fonts/런드리고딕OTF Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'LaundryGothicOTF-Bold';
+  src: url('/assets/fonts/런드리고딕OTF Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+}
+
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
+/* input box color */
+/* 크롬 자동입력 시 input 배경이 파란색으로 되는 현상을 방지 */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+  -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.react-datepicker__input-container {
+  height: 100%;
+  display: flex !important;
+  margin: 0;
+}
+
+//react quill
+.ql-container.ql-snow {
+  border-bottom-left-radius: 1.5em;
+  border-bottom-right-radius: 1.5em;
+  width: 400px;
+  height: 200px;
+}
+.ql-toolbar {
+  border-top-left-radius: 1.5em;
+  border-top-right-radius: 1.5em;
+}

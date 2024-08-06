@@ -3,8 +3,8 @@
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import { FieldErrors } from 'react-hook-form';
-import styles from './AuthInput.module.scss';
 import Input from '@/components/common/Input';
+import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   fieldName?: keyof FormData;

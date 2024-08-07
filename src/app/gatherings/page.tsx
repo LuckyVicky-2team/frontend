@@ -33,14 +33,11 @@ export default function GatheringsPage() {
         <main>
           <section className={styles.searchTabHeader}>
             <div className={styles.filter}>
-              {/* 장르, 지역 선택 필터 */}
               <div>
                 <SelectBox
                   id="genre"
                   optionTitle="선택"
-                  clickOptionHandler={value => {
-                    console.log(value);
-                  }}
+                  clickOptionHandler={() => {}}
                   optionSet={genre}
                 />
                 <SelectBox
@@ -63,7 +60,7 @@ export default function GatheringsPage() {
                 <DatePicker
                   selectedDate={selectedStartDate}
                   setSelectedDate={setSelectedStartDate}
-                  placeholder="날짜 검색"
+                  placeholder="시작 날짜"
                   className={`${styles.datePicker}`}
                 />
               </div>
@@ -71,7 +68,7 @@ export default function GatheringsPage() {
                 <DatePicker
                   selectedDate={selectedEndDate}
                   setSelectedDate={setSelectedEndDate}
-                  placeholder="날짜 검색"
+                  placeholder="종료 날짜"
                   className={`${styles.datePicker}`}
                 />
               </div>

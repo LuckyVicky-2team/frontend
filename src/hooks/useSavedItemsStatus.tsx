@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 const useSaveItemState = () => {
-  const setSidebarState = (newValue: number) => {
+  const setSavedItemsState = (newValue: number) => {
     const rawStoredData = localStorage.getItem('savedGatherings');
     let storedItemArray: number[] = [];
     const now = new Date();
@@ -80,6 +80,6 @@ const useSaveItemState = () => {
     getSnapshot,
     getServerSnapshot
   );
-  return [store, setSidebarState] as const;
+  return [store, setSavedItemsState] as const;
 };
 export { useSaveItemState };

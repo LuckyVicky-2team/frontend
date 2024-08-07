@@ -1,11 +1,15 @@
+import ThreadListItem from './_components/ThreadListItem';
 import styles from './ThreadsPage.module.scss';
 
 async function getThreads() {
   const thread = {
-    profile: '/assets/icons/kakao_logo.svg',
+    profileImage: '/assets/images/default_profile.png',
     name: '코드잇',
     participantsCount: 4,
-    recentMessage: '배고프다',
+    recentMessage: {
+      createdAt: '2024-08-05T17:38:42',
+      contents: '배고파..',
+    },
     unreadCount: 4,
   };
 
@@ -23,7 +27,20 @@ export default async function ThreadsPage() {
 
   return (
     <div className={styles.background}>
-      <div className={styles.container}></div>
+      <div className={styles.container}>
+        {threads.map(thread => {
+          return (
+            <ThreadListItem
+              key={thread.gatheringId}
+              profileImage={thread.profileImage}
+              name={thread.name}
+              participantsCount={thread.participantsCount}
+              recentMessage={thread.recentMessage}
+              unreadCount={thread.unreadCount}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -17,6 +17,11 @@ export default function GatheringDetails() {
     handleModalOpen: handleShareModalOpen,
     handleModalClose: handleShareModalClose,
   } = useModal();
+  const {
+    modalOpen: profileModalOpen,
+    handleModalOpen: handleProfileModalOpen,
+    handleModalClose: handleProfileModalClose,
+  } = useModal();
   const data = {
     title: '장기두실 분',
     image: '/assets/images/rectangle.png',
@@ -40,7 +45,6 @@ export default function GatheringDetails() {
     genre: '보드게임',
   };
   const convertedContent = parse(data.content);
-  const handleProfileImagesClick = () => {};
   return (
     <div>
       모임 정보
@@ -62,8 +66,24 @@ export default function GatheringDetails() {
       <div>팀원 목록</div>
       <ProfileImages
         participants={data.participants}
-        onClick={handleProfileImagesClick}
+        onClick={handleProfileModalOpen}
       />
+      <Modal modalOpen={profileModalOpen} onClose={handleProfileModalClose}>
+        <ul>
+          {data.participants.map(participant => {
+            return (
+              <li key={participant.userId}>
+                <Image
+                  alt="프로필 이미지"
+                  src={participant.profileImage}
+                  width={28}
+                  height={28}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </Modal>
       <div>{data.game}</div>
       <div>{data.genre}</div>
       <div>

@@ -1,0 +1,71 @@
+.item {
+  width: 100%;
+  height: 94px;
+  padding: 24px;
+  display: flex;
+  gap: 15px;
+
+  &:hover {
+    background-color: #dedede;
+  }
+
+  &:active {
+    background-color: #e0e0e0;
+  }
+
+  .imageArea {
+    .profileImage {
+      border-radius: 6px;
+    }
+  }
+
+  .textArea {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+
+    .nameSection {
+      display: flex;
+      gap: 5px;
+      justify-content: space-between;
+
+      .name {
+        display: flex;
+        gap: 5px;
+        color: black;
+
+        .participantsCount {
+          color: gray;
+          font-size: 14px;
+        }
+      }
+
+      .createdAt {
+        color: gray;
+        font-size: 14px;
+      }
+    }
+
+    .contentSection {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-grow: 1;
+      color: black;
+
+      .unreadCount {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #ffffff;
+        background-color: red;
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import ThreadListItem from './_components/ThreadListItem';
-import styles from './ThreadsPage.module.scss';
 
 async function getThreads() {
   const thread = {
@@ -24,21 +23,19 @@ export default async function ThreadsPage() {
   const threads = await getThreads();
 
   return (
-    <div className={styles.background}>
-      <div className={styles.container}>
-        {threads.map(thread => {
-          return (
-            <ThreadListItem
-              key={thread.gatheringId}
-              profileImage={thread.profileImage}
-              name={thread.name}
-              participantsCount={thread.participantsCount}
-              recentMessage={thread.recentMessage}
-              unreadCount={thread.unreadCount}
-            />
-          );
-        })}
-      </div>
+    <div>
+      {threads.map(thread => {
+        return (
+          <ThreadListItem
+            key={thread.gatheringId}
+            profileImage={thread.profileImage}
+            name={thread.name}
+            participantsCount={thread.participantsCount}
+            recentMessage={thread.recentMessage}
+            unreadCount={thread.unreadCount}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -1,11 +1,23 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Footer.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
   const [on, setOn] = useState(3);
+  const pathName = usePathname();
+
+  useEffect(() => {
+    if (pathName === '/main') {
+      setOn(3);
+    } else if (pathName === '/signin') {
+      setOn(5);
+    } else {
+      setOn(0);
+    }
+  }, [pathName]);
 
   const handleOn = (index: any) => {
     setOn(index);

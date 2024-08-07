@@ -7,7 +7,9 @@ export default function Header() {
     <div>
       <div className={styles.space}></div>
       <div className={styles.headerContent}>
-        <h1>BOGO</h1>
+        <h1>
+          <Link href="/main">BOGO</Link>
+        </h1>
         <div className={styles.right}>
           <button>
             <Image

@@ -36,7 +36,7 @@ export default function GatheringDetails() {
     genre: '보드게임',
   };
   const convertedContent = parse(data.content);
-
+  const handleProfileImagesClick = () => {};
   return (
     <div>
       모임 정보
@@ -56,7 +56,10 @@ export default function GatheringDetails() {
       <div>찜하기</div>
       <div>{data.master}</div>
       <div>팀원 목록</div>
-      <ProfileImages participants={data.participants} />
+      <ProfileImages
+        participants={data.participants}
+        onClick={handleProfileImagesClick}
+      />
       <div>{data.game}</div>
       <div>{data.genre}</div>
       <div>
@@ -76,9 +79,9 @@ export default function GatheringDetails() {
           </button>
         </Modal>
       </div>
-      <div>(마스터) 내보내기</div>
-      <div>(멤버) 모임 참여하기</div>
-      <div>(마스터) 모임 삭제하기</div>
+      <button type="button">(마스터) 내보내기</button>
+      <button type="button">(멤버) 모임 참여하기</button>
+      <button type="button">(마스터) 모임 삭제하기</button>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function Signup() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <AuthHeader
         text="보고에 회원가입 해주셔서 감사합니다."
         title="회원가입하기"
@@ -33,6 +33,6 @@ export default function Signup() {
           로그인
         </Link>
       </div>
-    </div>
+    </main>
   );
 }

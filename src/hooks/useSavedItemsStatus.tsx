@@ -65,12 +65,12 @@ const useSaveItemState = () => {
   }, []);
 
   const subscribe = (listener: () => void) => {
-    const handleStorageChagne = (e: StorageEvent) => {
+    const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'savedGatherings') listener();
     };
-    window.addEventListener('storage', handleStorageChagne);
+    window.addEventListener('storage', handleStorageChange);
     return () =>
-      void window.removeEventListener('storage', handleStorageChagne);
+      void window.removeEventListener('storage', handleStorageChange);
   };
   const getServerSnapshot = (): any => {
     return null; // 서버에서는 localStorage에 접근할 수 없으므로 null 또는 기본값을 반환

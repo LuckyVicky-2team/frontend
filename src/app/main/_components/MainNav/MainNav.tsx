@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './MainNav.module.scss';
 import Image from 'next/image';
 
-const MainNav = () => {
+export default function MainNav() {
   return (
     <div className={styles.mainNav}>
       <div className={styles.mainNavContent}>
@@ -39,6 +39,4 @@ const MainNav = () => {
       </div>
     </div>
   );
-};
-
-export default MainNav;
+}

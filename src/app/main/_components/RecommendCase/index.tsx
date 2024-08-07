@@ -19,7 +19,7 @@ import Image from 'next/image';
 //   };
 //   type: string;
 // }
-const RecommendCase = () => {
+export default function RecommendCase() {
   // const data: DateData[] = [
   //   {
   //     id: 1,
@@ -151,6 +151,4 @@ const RecommendCase = () => {
       </ul>
     </div>
   );
-};
-
-export default RecommendCase;
+}

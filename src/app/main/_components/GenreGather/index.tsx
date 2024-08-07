@@ -19,7 +19,7 @@ interface DateData {
   };
   type: string;
 }
-const GenreGather = () => {
+export default function GenreGather() {
   const [heart, setHeart] = useState<boolean>(false);
   // const scrollContainerRef = useRef<HTMLUListElement>(null);
 
@@ -243,6 +243,4 @@ const GenreGather = () => {
       </ul>
     </div>
   );
-};
-
-export default GenreGather;
+}

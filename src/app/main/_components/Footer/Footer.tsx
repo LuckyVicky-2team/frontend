@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import styles from './Footer.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-const Footer = () => {
+
+export default function Footer() {
   const [on, setOn] = useState(3);
 
   const handleOn = (index: any) => {
@@ -159,6 +160,4 @@ const Footer = () => {
       </div>
     </div>
   );
-};
-
-export default Footer;
+}

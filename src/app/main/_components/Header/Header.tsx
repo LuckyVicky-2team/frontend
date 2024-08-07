@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-const Header = () => {
+export default function Header() {
   return (
     <div>
       <div className={styles.space}></div>
@@ -30,6 +30,4 @@ const Header = () => {
       </div>
     </div>
   );
-};
-
-export default Header;
+}

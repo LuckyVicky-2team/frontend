@@ -21,7 +21,7 @@ interface DateData {
   type: string;
 }
 
-const DeadLineGather: React.FC = () => {
+export default function DeadLineGather() {
   const [heart, setHeart] = useState<boolean>(false);
 
   const handleHeartChange = () => {
@@ -176,6 +176,4 @@ const DeadLineGather: React.FC = () => {
       </ul>
     </div>
   );
-};
-
-export default DeadLineGather;
+}

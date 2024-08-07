@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import ThreadListItem from './_components/ThreadListItem';
+import styles from './ThreadsPage.module.scss';
 
-async function getThreads() {
+const getThreads = async () => {
   const thread = {
     profileImage: '/assets/images/default_profile.png',
     name: '코드잇',
     participantsCount: 4,
     recentMessage: {
-      createdAt: '2024-08-05T17:38:42',
+      createdAt: '2024-08-05T12:38:42',
       contents: '배고파.. 오늘 점심 뭐 먹을래?',
     },
     unreadCount: 3,
@@ -18,17 +19,21 @@ async function getThreads() {
   });
 
   return threads;
-}
+};
 
 export default async function ThreadsPage() {
   const threads = await getThreads();
 
   return (
     <div>
+      <h1 className={styles.title}>나의 채팅방</h1>
       {threads.map(thread => {
         return (
           <Link
-            href={`/threads/${thread.gatheringId}`}
+            href={{
+              pathname: `/threads/${thread.gatheringId}`,
+              query: { name: thread.name },
+            }}
             key={thread.gatheringId}>
             <ThreadListItem
               profileImage={thread.profileImage}

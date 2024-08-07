@@ -1,0 +1,44 @@
+.mainNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  border-radius: 15px;
+  box-shadow: 0 1px 6px #ddd;
+  width: 80%;
+  margin-top: 70px;
+  padding: 25px;
+  box-sizing: border-box;
+  position: relative;
+
+  .mainNavContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    border-right: 1px solid #ddd;
+    &:last-child {
+      border-right: 0;
+      justify-content: flex-end;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 900;
+      color: #2d7dff;
+      display: block;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      font-weight: 500;
+      color: #9ca3af;
+      line-height: 120%;
+      display: block;
+    }
+    img {
+      width: 90px;
+      height: 100px;
+    }
+  }
+}

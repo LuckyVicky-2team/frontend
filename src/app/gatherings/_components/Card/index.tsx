@@ -1,9 +1,10 @@
-import React from 'react';
+'use client';
+// import { useEffect } from 'react';
 import styles from './Card.module.scss';
 import IconButton from '@/components/common/IconButton';
 import Tag from '@/components/common/Tag';
 import Image from 'next/image';
-// import useLocalStorage from '@/hooks/useLocalStorage';
+import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import useTransText from '../../../../utils/transText';
 
 interface ICardProps {
@@ -19,6 +20,7 @@ interface ICardProps {
   master: { nickName: string };
   onClick?: (_args: any) => void;
 }
+
 export default function Card({
   id,
   title,
@@ -35,6 +37,17 @@ export default function Card({
   const progressValue = (participantCount / capacity) * 100;
   const { transDate } = useTransText();
   const { mondthAndDay, time } = transDate(gatheringDate);
+  const [savedItem, setSaveItem] = useSaveItemState();
+
+  const handleButton = () => {
+    setSaveItem(id);
+  };
+
+  const isSaved = savedItem?.includes(id);
+
+  // @haewon
+  // 만료기간 설정때문에 남겨둠
+  // useEffect(() => {}, [savedItem]);
 
   return (
     <>
@@ -49,11 +62,9 @@ export default function Card({
             <IconButton
               size="small"
               imgUrl={
-                // state && state?.value?.includes(id)
-                // ? '/assets/icons/save.svg':
-                '/assets/icons/unSave.svg'
+                isSaved ? '/assets/icons/save.svg' : '/assets/icons/unSave.svg'
               }
-              clickIconButtonHandler={() => {}}
+              clickIconButtonHandler={handleButton}
             />
           </div>
 

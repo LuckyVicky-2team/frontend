@@ -7,7 +7,7 @@ import SpeechBalloon from '../_components/SpeechBalloon';
 
 export default function Signin() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <AuthHeader hasImage={true} title="로그인" />
       <form className={styles.form}>
         <AuthInput
@@ -57,6 +57,6 @@ export default function Signin() {
           카카오로 로그인
         </button>
       </div>
-    </div>
+    </main>
   );
 }

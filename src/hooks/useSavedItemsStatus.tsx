@@ -9,24 +9,16 @@ const useSaveItemState = () => {
     if (rawStoredData) {
       const storedData = JSON.parse(rawStoredData);
       let item;
-      if (now.getTime() > storedData.expiration) {
-        localStorage.removeItem('savedGatherings');
-        storedItemArray = [];
-        item = {
-          value: storedItemArray,
-          expiration: setExpirationTime,
-        };
-      } else {
-        storedItemArray = storedData.value;
-        storedItemArray = storedItemArray.includes(newValue)
-          ? storedItemArray.filter(el => el !== newValue)
-          : [...storedItemArray, newValue];
 
-        item = {
-          value: storedItemArray,
-          expiration: setExpirationTime,
-        };
-      }
+      storedItemArray = storedData.value;
+      storedItemArray = storedItemArray.includes(newValue)
+        ? storedItemArray.filter(el => el !== newValue)
+        : [...storedItemArray, newValue];
+
+      item = {
+        value: storedItemArray,
+        expiration: setExpirationTime,
+      };
 
       window.localStorage.setItem('savedGatherings', JSON.stringify(item));
       window.dispatchEvent(
@@ -54,12 +46,19 @@ const useSaveItemState = () => {
     let cachedValue: number[] = [];
     let cachedString = '';
 
+    const now = new Date();
+
     return () => {
       const currentString = localStorage.getItem('savedGatherings') ?? '[]';
-      const parsedString = JSON.parse(currentString);
-      if (currentString !== cachedString) {
-        cachedString = currentString;
-        cachedValue = parsedString.value;
+      const parsedRawData = JSON.parse(currentString);
+      if (now.getTime() > parsedRawData.expiration) {
+        localStorage.removeItem('savedGatherings');
+      } else {
+        const parsedString = JSON.parse(currentString);
+        if (currentString !== cachedString) {
+          cachedString = currentString;
+          cachedValue = parsedString.value;
+        }
       }
       return cachedValue;
     };

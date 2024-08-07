@@ -1,5 +1,5 @@
 'use client';
-// import { useEffect } from 'react';
+
 import styles from './Card.module.scss';
 import IconButton from '@/components/common/IconButton';
 import Tag from '@/components/common/Tag';
@@ -44,10 +44,6 @@ export default function Card({
   };
 
   const isSaved = savedItem?.includes(id);
-
-  // @haewon
-  // 만료기간 설정때문에 남겨둠
-  // useEffect(() => {}, [savedItem]);
 
   return (
     <>

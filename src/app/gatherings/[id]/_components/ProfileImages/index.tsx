@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './profileImages.module.scss';
+import styles from './ProfileImages.module.scss';
 import ProfileImage from '@/components/common/ProfileImage';
 
 interface IParticipants {
@@ -15,6 +15,7 @@ function ProfileImages({ participants }: IProfileImagesProps) {
   return (
     <div className={styles.profileImages}>
       {participants.map((participant, i) => {
+        if (i > 3) return;
         const length = participants.length;
         let distance = 0;
         if (length >= 4) {
@@ -32,7 +33,7 @@ function ProfileImages({ participants }: IProfileImagesProps) {
             style={{
               zIndex: i,
               position: 'absolute',
-              right: `${distance * 16}px`,
+              left: `${64 - distance * 16}px`,
             }}>
             <ProfileImage
               url={participant.profileImage}

@@ -5,12 +5,13 @@ import GatheringDetails from './_components/GatheringDetails.tsx';
 
 // interface IGatheringsInfoResponseProps {
 //   title: string;
+//   image: string;
 //   content: string;
 //   address: string;
 //   place: string;
 //   map: string;
 //   isZzimed: boolean;
-//   owner: string;
+//   master: string;
 //   member: string;
 //   game: string;
 //   genre: string;

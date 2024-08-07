@@ -49,13 +49,9 @@ export default function GatheringDetails() {
     <div>
       모임 정보
       <div>{data.title}</div>
-      <Image
-        src={data.image}
-        alt="썸네일 이미지"
-        priority
-        width={400}
-        height={400}
-      />
+      <div style={{ width: '100%', height: '400px', position: 'relative' }}>
+        <Image src={data.image} alt="썸네일 이미지" priority fill />
+      </div>
       <div>{convertedContent}</div>
       <div>{data.address}</div>
       <div>{data.place}</div>

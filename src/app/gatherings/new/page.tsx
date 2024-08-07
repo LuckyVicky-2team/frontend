@@ -11,20 +11,23 @@ import SelectBox from '@/components/common/SelectBox';
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
 
-interface NewGatheringFormValues {
+interface INewGatheringFormValuesRequest {
   image: string;
   title: string;
   tags: string;
   content: string;
   contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
-  location: string;
+  city: string; //시
+  country: string; //구
+  location: { lat: number; lon: number }; //위도 경도
   gatheringDate: Date; //만나는 날짜 === 마감일
+  boardGameIdList: string[];
   participants: number;
   type: 'free' | 'accept';
 }
 
 export default function NewGatheringPage() {
-  const methods = useForm<NewGatheringFormValues>({
+  const methods = useForm<INewGatheringFormValuesRequest>({
     mode: 'all',
     defaultValues: {
       type: 'free',
@@ -37,9 +40,9 @@ export default function NewGatheringPage() {
     setValue,
     formState: { errors, isValid },
   } = methods;
-  const [freeButtonclick, setFreeButtonClick] = useState(true);
+  const [freeButtonClick, setFreeButtonClick] = useState(true);
 
-  const onSubmit = (gatheringInfo: NewGatheringFormValues) => {
+  const onSubmit = (gatheringInfo: INewGatheringFormValuesRequest) => {
     console.log({ gatheringInfo });
     const { contentWithoutHtml, ...info } = gatheringInfo;
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
@@ -118,7 +121,7 @@ export default function NewGatheringPage() {
               <label
                 htmlFor="free"
                 className={
-                  freeButtonclick
+                  freeButtonClick
                     ? styles.buttonClicked
                     : styles.buttonNotClicked
                 }
@@ -131,13 +134,13 @@ export default function NewGatheringPage() {
                 defaultChecked
                 {...register('type')}
                 onClick={() => {
-                  !freeButtonclick && setFreeButtonClick(true);
+                  !freeButtonClick && setFreeButtonClick(true);
                 }}
               />
               <label
                 htmlFor="accept"
                 className={
-                  freeButtonclick
+                  freeButtonClick
                     ? styles.buttonNotClicked
                     : styles.buttonClicked
                 }
@@ -149,7 +152,7 @@ export default function NewGatheringPage() {
                 value="accept"
                 {...register('type')}
                 onClick={() => {
-                  freeButtonclick && setFreeButtonClick(false);
+                  freeButtonClick && setFreeButtonClick(false);
                 }}
               />
             </div>

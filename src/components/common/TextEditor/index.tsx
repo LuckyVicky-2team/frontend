@@ -14,14 +14,17 @@ const modules = {
   toolbar: toolbarOptions,
 };
 
-interface NewGatheringFormValues {
+interface INewGatheringFormValuesRequest {
   image: string;
   title: string;
   tags: string;
   content: string;
   contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
-  location: string;
+  city: string; //시
+  country: string; //구
+  location: { lat: number; lon: number }; //위도 경도
   gatheringDate: Date; //만나는 날짜 === 마감일
+  boardGameIdList: string[];
   participants: number;
   type: 'free' | 'accept';
 }
@@ -29,7 +32,7 @@ interface NewGatheringFormValues {
 interface ITextEditorProps {
   onChange?: Dispatch<SetStateAction<string | null>>;
   // onChangeWithReactHookForm?: ChangeHandler;
-  register?: UseFormRegister<NewGatheringFormValues>;
+  register?: UseFormRegister<INewGatheringFormValuesRequest>;
   name?: 'content'; //필요시 다른 이름 추가 가능
   id?: string;
 }

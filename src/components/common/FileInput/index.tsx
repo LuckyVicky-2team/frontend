@@ -9,14 +9,17 @@ import useFilePreview from '@/hooks/useFilePreview';
 
 // react hook form 을 안 쓸 경우
 
-interface NewGatheringFormValues {
+interface INewGatheringFormValuesRequest {
   image: string;
   title: string;
   tags: string;
   content: string;
   contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
-  location: string;
+  city: string; //시
+  country: string; //구
+  location: { lat: number; lon: number }; //위도 경도
   gatheringDate: Date; //만나는 날짜 === 마감일
+  boardGameIdList: string[];
   participants: number;
   type: 'free' | 'accept';
 }
@@ -32,7 +35,7 @@ interface IFileInputProps {
     | 'gatheringDate'
     | 'participants';
   selectedImageUrl?: string; //원래 저장되어 있던 이미지
-  setValue?: UseFormSetValue<NewGatheringFormValues>; //react hook form을 쓸 경우 사용. NewGatheringFormValues와 다른 interface를 사용하고 싶다면 직접 추가해 주세요.
+  setValue?: UseFormSetValue<INewGatheringFormValuesRequest>; //react hook form을 쓸 경우 사용. INewGatheringFormValuesRequest와 다른 interface를 사용하고 싶다면 직접 추가해 주세요.
   setImage?: Dispatch<SetStateAction<string>>; //react hook form을 안 쓸 경우 사용
   width?: number;
   height?: number;

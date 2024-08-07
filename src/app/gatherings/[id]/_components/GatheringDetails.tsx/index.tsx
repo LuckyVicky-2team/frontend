@@ -1,16 +1,25 @@
+'use client';
 import Image from 'next/image';
 import parse from 'html-react-parser';
 import ProfileImages from '../ProfileImages';
+import useModal from '@/hooks/useModal';
+import Modal from '@/components/common/Modal';
+import { handleCopyClipBoard } from '@/utils/handleCopyClipBoard';
+import { usePathname } from 'next/navigation';
 // import { useGatheringDetails } from '@/api/queryHooks/gathering';
 
 export default function GatheringDetails() {
+  const pathname = usePathname();
   // const { data } = useGatheringDetails();
   // void data;
+  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   const data = {
     title: '장기두실 분',
     image: '/assets/images/rectangle.png',
-    content: '<p>장기 조아조아</p>',
-    address: '서울시 종로구 ~~~~',
+    content:
+      '<p>ddd<span style="color: rgb(230, 0, 0);">장기</span><span style="color: rgb(230, 0, 0); background-color: rgb(255, 194, 102);">dddddd</span><span style="color: rgb(255, 255, 0); background-color: rgb(255, 194, 102);">dddd</span><strong style="color: rgb(255, 255, 0); background-color: rgb(255, 194, 102);">dddd<u>dddd</u></strong></p>',
+    address: '서울시 종로구',
+    addressDetail: '서울시 종로구 3가길 76-4',
     place: '동아빌딩',
     map: '',
     isZzimed: false,
@@ -27,6 +36,7 @@ export default function GatheringDetails() {
     genre: '보드게임',
   };
   const convertedContent = parse(data.content);
+
   return (
     <div>
       모임 정보
@@ -38,22 +48,37 @@ export default function GatheringDetails() {
         width={100}
         height={100}
       />
-      <ProfileImages participants={data.participants} />
       <div>{convertedContent}</div>
-      <div>주소 (시/군/구)</div>
-      <div>장소</div>
-      <div>주소</div>
-      <div>지도</div>
+      <div>{data.address}</div>
+      <div>{data.place}</div>
+      <div>{data.addressDetail}</div>
+      <div>{data.map}</div>
       <div>찜하기</div>
-      <div>팀장</div>
+      <div>{data.master}</div>
       <div>팀원 목록</div>
-      <div>선택된 게임</div>
-      <div>게임 장르</div>
-      <div>공유하기</div>
-      <div>(마스터) 초대하기</div>
+      <ProfileImages participants={data.participants} />
+      <div>{data.game}</div>
+      <div>{data.genre}</div>
+      <div>
+        <button type="button" onClick={handleModalOpen}>
+          공유하기
+        </button>
+        <Modal modalOpen={modalOpen} onClose={handleModalClose}>
+          <button type="button">카카오로 공유하기</button>
+          <button
+            type="button"
+            onClick={() =>
+              handleCopyClipBoard(
+                `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`
+              )
+            }>
+            클립보드 복사하기
+          </button>
+        </Modal>
+      </div>
       <div>(마스터) 내보내기</div>
       <div>(멤버) 모임 참여하기</div>
-      <div>(마스터) 모임 취소하기</div>
+      <div>(마스터) 모임 삭제하기</div>
     </div>
   );
 }

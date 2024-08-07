@@ -23,8 +23,6 @@ async function getThreads() {
 export default async function ThreadsPage() {
   const threads = await getThreads();
 
-  console.log(threads);
-
   return (
     <div className={styles.background}>
       <div className={styles.container}>

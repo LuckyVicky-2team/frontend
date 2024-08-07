@@ -1,0 +1,45 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 136px);
+}
+
+.title {
+  padding: 24px;
+  font-size: 24px;
+  font-family: 'LaundryGothicOTF';
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.talks {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-grow: 1;
+}
+
+.submit {
+  padding: 0 24px 24px;
+  display: flex;
+  gap: 10px;
+  position: sticky;
+  bottom: 0;
+
+  .submitButton {
+    width: 60px;
+    flex-shrink: 0;
+    background-color: #007aff;
+    color: #ffffff;
+    border-radius: 12px;
+
+    &:hover {
+      background-color: #006ee6;
+    }
+
+    &:active {
+      background-color: #0062cc;
+    }
+  }
+}

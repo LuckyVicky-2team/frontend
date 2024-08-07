@@ -25,7 +25,7 @@ export default async function ThreadsPage() {
   const threads = await getThreads();
 
   return (
-    <div>
+    <main>
       <h1 className={styles.title}>나의 채팅방</h1>
       {threads.map(thread => {
         return (
@@ -45,6 +45,6 @@ export default async function ThreadsPage() {
           </Link>
         );
       })}
-    </div>
+    </main>
   );
 }

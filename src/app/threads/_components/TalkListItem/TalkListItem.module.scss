@@ -1,0 +1,33 @@
+.item {
+  display: flex;
+  gap: 15px;
+
+  .imageArea {
+    .profileImage {
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  }
+
+  .textArea {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+
+    .nameSection {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+
+      .createdAt {
+        color: gray;
+        font-size: 14px;
+      }
+    }
+
+    .contentSection {
+      line-height: 24px;
+    }
+  }
+}

@@ -1,3 +1,7 @@
+import Input from '@/components/common/Input';
+import TalkListItem from '../_components/TalkListItem';
+import styles from './ThreadDetailPage.module.scss';
+
 const getTalks = async (id: string) => {
   const talks = [
     {
@@ -36,15 +40,25 @@ const getTalks = async (id: string) => {
 
 export default async function ThreadDetailPage({
   params,
+  searchParams,
 }: {
   params: { gatheringId: string };
+  searchParams: { name: string };
 }) {
   const talks = await getTalks(params.gatheringId);
 
-  console.log(talks);
   return (
-    <div>
-      <h1></h1>
-    </div>
+    <main className={styles.container}>
+      <h1 className={styles.title}>{searchParams.name}</h1>
+      <div className={styles.talks}>
+        {talks.map(talk => {
+          return <TalkListItem key={talk.id} item={talk} />;
+        })}
+      </div>
+      <div className={styles.submit}>
+        <Input />
+        <button className={styles.submitButton}>보내기</button>
+      </div>
+    </main>
   );
 }

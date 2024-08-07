@@ -26,7 +26,6 @@ export default function GatheringsInfo() {
     <div>
       {/* <Hydrate state={{ queries: [query] }}> */}
       <GatheringDetails />
-      dddd
       {/* </Hydrate> */}
     </div>
   );

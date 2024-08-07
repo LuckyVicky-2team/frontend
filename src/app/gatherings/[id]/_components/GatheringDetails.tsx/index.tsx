@@ -12,7 +12,11 @@ export default function GatheringDetails() {
   const pathname = usePathname();
   // const { data } = useGatheringDetails();
   // void data;
-  const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const {
+    modalOpen: shareModalOpen,
+    handleModalOpen: handleShareModalOpen,
+    handleModalClose: handleShareModalClose,
+  } = useModal();
   const data = {
     title: '장기두실 분',
     image: '/assets/images/rectangle.png',
@@ -45,8 +49,8 @@ export default function GatheringDetails() {
         src={data.image}
         alt="썸네일 이미지"
         priority
-        width={100}
-        height={100}
+        width={400}
+        height={400}
       />
       <div>{convertedContent}</div>
       <div>{data.address}</div>
@@ -63,10 +67,10 @@ export default function GatheringDetails() {
       <div>{data.game}</div>
       <div>{data.genre}</div>
       <div>
-        <button type="button" onClick={handleModalOpen}>
+        <button type="button" onClick={handleShareModalOpen}>
           공유하기
         </button>
-        <Modal modalOpen={modalOpen} onClose={handleModalClose}>
+        <Modal modalOpen={shareModalOpen} onClose={handleShareModalClose}>
           <button type="button">카카오로 공유하기</button>
           <button
             type="button"

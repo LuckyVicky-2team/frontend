@@ -1,0 +1,31 @@
+.gatheringItem {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.gatheringItem h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+}
+
+.gatheringItem p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.gatheringItem button {
+  margin-top: 8px;
+  padding: 8px 16px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.gatheringItem button:hover {
+  background-color: #005bb5;
+}

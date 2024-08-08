@@ -24,7 +24,7 @@ interface INewGatheringFormValuesRequest {
   country: string; //구
   location: { lat: number; lon: number }; //위도 경도
   gatheringDate: Date; //만나는 날짜 === 마감일
-  boardGameIdList: string[];
+  boardGameIdList: number[];
   participants: number;
   type: 'free' | 'accept';
 }

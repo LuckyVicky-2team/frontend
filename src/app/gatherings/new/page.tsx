@@ -5,7 +5,7 @@ import styles from './New.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
 
@@ -22,7 +22,7 @@ interface INewGatheringFormValuesRequest {
   country: string; //구
   location: { lat: number; lon: number }; //위도 경도
   gatheringDate: Date; //만나는 날짜 === 마감일
-  boardGameIdList: string[];
+  boardGameIdList: number[];
   participants: number;
   type: 'free' | 'accept';
 }
@@ -32,6 +32,7 @@ export default function NewGatheringPage() {
     mode: 'all',
     defaultValues: {
       type: 'free',
+      boardGameIdList: [],
     },
   });
   const {
@@ -43,6 +44,7 @@ export default function NewGatheringPage() {
   } = methods;
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
+  const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
 
   const gameData = [
     { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
@@ -57,6 +59,12 @@ export default function NewGatheringPage() {
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
     console.log(info); //최종적으로 제출할 객체
   };
+
+  useEffect(() => {
+    console.log(boardGameIdList);
+    const array = [...new Set(boardGameIdList)];
+    setValue('boardGameIdList', array);
+  }, [boardGameIdList]);
 
   return (
     <>
@@ -81,9 +89,9 @@ export default function NewGatheringPage() {
               <label htmlFor="boardGameIdList">게임 종류</label>
               <input
                 id="boardGameIdList"
-                {...register('boardGameIdList', {
-                  required: '게임 종류를 선택해 주세요.',
-                })}
+                // {...register('boardGameIdList', {
+                //   required: '게임 종류를 선택해 주세요.',
+                // })}
                 className={styles.commonInput}
                 onChange={e => {
                   if (e.target.value === '') {
@@ -114,7 +122,12 @@ export default function NewGatheringPage() {
                           defaultChecked
                           {...register('type')}
                           onClick={() => {
-                            !freeButtonClick && setFreeButtonClick(true);
+                            console.log(data.id);
+                            setBoardGameIdList(prev => {
+                              return [...prev, data.id];
+                            });
+
+                            setShowGameData(false);
                           }}
                         />
                       </div>

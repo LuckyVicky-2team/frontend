@@ -7,6 +7,7 @@ import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import { useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
+import Image from 'next/image';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -41,6 +42,14 @@ export default function NewGatheringPage() {
     formState: { errors, isValid },
   } = methods;
   const [freeButtonClick, setFreeButtonClick] = useState(true);
+  const [showGameData, setShowGameData] = useState(false);
+
+  const gameData = [
+    { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
+    { id: 2, title: '장기', image: '/assets/images/rectangle.png' },
+    { id: 3, title: '바둑', image: '/assets/images/rectangle.png' },
+    { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
+  ];
 
   const onSubmit = (gatheringInfo: INewGatheringFormValuesRequest) => {
     console.log({ gatheringInfo });
@@ -67,6 +76,52 @@ export default function NewGatheringPage() {
                 className={styles.commonInput}
               />
               {errors.title && errors.title.message}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="boardGameIdList">게임 종류</label>
+              <input
+                id="boardGameIdList"
+                {...register('boardGameIdList', {
+                  required: '게임 종류를 선택해 주세요.',
+                })}
+                className={styles.commonInput}
+                onChange={e => {
+                  if (e.target.value === '') {
+                    setShowGameData(false);
+                    return;
+                  }
+                  setShowGameData(true);
+                }}
+              />
+              {showGameData && (
+                <div>
+                  {gameData.map(data => {
+                    return (
+                      <div key={data.id}>
+                        <label htmlFor={`${data.title}`}>
+                          <Image
+                            src={data.image}
+                            alt={data.title}
+                            width={30}
+                            height={30}
+                          />
+                          <p>{data.title}</p>
+                        </label>
+                        <input
+                          id={`${data.title}`}
+                          type="radio"
+                          value={data.id}
+                          defaultChecked
+                          {...register('type')}
+                          onClick={() => {
+                            !freeButtonClick && setFreeButtonClick(true);
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="tags">태그</label>

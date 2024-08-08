@@ -42,16 +42,16 @@ export default function ReviewPage() {
       capacity: 7,
     },
   ];
-  // const writtenReviewList: any[] = [
-  //   {
-  //     id: 1,
-  //     title: '좋은 모임이었어요',
-  //     content: '재미있었습니다.',
-  //     rating: 4,
-  //     date: '2023.08.10',
-  //   },
-  // ];
-  const writtenReviewList: any[] = [];
+  const writtenReviewList: any[] = [
+    {
+      id: 1,
+      title: '좋은 모임이었어요',
+      content: '재미있었습니다.',
+      rating: 4,
+      date: '2023.08.10',
+    },
+  ];
+  // const writtenReviewList: any[] = [];
   const receivedReviewList: any[] = [];
 
   const list =

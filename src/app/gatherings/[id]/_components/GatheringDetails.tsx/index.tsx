@@ -60,10 +60,8 @@ export default function GatheringDetails() {
       <div>찜하기</div>
       <div>{data.master}</div>
       <div>팀원 목록</div>
-      <ProfileImages
-        participants={data.participants}
-        onClick={handleProfileModalOpen}
-      />
+      <ProfileImages participants={data.participants} />
+      <button type="button" onClick={handleProfileModalOpen} />
       <Modal modalOpen={profileModalOpen} onClose={handleProfileModalClose}>
         <ul>
           {data.participants.map(participant => {

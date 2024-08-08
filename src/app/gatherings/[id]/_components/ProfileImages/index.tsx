@@ -9,10 +9,9 @@ interface IParticipants {
 
 interface IProfileImagesProps {
   participants: IParticipants[];
-  onClick: () => void;
 }
 
-function ProfileImages({ participants, onClick }: IProfileImagesProps) {
+function ProfileImages({ participants }: IProfileImagesProps) {
   return (
     <div className={styles.profileImages}>
       {participants.map((participant, i) => {
@@ -45,9 +44,7 @@ function ProfileImages({ participants, onClick }: IProfileImagesProps) {
         );
       })}
       {participants.length >= 5 && (
-        <div className={styles.count} onClick={onClick}>
-          +{participants.length - 4}
-        </div>
+        <div className={styles.count}>+{participants.length - 4}</div>
       )}
     </div>
   );

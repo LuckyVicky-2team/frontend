@@ -8,24 +8,10 @@ import TextEditor from '@/components/common/TextEditor';
 import { useEffect, useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
 import GameDataList from './_components/Input/GameDataList';
+import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
-
-interface INewGatheringFormValuesRequest {
-  image: string;
-  title: string;
-  tags: string;
-  content: string;
-  contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
-  city: string; //시
-  country: string; //구
-  location: { lat: number; lon: number }; //위도 경도
-  gatheringDate: Date; //만나는 날짜 === 마감일
-  boardGameIdList: number[];
-  participants: number;
-  type: 'free' | 'accept';
-}
 
 export default function NewGatheringPage() {
   const methods = useForm<INewGatheringFormValuesRequest>({
@@ -53,11 +39,28 @@ export default function NewGatheringPage() {
     { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
   ];
 
-  const onSubmit = (gatheringInfo: INewGatheringFormValuesRequest) => {
-    console.log({ gatheringInfo });
-    const { contentWithoutHtml, ...info } = gatheringInfo;
+  const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
+    const { contentWithoutHtml, image, ...info } = gatheringInfo;
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
-    console.log(info); //최종적으로 제출할 객체
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append(
+      'requestDTO',
+      new Blob([JSON.stringify(info)], {
+        type: 'application/json',
+      })
+    );
+    console.log(info);
+    // try {
+    //   const response = await axios.post('/api/upload', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   });
+    //   console.log(response.data);
+    // } catch (error) {
+    //   console.error('There was an error uploading the file!', error);
+    // }
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ declare global {
   }
 }
 
-interface IPlaceInfo {
+interface IPlaceInfoResponse {
   address_name: string;
   category_group_code: string;
   category_group_name: string;
@@ -22,4 +22,4 @@ interface IPlaceInfo {
 
 type StatusType = 'OK' | 'ERROR' | 'ZERO_RESULT';
 
-export { IPlaceInfo, StatusType };
+export { IPlaceInfoResponse, StatusType };

@@ -1,4 +1,3 @@
-import { deepEqual } from 'assert';
 import React, { useMemo } from 'react';
 const useSaveItemState = () => {
   const setSavedItemsState = (newValue: number) => {
@@ -51,7 +50,7 @@ const useSaveItemState = () => {
     //클로저 함수(하위함수)
     return () => {
       const currentString = localStorage.getItem('savedGatherings') ?? '[]';
-      deepEqual;
+
       const parsedRawData = JSON.parse(currentString);
       if (now.getTime() > parsedRawData.expiration) {
         localStorage.removeItem('savedGatherings');

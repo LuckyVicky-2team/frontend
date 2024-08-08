@@ -13,8 +13,8 @@ export default function Header() {
         <div className={styles.right}>
           <button>
             <Image
-              width={24}
-              height={24}
+              width={56}
+              height={56}
               src={'/assets/mainImages/alarm.svg'}
               alt="알람 아이콘"
             />
@@ -22,8 +22,8 @@ export default function Header() {
           </button>
           <Link href={`/`}>
             <Image
-              width={24}
-              height={24}
+              width={32}
+              height={32}
               src={'/assets/mainImages/profile.svg'}
               alt="마이페이지 아이콘"
             />

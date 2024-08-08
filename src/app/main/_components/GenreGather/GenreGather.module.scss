@@ -66,6 +66,17 @@
         right: 0;
         z-index: 10;
       }
+      .people {
+        position: absolute;
+        bottom: 15px;
+        right: 13px;
+        background: lightgray 50% / cover no-repeat;
+        color: #333;
+        padding: 3px 10px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        font-size: 14px;
+      }
       .img {
         width: 100%;
         img {
@@ -120,6 +131,12 @@
           }
         }
       }
+    }
+    .date {
+      font-size: 12px;
+      margin-top: 6px;
+      display: block;
+      color: #999;
     }
   }
 }

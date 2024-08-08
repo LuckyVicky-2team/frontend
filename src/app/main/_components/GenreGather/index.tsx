@@ -191,6 +191,7 @@ export default function GenreGather() {
                     alt={'인기 아이콘'}
                   />
                 </span>
+                <span className={styles.people}>10/30</span>
                 <span className={styles.img}>
                   <Image
                     src={e.image}
@@ -237,6 +238,7 @@ export default function GenreGather() {
                   2줄 까지만 보이게 합니다.
                 </span>
               </Link>
+              <span className={styles.date}>날짜</span>
             </li>
           );
         })}

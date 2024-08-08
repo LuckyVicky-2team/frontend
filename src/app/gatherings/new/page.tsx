@@ -31,6 +31,7 @@ export default function NewGatheringPage() {
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
   const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
+  const [gameTitle, setGameTitle] = useState('');
 
   const gameData = [
     { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
@@ -87,15 +88,17 @@ export default function NewGatheringPage() {
               {errors.title && errors.title.message}
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="boardGameIdList">게임 종류</label>
+              <label htmlFor="gameTitle">게임 종류</label>
               <input
-                id="boardGameIdList"
+                id="gameTitle"
                 className={styles.commonInput}
+                value={gameTitle}
                 onChange={e => {
                   if (e.target.value === '') {
                     setShowGameData(false);
                     return;
                   }
+                  setGameTitle(e.target.value);
                   setShowGameData(true);
                 }}
               />
@@ -104,6 +107,7 @@ export default function NewGatheringPage() {
                 showGameData={showGameData}
                 setShowGameData={setShowGameData}
                 setBoardGameIdList={setBoardGameIdList}
+                setGameTitle={setGameTitle}
               />
               {boardGameIdList.map(id => {
                 return (

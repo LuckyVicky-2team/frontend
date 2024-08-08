@@ -13,6 +13,7 @@ interface IGameDataListProps {
   showGameData: boolean;
   setShowGameData: Dispatch<SetStateAction<boolean>>;
   setBoardGameIdList: Dispatch<SetStateAction<number[]>>;
+  setGameTitle: Dispatch<SetStateAction<string>>;
 }
 
 export default function GameDataList({
@@ -20,6 +21,7 @@ export default function GameDataList({
   showGameData,
   setShowGameData,
   setBoardGameIdList,
+  setGameTitle,
 }: IGameDataListProps) {
   return (
     <div>
@@ -48,6 +50,7 @@ export default function GameDataList({
                       return [...new Set([...prev, data.id])];
                     });
                     setShowGameData(false);
+                    setGameTitle('');
                   }}
                 />
               </div>

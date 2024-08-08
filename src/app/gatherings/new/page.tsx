@@ -7,7 +7,7 @@ import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import { useEffect, useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
-import Image from 'next/image';
+import GameDataList from './_components/Input/GameDataList';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -61,10 +61,8 @@ export default function NewGatheringPage() {
   };
 
   useEffect(() => {
-    console.log(boardGameIdList);
-    const array = [...new Set(boardGameIdList)];
-    setValue('boardGameIdList', array);
-  }, [boardGameIdList]);
+    setValue('boardGameIdList', boardGameIdList);
+  }, [boardGameIdList, setValue]);
 
   return (
     <>
@@ -89,9 +87,6 @@ export default function NewGatheringPage() {
               <label htmlFor="boardGameIdList">게임 종류</label>
               <input
                 id="boardGameIdList"
-                // {...register('boardGameIdList', {
-                //   required: '게임 종류를 선택해 주세요.',
-                // })}
                 className={styles.commonInput}
                 onChange={e => {
                   if (e.target.value === '') {
@@ -101,40 +96,27 @@ export default function NewGatheringPage() {
                   setShowGameData(true);
                 }}
               />
-              {showGameData && (
-                <div>
-                  {gameData.map(data => {
-                    return (
-                      <div key={data.id}>
-                        <label htmlFor={`${data.title}`}>
-                          <Image
-                            src={data.image}
-                            alt={data.title}
-                            width={30}
-                            height={30}
-                          />
-                          <p>{data.title}</p>
-                        </label>
-                        <input
-                          id={`${data.title}`}
-                          type="radio"
-                          value={data.id}
-                          defaultChecked
-                          {...register('type')}
-                          onClick={() => {
-                            console.log(data.id);
-                            setBoardGameIdList(prev => {
-                              return [...prev, data.id];
-                            });
-
-                            setShowGameData(false);
-                          }}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+              <GameDataList
+                gameData={gameData}
+                showGameData={showGameData}
+                setShowGameData={setShowGameData}
+                setBoardGameIdList={setBoardGameIdList}
+              />
+              {boardGameIdList.map(id => {
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => {
+                      setBoardGameIdList(prev => {
+                        const newPrev = prev.filter(element => element !== id);
+                        return newPrev;
+                      });
+                    }}>
+                    {id}
+                  </button>
+                );
+              })}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="tags">태그</label>

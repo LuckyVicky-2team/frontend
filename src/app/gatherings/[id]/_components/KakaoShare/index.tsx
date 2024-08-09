@@ -34,7 +34,7 @@ export default function KakaoShare({
       content: {
         title: 'BOGO',
         description: '보드게임 하러 오세요! BOGO',
-        imageUrl: '/assets/icons/logo.svg', // 큰 이미지
+        imageUrl: 'https://i.ibb.co/7rMNL32/logo.png', // 큰 이미지
         link: {
           mobileWebUrl: realUrl,
           webUrl: realUrl,

@@ -56,6 +56,8 @@ export default function GameDataList({
               </div>
             );
           })}
+          <button type="button">{`<`}</button>
+          <button type="button">{`>`}</button>
         </div>
       )}
     </div>

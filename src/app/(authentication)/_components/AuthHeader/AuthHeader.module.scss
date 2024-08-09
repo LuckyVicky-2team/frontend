@@ -3,10 +3,6 @@
   flex-direction: column;
   gap: 12px;
 
-  .pageName {
-    position: relative;
-  }
-
   .title {
     color: #3e82f1;
     font-size: 34px;
@@ -21,12 +17,6 @@
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.96px;
-  }
-
-  .logoImage {
-    position: absolute;
-    top: -52px;
-    left: 94px;
   }
 
   .text {

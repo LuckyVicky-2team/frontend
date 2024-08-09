@@ -15,17 +15,27 @@
   color: #dc2626;
   font-weight: 600;
   font-size: 14px;
-  font-family: Pretendard;
+  line-height: 20px;
+}
+
+.successMessage {
+  color: #3e82f1;
+  font-weight: 600;
+  font-size: 14px;
   line-height: 20px;
 }
 
 .inputContainer {
   position: relative;
 
+  .passwordInput {
+    padding-right: 45px;
+  }
+
   .eyeButton {
     position: absolute;
-    right: 12px;
-    top: 9px;
+    right: 16px;
+    top: 17px;
     margin: 0;
   }
 }

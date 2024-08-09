@@ -7,6 +7,8 @@ import Modal from '@/components/common/Modal';
 import { handleCopyClipBoard } from '@/utils/handleCopyClipBoard';
 import { usePathname } from 'next/navigation';
 import KakaoShare from '../KakaoShare';
+import Members from '../Members';
+import { IGatheringDetailsResponse } from '@/types/response/Gathering';
 // import { useGatheringDetails } from '@/api/queryHooks/gathering';
 
 export default function GatheringDetails() {
@@ -23,7 +25,7 @@ export default function GatheringDetails() {
     handleModalOpen: handleProfileModalOpen,
     handleModalClose: handleProfileModalClose,
   } = useModal();
-  const data = {
+  const data: IGatheringDetailsResponse = {
     title: '장기두실 분',
     image: '/assets/images/rectangle.png',
     content:
@@ -65,22 +67,11 @@ export default function GatheringDetails() {
       <button type="button" onClick={handleProfileModalOpen}>
         참여 멤버
       </button>
-      <Modal modalOpen={profileModalOpen} onClose={handleProfileModalClose}>
-        <ul>
-          {data.participants.map(participant => {
-            return (
-              <li key={participant.userId}>
-                <Image
-                  alt="프로필 이미지"
-                  src={participant.profileImage}
-                  width={28}
-                  height={28}
-                />
-              </li>
-            );
-          })}
-        </ul>
-      </Modal>
+      <Members
+        modalOpen={profileModalOpen}
+        onClose={handleProfileModalClose}
+        data={data}
+      />
       <div>{data.game}</div>
       <div>{data.genre}</div>
       <div>

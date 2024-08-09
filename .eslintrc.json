@@ -28,5 +28,13 @@
         "endOfLine": "auto"
       }
     ]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ]
 }

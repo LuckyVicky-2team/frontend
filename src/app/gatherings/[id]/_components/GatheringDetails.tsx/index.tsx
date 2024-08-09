@@ -6,6 +6,7 @@ import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import { handleCopyClipBoard } from '@/utils/handleCopyClipBoard';
 import { usePathname } from 'next/navigation';
+import KakaoShare from '../KakaoShare';
 // import { useGatheringDetails } from '@/api/queryHooks/gathering';
 
 export default function GatheringDetails() {
@@ -61,7 +62,9 @@ export default function GatheringDetails() {
       <div>{data.master}</div>
       <div>팀원 목록</div>
       <ProfileImages participants={data.participants} />
-      <button type="button" onClick={handleProfileModalOpen} />
+      <button type="button" onClick={handleProfileModalOpen}>
+        참여 멤버
+      </button>
       <Modal modalOpen={profileModalOpen} onClose={handleProfileModalClose}>
         <ul>
           {data.participants.map(participant => {
@@ -85,7 +88,8 @@ export default function GatheringDetails() {
           공유하기
         </button>
         <Modal modalOpen={shareModalOpen} onClose={handleShareModalClose}>
-          <button type="button">카카오로 공유하기</button>
+          <KakaoShare />
+          {/* <button type="button">카카오로 공유하기</button> */}
           <button
             type="button"
             onClick={() =>

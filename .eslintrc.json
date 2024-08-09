@@ -18,10 +18,7 @@
   "rules": {
     "indent": ["error", 2],
     "no-empty": "warn",
-    "no-unused-vars": [
-      "error",
-      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^Window$" }
-    ],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-cond-assign": ["error", "always"],
     "prettier/prettier": [
       "error",
@@ -29,6 +26,14 @@
         "useTabs": false,
         "tabWidth": 2,
         "endOfLine": "auto"
+      }
+    ],
+    "overrides": [
+      {
+        "files": ["*.d.ts"],
+        "rules": {
+          "no-unused-vars": "off"
+        }
       }
     ]
   }

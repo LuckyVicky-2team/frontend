@@ -26,6 +26,10 @@
     color: #ffffff;
     font-family: 'LaunDryGothicOTF-Bold';
     flex-shrink: 0;
+
+    &.selected {
+      background-color: rgb(240, 81, 81);
+    }
   }
 
   .name {

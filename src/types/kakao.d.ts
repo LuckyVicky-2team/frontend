@@ -17,7 +17,7 @@ interface IPlaceInfoResponse {
   road_address_name: string;
   x: string;
   y: string;
-  idx?: number;
+  index?: number;
 }
 
 type StatusType = 'OK' | 'ERROR' | 'ZERO_RESULT';

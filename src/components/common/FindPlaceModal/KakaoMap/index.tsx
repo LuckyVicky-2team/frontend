@@ -4,17 +4,13 @@ import { useEffect, useRef } from 'react';
 import styles from './KakaoMap.module.scss';
 
 interface IKakaoMapProps {
-  className?: string;
-  lat: number;
-  lon: number;
-  placeName: string;
+  coordinate?: { lat: string; lon: string };
+  placeName?: string;
   index?: number;
 }
 
 export default function KakaoMap({
-  className,
-  lat,
-  lon,
+  coordinate = { lat: '30', lon: '120' },
   placeName,
   index,
 }: IKakaoMapProps) {
@@ -23,7 +19,7 @@ export default function KakaoMap({
   useEffect(() => {
     window.kakao.maps.load(() => {
       const mapOptions = {
-        center: new window.kakao.maps.LatLng(lat, lon),
+        center: new window.kakao.maps.LatLng(coordinate.lat, coordinate.lon),
         level: 3,
       };
 
@@ -53,7 +49,10 @@ export default function KakaoMap({
 
         const marker = new window.kakao.maps.Marker({
           map,
-          position: new window.kakao.maps.LatLng(lat, lon),
+          position: new window.kakao.maps.LatLng(
+            coordinate.lat,
+            coordinate.lon
+          ),
           image: markerImage,
         });
 
@@ -62,28 +61,30 @@ export default function KakaoMap({
 
       const marker = setMarker(index);
 
-      const infowindow = new window.kakao.maps.InfoWindow({
-        zIndex: 1,
-        content: `<div class="${styles.infowindow}">${placeName}</div>`,
-      });
+      if (placeName) {
+        const infowindow = new window.kakao.maps.InfoWindow({
+          zIndex: 1,
+          content: `<div class="${styles.infowindow}">${placeName}</div>`,
+        });
 
-      const openInfo = () => {
-        infowindow.open(map, marker);
-      };
+        const openInfo = () => {
+          infowindow.open(map, marker);
+        };
 
-      const closeInfo = () => {
-        infowindow.close(map, marker);
-      };
+        const closeInfo = () => {
+          infowindow.close(map, marker);
+        };
 
-      window.kakao.maps.event.addListener(marker, 'mouseover', openInfo);
-      window.kakao.maps.event.addListener(marker, 'mouseout', closeInfo);
+        window.kakao.maps.event.addListener(marker, 'mouseover', openInfo);
+        window.kakao.maps.event.addListener(marker, 'mouseout', closeInfo);
 
-      return () => {
-        window.kakao.maps.event.removeListener(marker, 'mouseover', openInfo);
-        window.kakao.maps.event.removeListener(marker, 'mouseout', closeInfo);
-      };
+        return () => {
+          window.kakao.maps.event.removeListener(marker, 'mouseover', openInfo);
+          window.kakao.maps.event.removeListener(marker, 'mouseout', closeInfo);
+        };
+      }
     });
-  }, [lat, lon, placeName, index]);
+  }, [coordinate, placeName, index]);
 
-  return <div className={`${styles.map} ${className}`} ref={mapRef}></div>;
+  return <div className={`${styles.map}`} ref={mapRef}></div>;
 }

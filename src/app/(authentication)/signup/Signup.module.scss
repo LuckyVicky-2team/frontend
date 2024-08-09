@@ -1,19 +1,8 @@
 .container {
-  padding: 35px 25px 53px;
+  padding: 35px 25px 50px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 11px;
-
-  button {
-    margin-top: 16px;
-  }
 }
 
 .linkContainer {

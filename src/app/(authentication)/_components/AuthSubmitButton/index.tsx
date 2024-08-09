@@ -6,10 +6,11 @@ interface IAuthSubmitButtonProps
 
 export default function AuthSubmitButton({
   children,
+  className,
   ...props
 }: IAuthSubmitButtonProps) {
   return (
-    <button className={styles.submitButton} {...props}>
+    <button className={`${styles.submitButton} ${className}`} {...props}>
       {children}
     </button>
   );

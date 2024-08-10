@@ -24,11 +24,9 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
 
   return (
     <div className={`${styles.container} ${className}`}>
-      {labelName && (
-        <label className={styles.label} htmlFor={labelName}>
-          {labelName}
-        </label>
-      )}
+      <label className={styles.label} htmlFor={labelName}>
+        {labelName}
+      </label>
       <div className={styles.inputContainer}>
         <Input
           type={passwordVisible ? 'text' : type}

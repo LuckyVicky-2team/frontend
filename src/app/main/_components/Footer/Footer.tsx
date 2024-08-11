@@ -105,28 +105,28 @@ export default function Footer() {
               handleOn(4);
             }}
             className={on === 4 ? styles.on : ''}>
-            {/* <Link href="/"> */}
-            <span className={styles.a}>
-              <span className={styles.ico}>
-                {on === 4 ? (
-                  <Image
-                    width={24}
-                    height={24}
-                    src={'/assets/mainImages/f4_fill.svg'}
-                    alt="푸터메뉴1"
-                  />
-                ) : (
-                  <Image
-                    width={24}
-                    height={24}
-                    src={'/assets/mainImages/f4.svg'}
-                    alt="푸터메뉴1"
-                  />
-                )}
+            <Link href="/gatherings">
+              <span className={styles.a}>
+                <span className={styles.ico}>
+                  {on === 4 ? (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/f4_fill.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  ) : (
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/assets/mainImages/f4.svg'}
+                      alt="푸터메뉴1"
+                    />
+                  )}
+                </span>
+                <span className={styles.tag}>모임목록</span>
               </span>
-              <span className={styles.tag}>모임목록</span>
-            </span>
-            {/* </Link> */}
+            </Link>
           </li>
           <li
             onClick={() => {

@@ -16,8 +16,9 @@ export default function EmailSignupForm() {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    watch,
     setValue,
+    getValues,
+    trigger,
   } = useForm({ mode: 'onBlur' });
 
   return (
@@ -44,7 +45,7 @@ export default function EmailSignupForm() {
             <AuthSubmitButton
               type="button"
               onClick={() => {
-                if (!errors.email && watch('email')) {
+                if (!errors.email && getValues('email')) {
                   setIsEmailDupOk(prev => !prev);
                 }
               }}
@@ -74,7 +75,7 @@ export default function EmailSignupForm() {
             <AuthSubmitButton
               type="button"
               onClick={() => {
-                if (!errors.nickname && watch('nickname')) {
+                if (!errors.nickname && getValues('nickname')) {
                   setIsNicknameDupOk(prev => !prev);
                 }
               }}
@@ -103,6 +104,9 @@ export default function EmailSignupForm() {
                 value: 50,
                 message: '비밀번호는 최대 50자까지 입력 가능합니다',
               },
+              onBlur: async () => {
+                await trigger('passwordCheck');
+              },
             })}
           />
           <AuthInput
@@ -113,7 +117,8 @@ export default function EmailSignupForm() {
             error={errors.passwordCheck}
             {...register('passwordCheck', {
               validate: value =>
-                value === watch('password') || '비밀번호와 일치하지 않습니다',
+                value === getValues('password') ||
+                '비밀번호와 일치하지 않습니다',
             })}
           />
           <AuthSubmitButton

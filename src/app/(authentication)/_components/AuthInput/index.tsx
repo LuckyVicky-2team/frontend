@@ -7,13 +7,13 @@ import Input from '@/components/common/Input';
 import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   labelName: string;
   isPasswordInput?: boolean;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  { className, type, error, isPasswordInput, labelName, disabled, ...props },
+  { className, type, isPasswordInput, labelName, disabled, error, ...props },
   ref
 ) {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);

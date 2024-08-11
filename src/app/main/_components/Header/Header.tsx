@@ -20,7 +20,7 @@ export default function Header() {
             />
             <span></span>
           </button>
-          <Link href={`/`}>
+          <Link href={`/mypage/1`}>
             <Image
               width={32}
               height={32}

@@ -39,7 +39,7 @@ export default function DeadLineGather() {
       location: '서울시 동작구',
       content:
         '같이 다빈치코드 하실분 2분 구합니다. 위치는 을지로 쪽이면 좋겠습니당',
-      image: 'assets/mainImages/game.png',
+      image: '/assets/mainImages/game.png',
       master: {
         nickName: 'CG보드게임카페',
       },

@@ -9,10 +9,12 @@ export default function Footer() {
   const [on, setOn] = useState(3);
   const pathName = usePathname();
 
+  const splitPathName = pathName.split('/')[1];
+
   useEffect(() => {
-    if (pathName === '/main') {
+    if (splitPathName === 'main') {
       setOn(3);
-    } else if (pathName === '/signin') {
+    } else if (splitPathName === 'mypage') {
       setOn(5);
     } else {
       setOn(0);
@@ -145,7 +147,7 @@ export default function Footer() {
               handleOn(5);
             }}
             className={on === 5 ? styles.on : ''}>
-            <Link href="/signin">
+            <Link href="/mypage/1">
               <span className={styles.a}>
                 <span className={styles.ico}>
                   {on === 5 ? (

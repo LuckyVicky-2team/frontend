@@ -1,12 +1,107 @@
 .relative {
   position: relative;
 }
+.card {
+  display: block;
+  width: 100%;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  .top {
+    display: flex;
+    align-items: normal;
+    justify-content: space-between;
+    padding: 25px 25px 40px 25px;
+    box-sizing: border-box;
+    background: url('/assets/myPage/profileBg.png') no-repeat center/cover;
+    width: 100%;
 
-.top {
-  .editBtn {
+    h2 {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    button {
+      color: #fff;
+    }
   }
-  .infoImg {
+  .bottom {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    padding: 25px;
+    position: relative;
+    .profileImg {
+      width: 30%;
+      button {
+        border: 1px solid #ddd;
+        border-radius: 100%;
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        top: -12%;
+        left: 5%;
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+    .rightInfo {
+      width: 60%;
+      .topInfo {
+        display: flex;
+        align-items: center;
+        justify-content: normal;
+        margin-bottom: 15px;
+        b {
+          font-weight: 700;
+          font-size: 20px;
+          margin-right: 15px;
+        }
+        button {
+          padding: 10px 15px;
+          border-radius: 15px;
+          background: #eee;
+          color: #999;
+        }
+      }
+      .list {
+        li {
+          display: flex;
+          align-items: center;
+          justify-content: normal;
+          gap: 10px;
+          margin-bottom: 10px;
+          b {
+            font-weight: 7 00;
+            font-size: 18px;
+          }
+          p {
+            font-weight: 400;
+            font-size: 18px;
+          }
+        }
+      }
+    }
   }
-  .infoR {
+}
+
+.prWrap {
+  padding: 25px 0;
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    li {
+      background: #f0f0f0;
+      display: block;
+      padding: 10px 15px;
+      border-radius: 15px;
+      color: #9ca3af;
+    }
   }
 }

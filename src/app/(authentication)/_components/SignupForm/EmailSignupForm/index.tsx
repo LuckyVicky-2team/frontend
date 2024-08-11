@@ -6,12 +6,17 @@ import { useForm } from 'react-hook-form';
 import AuthSubmitButton from '../../AuthSubmitButton';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTagInput from '../../AuthTagInput';
+import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
+import { EmailSignupFormType } from '@/types/request/authRequestTypes';
+import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
+import { useRouter } from 'next/navigation';
 import styles from './EmailSignupForm.module.scss';
 
 export default function EmailSignupForm() {
+  const router = useRouter();
   const { Funnel, Step, setStep } = useFunnel('first');
   const [isEmailDupOk, setIsEmailDupOk] = useState(false);
-  const [isNicknameDupOk, setIsNicknameDupOk] = useState(false);
+  const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const {
     register,
     handleSubmit,
@@ -19,12 +24,59 @@ export default function EmailSignupForm() {
     setValue,
     getValues,
     trigger,
-  } = useForm({ mode: 'onBlur' });
+  } = useForm({
+    mode: 'onBlur',
+    defaultValues: {
+      email: '',
+      nickName: '',
+      password: '',
+      passwordCheck: '',
+      prTags: [],
+      providerType: 'LOCAL',
+    } as EmailSignupFormType & { passwordCheck: string },
+  });
+  const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
+
+  const emailDupCheck = async (email: string) => {
+    const response = await getEmailDupCheck(email);
+
+    if (response.status === 200) {
+      setIsEmailDupOk(true);
+    } else {
+      console.log('오류가 발생했습니다');
+    }
+  };
+
+  const nickNameDupCheck = async (nickName: string) => {
+    const response = await getNickNameDupCheck(nickName);
+
+    if (response.status === 200) {
+      setIsNickNameDupOk(true);
+    } else {
+      console.log('오류가 발생했습니다');
+    }
+  };
+
+  const submitEmailSignupForm = (
+    formData: EmailSignupFormType & { passwordCheck: string }
+  ) => {
+    const { passwordCheck: _passwordCheck, ...newFormData } = formData;
+
+    signupMutate(newFormData, {
+      onSuccess: () => {
+        console.log('회원가입에 성공했습니다');
+        router.push('/signin');
+      },
+      onError: () => {
+        console.log('에러가 발생했습니다.');
+      },
+    });
+  };
 
   return (
     <form
       className={styles.form}
-      onSubmit={handleSubmit(data => console.log(data))}>
+      onSubmit={handleSubmit(formData => submitEmailSignupForm(formData))}>
       <Funnel>
         <Step name="first">
           <div className={styles.buttonInput}>
@@ -44,9 +96,9 @@ export default function EmailSignupForm() {
             />
             <AuthSubmitButton
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (!errors.email && getValues('email')) {
-                  setIsEmailDupOk(prev => !prev);
+                  emailDupCheck(getValues('email'));
                 }
               }}
               disabled={isEmailDupOk}
@@ -58,9 +110,9 @@ export default function EmailSignupForm() {
             <AuthInput
               labelName="닉네임"
               placeholder="닉네임을 입력해주세요"
-              error={errors.nickname}
-              disabled={isNicknameDupOk}
-              {...register('nickname', {
+              error={errors.nickName}
+              disabled={isNickNameDupOk}
+              {...register('nickName', {
                 required: '닉네임을 입력해주세요',
                 pattern: {
                   value: /^[a-zA-Z0-9가-힣]+$/,
@@ -75,11 +127,11 @@ export default function EmailSignupForm() {
             <AuthSubmitButton
               type="button"
               onClick={() => {
-                if (!errors.nickname && getValues('nickname')) {
-                  setIsNicknameDupOk(prev => !prev);
+                if (!errors.nickName && getValues('nickName')) {
+                  nickNameDupCheck(getValues('nickName'));
                 }
               }}
-              disabled={isNicknameDupOk}
+              disabled={isNickNameDupOk}
               className={styles.checkButton}>
               중복확인
             </AuthSubmitButton>
@@ -124,18 +176,22 @@ export default function EmailSignupForm() {
           <AuthSubmitButton
             type="button"
             onClick={() => {
-              // if (isValid && isEmailDupOk && isNicknameDupOk) {
-              //   setStep('second');
-              // }
               setStep('second');
-            }}>
+            }}
+            disabled={
+              Boolean(Object.keys(errors).length) ||
+              !isEmailDupOk ||
+              !isNickNameDupOk ||
+              !getValues('password') ||
+              !getValues('passwordCheck')
+            }>
             확인
           </AuthSubmitButton>
         </Step>
 
         <Step name="second">
           <AuthTagInput setValue={setValue} />
-          <AuthSubmitButton>확인</AuthSubmitButton>
+          <AuthSubmitButton disabled={isPending}>확인</AuthSubmitButton>
         </Step>
       </Funnel>
     </form>

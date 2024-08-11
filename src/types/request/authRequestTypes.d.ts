@@ -1,6 +1,6 @@
 export type EmailSignupFormType = {
   email: string;
-  nickname: string;
+  nickName: string;
   password: string;
   prTags: string[];
   providerType: 'LOCAL';

@@ -103,3 +103,177 @@ export const mockUserData: UserData = {
     },
   ],
 };
+
+//@haewon review item data
+export const gatheringList: any[] = [
+  {
+    id: 1,
+    title: '안녕하세요~ 2명 구합니다',
+    imageUrl: '',
+    location: '서울시 동작구',
+    gatheringDate: '2023.08.07 19:00',
+
+    participants: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: '파티게임류 좋아하시는분만',
+    imageUrl: '',
+    location: '서울시 구로구',
+    gatheringDate: '2024.04.05 13:00',
+    participantCount: 3,
+    capacity: 3,
+  },
+  {
+    id: 3,
+    title: '보드게임러 모여라',
+    imageUrl: '',
+    location: '인천시 연수구',
+    gatheringDate: '2024.07.10 20:00',
+    participantCount: 7,
+    capacity: 7,
+  },
+];
+
+export const writtenReviewList: any[] = [
+  {
+    id: 'meeting_001',
+    title: 'Python Study Group',
+    thumbnail: '',
+    content:
+      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    gatheringDate: '2023.08.07 19:00',
+    reviewedUsers: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+        rating: 4.5,
+        tags: ['#지식이풍부해요', '#친절해요'],
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+        rating: 4.0,
+        tags: ['#재미있어요', '#공정하지 못해요'],
+      },
+    ],
+  },
+  {
+    id: 'meeting_002',
+    title: 'React Developer Meetup',
+    thumbnail: '',
+    content: 'compiled in 194ms',
+    gatheringDate: '2023.08.07 19:00',
+    reviewedUsers: [
+      {
+        userId: 'user_1213',
+        userName: 'Charlie',
+        rating: 5.0,
+        tags: [
+          '#보드게임의 신',
+          '#시간 약속을 잘 지켜요',
+          '#재미있어요',
+          '#다시 만나고싶어요!',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'meeting_003',
+    title: 'Data Science Workshop',
+    thumbnail: '',
+    content: '하하오오',
+    gatheringDate: '2023.08.07 19:00',
+    reviewedUsers: [
+      {
+        userId: 'user_1415',
+        userName: 'Dave',
+        rating: 3.5,
+        tags: [
+          '#재미있어요',
+          '#보드게임의 신',
+          '#시간을 안지켜요',
+          '#다시 만나고싶어요!',
+          '#공정하지 못해요',
+        ],
+      },
+      {
+        userId: 'user_1617',
+        userName: 'Eve',
+        rating: 4.8,
+        tags: ['#의도가 부적절해요', '#시간을 안지켜요'],
+      },
+    ],
+  },
+  {
+    id: 'meeting_004',
+    title: 'Python Study Group',
+    thumbnail: '',
+    content:
+      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    gatheringDate: '2023.08.07 19:00',
+    reviewedUsers: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+        rating: 4.5,
+        tags: ['#지식이풍부해요', '#친절해요'],
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+        rating: 4.0,
+        tags: ['#재미있어요', '#공정하지 못해요'],
+      },
+    ],
+  },
+  {
+    id: 'meeting_005',
+    title: 'Python Study Group',
+    thumbnail: '',
+    content:
+      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    gatheringDate: '2023.08.07 19:00',
+    reviewedUsers: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+        rating: 4.5,
+        tags: ['#지식이풍부해요', '#친절해요'],
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+        rating: 4.0,
+        tags: ['#재미있어요', '#공정하지 못해요'],
+      },
+    ],
+  },
+];
+
+export const receivedReviewList: any = {
+  goodMannersList: [
+    { content: '친절하고 매너가 좋아요', count: 56 },
+    { content: '재미있어요', count: 54 },
+    { content: '시간 약속을 잘 지켜요', count: 53 },
+    { content: '공정해요', count: 32 },
+    { content: '보드게임의 신', count: 27 },
+    { content: '다시 만나고싶어요!', count: 27 },
+  ],
+  badMannersList: [
+    { content: '비매너 플레이어', count: 18 },
+    { content: '시간을 안지켜요', count: 5 },
+    { content: '의도가 부적절해요', count: 0 },
+    { content: '공정하지 못해요', count: 3 },
+    { content: '다시 만나기 싫어요!', count: 0 },
+  ],
+};

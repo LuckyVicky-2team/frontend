@@ -1,0 +1,47 @@
+.meetingName {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+
+  .icon {
+    margin-right: 8px;
+  }
+}
+
+.tags {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tagItem {
+  background-color: #f7f7f7;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .tagContent {
+    font-size: 16px;
+    color: #555;
+  }
+
+  .tagCount {
+    display: flex;
+    align-items: center;
+
+    .countIcon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.noManner {
+  font-size: 16px;
+  color: #888;
+  text-align: center;
+  padding: 10px;
+}

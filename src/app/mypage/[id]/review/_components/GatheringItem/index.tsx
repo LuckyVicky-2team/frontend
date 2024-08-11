@@ -1,18 +1,7 @@
 import styles from './GatheringItem.module.scss';
 import Modal from '@/components/common/Modal';
 import useModal from '@/hooks/useModal';
-
-interface GatheringItemProps {
-  item: {
-    id: number;
-    title: string;
-    imageUrl: string;
-    location: string;
-    gatheringDate: string;
-    participantCount: number;
-    capacity: number;
-  };
-}
+import { GatheringItemProps } from '@/app/mypage/mockDataType';
 
 export default function GatheringItem({ item }: GatheringItemProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();

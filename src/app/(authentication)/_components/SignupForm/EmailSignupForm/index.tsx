@@ -5,6 +5,7 @@ import AuthInput from '../../AuthInput';
 import { useForm } from 'react-hook-form';
 import AuthSubmitButton from '../../AuthSubmitButton';
 import { useFunnel } from '@/hooks/useFunnel';
+import AuthTagInput from '../../AuthTagInput';
 import styles from './EmailSignupForm.module.scss';
 
 export default function EmailSignupForm() {
@@ -14,8 +15,9 @@ export default function EmailSignupForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     watch,
+    setValue,
   } = useForm({ mode: 'onBlur' });
 
   return (
@@ -117,11 +119,7 @@ export default function EmailSignupForm() {
           <AuthSubmitButton
             type="button"
             onClick={() => {
-              if (
-                !Object.keys(errors).length &&
-                isEmailDupOk &&
-                isNicknameDupOk
-              ) {
+              if (isValid && isEmailDupOk && isNicknameDupOk) {
                 setStep('second');
               }
             }}>
@@ -130,7 +128,8 @@ export default function EmailSignupForm() {
         </Step>
 
         <Step name="second">
-          <div></div>
+          <AuthTagInput setValue={setValue} />
+          <AuthSubmitButton>확인</AuthSubmitButton>
         </Step>
       </Funnel>
     </form>

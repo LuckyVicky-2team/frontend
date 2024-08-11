@@ -15,7 +15,7 @@ export default function EmailSignupForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     getValues,
     trigger,
@@ -124,9 +124,10 @@ export default function EmailSignupForm() {
           <AuthSubmitButton
             type="button"
             onClick={() => {
-              if (isValid && isEmailDupOk && isNicknameDupOk) {
-                setStep('second');
-              }
+              // if (isValid && isEmailDupOk && isNicknameDupOk) {
+              //   setStep('second');
+              // }
+              setStep('second');
             }}>
             확인
           </AuthSubmitButton>

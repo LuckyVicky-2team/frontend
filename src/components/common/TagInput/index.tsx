@@ -25,14 +25,17 @@ export default function TagInput({
   };
 
   const handleKeyupEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-
     if (e.key === 'Enter') {
       const targetValue = e.currentTarget.value;
-      // 한글과 영어, 숫자만 허용
+      // 한글과 영어, 숫자만 허용(띄어쓰기 금지)
       const tagPattern = /^[a-zA-Z0-9가-힣]+$/;
 
-      if (!targetValue || values.includes(targetValue) || values.length >= 10) {
+      if (
+        !targetValue ||
+        values.includes(targetValue) ||
+        values.length >= 10 ||
+        targetValue.length > 30
+      ) {
         e.currentTarget.value = '';
         return;
       }
@@ -58,7 +61,15 @@ export default function TagInput({
 
   return (
     <div>
-      <Input onKeyUp={handleKeyupEnter} {...props} />
+      <Input
+        onKeyUp={handleKeyupEnter}
+        onKeyDown={e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+        }}
+        {...props}
+      />
       <div className={styles.values}>
         {values.map((value, idx) => {
           return (

@@ -78,18 +78,24 @@ export default function GatheringDetails() {
         <button type="button" onClick={handleShareModalOpen}>
           공유하기
         </button>
-        <Modal modalOpen={shareModalOpen} onClose={handleShareModalClose}>
-          <KakaoShare path={pathname} likeCount={12} sharedCount={30} />
-          {/* <button type="button">카카오로 공유하기</button> */}
-          <button
-            type="button"
-            onClick={() =>
-              handleCopyClipBoard(
-                `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`
-              )
-            }>
-            클립보드 복사하기
-          </button>
+        <Modal
+          modalOpen={shareModalOpen}
+          onClose={handleShareModalClose}
+          maxWidth={400}>
+          <div>
+            <KakaoShare path={pathname} likeCount={12} sharedCount={30} />
+            {/* <button type="button">카카오로 공유하기</button> */}
+            <button
+              type="button"
+              onClick={() =>
+                handleCopyClipBoard(
+                  `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`
+                )
+              }>
+              클립보드
+              복사하기ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
+            </button>
+          </div>
         </Modal>
       </div>
       <button type="button">(마스터) 내보내기</button>

@@ -12,7 +12,7 @@ import styles from './Modal.module.scss';
 //         height: '100vh',
 //         zIndex: '1',
 //       }}>
-//       <button type="button" onClick={handleModalOpen}>
+//       <button type="button" onClick={handleModalOpen} maxWidth={300}>
 //         모달 클릭
 //       </button>
 //       <Modal modalOpen={modalOpen} onClose={handleModalClose}>모달 내용</Modal>
@@ -23,10 +23,11 @@ import styles from './Modal.module.scss';
 interface IModalProps {
   modalOpen: boolean;
   onClose: () => void;
+  maxWidth?: number;
   children: ReactNode | undefined;
 }
 
-function Modal({ modalOpen, onClose, children }: IModalProps) {
+function Modal({ modalOpen, onClose, maxWidth = 300, children }: IModalProps) {
   return (
     <>
       {modalOpen && (
@@ -35,10 +36,8 @@ function Modal({ modalOpen, onClose, children }: IModalProps) {
             onClick={e => {
               e.stopPropagation();
             }}
-            className={styles.modal}>
-            <button type="button" onClick={onClose}>
-              x
-            </button>
+            className={styles.modal}
+            style={{ width: `min(${maxWidth}px, 80%)` }}>
             {children}
           </div>
         </div>

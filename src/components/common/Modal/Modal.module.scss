@@ -21,3 +21,16 @@
   overflow: auto;
   border-radius: 8px;
 }
+
+.fullModal {
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9000;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  border-radius: 8px;
+}

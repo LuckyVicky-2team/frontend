@@ -24,10 +24,17 @@ interface IModalProps {
   modalOpen: boolean;
   onClose: () => void;
   maxWidth?: number;
+  full?: boolean;
   children: ReactNode | undefined;
 }
 
-function Modal({ modalOpen, onClose, maxWidth = 300, children }: IModalProps) {
+function Modal({
+  modalOpen,
+  onClose,
+  maxWidth = 300,
+  full = false,
+  children,
+}: IModalProps) {
   return (
     <>
       {modalOpen && (
@@ -36,8 +43,8 @@ function Modal({ modalOpen, onClose, maxWidth = 300, children }: IModalProps) {
             onClick={e => {
               e.stopPropagation();
             }}
-            className={styles.modal}
-            style={{ width: `min(${maxWidth}px, 80%)` }}>
+            className={full ? styles.fullModal : styles.modal}
+            style={{ width: full ? '100%' : `min(${maxWidth}px, 80%)` }}>
             {children}
           </div>
         </div>

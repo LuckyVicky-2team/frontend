@@ -95,7 +95,9 @@ export default function GatheringDetails() {
       <button type="button">(마스터) 내보내기</button>
       <button type="button">(비멤버) 모임 참여하기</button>
       <button type="button">(멤버) 채팅방으로 가기</button>
-      <button type="button">(마스터) 모임 삭제하기+ 채팅방으로 가기</button>
+      <button type="button">
+        (마스터) 모임 삭제하기+ 채팅방으로 가기+ 모집 완료
+      </button>
     </div>
   );
 }

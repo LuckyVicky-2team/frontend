@@ -157,11 +157,8 @@ export async function POST() {
     const hrefList = (await crawlingList()).slice(0, 4);
     console.log('HREF List:', hrefList.length);
 
-    // for (let i = 0; i < 10; i++) {
-    // await crawling(hrefList[i]);
-    // }
+    // let failed: string[] = [];
     //href들을 4개씩 묶기. (병렬 처리를 위함)
-    let failed: string[] = [];
     const cutting = sliceArray(hrefList, 4);
 
     // cutting 배열 만큼 반복문 돌리기
@@ -173,8 +170,9 @@ export async function POST() {
           return await crawling(href);
         });
         await Promise.all(test);
-      } catch (e) {
-        failed = [...failed, ...hrefs];
+      } catch (error) {
+        // failed = [...failed, ...hrefs];
+        console.log(error);
         continue;
       }
       await delay(1000);

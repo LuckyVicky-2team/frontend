@@ -12,6 +12,6 @@ export type SocialSignupFormType = {
 };
 
 export type SigninFormType = {
-  email: string;
+  username: string;
   password: string;
 };

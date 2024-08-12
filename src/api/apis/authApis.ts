@@ -1,8 +1,19 @@
 import { axiosInstance } from '../instance';
-import { EmailSignupFormType } from '@/types/request/authRequestTypes';
+import {
+  EmailSignupFormType,
+  SocialSignupFormType,
+} from '@/types/request/authRequestTypes';
+
+export const postSigninForm = (formData: FormData) => {
+  return axiosInstance.post('/login', formData);
+};
 
 export const postEmailSignupForm = (data: EmailSignupFormType) => {
-  return axiosInstance.post('/signup', data);
+  return axiosInstance.post('/signup', data, {
+    headers: {
+      'Content-Type': 'mulitpart/form-data',
+    },
+  });
 };
 
 export const getEmailDupCheck = (email: string) => {
@@ -11,4 +22,14 @@ export const getEmailDupCheck = (email: string) => {
 
 export const getNickNameDupCheck = (nickName: string) => {
   return axiosInstance.get(`/check-nickname?nickName=${nickName}`);
+};
+
+export const postSocialSignupForm = (data: SocialSignupFormType) => {
+  return axiosInstance.post('/social/signup', data);
+};
+
+export const getSocialToken = () => {
+  return axiosInstance.get('/token', {
+    withCredentials: true,
+  });
 };

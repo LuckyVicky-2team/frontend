@@ -13,7 +13,7 @@
     justify-content: space-between;
     padding: 25px 25px 40px 25px;
     box-sizing: border-box;
-    background: url('/assets/myPage/profileBg.png') no-repeat center/cover;
+    background: url('/assets/myPageImages/profileBg.png') no-repeat center/cover;
     width: 100%;
 
     h2 {
@@ -83,25 +83,6 @@
           }
         }
       }
-    }
-  }
-}
-
-.prWrap {
-  padding: 25px 0;
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: normal;
-    gap: 10px;
-    flex-wrap: wrap;
-    width: 100%;
-    li {
-      background: #f0f0f0;
-      display: block;
-      padding: 10px 15px;
-      border-radius: 15px;
-      color: #9ca3af;
     }
   }
 }

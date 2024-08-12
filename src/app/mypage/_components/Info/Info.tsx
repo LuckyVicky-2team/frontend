@@ -1,5 +1,4 @@
 import styles from './info.module.scss';
-import Link from 'next/link';
 
 export default function Info() {
   return (
@@ -12,7 +11,7 @@ export default function Info() {
         <div className={styles.bottom}>
           <div className={styles.profileImg}>
             <button>
-              <img src="/assets/myPage/profileImgEdit.png" alt="" />
+              <img src="/assets/myPageImages/profileImgEdit.png" alt="" />
             </button>
           </div>
           <div className={styles.rightInfo}>
@@ -33,35 +32,6 @@ export default function Info() {
           </div>
         </div>
       </div>
-      <div className={styles.prWrap}>
-        <ul>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-          <li>PR태그</li>
-        </ul>
-      </div>
-      <ul>
-        <li>
-          <Link href="/">친구목록</Link>
-        </li>
-        <li>
-          <Link href="/">내 모임</Link>
-        </li>
-        <li>
-          <Link href="/">찜한 모임</Link>
-        </li>
-        <li>
-          <Link href="/">알림 설정</Link>
-        </li>
-        <li>
-          <Link href="/">리뷰</Link>
-        </li>
-      </ul>
     </div>
   );
 }

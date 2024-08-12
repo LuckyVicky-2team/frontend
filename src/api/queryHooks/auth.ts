@@ -1,10 +1,33 @@
 import { useMutation } from '@tanstack/react-query';
-import { EmailSignupFormType } from '@/types/request/authRequestTypes';
-import { postEmailSignupForm } from '../apis/authApis';
+import {
+  EmailSignupFormType,
+  SocialSignupFormType,
+} from '@/types/request/authRequestTypes';
+import {
+  postEmailSignupForm,
+  postSigninForm,
+  postSocialSignupForm,
+} from '../apis/authApis';
+
+export const usePostSigninForm = () => {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      await postSigninForm(data);
+    },
+  });
+};
 
 export const usePostEmailSignupForm = () => {
   return useMutation({
     mutationFn: async (data: EmailSignupFormType) =>
       await postEmailSignupForm(data),
+  });
+};
+
+export const usePostSocialSignupForm = () => {
+  return useMutation({
+    mutationFn: async (data: SocialSignupFormType) => {
+      await postSocialSignupForm(data);
+    },
   });
 };

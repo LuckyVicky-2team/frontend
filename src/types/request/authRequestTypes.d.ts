@@ -5,3 +5,13 @@ export type EmailSignupFormType = {
   prTags: string[];
   providerType: 'LOCAL';
 };
+
+export type SocialSignupFormType = {
+  nickName: string;
+  prTags: string[];
+};
+
+export type SigninFormType = {
+  email: string;
+  password: string;
+};

@@ -36,6 +36,9 @@
 
 .friendsListWrap {
   .friendsList {
+    &:last-child {
+      border-bottom: 1px solid #ddd;
+    }
     .friendsItem {
       display: flex;
       align-items: center;
@@ -44,9 +47,6 @@
       padding: 15px 0;
       border-top: 1px solid #ddd;
       position: relative;
-      &:last-child {
-        border-bottom: 1px solid #ddd;
-      }
       b {
         display: block;
         img {
@@ -75,6 +75,7 @@
       justify-content: center;
       flex-direction: column;
       display: none;
+      padding-bottom: 15px;
 
       h3 {
         color: #9ca3af;
@@ -103,5 +104,11 @@
         }
       }
     }
+  }
+}
+
+.friendsList.on {
+  .deleteFriends {
+    display: flex;
   }
 }

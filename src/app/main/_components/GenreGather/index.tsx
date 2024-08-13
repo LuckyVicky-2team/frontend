@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from './GenreGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+// import { useRef } from 'react';
 interface DateData {
   id: number;
   title: string;
@@ -22,10 +23,23 @@ interface DateData {
 export default function GenreGather() {
   const [heart, setHeart] = useState<boolean>(false);
   // const scrollContainerRef = useRef<HTMLUListElement>(null);
+  const [slidePx, setSlidePx] = useState(0);
 
   const handleHeartChange = () => {
     setHeart(prevHeart => !prevHeart);
   };
+
+  const prevSlideBtn = () => {
+    if (slidePx < 0) {
+      setSlidePx(slidePx + 200);
+    }
+  };
+  const nextSlideBtn = () => {
+    if (slidePx > -500) {
+      setSlidePx(slidePx - 200);
+    }
+  };
+
   const data: DateData[] = [
     {
       id: 1,
@@ -174,14 +188,50 @@ export default function GenreGather() {
       <div className={styles.lineTitle}>
         <p>추리게임</p>
       </div>
+
       <ul
         className={styles.genreList}
-        // ref={scrollContainerRef}
         // onMouseDown={handleMouseDown}
       >
+        {slidePx != 0 && (
+          <button
+            onClick={() => {
+              prevSlideBtn();
+            }}
+            className={styles.prevBtn}>
+            <Image
+              width={20}
+              height={20}
+              objectFit="cover"
+              src={'/assets/mainImages/backIcon.svg'}
+              alt="왼쪽 슬라이드 버튼"
+            />
+          </button>
+        )}
+        {slidePx != -600 && (
+          <button
+            onClick={() => {
+              nextSlideBtn();
+            }}
+            className={styles.nextBtn}>
+            <Image
+              width={20}
+              height={20}
+              objectFit="cover"
+              src={'/assets/mainImages/backIcon.svg'}
+              alt="오른쪽 슬라이드 버튼"
+            />
+          </button>
+        )}
+
         {data.map(e => {
           return (
-            <li key={e.id}>
+            <li
+              key={e.id}
+              style={{
+                transform: `translateX(${slidePx}%)`,
+                transition: '0.3s ease all',
+              }}>
               <Link href="/">
                 <span className={styles.deadLineIco}>
                   <Image

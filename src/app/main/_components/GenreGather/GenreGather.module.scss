@@ -49,8 +49,42 @@
   width: 100%;
   white-space: nowrap;
   overflow-x: scroll;
-  // scrollbar-width: none;
-  cursor: grab;
+  position: relative;
+  .prevBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    left: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    img {
+      display: block;
+    }
+  }
+  .nextBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    right: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+    img {
+      transform: rotate(180deg);
+    }
+  }
   li {
     display: inline-block;
     width: 32%;

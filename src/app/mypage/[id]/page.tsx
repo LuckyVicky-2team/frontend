@@ -1,8 +1,34 @@
+'use client';
 import styles from './mypage.module.scss';
 import Info from '../_components/Info/Info';
 import Link from 'next/link';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+
+// interface PersonalInfo {
+//   name: string;
+// }
 
 export default function MyPage() {
+  // const [info, setInfo] = useState<PersonalInfo | null>(null);
+
+  // useEffect(() => {
+  //   const fetchInfo = async () => {
+  //     try {
+  //       const res = await axios.get<PersonalInfo>(
+  //         'http://54.180.60.122:8080/personal-info'
+  //       );
+  //       setInfo(res.data);
+  //     } catch (err) {
+  //       console.error('fetch err : ', err);
+  //     }
+  //   };
+
+  //   fetchInfo();
+  // }, []);
+
+  // console.log('info :', info);
+
   return (
     <div className={styles.relative}>
       <h1 className={styles.title}>마이페이지</h1>

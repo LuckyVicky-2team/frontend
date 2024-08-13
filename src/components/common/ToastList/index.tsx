@@ -8,7 +8,7 @@ const ToastList = () => {
 
   return (
     <div className={styles.container}>
-      {toasts.reverse().map(toast => (
+      {toasts.toReversed().map(toast => (
         <button
           key={toast.id}
           className={`${styles.toast} ${styles[toast.type]}`}

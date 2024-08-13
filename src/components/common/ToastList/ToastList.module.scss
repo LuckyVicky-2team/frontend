@@ -10,11 +10,14 @@
 }
 
 @keyframes disappear {
-  from {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
     opacity: 0.8;
   }
   to {
-    opacity: 0.1;
+    opacity: 0;
   }
 }
 
@@ -39,7 +42,7 @@
     line-height: normal;
     animation:
       slideDown 0.3s ease forwards,
-      disappear 3s ease forwards;
+      disappear 4s ease forwards;
 
     &.success {
       background-color: #005cbf;

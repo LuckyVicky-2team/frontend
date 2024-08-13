@@ -34,7 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     (message: string, type: 'success' | 'error') => {
       const id = Math.random().toString(36).substr(2, 9);
       setToasts(prevToasts => [...prevToasts, { id, message, type }]);
-      setTimeout(() => removeToast(id), 3000);
+      setTimeout(() => removeToast(id), 4000);
     },
     [removeToast]
   );

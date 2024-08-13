@@ -13,10 +13,10 @@ import styles from './Modal.module.scss';
 //         height: '100vh',
 //         zIndex: '1',
 //       }}>
-//       <button type="button" onClick={handleModalOpen} maxWidth={300}>
+//       <button type="button" onClick={handleModalOpen}>
 //         모달 클릭
 //       </button>
-//       <Modal modalOpen={modalOpen} onClose={handleModalClose}>모달 내용</Modal>
+//       <Modal modalOpen={modalOpen} onClose={handleModalClose} maxWidth={300}>모달 내용</Modal>
 //     </div>
 //   );
 // }
@@ -29,7 +29,7 @@ interface IModalProps {
   children: ReactNode | undefined;
 }
 
-function Modal({
+export default function Modal({
   modalOpen,
   onClose,
   maxWidth = 300,
@@ -40,15 +40,14 @@ function Modal({
     <>
       <div
         onClick={onClose}
-        className={modalOpen ? styles.modalBackground : ''}>
+        className={full ? '' : modalOpen ? styles.modalBackground : ''}>
         <div
           onClick={e => {
             e.stopPropagation();
           }}
-          className={`${full ? styles.fullModal : styles.modal} ${modalOpen ? styles.slideUp : styles.slideDown}`}
+          className={`${full ? styles.fullModal : modalOpen ? styles.modal : styles.none} ${full ? (modalOpen ? styles.slideUp : styles.slideDown) : ''}`}
           style={{
             width: full ? '' : `min(${maxWidth}px, 80%)`,
-            height: '100vh',
           }}>
           {full && (
             <button type="button" onClick={onClose}>
@@ -61,4 +60,3 @@ function Modal({
     </>
   );
 }
-export default Modal;

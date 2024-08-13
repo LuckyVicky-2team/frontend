@@ -5,6 +5,7 @@ import ReactQueryProvider from '@/components/ReactQueryProvider';
 import './globals.scss';
 import Header from './main/_components/Header/Header';
 import Footer from './main/_components/Footer/Footer';
+import { ToastProvider } from '@/contexts/toastContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,11 +22,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <Header />
-        <div className="rootContainer">
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </div>
-        <Footer />
+        <ToastProvider>
+          <Header />
+          <div className="rootContainer">
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </div>
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

@@ -9,7 +9,7 @@ interface IAuthHeaderProps {
 export default function AuthHeader({ title, text }: IAuthHeaderProps) {
   return (
     <div className={styles.logo}>
-      <Link href="/">
+      <Link href="/main">
         <h1 className={styles.title}>BOGO</h1>
       </Link>
       <h2 className={styles.subTitle}>{title}</h2>

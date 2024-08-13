@@ -77,7 +77,8 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
           Buffer.from(JSON.stringify({ title, people, age, time }), 'utf-8'),
           { filename: 'request.json', contentType: 'application/json' }
         );
-
+        //장르 추가, 최소, 최대 인원, 최소, 최대 시간, age 빼기, 데이터 4개씩 보내기
+        //[{title: '~'}]
         // 결과 배열에 추가
         results.push(formData);
       }

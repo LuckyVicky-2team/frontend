@@ -3,6 +3,7 @@ import styles from './Modal.module.scss';
 
 // 사용 예시
 // useModal을 사용하여 생성한 modalOpen과 handleModalClose를 Modal 컴포넌트의 Props로 내려줍니다.
+// 화면을 꽉 채우는 모달의 경우 full을 props로 내려줍니다.
 // function Page() {
 //   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 //   return (
@@ -37,18 +38,26 @@ function Modal({
 }: IModalProps) {
   return (
     <>
-      {modalOpen && (
-        <div onClick={onClose} className={styles.modalBackground}>
-          <div
-            onClick={e => {
-              e.stopPropagation();
-            }}
-            className={full ? styles.fullModal : styles.modal}
-            style={{ width: full ? '100%' : `min(${maxWidth}px, 80%)` }}>
-            {children}
-          </div>
+      <div
+        onClick={onClose}
+        className={modalOpen ? styles.modalBackground : ''}>
+        <div
+          onClick={e => {
+            e.stopPropagation();
+          }}
+          className={`${full ? styles.fullModal : styles.modal} ${modalOpen ? styles.slideUp : styles.slideDown}`}
+          style={{
+            width: full ? '' : `min(${maxWidth}px, 80%)`,
+            height: '100vh',
+          }}>
+          {full && (
+            <button type="button" onClick={onClose}>
+              x
+            </button>
+          )}
+          {children}
         </div>
-      )}
+      </div>
     </>
   );
 }

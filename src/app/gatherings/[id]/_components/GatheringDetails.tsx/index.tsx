@@ -81,7 +81,8 @@ export default function GatheringDetails() {
         <Modal
           modalOpen={shareModalOpen}
           onClose={handleShareModalClose}
-          maxWidth={400}>
+          maxWidth={400}
+          full>
           <div>
             <KakaoShare path={pathname} likeCount={12} sharedCount={30} />
             {/* <button type="button">카카오로 공유하기</button> */}

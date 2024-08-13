@@ -1,0 +1,52 @@
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0.1;
+  }
+}
+
+.container {
+  position: fixed;
+  top: 30px;
+  left: calc(50% - 155px);
+  z-index: 9999;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .toast {
+    width: 100%;
+    padding: 15px 20px;
+    text-align: center;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    animation:
+      slideDown 0.3s ease forwards,
+      disappear 3s ease forwards;
+
+    &.success {
+      background-color: #005cbf;
+    }
+
+    &.error {
+      background-color: #dd111e;
+    }
+  }
+}

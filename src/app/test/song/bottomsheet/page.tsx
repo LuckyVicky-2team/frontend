@@ -13,7 +13,7 @@ export default function BottomSheetPage() {
         zIndex: '1',
       }}>
       <button onClick={handleModalOpen}>바텀시트 열기</button>
-      <BottomSheet isOpen={modalOpen} onClose={handleModalClose}>
+      <BottomSheet isOpen={modalOpen} onClose={handleModalClose} full>
         <p>안녕!</p>
         <p>안녕!</p>
         <p>안녕!</p>

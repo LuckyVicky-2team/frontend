@@ -1,37 +1,121 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import styles from './BottomSheet.module.scss';
+
+// 사용 예시
+// 'use client';
+// import BottomSheet from '@/components/common/BottomSheet';
+// import useModal from '@/hooks/useModal';
+
+// export default function ExamplePage() {
+//   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+
+//   return (
+//     <div
+//       style={{
+//         backgroundColor: 'white',
+//         height: '100vh',
+//         zIndex: '1',
+//       }}>
+//       <button onClick={handleModalOpen}>바텀시트 열기</button>
+//       <BottomSheet isOpen={modalOpen} onClose={handleModalClose}>
+//         <p>안녕!</p>
+//         <p>안녕!</p>
+//         <p>안녕!</p>
+//         <p>안녕!</p>
+//       </BottomSheet>
+//     </div>
+//   );
+// }
 
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  full?: boolean;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
   onClose,
   children,
+  full = false,
 }) => {
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const backgroundRef = useRef(null);
+
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    console.log(backgroundRef.current);
+    console.log(e.target);
+    // console.log('a', e.)
+    if (backgroundRef.current === e.target && !isDragging) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsFullScreen(false);
+    }
+  }, [isOpen]);
+
+  // dragElastic을 0으로 설정하지 않고, spring options로 컨트롤
+  //
+
   return (
     <div
       className={isOpen ? styles.backgroundOn : styles.backgroundOff}
-      onClick={onClose}>
+      onClick={handleBackgroundClick}
+      ref={backgroundRef}>
       <motion.div
-        className={styles.bottomSheet}
+        className={`${styles.bottomSheet} ${isFullScreen ? styles.fullScreen : ''}`}
         initial={{ y: '130%' }} // 초기 위치: 화면 아래
         animate={{ y: isOpen ? '0%' : '130%' }} // 열릴 때와 닫힐 때의 위치
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }} // 애니메이션 설정
+        // dragElastic={0}
+        transition={
+          // isFullScreen
+          //   ? {
+          //       type: 'inertia',
+          //       duration: 0.5,
+          //       // ease: 'easeInOut',
+          //     }
+          //   :
+          { type: 'spring', stiffness: 300, damping: 30 }
+        } // 애니메이션 설정
         drag="y" // 수직 드래그 가능
         dragConstraints={{ top: 0, bottom: 0 }} // 드래그 범위 설정
+        onDragStart={() => {
+          setIsDragging(true);
+        }}
         onDragEnd={(event, info) => {
-          if (info.offset.y > 100) {
+          if (info.velocity.y > 100 || info.offset.y > 100) {
             // 드래그가 100px 이상 내려가면 닫기
+            //fullScreen일 때는 다시 중간단계로 돌아가기
+            if (isFullScreen) {
+              setIsFullScreen(false);
+              setIsDragging(false);
+              return;
+            }
             onClose();
+            setIsFullScreen(false);
           }
+          if (full && !isFullScreen && info.offset.y < -10) {
+            setIsFullScreen(true);
+          }
+          setIsDragging(false);
           void event;
         }}>
-        <div>{children}</div>
+        <motion.div
+          style={{ height: isFullScreen ? '100vh' : '' }}
+          // transition={{
+          //   duration: 0.5,
+          //   ease: 'easeOut',
+          //   // ease: 'easeInOut',
+          // }} // 애니메이션 설정
+        >
+          {children}
+        </motion.div>
         <div style={{ height: '600px' }} />
       </motion.div>
     </div>

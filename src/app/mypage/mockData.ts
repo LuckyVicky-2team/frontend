@@ -112,7 +112,9 @@ export const gatheringList: any[] = [
     imageUrl: '',
     location: '서울시 동작구',
     gatheringDate: '2023.08.07 19:00',
-
+    content: '',
+    participantCount: 2,
+    capacity: 4,
     participants: [
       {
         userId: 'user_5678',
@@ -132,6 +134,17 @@ export const gatheringList: any[] = [
     gatheringDate: '2024.04.05 13:00',
     participantCount: 3,
     capacity: 3,
+    content: '1 contents',
+    participants: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+      },
+    ],
   },
   {
     id: 3,
@@ -141,6 +154,17 @@ export const gatheringList: any[] = [
     gatheringDate: '2024.07.10 20:00',
     participantCount: 7,
     capacity: 7,
+    content: '2 contents',
+    participants: [
+      {
+        userId: 'user_5678',
+        userName: 'Alice',
+      },
+      {
+        userId: 'user_91011',
+        userName: 'Bob',
+      },
+    ],
   },
 ];
 
@@ -204,6 +228,10 @@ export const writtenReviewList: any[] = [
           '#시간을 안지켜요',
           '#다시 만나고싶어요!',
           '#공정하지 못해요',
+          '#재미있어요',
+          '#보드게임의 신',
+          '#시간을 안지켜요',
+          '#다시 만나고싶어요!',
         ],
       },
       {
@@ -262,18 +290,25 @@ export const writtenReviewList: any[] = [
 
 export const receivedReviewList: any = {
   goodMannersList: [
-    { content: '친절하고 매너가 좋아요', count: 56 },
-    { content: '재미있어요', count: 54 },
-    { content: '시간 약속을 잘 지켜요', count: 53 },
-    { content: '공정해요', count: 32 },
-    { content: '보드게임의 신', count: 27 },
-    { content: '다시 만나고싶어요!', count: 27 },
+    { id: 1, content: '친절하고 매너가 좋아요', count: 56 },
+    { id: 2, content: '재미있어요', count: 54 },
+    { id: 3, content: '시간 약속을 잘 지켜요', count: 53 },
+    { id: 4, content: '공정해요', count: 32 },
+    { id: 5, content: '보드게임의 신', count: 27 },
+    { id: 6, content: '다시 만나고싶어요!', count: 27 },
   ],
   badMannersList: [
-    { content: '비매너 플레이어', count: 18 },
-    { content: '시간을 안지켜요', count: 5 },
-    { content: '의도가 부적절해요', count: 0 },
-    { content: '공정하지 못해요', count: 3 },
-    { content: '다시 만나기 싫어요!', count: 0 },
+    { id: 7, content: '비매너 플레이어', count: 18 },
+    { id: 8, content: '시간을 안지켜요', count: 5 },
+    { id: 9, content: '의도가 부적절해요', count: 0 },
+    { id: 10, content: '공정하지 못해요', count: 3 },
+    { id: 11, content: '다시 만나기 싫어요!', count: 0 },
   ],
 };
+
+// {gatheringID : ['id1','id2],
+//    gatheringDrafts: {
+//        'id1':[{userId:'user1',rating:4, mannerIds:[1,3,5]}],
+//        'id2':[{userId:'user2',rating:2,mannerIds:[2,4,6]}]
+//      }
+//  }

@@ -4,6 +4,7 @@ import styles from './WrittenReviewItem.module.scss';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import { IMeetingReviewProps } from '@/app/mypage/mockDataType';
+import Rating from '@/components/common/Rating';
 
 export default function WrittenReviewItem({ item }: IMeetingReviewProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
@@ -30,7 +31,7 @@ export default function WrittenReviewItem({ item }: IMeetingReviewProps) {
         </div>
 
         <Modal modalOpen={modalOpen} onClose={handleModalClose}>
-          <div className={styles.gatheringModal}>
+          <div className={styles.detailModal}>
             <div className={styles.modalHeader}>
               <h2>{item.title}</h2>
               <span>{item.gatheringDate}</span>
@@ -40,22 +41,8 @@ export default function WrittenReviewItem({ item }: IMeetingReviewProps) {
             <div className={styles.reviewList}>
               {item.reviewedUsers.map(user => (
                 <div key={user.userId} className={styles.reviewedUser}>
-                  <div>
-                    <h4>{user.userName}</h4>
-                    <div className={styles.rating}>
-                      {Array.from({ length: 5 }, (_, i) => (
-                        <span
-                          key={i}
-                          className={
-                            i < user.rating
-                              ? styles.filledStar
-                              : styles.emptyStar
-                          }>
-                          ★
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  <h4>{user.userName}</h4>
+                  <Rating rating={user.rating} readable />
                   <div className={styles.tags}>
                     {user.tags.map((tag, index) => (
                       <span key={index} className={styles.tag}>

@@ -90,6 +90,7 @@ export interface IMeetingReviewProps {
 interface Manner {
   content: string;
   count: number;
+  id: number;
 }
 
 export interface IReceivedReviewItemProps {
@@ -106,5 +107,7 @@ export interface GatheringItemProps {
     gatheringDate: string;
     participantCount: number;
     capacity: number;
+    content: string;
+    participants: any[];
   };
 }

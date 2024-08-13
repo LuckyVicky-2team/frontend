@@ -4,28 +4,125 @@
   margin-bottom: 16px;
   border-radius: 8px;
   background-color: #f9f9f9;
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+  }
+  p {
+    margin: 4px 0;
+    color: #555;
+  }
+  .writeBtn {
+    margin-top: 8px;
+    padding: 8px 16px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      background-color: #005bb5;
+    }
+  }
 }
 
-.gatheringItem h3 {
-  margin: 0 0 8px 0;
-  font-size: 18px;
+.detailModal {
+  max-width: 600px;
+  width: 590px;
+  height: 400px;
+  background-color: white;
+  overflow-y: auto;
+  border-radius: 10px;
+
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  .modalHeader {
+    padding: 15px 30px 0px 20px;
+
+    z-index: 1000;
+    background-color: white;
+    position: sticky;
+    top: 0;
+
+    .titleAndDate {
+      display: flex;
+      justify-content: space-between;
+      h2 {
+        max-width: 70%;
+      }
+      span {
+        transform: translateY(10%);
+      }
+    }
+  }
+  h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  p {
+    margin: 12px 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .listContainer {
+    padding: 15px 20px 20px 20px;
+
+    .participantslist {
+      padding: 4px 0;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+      background-color: #f9f9f9;
+      border-radius: 14px;
+      overflow-y: auto;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      .user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        min-height: 50px;
+        border-radius: 14px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #e0e0e0; // 밝은 회색으로 변경
+        }
+
+        button {
+          cursor: pointer;
+          border: none;
+          background-color: #007aff;
+          color: white;
+          padding: 6px 12px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #006ee6;
+          }
+          &:active {
+            background-color: #0062cc;
+          }
+        }
+      }
+    }
+  }
 }
 
-.gatheringItem p {
-  margin: 4px 0;
-  color: #555;
-}
-
-.gatheringItem button {
-  margin-top: 8px;
-  padding: 8px 16px;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.gatheringItem button:hover {
-  background-color: #005bb5;
+//320-600px mobile
+@media screen and (max-width: 590px) {
+  .detailModal {
+    width: 100vw;
+    height: calc(400px * 2 / 3); /* 400px의 2/3 */
+    padding: 24px 15px 15px 15px;
+  }
 }

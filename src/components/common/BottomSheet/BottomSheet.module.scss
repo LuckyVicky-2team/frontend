@@ -1,65 +1,39 @@
-.modalBackground {
-  width: min(600px, 100%);
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
+.backgroundOff {
+  display: flex;
+  justify-content: center;
   position: fixed;
-  top: 0;
-  bottom: 0;
+  top: 100%;
   left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 9000;
-}
-
-.modal {
-  background-color: white;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 9000;
-  max-height: 800px;
-  max-width: 600px;
-  overflow: auto;
-  border-radius: 8px;
-}
-
-.fullModal {
-  background-color: white;
-  z-index: 9000;
-  width: min(100%, 600px);
-  position: fixed;
-  left: 50%;
-  top: 0;
-  bottom: 0;
   transform: translateX(-50%);
-  overflow: hidden;
+  width: min(600px, 100%);
+  height: 0px;
+  z-index: 9000;
 }
 
-.slideUp {
-  transform: translate(-50%, 0);
-  transition: transform 0.2s ease-out;
-}
-
-.slideDown {
-  transform: translate(-50%, 100%);
-  transition: transform 0.2s ease-in;
+.backgroundOn {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: min(600px, 100%);
+  z-index: 9000;
 }
 
 .bottomSheet {
   position: fixed;
-  bottom: -100%; // 초기 위치: 화면 아래
+  bottom: -600px;
   left: 0;
-  width: 100%;
-  height: 300px;
+  width: min(600px, 100%);
+
   background-color: white;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.open {
-  transform: translateY(-100%); // 화면에 표시될 때
+  border-radius: 16px 16px 0 0; // 위쪽 모서리 둥글게
+  z-index: 9000;
 }
 
 .content {
-  padding: 20px;
+  padding: 20px; // 내용 패딩
 }

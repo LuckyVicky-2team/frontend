@@ -12,11 +12,26 @@ export default function BottomSheetPage() {
         height: '100vh',
         zIndex: '1',
       }}>
-      <button type="button" onClick={handleModalOpen}>
-        바텀시트 클릭
-      </button>
-      <BottomSheet modalOpen={modalOpen} onClose={handleModalClose}>
-        바텀시트 내용
+      <button onClick={handleModalOpen}>바텀시트 열기</button>
+      <BottomSheet isOpen={modalOpen} onClose={handleModalClose}>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
+        <p>안녕!</p>
       </BottomSheet>
     </div>
   );

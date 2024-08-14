@@ -1,4 +1,4 @@
-import styles from '@/components/common/Loader/Loader.module.scss';
+import styles from './Spinner.module.scss';
 
 export default function Spinner() {
   return <div className={styles.spinner}></div>;

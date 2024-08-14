@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer';
 import FormData from 'form-data';
 import axios from 'axios';
 import sharp from 'sharp';
+import { axiosInstance } from '@/api/instance';
 
 //장르 추가, 최소, 최대 인원, 최소, 최대 시간, age 빼기
 
@@ -11,6 +12,7 @@ interface IGameInfo {
   title: string;
   people: string;
   time: string;
+  genres: string[] | null;
 }
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -40,7 +42,41 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
 
   for (const item of query) {
     const formData = new FormData();
-    const { image, title, people, time } = item;
+    const { image, title, people, time, genres } = item;
+
+    //people을 minPeople과 maxPeople로 분리
+    let minPeople, maxPeople;
+
+    // 숫자와 '-'를 기준으로 문자열을 분리
+    const parts = people.split('-');
+
+    if (parts.length === 2) {
+      // '1-4명'과 같은 경우
+      minPeople = parseInt(parts[0].trim(), 10);
+      maxPeople = parseInt(parts[1].trim().replace('명', ''), 10);
+    } else {
+      // '2명'과 같은 경우
+      minPeople = maxPeople = parseInt(parts[0].trim().replace('명', ''), 10);
+    }
+
+    //time을 minTime과 maxTime으로 분리
+    let minPlayTime, maxPlayTime;
+
+    // 숫자와 '-'를 기준으로 문자열을 분리
+    const timeParts = time.split('-');
+
+    if (timeParts.length === 2) {
+      // '60-120분'과 같은 경우
+      minPlayTime = parseInt(timeParts[0].trim(), 10);
+      maxPlayTime = parseInt(timeParts[1].trim().replace('분', ''), 10);
+    } else {
+      // '60분'과 같은 경우
+      minPlayTime = maxPlayTime = parseInt(
+        timeParts[0].trim().replace('분', ''),
+        10
+      );
+    }
+
     try {
       // Puppeteer를 사용하여 페이지 열기
       const browser = await puppeteer.launch();
@@ -67,15 +103,25 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
         const jpgBuffer = await sharp(imageBuffer).jpeg().toBuffer();
 
         // jpg 이미지를 FormData에 추가
-        formData.append('file', jpgBuffer, {
+        formData.append('imageFileList', jpgBuffer, {
           filename: `${title}.jpg`,
           contentType: 'image/jpeg',
         });
 
         // 나머지 데이터를 FormData에 추가
         formData.append(
-          'requestDTO',
-          Buffer.from(JSON.stringify({ title, people, time }), 'utf-8'),
+          'boardGameCreateListRequest',
+          Buffer.from(
+            JSON.stringify({
+              title,
+              minPeople,
+              maxPeople,
+              minPlayTime,
+              maxPlayTime,
+              genres,
+            }),
+            'utf-8'
+          ),
           { filename: 'request.json', contentType: 'application/json' }
         );
 
@@ -111,11 +157,55 @@ export async function POST() {
           elements => elements.map(el => (el as HTMLElement).innerText)
         );
         void _;
+
+        await page.waitForSelector('#game-top-btn-credits');
+        const creditsButton = await page.$('#game-top-btn-credits');
+        // console.log(creditsButton);
+        if (creditsButton) {
+          await creditsButton.click();
+          // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
+          // 마지막 '.credits-row .title' 요소가 나타날 때까지 기다림
+          await page.waitForSelector('.credits-row .title');
+        }
+
+        // const genres = await page.$$eval('.credits-row .title', elements =>
+        //   elements.map(el => (el as HTMLElement).innerText)
+        // );
+        // console.log(genres);
+
+        const genres = await page.evaluate(() => {
+          // '카테고리'라는 텍스트를 포함하는 요소를 찾기
+          const wrapper = document.querySelectorAll('.title-wrapper');
+          const wrapperElements = Array.from(wrapper).find(el =>
+            el.textContent?.includes('카테고리')
+          );
+
+          if (!wrapperElements) {
+            return null; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
+          }
+
+          const childrenElements =
+            wrapperElements && Array.from(wrapperElements.children);
+
+          const targets = childrenElements?.filter(element =>
+            element.querySelector('.credits-row')
+          )[0].children;
+
+          if (!targets) {
+            return null;
+          }
+
+          return Array.from(targets).map(
+            target => (target.children[0] as HTMLElement).innerText
+          );
+        });
+
         data.push({
           image,
           title,
           people,
           time,
+          genres,
         });
       } finally {
         await page.close();
@@ -140,6 +230,7 @@ export async function POST() {
             }
           });
           // "다음" 버튼이 존재하는지 확인하고 클릭
+          await page.waitForSelector('.paging-btn .next');
           const nextButton = await page.$('.paging-btn .next');
           if (nextButton) {
             await nextButton.click();
@@ -154,9 +245,8 @@ export async function POST() {
       return hrefList;
     };
 
-    const hrefList = (await crawlingList()).slice(0, 4);
-    console.log('HREF List:', hrefList.length);
-
+    const hrefList = await crawlingList();
+    console.log(hrefList.length);
     // let failed: string[] = [];
     //href들을 4개씩 묶기. (병렬 처리를 위함)
     const cutting = sliceArray(hrefList, 4);
@@ -182,21 +272,19 @@ export async function POST() {
 
     // console.log('==> failed: ', failed.length);
     // console.log('==> data length:', data.length);
+    // console.log(data);
     // 크롤링한 정보를 형식에 맞게 가공
     const results = await convertAndCreateFormData(data);
     void results;
     // console.log('FormData results:', results);
 
     // 크롤링한 데이터를 백엔드 API로 전송
-    // const backendResponse = await axios.post(
-    //   'https://your-backend-api.com/save',
-    //   data
-    // );
+    const backendResponse = await axiosInstance.post('/boardgame', data);
 
     return NextResponse.json({
       message: 'Crawling and data transfer successful',
       // backendResponse: backendResponse.data,
-      backendResponse: null,
+      backendResponse,
     });
   } catch (error) {
     console.error('Error during crawling or data transfer:', error);

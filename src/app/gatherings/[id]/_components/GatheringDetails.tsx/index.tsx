@@ -90,7 +90,7 @@ export default function GatheringDetails() {
               type="button"
               onClick={() =>
                 handleCopyClipBoard(
-                  `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`
+                  `${process.env.NEXT_PUBLIC_DEPLOY_URL}${pathname}`
                 )
               }>
               클립보드

@@ -7,7 +7,7 @@
 // <div
 // 	onClick={() =>
 // handleCopyClipBoard(
-//   `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`
+//   `${process.env.NEXT_PUBLIC_DEPLOY_URL}${pathname}`
 // )
 // }>
 // ></div>

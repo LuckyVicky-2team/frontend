@@ -3,7 +3,7 @@
 import { useToast } from '@/contexts/toastContext';
 import styles from './ToastList.module.scss';
 
-const ToastList = () => {
+export default function ToastList() {
   const { toasts, removeToast } = useToast();
 
   return (
@@ -20,6 +20,4 @@ const ToastList = () => {
       ))}
     </div>
   );
-};
-
-export default ToastList;
+}

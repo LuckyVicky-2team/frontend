@@ -10,25 +10,6 @@ import Link from 'next/link';
 // }
 
 export default function MyPage() {
-  // const [info, setInfo] = useState<PersonalInfo | null>(null);
-
-  // useEffect(() => {
-  //   const fetchInfo = async () => {
-  //     try {
-  //       const res = await axios.get<PersonalInfo>(
-  //
-  //       );
-  //       setInfo(res.data);
-  //     } catch (err) {
-  //       console.error('fetch err : ', err);
-  //     }
-  //   };
-
-  //   fetchInfo();
-  // }, []);
-
-  // console.log('info :', info);
-
   return (
     <div className={styles.relative}>
       <h1 className={styles.title}>마이페이지</h1>

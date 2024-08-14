@@ -24,7 +24,7 @@ export default function Signin() {
         </Link>
         <div className={styles.socialLogin}>
           <Link
-            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`}
+            href={`https://zingy-strudel-7dad97.netlify.app/oauth2/authorization/google`}
             className={`${styles.roundButton} ${styles.google}`}>
             <Image
               src="/assets/icons/google_logo.svg"
@@ -34,7 +34,7 @@ export default function Signin() {
             />
           </Link>
           <Link
-            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/kakao`}
+            href={`https://zingy-strudel-7dad97.netlify.app/oauth2/authorization/kakao`}
             className={`${styles.roundButton} ${styles.kakao}`}>
             <Image
               src="/assets/icons/kakao_logo.svg"

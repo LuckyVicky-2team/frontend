@@ -16,7 +16,7 @@ export default function MyPage() {
   //   const fetchInfo = async () => {
   //     try {
   //       const res = await axios.get<PersonalInfo>(
-  //         'http://54.180.60.122:8080/personal-info'
+  //
   //       );
   //       setInfo(res.data);
   //     } catch (err) {

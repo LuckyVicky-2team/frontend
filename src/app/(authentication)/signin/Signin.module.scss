@@ -1,18 +1,8 @@
 .container {
-  padding: 104px 25px 43px;
+  padding: 35px 25px 57px;
   display: flex;
   flex-direction: column;
   gap: 30px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  button {
-    margin-top: 5px;
-  }
 }
 
 .buttons {
@@ -21,50 +11,39 @@
   align-items: center;
   border-top: 1px solid #e5e7eb;
   gap: 12px;
-  padding-top: 12px;
+  padding-top: 40px;
+  margin-top: 10px;
 
-  .guideLink {
+  .guideButton {
     color: #1f2937;
     font-size: 15px;
     font-weight: 500;
     line-height: normal;
-    margin-bottom: 32px;
-  }
-}
-
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  border-radius: 32px;
-  height: 56px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.64px;
-
-  &:hover {
-    opacity: 0.8;
+    margin-bottom: 18px;
   }
 
-  &:active {
-    opacity: 0.6;
-  }
-
-  &.login {
-    color: #ffffff;
-    background-color: #3e82f1;
-
-    &:disabled {
-      background-color: #9ca3af;
-    }
-  }
-
-  &.email {
+  .squareButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border-radius: 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.64px;
     position: relative;
     color: #3e82f1;
     border: 2px solid #3e82f1;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
 
     .balloon {
       position: absolute;
@@ -73,13 +52,26 @@
     }
   }
 
-  &.google {
-    color: #757575;
-    border: 1px solid #eee;
-  }
+  .socialLogin {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 
-  &.kakao {
-    color: #371c1d;
-    background-color: #f8e049;
+    .roundButton {
+      position: relative;
+      display: flex;
+      width: 56px;
+      height: 56px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 32px;
+      gap: 10px;
+
+      &.google {
+        border: 1px solid #eee;
+        background: #fff;
+      }
+    }
   }
 }

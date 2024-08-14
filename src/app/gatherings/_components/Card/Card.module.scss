@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  width: 100%;
+  min-height: 16vh;
+  border: 1px solid #dedede;
+  border-radius: 14px;
+  overflow: hidden;
+
+  .thumbnail {
+    min-width: 25%;
+    background-color: rgb(152, 147, 153);
+    position: relative;
+    width: fit-content;
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px;
+
+    .header {
+      display: flex;
+      margin-bottom: 16px;
+      justify-content: space-between;
+
+      h1 {
+        line-height: 1.2;
+        width: 65%;
+        word-break: keep-all;
+      }
+      h3 {
+        margin: 4px 8px 0 auto;
+        font-size: small;
+      }
+    }
+    .time {
+      display: flex;
+      gap: 4px;
+
+      h3 {
+        width: auto;
+        background-color: rgb(50, 50, 48);
+        padding: 4px 6px;
+        border-radius: 4px;
+        color: white;
+        font-size: small;
+
+        &.timeDetail {
+          color: rgb(235, 113, 52);
+        }
+      }
+    }
+    .tag {
+      display: flex;
+      gap: 4px;
+    }
+    .participants {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+
+      #progress {
+        appearance: none;
+      }
+
+      .count {
+        margin: auto 0;
+        font-size: small;
+      }
+    }
+    .description {
+      font-size: small;
+    }
+  }
+  .footer {
+    font-size: small;
+    font-weight: bold;
+    text-align: right;
+    color: rgb(76, 10, 19);
+  }
+}

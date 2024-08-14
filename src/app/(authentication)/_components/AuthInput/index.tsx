@@ -2,19 +2,18 @@
 
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
-import { FieldErrors } from 'react-hook-form';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  fieldName?: keyof FormData;
-  errors?: FieldErrors<FormData>;
+  labelName: string;
   isPasswordInput?: boolean;
-  labelName?: string;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  { className, type, fieldName, errors, isPasswordInput, labelName, ...props },
+  { className, type, isPasswordInput, labelName, disabled, error, ...props },
   ref
 ) {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
@@ -25,17 +24,17 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
 
   return (
     <div className={`${styles.container} ${className}`}>
-      {labelName && (
-        <label className={styles.label} htmlFor={labelName}>
-          {labelName}
-        </label>
-      )}
+      <label className={styles.label} htmlFor={labelName}>
+        {labelName}
+      </label>
       <div className={styles.inputContainer}>
         <Input
           type={passwordVisible ? 'text' : type}
           ref={ref}
           id={labelName}
-          isError={Boolean(errors)}
+          isError={Boolean(error)}
+          disabled={disabled}
+          className={isPasswordInput ? styles.passwordInput : ''}
           {...props}
         />
         {isPasswordInput && (
@@ -56,8 +55,11 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
           </button>
         )}
       </div>
-      {errors && fieldName && errors[fieldName] && (
-        <span className={styles.errorMessage}>{errors[fieldName].message}</span>
+      {error?.message && (
+        <span className={styles.errorMessage}>{String(error.message)}</span>
+      )}
+      {disabled && (
+        <span className={styles.successMessage}>중복확인이 완료되었습니다</span>
       )}
     </div>
   );

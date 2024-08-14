@@ -19,14 +19,14 @@ export default function SpeechBalloon({
       fill="none">
       <mask id="path-1-inside-1_55_395" fill="white">
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M14.7304 32.1638C14.5783 33.8542 16.4683 34.9538 17.8626 33.9862L25.048 28.9999L105 28.9999C110.523 28.9999 115 24.5227 115 18.9999L115 9.99989C115 4.47704 110.523 -0.000109352 105 -0.000108869L10 -0.000100564C4.47715 -0.000100081 -2.61137e-06 4.47705 -2.12855e-06 9.9999L-1.34174e-06 18.9999C-8.58922e-07 24.5227 4.47715 28.9999 10 28.9999L15.0151 28.9999L14.7304 32.1638Z"
         />
       </mask>
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M14.7304 32.1638C14.5783 33.8542 16.4683 34.9538 17.8626 33.9862L25.048 28.9999L105 28.9999C110.523 28.9999 115 24.5227 115 18.9999L115 9.99989C115 4.47704 110.523 -0.000109352 105 -0.000108869L10 -0.000100564C4.47715 -0.000100081 -2.61137e-06 4.47705 -2.12855e-06 9.9999L-1.34174e-06 18.9999C-8.58922e-07 24.5227 4.47715 28.9999 10 28.9999L15.0151 28.9999L14.7304 32.1638Z"
         fill="white"
       />
@@ -35,7 +35,7 @@ export default function SpeechBalloon({
         fill="#3E82F1"
         mask="url(#path-1-inside-1_55_395)"
       />
-      <text x={textPosition.x} y={textPosition.y} font-size="12" fill="#3e82f1">
+      <text x={textPosition.x} y={textPosition.y} fontSize="12" fill="#3e82f1">
         10초 회원가입
       </text>
     </svg>

@@ -4,11 +4,12 @@ import FormData from 'form-data';
 import axios from 'axios';
 import sharp from 'sharp';
 
+//장르 추가, 최소, 최대 인원, 최소, 최대 시간, age 빼기
+
 interface IGameInfo {
   image: string;
   title: string;
   people: string;
-  age: string;
   time: string;
 }
 
@@ -39,7 +40,7 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
 
   for (const item of query) {
     const formData = new FormData();
-    const { image, title, people, age, time } = item;
+    const { image, title, people, time } = item;
     try {
       // Puppeteer를 사용하여 페이지 열기
       const browser = await puppeteer.launch();
@@ -74,11 +75,10 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
         // 나머지 데이터를 FormData에 추가
         formData.append(
           'requestDTO',
-          Buffer.from(JSON.stringify({ title, people, age, time }), 'utf-8'),
+          Buffer.from(JSON.stringify({ title, people, time }), 'utf-8'),
           { filename: 'request.json', contentType: 'application/json' }
         );
-        //장르 추가, 최소, 최대 인원, 최소, 최대 시간, age 빼기, 데이터 4개씩 보내기
-        //[{title: '~'}]
+
         // 결과 배열에 추가
         results.push(formData);
       }
@@ -106,7 +106,7 @@ export async function POST() {
 
         const image = await page.$eval('a.game-thumb-link', el => el.href);
         const title = await page.$eval('.info h1', el => el.innerText);
-        const [_, people, age, time] = await page.$$eval(
+        const [_, people, time] = await page.$$eval(
           '.game-sub-title .info-row',
           elements => elements.map(el => (el as HTMLElement).innerText)
         );
@@ -115,7 +115,6 @@ export async function POST() {
           image,
           title,
           people,
-          age,
           time,
         });
       } finally {

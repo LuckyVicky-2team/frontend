@@ -20,28 +20,53 @@ interface DateData {
   type: string;
 }
 export default function GenreGather() {
-  const [heart] = useState();
+  const [heart, setHeart] = useState<{ [key: number]: boolean }>({});
   const [slidePx, setSlidePx] = useState(0);
 
-  // const loadHeartFromLocalStorage = () => {
-  //   try {
-  //     const savedHeart = localStorage.getItem('heart');
-  //     return savedHeart ? JSON.parse(savedHeart) : [];
-  //   } catch (e) {
-  //     console.error('Failed to parse heart data from localStorage', e);
-  //     return [];
-  //   }
-  // };
+  useEffect(() => {
+    // 로컬 스토리지에서 heart 상태 불러오기
+    const savedHeart = localStorage.getItem('heart');
+    if (savedHeart) {
+      setHeart(JSON.parse(savedHeart));
+    }
+  }, []);
 
   useEffect(() => {
-    // 상태가 변경될 때마다 로컬 스토리지에 저장
-    localStorage.setItem('heart', JSON.stringify(heart));
+    if (Object.keys(heart).length > 0) {
+      localStorage.setItem('heart', JSON.stringify(heart));
+    }
   }, [heart]);
 
-  useEffect(() => {
-    // 상태가 변경될 때마다 로컬 스토리지에 저장
-    localStorage.setItem('heart', JSON.stringify(heart));
-  }, [heart]);
+  const toggleHeart = (id: number) => {
+    setHeart(prevHeart => {
+      const newHeart = { ...prevHeart, [id]: !prevHeart[id] };
+      const storedItems = JSON.parse(
+        localStorage.getItem('savedItems') || '[]'
+      );
+
+      if (newHeart[id]) {
+        // 찜 추가
+        const itemToSave = data.find(item => item.id === id);
+        if (
+          itemToSave &&
+          !storedItems.some((item: DateData) => item.id === id)
+        ) {
+          localStorage.setItem(
+            'savedItems',
+            JSON.stringify([...storedItems, itemToSave])
+          );
+        }
+      } else {
+        // 찜 제거
+        const updatedItems = storedItems.filter(
+          (item: DateData) => item.id !== id
+        );
+        localStorage.setItem('savedItems', JSON.stringify(updatedItems));
+      }
+
+      return newHeart;
+    });
+  };
 
   const prevSlideBtn = () => {
     if (slidePx < 0) {
@@ -56,20 +81,20 @@ export default function GenreGather() {
 
   const data: DateData[] = [
     {
+      master: {
+        nickName: 'CG보드게임카페',
+      },
       id: 1,
-      title: '안녕하세요~ 2명 구합니다',
       tag: ['전략게임', '정정당당'],
-      participantCount: 0,
-      capacity: 2,
       registerDate: '2024.07.31 17:55',
       gatheringDate: '2024.08.12 19:00',
+      title: '안녕하세요~ 2명 구합니다',
+      participantCount: 0,
+      capacity: 2,
       location: '서울시 동작구',
       content:
         '같이 다빈치코드 하실분 2분 구합니다. 위치는 을지로 쪽이면 좋겠습니당',
       image: '/assets/mainImages/game.png',
-      master: {
-        nickName: 'CG보드게임카페',
-      },
       type: 'free',
     },
     {
@@ -178,16 +203,9 @@ export default function GenreGather() {
         <p>추리게임</p>
       </div>
 
-      <ul
-        className={styles.genreList}
-        // onMouseDown={handleMouseDown}
-      >
+      <ul className={styles.genreList}>
         {slidePx != 0 && (
-          <button
-            onClick={() => {
-              prevSlideBtn();
-            }}
-            className={styles.prevBtn}>
+          <button onClick={prevSlideBtn} className={styles.prevBtn}>
             <Image
               width={20}
               height={20}
@@ -198,11 +216,7 @@ export default function GenreGather() {
           </button>
         )}
         {slidePx != -600 && (
-          <button
-            onClick={() => {
-              nextSlideBtn();
-            }}
-            className={styles.nextBtn}>
+          <button onClick={nextSlideBtn} className={styles.nextBtn}>
             <Image
               width={20}
               height={20}
@@ -213,10 +227,10 @@ export default function GenreGather() {
           </button>
         )}
 
-        {data.map((e, i) => {
+        {data.map(e => {
           return (
             <li
-              key={i}
+              key={e.id}
               style={{
                 transform: `translateX(${slidePx}%)`,
                 transition: '0.3s ease all',
@@ -254,13 +268,13 @@ export default function GenreGather() {
                   <input
                     type="checkbox"
                     id={`favorite${e.id}`}
-                    // onChange={setHeart(!heart)}
-                    checked={heart}
+                    checked={!!heart[e.id]} // heart 상태가 true인 경우에만 체크됨
+                    onChange={() => toggleHeart(e.id)}
                   />
                   <label htmlFor={`favorite${e.id}`}>
                     <Image
                       src={
-                        heart
+                        heart[e.id]
                           ? '/assets/mainImages/heart_fill_ico.svg'
                           : '/assets/mainImages/heart_ico.svg'
                       }

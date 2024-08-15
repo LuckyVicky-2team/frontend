@@ -1,3 +1,7 @@
+.body {
+  padding: 48px 24px;
+}
+
 .header {
   font-size: 20px;
 }
@@ -6,8 +10,8 @@
   border: 1px solid #000000;
 }
 
-.inputContainer .selectBox {
-  width: 100px;
+.inputContainer .datePicker {
+  width: 100%;
 }
 
 .buttonClicked {

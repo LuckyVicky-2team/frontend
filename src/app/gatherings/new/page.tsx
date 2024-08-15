@@ -6,9 +6,9 @@ import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import { useEffect, useState } from 'react';
-import SelectBox from '@/components/common/SelectBox';
 import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
+import NumberInput from './_components/NumberInput';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -17,7 +17,7 @@ export default function NewGatheringPage() {
   const methods = useForm<INewGatheringFormValuesRequest>({
     mode: 'all',
     defaultValues: {
-      type: 'free',
+      type: 'FREE',
       boardGameIdList: [],
     },
   });
@@ -177,25 +177,20 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 해당 위치는 목록에서는 전체공개되지 않습니다.
               </p>
-              <input
-                id="location"
-                {...register('location')}
-                className={styles.commonInput}
-              />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="gatheringDate" className={styles.title}>
+              <label htmlFor="meetingDatetime" className={styles.title}>
                 날짜
               </label>
               <DatePicker
                 control={control}
-                name="gatheringDate"
-                id="gatheringDate"
+                name="meetingDatetime"
+                id="meetingDatetime"
                 placeholder="날짜를 선택해 주세요."
                 className={styles.datePicker}
                 time
               />
-              {errors.gatheringDate && errors.gatheringDate.message}
+              {errors.meetingDatetime && errors.meetingDatetime.message}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title" className={styles.title}>
@@ -204,14 +199,7 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 최소 2명, 최대 30명까지 같이 게임을 할 수 있어요!
               </p>
-              <SelectBox
-                className={styles.selectBox}
-                id="title"
-                clickOptionHandler={e =>
-                  setValue('participants', Number(e.target.value))
-                }
-                optionSet={Array.from({ length: 30 }, (_, i) => i + 1)}
-              />
+              <NumberInput setValue={setValue} />
             </div>
             <div className={styles.inputContainer}>
               <div className={styles.title}>모임 유형 선택</div>

@@ -70,7 +70,7 @@ export default function TextEditor({
   return (
     <ReactQuill
       id={id}
-      style={{ width: '400px' }}
+      style={{ width: '100%' }}
       modules={modules}
       onChange={handleTextChange}
       theme="snow"

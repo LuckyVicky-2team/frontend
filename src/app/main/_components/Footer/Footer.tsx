@@ -17,6 +17,8 @@ export default function Footer() {
       setOn(5);
     } else if (currentPathName === '') {
       setOn(0);
+    } else if (currentPathName === 'gatherings') {
+      setOn(4);
     } else {
       setOn(999);
     }
@@ -28,7 +30,7 @@ export default function Footer() {
 
   return (
     <footer>
-      {currentPathName === 'mypage' ? (
+      {currentPathName === 'dd' ? (
         <div className={styles.customFooter}>
           <div className={styles.space}></div>
           <div className={styles.footerContent}>
@@ -160,7 +162,7 @@ export default function Footer() {
                   handleOn(5);
                 }}
                 className={on === 5 ? styles.on : ''}>
-                <Link href="/mypage/1">
+                <Link href="/mypage">
                   <span className={styles.a}>
                     <span className={styles.ico}>
                       {on === 5 ? (

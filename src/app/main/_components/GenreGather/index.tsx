@@ -1,9 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './GenreGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-// import { useRef } from 'react';
 interface DateData {
   id: number;
   title: string;
@@ -21,13 +20,28 @@ interface DateData {
   type: string;
 }
 export default function GenreGather() {
-  const [heart, setHeart] = useState<boolean>(false);
-  // const scrollContainerRef = useRef<HTMLUListElement>(null);
+  const [heart] = useState();
   const [slidePx, setSlidePx] = useState(0);
 
-  const handleHeartChange = () => {
-    setHeart(prevHeart => !prevHeart);
-  };
+  // const loadHeartFromLocalStorage = () => {
+  //   try {
+  //     const savedHeart = localStorage.getItem('heart');
+  //     return savedHeart ? JSON.parse(savedHeart) : [];
+  //   } catch (e) {
+  //     console.error('Failed to parse heart data from localStorage', e);
+  //     return [];
+  //   }
+  // };
+
+  useEffect(() => {
+    // 상태가 변경될 때마다 로컬 스토리지에 저장
+    localStorage.setItem('heart', JSON.stringify(heart));
+  }, [heart]);
+
+  useEffect(() => {
+    // 상태가 변경될 때마다 로컬 스토리지에 저장
+    localStorage.setItem('heart', JSON.stringify(heart));
+  }, [heart]);
 
   const prevSlideBtn = () => {
     if (slidePx < 0) {
@@ -110,7 +124,7 @@ export default function GenreGather() {
       master: {
         nickName: 'Playte',
       },
-      id: 4,
+      id: 5,
       tag: ['가이아 프로젝트', '잃어버린 함대'],
       participantCount: 0,
       capacity: 1,
@@ -126,7 +140,7 @@ export default function GenreGather() {
       master: {
         nickName: 'Playte',
       },
-      id: 4,
+      id: 6,
       tag: ['가이아 프로젝트', '잃어버린 함대'],
       participantCount: 0,
       capacity: 1,
@@ -142,7 +156,7 @@ export default function GenreGather() {
       master: {
         nickName: 'Playte',
       },
-      id: 4,
+      id: 7,
       tag: ['가이아 프로젝트', '잃어버린 함대'],
       participantCount: 0,
       capacity: 1,
@@ -156,31 +170,6 @@ export default function GenreGather() {
     },
   ];
 
-  // const handleMouseDown = (e: React.MouseEvent) => {
-  //   const scrollContainer = scrollContainerRef.current;
-  //   if (!scrollContainer) return;
-
-  //   let isDragging = true;
-  //   let startX = e.pageX - scrollContainer.offsetLeft;
-  //   let scrollLeft = scrollContainer.scrollLeft;
-
-  //   const handleMouseMove = (e: MouseEvent) => {
-  //     if (!isDragging) return;
-  //     const x = e.pageX - scrollContainer.offsetLeft;
-  //     const walk = (x - startX) * 2; // Scroll speed
-  //     scrollContainer.scrollLeft = scrollLeft - walk;
-  //   };
-
-  //   const handleMouseUp = () => {
-  //     isDragging = false;
-  //   };
-
-  //   document.addEventListener('mousemove', handleMouseMove);
-  //   document.addEventListener('mouseup', handleMouseUp);
-
-  //   scrollContainer.addEventListener('mouseleave', handleMouseUp);
-  //   scrollContainer.addEventListener('mouseup', handleMouseUp);
-  // };
   return (
     <div>
       <h1 className={styles.title1}>장르에 따라 달라지는 인기모임!</h1>
@@ -224,10 +213,10 @@ export default function GenreGather() {
           </button>
         )}
 
-        {data.map(e => {
+        {data.map((e, i) => {
           return (
             <li
-              key={e.id}
+              key={i}
               style={{
                 transform: `translateX(${slidePx}%)`,
                 transition: '0.3s ease all',
@@ -259,36 +248,33 @@ export default function GenreGather() {
                     height={224}
                     alt="지도 이미지"
                   />
-                  장소
+                  {e.location}
                 </span>
                 <span className={styles.heart}>
                   <input
                     type="checkbox"
-                    id="favorite1"
-                    onChange={handleHeartChange}
+                    id={`favorite${e.id}`}
+                    // onChange={setHeart(!heart)}
                     checked={heart}
                   />
-                  <label htmlFor="favorite1">
+                  <label htmlFor={`favorite${e.id}`}>
                     <Image
                       src={
                         heart
                           ? '/assets/mainImages/heart_fill_ico.svg'
                           : '/assets/mainImages/heart_ico.svg'
                       }
-                      width={224}
-                      height={224}
+                      width={24}
+                      height={24}
                       alt="찜 하트"
                     />
                   </label>
                 </span>
               </span>
               <Link href="/">
-                <span className={styles.tag}>
-                  모임 제목은 최대 2줄 까지만 보이게 합니다. 모임 제목은 최대
-                  2줄 까지만 보이게 합니다.
-                </span>
+                <span className={styles.tag}>{e.title}</span>
               </Link>
-              <span className={styles.date}>날짜</span>
+              <span className={styles.date}>{e.gatheringDate}</span>
             </li>
           );
         })}

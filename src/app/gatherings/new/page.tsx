@@ -7,7 +7,7 @@ import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import { useEffect, useState } from 'react';
 import SelectBox from '@/components/common/SelectBox';
-import GameDataList from './_components/Input/GameDataList';
+import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
@@ -69,17 +69,21 @@ export default function NewGatheringPage() {
   }, [boardGameIdList, setValue]);
 
   return (
-    <>
-      <h1 className={styles.header}>모임 개설</h1>
+    <div className={styles.body}>
+      <h1 className={styles.header}>모임 만들기</h1>
+      <p className={styles.headerDescription}>
+        나만의 모임을 만들어서 운영을 해보세요!
+      </p>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputArea}>
             <div className={styles.inputContainer}>
-              <FileInput id="image" setValue={setValue} />
-            </div>
-            <div className={styles.inputContainer}>
-              <label htmlFor="title">제목</label>
-              {/* input 컴포넌트는 나중에 공통으로 빼겠습니다. */}
+              <label htmlFor="title" className={styles.title}>
+                제목
+              </label>
+              <p className={styles.titleDescription}>
+                사람들이 끌릴만한 제목을 지어보세요!
+              </p>
               <input
                 id="title"
                 {...register('title', { required: '제목을 입력해 주세요.' })}
@@ -88,7 +92,27 @@ export default function NewGatheringPage() {
               {errors.title && errors.title.message}
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="gameTitle">게임 종류</label>
+              <label htmlFor="content" className={styles.title}>
+                내용 입력
+              </label>
+              <p className={styles.titleDescription}>
+                어떤 모임인지 설명해 주세요!
+              </p>
+              <TextEditor
+                name="content"
+                id="content"
+                // onChangeWithReactHookForm={register('content').onChange}
+                register={register}
+              />
+              {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
+            </div>
+            <div className={styles.inputContainer}>
+              <label htmlFor="gameTitle" className={styles.title}>
+                게임 선택
+              </label>
+              <p className={styles.titleDescription}>
+                어떤 보드게임을 진행하실 건가요?
+              </p>
               <input
                 id="gameTitle"
                 className={styles.commonInput}
@@ -125,26 +149,34 @@ export default function NewGatheringPage() {
                 );
               })}
             </div>
-            <div className={styles.inputContainer}>
-              <label htmlFor="tags">태그</label>
+            {/* <div className={styles.inputContainer}>
+              <label htmlFor="tags" className={styles.title}>
+                태그
+              </label>
               <input
                 id="tags"
                 {...register('tags')}
                 className={styles.commonInput}
               />
+            </div> */}
+            <div className={styles.inputContainer}>
+              <label htmlFor="image" className={styles.title} />
+              <p className={styles.titleDescription}>
+                썸네일로 사용되는 이미지에요!
+              </p>
+              <p className={styles.titleDescription}>
+                직관적이고 잘 알아볼 수 있도록 사진을 넣어주세요!
+              </p>
+              <FileInput id="image" setValue={setValue} />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="content">내용</label>
-              <TextEditor
-                name="content"
-                id="content"
-                // onChangeWithReactHookForm={register('content').onChange}
-                register={register}
-              />
-              {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
-            </div>
-            <div className={styles.inputContainer}>
-              <label htmlFor="location">위치</label>
+              <label htmlFor="location" className={styles.title}>
+                장소
+              </label>
+              <p className={styles.titleDescription}>어디서 만나나요?</p>
+              <p className={styles.titleDescription}>
+                해당 위치는 목록에서는 전체공개되지 않습니다.
+              </p>
               <input
                 id="location"
                 {...register('location')}
@@ -152,7 +184,9 @@ export default function NewGatheringPage() {
               />
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="gatheringDate">날짜</label>
+              <label htmlFor="gatheringDate" className={styles.title}>
+                날짜
+              </label>
               <DatePicker
                 control={control}
                 name="gatheringDate"
@@ -164,7 +198,12 @@ export default function NewGatheringPage() {
               {errors.gatheringDate && errors.gatheringDate.message}
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="title">인원</label>
+              <label htmlFor="title" className={styles.title}>
+                모집 정원
+              </label>
+              <p className={styles.titleDescription}>
+                최소 2명, 최대 30명까지 같이 게임을 할 수 있어요!
+              </p>
               <SelectBox
                 className={styles.selectBox}
                 id="title"
@@ -175,7 +214,7 @@ export default function NewGatheringPage() {
               />
             </div>
             <div className={styles.inputContainer}>
-              <div>모임 유형 선택</div>
+              <div className={styles.title}>모임 유형 선택</div>
               <label
                 htmlFor="free"
                 className={
@@ -223,6 +262,6 @@ export default function NewGatheringPage() {
           </button>
         </form>
       </FormProvider>
-    </>
+    </div>
   );
 }

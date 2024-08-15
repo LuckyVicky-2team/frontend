@@ -1,17 +1,16 @@
-.list {
-  width: 100%;
-}
-
 .items {
   width: 100%;
-  background-color: #f9faf9;
   min-height: 300px;
-  margin-top: 10px;
-  border: 1px solid #b0b0b0;
-  border-radius: 12px;
 }
 
 .itemButton {
   width: 100%;
   text-align: left;
+}
+
+.boundary {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #e7e8e9;
+  margin: 20px 0;
 }

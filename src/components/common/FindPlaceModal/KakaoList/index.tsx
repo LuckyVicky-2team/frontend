@@ -1,110 +1,48 @@
-'use client';
-
-import {
-  Dispatch,
-  KeyboardEvent,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, Fragment, SetStateAction } from 'react';
 import { IPlaceInfoResponse } from '@/types/kakao';
-import PlaceSearchBar from './PlaceSearchBar';
 import PlaceListItem from './PlaceListItem';
-import getCurrentCoordinate from '@/utils/getCurrentCoordinate';
 import calculateDistance from '@/utils/calculateDistance';
 import styles from './KakaoList.module.scss';
-import kakaoSearch from '@/utils/kakaoSearch';
 
 interface IKakaoListProps {
-  className?: string;
+  list: IPlaceInfoResponse[];
   setItem: Dispatch<SetStateAction<IPlaceInfoResponse | undefined>>;
   setStep: Dispatch<SetStateAction<string>>;
+  myPosition: { x: number; y: number } | undefined;
 }
 
 export default function KakaoList({
-  className,
+  list,
   setItem,
   setStep,
+  myPosition,
 }: IKakaoListProps) {
-  const [places, setPlaces] = useState<IPlaceInfoResponse[]>([]);
-  const [myPosition, setMyPosition] = useState<{ x: number; y: number }>();
-
-  const setPlaceList = async (
-    keyword: string,
-    size?: number,
-    coordinate?: { lat: number; lon: number }
-  ) => {
-    try {
-      const newList = await kakaoSearch(keyword, size, coordinate);
-      setPlaces(newList);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleSearchPlaces = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const targetValue = e.currentTarget.value;
-
-      if (!targetValue) {
-        setPlaces([]);
-        return;
-      }
-
-      const keyword = `${targetValue}`;
-
-      setPlaceList(keyword);
-    }
-  };
-
-  useEffect(() => {
-    const getPosition = async () => {
-      const myPosition = await getCurrentCoordinate();
-      setMyPosition(myPosition);
-    };
-
-    getPosition();
-  }, []);
-
-  useEffect(() => {
-    if (!myPosition) return;
-
-    const keyword = '보드카페';
-
-    setPlaceList(keyword, 5, {
-      lat: myPosition.y,
-      lon: myPosition.x,
-    });
-  }, [myPosition]);
-
   return (
-    <div className={`${styles.list} ${className}`}>
-      <PlaceSearchBar
-        onKeyUp={handleSearchPlaces}
-        defaultValue="내 주변 보드카페"
-      />
+    <div className={`${styles.list}`}>
       <div className={styles.items}>
-        {places?.map((place, idx) => {
+        {list.map((item, idx) => {
           const distance =
             myPosition &&
             calculateDistance(
               myPosition.x,
               myPosition.y,
-              parseFloat(place.x),
-              parseFloat(place.y)
+              parseFloat(item.x),
+              parseFloat(item.y)
             );
-          place.distance = distance ? String(distance.toFixed(2)) : '0';
-          place.index = idx;
+          item.distance = distance ? String(distance.toFixed(2)) : '';
+          item.index = idx;
           return (
-            <button
-              onClick={() => {
-                setItem(place);
-                setStep('map');
-              }}
-              key={place.id}
-              className={styles.itemButton}>
-              <PlaceListItem index={idx} item={place} />
-            </button>
+            <Fragment key={item.id}>
+              <button
+                onClick={() => {
+                  setItem(item);
+                  setStep('map');
+                }}
+                className={styles.itemButton}>
+                <PlaceListItem index={idx} item={item} />
+              </button>
+              {idx !== list.length - 1 && <hr className={styles.boundary} />}
+            </Fragment>
           );
         })}
       </div>

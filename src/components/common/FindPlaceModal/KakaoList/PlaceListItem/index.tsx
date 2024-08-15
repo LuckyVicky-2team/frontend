@@ -4,12 +4,17 @@ import styles from './PlaceListItem.module.scss';
 
 interface IPlaceListItemProps {
   item: IPlaceInfoResponse;
-  index: number;
+  index?: number;
+  className?: string;
 }
 
-export default function PlaceListItem({ item, index }: IPlaceListItemProps) {
+export default function PlaceListItem({
+  item,
+  index = 0,
+  className,
+}: IPlaceListItemProps) {
   return (
-    <div className={styles.item}>
+    <div className={`${styles.item} ${className}`}>
       <div className={styles.nameArea}>
         <span className={styles.order}>{index + 1}</span>
         <Link href={item.place_url} target="_blank" className={styles.name}>
@@ -23,10 +28,9 @@ export default function PlaceListItem({ item, index }: IPlaceListItemProps) {
         <div className={styles.address}>
           {item.road_address_name || item.address_name}
         </div>
-        <div className={styles.otherInfo}>
-          {`${item.distance}km`}
-          {item.phone && <span className={styles.phone}>{item.phone}</span>}
-        </div>
+        {item.distance && (
+          <div className={styles.distance}>{`${item.distance}km`}</div>
+        )}
       </div>
     </div>
   );

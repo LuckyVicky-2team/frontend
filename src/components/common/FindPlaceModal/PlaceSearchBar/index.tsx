@@ -13,7 +13,7 @@ export default function PlaceSearchBar({
     <div className={`${styles.searchBar} ${className}`}>
       <Input
         className={styles.input}
-        placeholder="위치를 검색하시면 주변 보드게임카페를 추천해드려요!"
+        placeholder="장소를 검색해주세요!"
         {...props}
       />
       <Image

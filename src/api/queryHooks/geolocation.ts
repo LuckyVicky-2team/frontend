@@ -1,3 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
+import { QueryKey } from '../../utils/QueryKey';
+
 const getCurrentCoordinate = async (): Promise<{ x: number; y: number }> => {
   return new Promise((res, rej) => {
     if (navigator.geolocation) {
@@ -14,4 +17,13 @@ const getCurrentCoordinate = async (): Promise<{ x: number; y: number }> => {
   });
 };
 
-export default getCurrentCoordinate;
+const useGetCurrentCoordinate = () => {
+  return useQuery({
+    queryKey: QueryKey.USER.COORDINATE(),
+    queryFn: async () => await getCurrentCoordinate(),
+    staleTime: 60000,
+    retry: false,
+  });
+};
+
+export default useGetCurrentCoordinate;

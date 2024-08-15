@@ -3,7 +3,6 @@ import puppeteer from 'puppeteer';
 import FormData from 'form-data';
 import axios from 'axios';
 import sharp from 'sharp';
-import { axiosInstance } from '@/api/instance';
 
 //장르 추가, 최소, 최대 인원, 최소, 최대 시간, age 빼기
 
@@ -165,7 +164,7 @@ export async function POST() {
           await creditsButton.click();
           // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
           // 마지막 '.credits-row .title' 요소가 나타날 때까지 기다림
-          await page.waitForSelector('.credits-row .title');
+          // await page.waitForSelector('.credits-row .title');
         }
 
         // const genres = await page.$$eval('.credits-row .title', elements =>
@@ -245,7 +244,7 @@ export async function POST() {
       return hrefList;
     };
 
-    const hrefList = await crawlingList();
+    const hrefList = (await crawlingList()).slice(0, 10);
     console.log(hrefList.length);
     // let failed: string[] = [];
     //href들을 4개씩 묶기. (병렬 처리를 위함)
@@ -277,9 +276,12 @@ export async function POST() {
     const results = await convertAndCreateFormData(data);
     void results;
     // console.log('FormData results:', results);
-
+    // [formdata, formdata,...]
     // 크롤링한 데이터를 백엔드 API로 전송
-    const backendResponse = await axiosInstance.post('/boardgame', data);
+    const backendResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}boardgame`,
+      results
+    );
 
     return NextResponse.json({
       message: 'Crawling and data transfer successful',

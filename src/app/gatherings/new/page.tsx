@@ -159,6 +159,7 @@ export default function NewGatheringPage() {
                 id="gatheringDate"
                 placeholder="날짜를 선택해 주세요."
                 className={styles.datePicker}
+                time
               />
               {errors.gatheringDate && errors.gatheringDate.message}
             </div>

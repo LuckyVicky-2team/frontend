@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
+import TypeInput from './_components/TypeInput';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -202,43 +203,11 @@ export default function NewGatheringPage() {
               <NumberInput setValue={setValue} />
             </div>
             <div className={styles.inputContainer}>
-              <div className={styles.title}>모임 유형 선택</div>
-              <label
-                htmlFor="free"
-                className={
-                  freeButtonClick
-                    ? styles.buttonClicked
-                    : styles.buttonNotClicked
-                }
-              />
-              <p>자유</p>
-              <input
-                id="free"
-                type="radio"
-                value="free"
-                defaultChecked
-                {...register('type')}
-                onClick={() => {
-                  !freeButtonClick && setFreeButtonClick(true);
-                }}
-              />
-              <label
-                htmlFor="accept"
-                className={
-                  freeButtonClick
-                    ? styles.buttonNotClicked
-                    : styles.buttonClicked
-                }
-              />
-              <p>수락</p>
-              <input
-                id="accept"
-                type="radio"
-                value="accept"
-                {...register('type')}
-                onClick={() => {
-                  freeButtonClick && setFreeButtonClick(false);
-                }}
+              <div className={styles.title}>참여 유형</div>
+              <TypeInput
+                register={register}
+                freeButtonClick={freeButtonClick}
+                setFreeButtonClick={setFreeButtonClick}
               />
             </div>
           </div>

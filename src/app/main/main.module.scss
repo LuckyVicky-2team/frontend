@@ -7,9 +7,10 @@
   display: block;
   width: 100%;
   position: relative;
-  background: url('/assets/mainImages/banner.png') no-repeat center/cover;
-  padding: 100px 60px;
+  background: url('/assets/mainImages/bannerV2.png') no-repeat center/cover;
+  padding: 55px 60px;
   box-sizing: border-box;
+  color: #fff;
   img {
     display: block;
     width: 100%;
@@ -18,6 +19,12 @@
   h2 {
     font-size: 48px;
     font-weight: 800;
+    display: block;
+    margin-bottom: 15px;
+    span {
+      display: block;
+      margin-bottom: 10px;
+    }
   }
   p {
     font-size: 28px;
@@ -37,7 +44,7 @@
     background: #fff;
     box-shadow: 1px 1px 6px #999;
     border-radius: 10px;
-    padding: 25px 15px;
+    padding: 15px;
     box-sizing: border-box;
     display: flex;
     align-items: center;

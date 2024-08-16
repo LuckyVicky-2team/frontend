@@ -12,9 +12,8 @@ export default function Main() {
         {/* <Header /> */}
         <div className={styles.banner}>
           <h2>
-            BOGO
-            <br />
-            OPEN !!
+            <span>BOGO</span>
+            <span>OPEN !!</span>
           </h2>
           <p>보드게임, 같이 할래요?</p>
           {/* <Image src={Banner} alt="배너이미지" /> */}

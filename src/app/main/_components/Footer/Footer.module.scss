@@ -17,6 +17,9 @@
   transform: translateX(-50%);
   max-width: 600px;
   width: 100%;
+  min-height: 80px;
+
+  z-index: 20;
   ul {
     display: flex;
     align-items: center;
@@ -25,46 +28,56 @@
     li {
       width: 23%;
       display: block;
+      z-index: 1;
+      position: relative;
       .a {
         display: block;
         width: 100%;
         cursor: pointer;
+        z-index: 1;
         .ico {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
+          z-index: 1;
         }
         .tag {
           width: 100%;
           display: block;
           text-align: center;
-          margin-top: 5px;
+          margin-top: 10px;
           color: #999;
+          z-index: 1;
         }
       }
       &.on {
+        z-index: 1;
         .a {
+          z-index: 1;
           .ico {
             transform: translateY(-50%);
             position: relative;
             transition: 0.3s ease all;
-            &::after {
+            z-index: 1;
+            &::before {
               content: '';
               display: block;
               width: 70px;
               height: 70px;
-              border-radius: 40%;
+              border-radius: 100%;
               background: #fff;
               position: absolute;
               top: 80%;
               left: 50%;
               transform: translate(-50%, -50%) rotate(45deg);
-              z-index: 0;
-              box-shadow: -41px -48px 65px rgba(0, 122, 255, 0.12);
+              z-index: -1;
+              box-shadow: -1px -1px 9px 0px rgba(0, 122, 255, 0.12);
+              clip-path: inset(-5% 44% 44% -5%);
+              -webkit-clip-path: inset(-5% 44% 44% -5%);
             }
             img {
-              z-index: 1;
+              z-index: 2;
             }
           }
           .tag {
@@ -73,6 +86,22 @@
           }
         }
       }
+    }
+  }
+}
+
+.customFooter {
+  .footerContent {
+    .joinBtn {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      background: #007aff;
+      color: #fff;
+      border-radius: 10px;
+      width: 70%;
+      padding: 15px;
     }
   }
 }

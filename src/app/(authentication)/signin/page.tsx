@@ -1,36 +1,20 @@
-import AuthInput from '../_components/AuthInput';
-import AuthHeader from '../_components/AuthHeader';
-import styles from './Signin.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import AuthHeader from '../_components/AuthHeader';
 import SpeechBalloon from '../_components/SpeechBalloon';
+import SigninForm from '../_components/SigninForm';
+import styles from './Signin.module.scss';
 
 export default function Signin() {
   return (
-    <div className={styles.container}>
-      <AuthHeader hasImage={true} title="로그인" />
-      <form className={styles.form}>
-        <AuthInput
-          labelName="아이디"
-          type="email"
-          placeholder="이메일을 입력해주세요"
-        />
-        <AuthInput
-          labelName="비밀번호"
-          isPasswordInput={true}
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-        />
-        <button className={`${styles.button} ${styles.login}`}>
-          로그인하기
-        </button>
-      </form>
-
+    <main className={styles.container}>
+      <AuthHeader title="로그인" />
+      <SigninForm />
       <div className={styles.buttons}>
-        <Link href="/" className={styles.guideLink}>
+        <Link href="/" className={styles.guideButton}>
           BOGO가 처음이신가요?
         </Link>
-        <Link className={`${styles.button} ${styles.email}`} href="/signup">
+        <Link className={styles.squareButton} href="/signup">
           이메일로 회원가입하기
           <SpeechBalloon
             className={styles.balloon}
@@ -38,25 +22,29 @@ export default function Signin() {
             textPosition={{ x: 22, y: 19 }}
           />
         </Link>
-        <button className={`${styles.button} ${styles.google}`}>
-          <Image
-            src="/assets/icons/google_logo.svg"
-            alt="google-login"
-            width={30}
-            height={30}
-          />
-          구글로 로그인
-        </button>
-        <button className={`${styles.button} ${styles.kakao}`}>
-          <Image
-            src="/assets/icons/kakao_logo.svg"
-            alt="google-login"
-            width={30}
-            height={30}
-          />
-          카카오로 로그인
-        </button>
+        <div className={styles.socialLogin}>
+          <Link
+            href={`https://zingy-strudel-7dad97.netlify.app/oauth2/authorization/google`}
+            className={`${styles.roundButton} ${styles.google}`}>
+            <Image
+              src="/assets/icons/google_logo.svg"
+              alt="google-login"
+              width={36}
+              height={36}
+            />
+          </Link>
+          <Link
+            href={`https://zingy-strudel-7dad97.netlify.app/oauth2/authorization/kakao`}
+            className={`${styles.roundButton} ${styles.kakao}`}>
+            <Image
+              src="/assets/icons/kakao_logo.svg"
+              alt="google-login"
+              fill
+              style={{ objectFit: 'cover' }}
+            />
+          </Link>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

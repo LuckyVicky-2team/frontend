@@ -1,12 +1,11 @@
 import { UseFormSetValue } from 'react-hook-form';
 import TagInput from '@/components/common/TagInput';
-import { EmailSignupFormType } from '@/types/request/authRequestTypes';
 import styles from './AuthTagInput.module.scss';
 
 export default function AuthTagInput({
   setValue,
 }: {
-  setValue: UseFormSetValue<EmailSignupFormType & { passwordCheck: string }>;
+  setValue: UseFormSetValue<any>;
 }) {
   const setPRTagValues = (tags: string[]) => {
     setValue('prTags', tags);

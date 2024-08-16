@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import AuthInput from '../../AuthInput';
 import { useForm } from 'react-hook-form';
-import AuthSubmitButton from '../../AuthSubmitButton';
+import Button from '@/components/common/Button';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTagInput from '../../AuthTagInput';
 import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
@@ -94,8 +94,7 @@ export default function EmailSignupForm() {
                 },
               })}
             />
-            <AuthSubmitButton
-              type="button"
+            <Button
               onClick={async () => {
                 if (!errors.email && getValues('email')) {
                   emailDupCheck(getValues('email'));
@@ -104,7 +103,7 @@ export default function EmailSignupForm() {
               disabled={isEmailDupOk}
               className={styles.checkButton}>
               중복확인
-            </AuthSubmitButton>
+            </Button>
           </div>
           <div className={styles.buttonInput}>
             <AuthInput
@@ -124,8 +123,7 @@ export default function EmailSignupForm() {
                 },
               })}
             />
-            <AuthSubmitButton
-              type="button"
+            <Button
               onClick={() => {
                 if (!errors.nickName && getValues('nickName')) {
                   nickNameDupCheck(getValues('nickName'));
@@ -134,7 +132,7 @@ export default function EmailSignupForm() {
               disabled={isNickNameDupOk}
               className={styles.checkButton}>
               중복확인
-            </AuthSubmitButton>
+            </Button>
           </div>
           <AuthInput
             labelName="비밀번호"
@@ -173,8 +171,7 @@ export default function EmailSignupForm() {
                 '비밀번호와 일치하지 않습니다',
             })}
           />
-          <AuthSubmitButton
-            type="button"
+          <Button
             onClick={() => {
               setStep('second');
             }}
@@ -186,12 +183,14 @@ export default function EmailSignupForm() {
               !getValues('passwordCheck')
             }>
             확인
-          </AuthSubmitButton>
+          </Button>
         </Step>
 
         <Step name="second">
           <AuthTagInput setValue={setValue} />
-          <AuthSubmitButton disabled={isPending}>확인</AuthSubmitButton>
+          <Button disabled={isPending} type="submit">
+            확인
+          </Button>
         </Step>
       </Funnel>
     </form>

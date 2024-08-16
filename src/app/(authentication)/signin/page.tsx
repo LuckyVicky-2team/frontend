@@ -3,6 +3,7 @@ import Image from 'next/image';
 import AuthHeader from '../_components/AuthHeader';
 import SpeechBalloon from '../_components/SpeechBalloon';
 import SigninForm from '../_components/SigninForm';
+import Button from '@/components/common/Button';
 import styles from './Signin.module.scss';
 
 export default function Signin() {
@@ -15,7 +16,7 @@ export default function Signin() {
           BOGO가 처음이신가요?
         </Link>
         <Link className={styles.squareButton} href="/signup">
-          이메일로 회원가입하기
+          <Button color="white">이메일로 회원가입하기</Button>
           <SpeechBalloon
             className={styles.balloon}
             balloonDimension={{ width: 115, height: 35 }}

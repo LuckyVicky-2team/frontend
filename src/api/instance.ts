@@ -4,7 +4,7 @@ export const axiosInstance = axios.create({
   baseURL: '/api',
   timeout: 5000,
   headers: {
-    'Content-type': 'application/json',
+    'Content-Type': 'application/json',
     'X-API-Version': 1,
   },
 });

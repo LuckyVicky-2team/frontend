@@ -167,7 +167,7 @@ export default function DeadLineGather() {
       master: {
         nickName: 'Playte',
       },
-      id: 6,
+      id: 13,
       tag: ['가이아 프로젝트', '잃어버린 함대'],
       participantCount: 0,
       capacity: 1,
@@ -183,7 +183,7 @@ export default function DeadLineGather() {
       master: {
         nickName: 'Playte',
       },
-      id: 13,
+      id: 14,
       tag: ['가이아 프로젝트', '잃어버린 함대'],
       participantCount: 0,
       capacity: 1,

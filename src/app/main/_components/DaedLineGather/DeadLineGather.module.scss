@@ -52,6 +52,17 @@
   overflow-x: auto;
   position: relative;
 
+  /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox */
+
+  /* Internet Explorer 10 이상에서 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE 10+ */
+
   .prevBtn {
     display: flex;
     align-items: center;

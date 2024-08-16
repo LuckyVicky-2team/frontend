@@ -5,15 +5,15 @@ import {
 } from '@/types/request/authRequestTypes';
 
 export const postSigninForm = (formData: FormData) => {
-  return axiosInstance.post('/login', formData);
-};
-
-export const postEmailSignupForm = (data: EmailSignupFormType) => {
-  return axiosInstance.post('/signup', data, {
+  return axiosInstance.post('/login', formData, {
     headers: {
       'Content-Type': 'mulitpart/form-data',
     },
   });
+};
+
+export const postEmailSignupForm = (data: EmailSignupFormType) => {
+  return axiosInstance.post('/signup', data);
 };
 
 export const getEmailDupCheck = (email: string) => {

@@ -77,7 +77,8 @@ export default function TagInput({
               key={idx}
               className={styles.value}
               onClick={() => handleClickTagRemove(value)}
-              size="large">
+              size="large"
+              enableDelete>
               {value}
             </Tag>
           );

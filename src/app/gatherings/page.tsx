@@ -11,7 +11,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-//Not working
+// Not working
 // export default async function GatheringsPage() {
 //   const req: IGatheringListRequestProps = {
 //     page: 1,

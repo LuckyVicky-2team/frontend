@@ -6,7 +6,7 @@ type MouseEventHandler<T = Element> = EventHandler<MouseEvent<T>>;
 interface IIconButtonProps {
   imgUrl: string;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
-  clickIconButtonHandler: MouseEventHandler<HTMLDivElement>;
+  clickIconButtonHandler?: MouseEventHandler<HTMLDivElement>;
   className?: string;
 }
 

@@ -105,7 +105,9 @@ export default function Footer() {
               handleOn(4);
             }}
             className={on === 4 ? styles.on : ''}>
-            <Link href="/gatherings">
+            <Link
+              // href={{ pathname: '/gatherings', query: { page: 1, count: 10 } }}>
+              href={'/gatherings'}>
               <span className={styles.a}>
                 <span className={styles.ico}>
                   {on === 4 ? (

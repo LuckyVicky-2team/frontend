@@ -55,8 +55,10 @@ interface IDatePickerProps<F extends FieldValues> {
   setSelectedDate?: Dispatch<SetStateAction<Date | null>>; //react hook form 사용 안 할 시
   id?: string;
   placeholder?: string;
+  isDisabled?: boolean;
   time?: boolean;
   className?: string;
+  minDate?: Date | null;
 }
 
 function DatePicker<F extends FieldValues>({
@@ -64,6 +66,8 @@ function DatePicker<F extends FieldValues>({
   name,
   selectedDate,
   setSelectedDate,
+  isDisabled,
+  minDate,
   id = '',
   placeholder,
   time = false,
@@ -99,10 +103,12 @@ function DatePicker<F extends FieldValues>({
         <ReactDatePicker
           id={id}
           locale="ko"
+          disabled={isDisabled}
           dateFormat="yyyy.MM.dd"
           className={styles.input}
           placeholderText={placeholder}
           selected={selectedDate}
+          minDate={minDate}
           onChange={date => setSelectedDate(date)}
           showTimeSelect={time}
         />

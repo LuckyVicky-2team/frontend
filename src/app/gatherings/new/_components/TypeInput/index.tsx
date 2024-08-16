@@ -2,6 +2,7 @@ import { UseFormRegister } from 'react-hook-form';
 import styles from './TypeInput.module.scss';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import { Dispatch, SetStateAction } from 'react';
+import Image from 'next/image';
 
 interface ITypeInputProps {
   register: UseFormRegister<INewGatheringFormValuesRequest>;
@@ -15,40 +16,51 @@ export default function TypeInput({
   setFreeButtonClick,
 }: ITypeInputProps) {
   return (
-    <>
-      <label
-        htmlFor="accept"
+    <div className={styles.container}>
+      <button
+        type="button"
         className={
           freeButtonClick ? styles.buttonNotClicked : styles.buttonClicked
         }
-      />
-      <p>수락 기능</p>
-      <input
-        id="accept"
-        type="radio"
-        value="accept"
-        {...register('type')}
         onClick={() => {
           freeButtonClick && setFreeButtonClick(false);
-        }}
-      />
-      <label
-        htmlFor="free"
+        }}>
+        <label htmlFor="ACCEPT" className={styles.label}>
+          <Image
+            src={'/assets/images/accept.png'}
+            alt={'수락'}
+            width={72}
+            height={72}
+          />
+          <p>수락 기능</p>
+        </label>
+        <input id="ACCEPT" type="radio" value="ACCEPT" {...register('type')} />
+      </button>
+      <button
+        type="button"
         className={
           freeButtonClick ? styles.buttonClicked : styles.buttonNotClicked
         }
-      />
-      <p>자유 참가</p>
-      <input
-        id="free"
-        type="radio"
-        value="free"
-        defaultChecked
-        {...register('type')}
         onClick={() => {
           !freeButtonClick && setFreeButtonClick(true);
-        }}
-      />
-    </>
+        }}>
+        <label htmlFor="FREE" className={styles.label}>
+          <Image
+            src={'/assets/images/free.png'}
+            alt={'수락'}
+            width={72}
+            height={72}
+          />
+          <p>자유 참가</p>
+        </label>
+        <input
+          id="FREE"
+          type="radio"
+          value="FREE"
+          defaultChecked
+          {...register('type')}
+        />
+      </button>
+    </div>
   );
 }

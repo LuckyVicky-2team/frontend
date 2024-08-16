@@ -10,6 +10,8 @@ import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
 import TypeInput from './_components/TypeInput';
+import Image from 'next/image';
+// import AuthSubmitButton from '@/app/(authentication)/_components/AuthSubmitButton';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
@@ -89,6 +91,7 @@ export default function NewGatheringPage() {
                 id="title"
                 {...register('title', { required: '제목을 입력해 주세요.' })}
                 className={styles.commonInput}
+                placeholder={'모임 이름을 입력해 주세요.'}
               />
               {errors.title && errors.title.message}
             </div>
@@ -99,12 +102,14 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 어떤 모임인지 설명해 주세요!
               </p>
-              <TextEditor
-                name="content"
-                id="content"
-                // onChangeWithReactHookForm={register('content').onChange}
-                register={register}
-              />
+              <div className={styles.textEditor}>
+                <TextEditor
+                  name="content"
+                  id="content"
+                  // onChangeWithReactHookForm={register('content').onChange}
+                  register={register}
+                />
+              </div>
               {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
             </div>
             <div className={styles.inputContainer}>
@@ -161,21 +166,47 @@ export default function NewGatheringPage() {
               />
             </div> */}
             <div className={styles.inputContainer}>
-              <label htmlFor="image" className={styles.title} />
+              <label htmlFor="image" className={styles.title}>
+                이미지
+              </label>
               <p className={styles.titleDescription}>
                 썸네일로 사용되는 이미지에요!
-              </p>
-              <p className={styles.titleDescription}>
+                <br />
                 직관적이고 잘 알아볼 수 있도록 사진을 넣어주세요!
               </p>
-              <FileInput id="image" setValue={setValue} />
+              <div className={styles.fileInput}>
+                <FileInput
+                  id="image"
+                  setValue={setValue}
+                  height={'264px'}
+                  width={'100%'}>
+                  <Image
+                    className={styles.downloadIcon}
+                    src={'/assets/icons/download.svg'}
+                    alt="다운로드 아이콘"
+                    width={20}
+                    height={20}
+                    priority
+                  />
+                  <p className={styles.fileInputTitle}>이미지 업로드</p>
+                  <p className={styles.fileInputDescription}>
+                    파일 형식: jpg 또는 png
+                  </p>
+                  <p className={styles.fileInputDescription}>
+                    권장 사이즈: 가로 204px, 세로 247px
+                  </p>
+                  <p className={styles.fileInputDescription}>
+                    상세 페이지에서 제일 먼저 보이는 이미지 입니다.
+                  </p>
+                </FileInput>
+              </div>
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="location" className={styles.title}>
                 장소
               </label>
-              <p className={styles.titleDescription}>어디서 만나나요?</p>
               <p className={styles.titleDescription}>
+                어디서 만나나요? <br />
                 해당 위치는 목록에서는 전체공개되지 않습니다.
               </p>
             </div>
@@ -200,7 +231,9 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 최소 2명, 최대 30명까지 같이 게임을 할 수 있어요!
               </p>
-              <NumberInput setValue={setValue} />
+              <div className={styles.numberInput}>
+                <NumberInput setValue={setValue} />
+              </div>
             </div>
             <div className={styles.inputContainer}>
               <div className={styles.title}>참여 유형</div>
@@ -215,7 +248,7 @@ export default function NewGatheringPage() {
             type="submit"
             disabled={!isValid}
             className={styles.submitButton}>
-            생성하기
+            확인
           </button>
         </form>
       </FormProvider>

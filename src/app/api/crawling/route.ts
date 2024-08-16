@@ -111,14 +111,16 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
         formData.append(
           'boardGameCreateListRequest',
           Buffer.from(
-            JSON.stringify({
-              title,
-              minPeople,
-              maxPeople,
-              minPlayTime,
-              maxPlayTime,
-              genres,
-            }),
+            JSON.stringify([
+              {
+                title,
+                minPeople,
+                maxPeople,
+                minPlayTime,
+                maxPlayTime,
+                genres,
+              },
+            ]),
             'utf-8'
           ),
           { filename: 'request.json', contentType: 'application/json' }
@@ -274,13 +276,19 @@ export async function POST() {
     // console.log(data);
     // 크롤링한 정보를 형식에 맞게 가공
     const results = await convertAndCreateFormData(data);
-    void results;
+
     // console.log('FormData results:', results);
     // [formdata, formdata,...]
     // 크롤링한 데이터를 백엔드 API로 전송
     const backendResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}boardgame`,
-      results
+      results,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'X-API-Version': 1,
+        },
+      }
     );
 
     return NextResponse.json({

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import styles from './NumberInput.module.scss';
+import styles2 from '../../New.module.scss';
 import { UseFormSetValue } from 'react-hook-form';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
@@ -10,6 +11,9 @@ interface INumberInputProps {
 
 export default function NumberInput({ setValue }: INumberInputProps) {
   const [count, setCount] = useState(2);
+
+  console.log(styles);
+  console.log(styles2);
 
   const handleDecrement = () => {
     if (count !== 2) {

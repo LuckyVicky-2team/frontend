@@ -1,32 +1,41 @@
-// import axios from 'axios';
-// import { Hydrate, getDehydratedQuery } from '@/utils/react-query';
+'use client';
+
+// import { getDehydratedQuery } from '@/utils/react-query';
 // import { QueryKey } from '@/utils/QueryKey';
 import GatheringDetails from './_components/GatheringDetails.tsx';
+// import { getGatheringsInfo } from '@/api/apis/gatheringsApis';
+// import { useRouter } from 'next/router';
+// import { useEffect, useState } from 'react';
+// import { useParams } from 'next/navigation.js';
+// [key: string]: string
+export default function GatheringsInfo({ params }: { params: any }) {
+  // const router = useRouter();
+  // const { id } = router.query;
+  // const { id } = useParams();
+  const { id } = params;
+  // const router = useRouter();
+  // const [id, setId] = useState<number | null>(null);
 
-// interface IGatheringsInfoResponseProps {
-//   title: string;
-//   image: string;
-//   content: string;
-//   address: string;
-//   place: string;
-//   map: string;
-//   isZzimed: boolean;
-//   master: string;
-//   member: string;
-//   game: string;
-//   genre: string;
-// }
+  // useEffect(() => {
+  //   if (router.isReady) {
+  //     setId(Number(router.query.id));
+  //   }
+  // }, [router.isReady, router.query.id]);
 
-export default function GatheringsInfo() {
-  // const query = await getDehydratedQuery({
+  // if (!id) {
+  //   return <div>Loading...</div>;
+  // }
+
+  // const query = getDehydratedQuery({
   //   queryKey: [QueryKey.DETAIL],
-  //   queryFn: getGatheringsInfo,
+  //   queryFn: () => getGatheringsInfo(Number(id)),
   // });
   return (
     <div>
       {/* <Hydrate state={{ queries: [query] }}> */}
-      <GatheringDetails />
+      <GatheringDetails id={Number(id)} />
       {/* </Hydrate> */}
+      ss
     </div>
   );
 }

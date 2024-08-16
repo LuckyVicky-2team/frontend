@@ -8,14 +8,13 @@ export const axiosInstance = axios.create({
     'X-API-Version': 1,
   },
 });
+
 axiosInstance.interceptors.request.use(
   config => {
-    if (typeof window !== 'undefined') {
-      const accesssToken = localStorage.getItem('accessToken');
+    const accesssToken = localStorage.getItem('accessToken');
 
-      if (accesssToken) {
-        config.headers.Authorization = accesssToken;
-      }
+    if (accesssToken) {
+      config.headers.Authorization = accesssToken;
     }
 
     return config;

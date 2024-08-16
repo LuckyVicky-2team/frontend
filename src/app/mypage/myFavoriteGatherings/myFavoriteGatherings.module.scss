@@ -26,11 +26,18 @@
       }
     }
     .mid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       p {
         display: block;
-        padding: 10px 0;
+        padding: 15px 0;
         font-size: 14px;
         color: #999;
+      }
+      button {
+        img {
+        }
       }
     }
     .title2 {
@@ -42,6 +49,7 @@
       display: -webkit-box;
       overflow: hidden;
       font-weight: 700;
+      line-height: 130%;
     }
     .date {
       font-size: 14px;

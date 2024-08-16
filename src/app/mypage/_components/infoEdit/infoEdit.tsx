@@ -10,8 +10,8 @@ interface infoEdit {
 }
 
 export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
-  const [newName, setNewName] = useState<any>();
-  const [newPassword, setNewPassword] = useState<any>();
+  const [newName, setNewName] = useState<string>('');
+  const [newPassword, setNewPassword] = useState<string>('');
 
   const fetchPersonalInfo = async () => {
     try {
@@ -23,6 +23,9 @@ export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
       console.log('error', error);
     }
   };
+
+  const isFormValid = newName.trim().length > 0; // 닉네임이 빈 문자열이 아니어야 함
+
   return (
     <div className={styles.infoEditModal}>
       <div className={styles.title}>개인정보 수정</div>
@@ -38,7 +41,7 @@ export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
         />
       </div>
       <div className={styles.passwordInput}>
-        <b>비밀번호</b>
+        <b>비밀번호 (선택)</b>
         <input
           type="password"
           placeholder={'변경하고싶은 비밀번호를 입력해주세요.'}
@@ -50,8 +53,8 @@ export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
       </div>
       <button
         type="button"
-        className={newName && newPassword ? styles.editBtn : styles.disabledBtn}
-        disabled={!(newName && newPassword)} // 조건에 따라 비활성화 상태를 설정
+        className={isFormValid ? styles.editBtn : styles.disabledBtn}
+        disabled={!isFormValid} // 닉네임이 비어있으면 비활성화
         onClick={() => {
           fetchPersonalInfo();
         }}>

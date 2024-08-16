@@ -99,7 +99,7 @@ export default function RecommendCase() {
               <Image
                 width={222}
                 height={222}
-                src={'/assets/mainImages/re1.png'}
+                src={'/assets/mainImages/re1_1.png'}
                 alt="1"
               />
             </span>
@@ -112,7 +112,7 @@ export default function RecommendCase() {
               <Image
                 width={122}
                 height={122}
-                src={'/assets/mainImages/re2.png'}
+                src={'/assets/mainImages/re2_1.png'}
                 alt="1"
               />
             </span>
@@ -128,7 +128,7 @@ export default function RecommendCase() {
               <Image
                 width={122}
                 height={122}
-                src={'/assets/mainImages/re3.png'}
+                src={'/assets/mainImages/re3_1.png'}
                 alt="1"
               />
             </span>
@@ -141,7 +141,7 @@ export default function RecommendCase() {
               <Image
                 width={122}
                 height={122}
-                src={'/assets/mainImages/re4.png'}
+                src={'/assets/mainImages/re4_1.png'}
                 alt="1"
               />
             </span>

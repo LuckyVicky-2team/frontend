@@ -1,0 +1,174 @@
+.searchTabHeader {
+  width: 100%;
+  padding: 24px 24px 0;
+  .searchBar {
+    flex-shrink: 0;
+    width: 100%;
+    height: 56px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 18px;
+    border-bottom: 1px solid #007aff;
+
+    .searchDropdown {
+      min-width: fit-content;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #9ca3af;
+      select {
+        z-index: 1;
+        width: 90px;
+      }
+      .arrowDown {
+        margin-left: -30px;
+      }
+    }
+    input {
+      padding: 0 6px 0 20px;
+      outline: none;
+      width: 70%;
+      margin-right: auto;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+    }
+    button {
+      border: none;
+    }
+  }
+  .filter {
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    display: flex;
+    gap: 6px;
+    margin: 24px 0px 10px 0;
+
+    select {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      color: #37393d;
+      align-items: flex-start;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 2px solid #f3f4f6;
+      max-width: 19%;
+    }
+
+    .aaa .datePicker {
+      height: 4vh;
+      border-radius: 12px;
+      outline: none;
+      border: 2px solid #f3f4f6;
+      color: #37393d;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      width: 100%;
+      min-width: fit-content;
+      line-height: 20px;
+    }
+  }
+  button {
+    border: 1px solid rgb(177, 175, 175);
+    padding: 1px 4px;
+    border-radius: 14px;
+  }
+
+  .info {
+    width: 387px;
+    margin: 0 36px;
+    color: #9ca3af;
+
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}
+.sortType {
+  border-radius: 12px;
+  border: 2px solid #f3f4f6;
+  background: #fff;
+  width: 100%;
+  margin-left: auto;
+  max-width: 110px;
+  padding: 8px 12px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-end;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: #37393d;
+}
+.cardContainer {
+  width: 90%;
+  padding: 35px 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+
+  .emptyContent {
+    color: #aaa;
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    text-align: center;
+    box-sizing: border-box;
+    height: calc(100vh - 500px);
+  }
+
+  &.empty {
+    display: table;
+    width: 100%;
+    vertical-align: middle;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+.addGatheringBtn {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  background: #007aff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .addGatheringBtn {
+    left: 50%;
+    transform: translateX(220px);
+    bottom: 10%;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .addGatheringBtn {
+    right: 16px;
+    bottom: 10%;
+  }
+}

@@ -5,23 +5,19 @@
   padding-left: 40px;
   overflow-y: scroll;
 
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 8px;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
     border-radius: 10px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #0080ff;
-    border-radius: 10px;
+  &::-webkit-scrollbar-thumb {
+    background-color: #007aff;
+    border-radius: 6px;
     border: 2px solid #ffffff;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #0070e0;
   }
 }
 

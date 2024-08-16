@@ -65,7 +65,7 @@ export default function EmailSignupForm() {
     signupMutate(newFormData, {
       onSuccess: () => {
         console.log('회원가입에 성공했습니다');
-        router.push('/signin');
+        router.push('/signup/result');
       },
       onError: () => {
         console.log('에러가 발생했습니다.');

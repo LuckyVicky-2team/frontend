@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // 요청의 hostname 가져오기
+  console.log('abc');
   const hostname = request.nextUrl.hostname;
 
   // hostname이 'abc'가 아닌 경우 리다이렉트
@@ -16,5 +17,5 @@ export function middleware(request: NextRequest) {
 
 // 미들웨어가 적용될 경로 설정
 export const config = {
-  matcher: '/crawling/:path*', // 특정 경로에만 미들웨어 적용
+  matcher: '/crawling', // 특정 경로에만 미들웨어 적용
 };

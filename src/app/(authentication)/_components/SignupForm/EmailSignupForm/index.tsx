@@ -24,6 +24,7 @@ export default function EmailSignupForm() {
     setValue,
     getValues,
     trigger,
+    setError,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -38,22 +39,36 @@ export default function EmailSignupForm() {
   const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
 
   const emailDupCheck = async (email: string) => {
-    const response = await getEmailDupCheck(email);
-
-    if (response.status === 200) {
+    try {
+      await getEmailDupCheck(email);
       setIsEmailDupOk(true);
-    } else {
-      console.log('오류가 발생했습니다');
+    } catch (error: any) {
+      if (error.response.data.errorCode === 4002) {
+        setError(
+          'email',
+          { message: '이미 존재하는 이메일입니다', type: 'shouldUnregister' },
+          { shouldFocus: true }
+        );
+      } else {
+        console.log(error);
+      }
     }
   };
 
   const nickNameDupCheck = async (nickName: string) => {
-    const response = await getNickNameDupCheck(nickName);
-
-    if (response.status === 200) {
+    try {
+      await getNickNameDupCheck(nickName);
       setIsNickNameDupOk(true);
-    } else {
-      console.log('오류가 발생했습니다');
+    } catch (error: any) {
+      if (error.response.data.errorCode === 4002) {
+        setError(
+          'nickName',
+          { message: '이미 존재하는 닉네임입니다', type: 'shouldUnregister' },
+          { shouldFocus: true }
+        );
+      } else {
+        console.log(error);
+      }
     }
   };
 

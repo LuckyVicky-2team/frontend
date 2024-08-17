@@ -1,0 +1,15 @@
+.map {
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+.infowindow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 20px;
+  text-align: center;
+  font-family: 'LaundryGothicOTF';
+  font-size: 14px;
+}

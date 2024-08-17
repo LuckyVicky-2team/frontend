@@ -1,7 +1,7 @@
 <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g id="plus-circle">
-<path id="Vector" d="M18.9998 34.8332C27.7443 34.8332 34.8332 27.7443 34.8332 18.9998C34.8332 10.2553 27.7443 3.1665 18.9998 3.1665C10.2553 3.1665 3.1665 10.2553 3.1665 18.9998C3.1665 27.7443 10.2553 34.8332 18.9998 34.8332Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M19 12.6665V25.3332" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_3" d="M12.6665 19H25.3332" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector" d="M18.9998 34.8332C27.7443 34.8332 34.8332 27.7443 34.8332 18.9998C34.8332 10.2553 27.7443 3.1665 18.9998 3.1665C10.2553 3.1665 3.1665 10.2553 3.1665 18.9998C3.1665 27.7443 10.2553 34.8332 18.9998 34.8332Z" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_2" d="M19 12.6665V25.3332" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+<path id="Vector_3" d="M12.6665 19H25.3332" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
 </g>
 </svg>

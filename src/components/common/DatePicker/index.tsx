@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 // 사용 예시
 // react hook form 사용할 때
 // function ExamplePage() {
-//   const methods = useForm<NewGatheringFormValues>({
+//   const methods = useForm<INewGatheringFormValuesRequest>({
 //     mode: 'all',
 //   });
 //   const {

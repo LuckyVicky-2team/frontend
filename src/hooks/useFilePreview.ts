@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function useFilePreview(
   selectedImageUrl?: string | null //원래 저장되어 있던 이미지
 ) {
-  const [filePreview, setFilePreview] = useState(selectedImageUrl || '');
+  const [filePreview, setFilePreview] = useState(selectedImageUrl || null);
 
   //올린 파일을 url로 반환
   const updateFilePreview = (file: FileList) => {

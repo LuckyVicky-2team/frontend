@@ -1,0 +1,54 @@
+.input {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.leftButton,
+.rightButton {
+  display: flex;
+  height: 61px;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+  border-radius: 6px;
+}
+
+.gray {
+  border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
+}
+
+.blue {
+  border: 2px solid var(--main-color-02, #06f);
+}
+
+.grayFont {
+  color: var(--lukyviky-gray-Normal, #9ca3af);
+}
+
+.blueFont {
+  color: var(--lukyviky-gray-Normal, #06f);
+}
+
+.numberBackground {
+  display: flex;
+  flex: 2 0 0;
+  height: 61px;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+.number {
+  // font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.96px;
+}

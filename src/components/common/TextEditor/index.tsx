@@ -9,27 +9,16 @@ const ReactQuill = dynamic(() => import('react-quill'), {
 });
 import 'react-quill/dist/quill.snow.css';
 import { toolbarOptions } from './toolBarOptions';
+import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 const modules = {
   toolbar: toolbarOptions,
 };
 
-interface NewGatheringFormValues {
-  image: string;
-  title: string;
-  tags: string;
-  content: string;
-  contentWithoutHtml: string; //content 유효성 검사를 하기 위한 값
-  location: string;
-  gatheringDate: Date; //만나는 날짜 === 마감일
-  participants: number;
-  type: 'free' | 'accept';
-}
-
 interface ITextEditorProps {
   onChange?: Dispatch<SetStateAction<string | null>>;
   // onChangeWithReactHookForm?: ChangeHandler;
-  register?: UseFormRegister<NewGatheringFormValues>;
+  register?: UseFormRegister<INewGatheringFormValuesRequest>;
   name?: 'content'; //필요시 다른 이름 추가 가능
   id?: string;
 }
@@ -81,7 +70,7 @@ export default function TextEditor({
   return (
     <ReactQuill
       id={id}
-      style={{ width: '400px' }}
+      style={{ width: '100%' }}
       modules={modules}
       onChange={handleTextChange}
       theme="snow"

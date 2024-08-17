@@ -6,6 +6,8 @@ import ReactQueryProvider from '@/components/ReactQueryProvider';
 import './globals.scss';
 import Header from './main/_components/Header/Header';
 import Footer from './main/_components/Footer/Footer';
+import { ToastProvider } from '@/contexts/toastContext';
+import ToastList from '@/components/common/ToastList';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,11 +29,14 @@ export default function RootLayout({
           src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&autoload=false&libraries=services`}
           strategy="beforeInteractive"
         />
-        <Header />
-        <div className="rootContainer">
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </div>
-        <Footer />
+        <ToastProvider>
+          <ToastList />
+          <Header />
+          <div className="rootContainer">
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </div>
+          <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

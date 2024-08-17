@@ -26,7 +26,7 @@ export default function KakaoShare({
     }
   }, [Kakao]);
 
-  if (!Kakao) return <>test</>;
+  if (!Kakao) return;
 
   const shareKakao = () => {
     Kakao.Share.sendDefault({

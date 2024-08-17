@@ -164,7 +164,7 @@ export async function POST() {
         // console.log(creditsButton);
         if (creditsButton) {
           await creditsButton.click();
-          // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
+          await page.waitForSelector('.title-wrapper', { timeout: 5000 });
           // 마지막 '.credits-row .title' 요소가 나타날 때까지 기다림
           // await page.waitForSelector('.credits-row .title');
         }
@@ -177,12 +177,17 @@ export async function POST() {
         const genres = await page.evaluate(() => {
           // '카테고리'라는 텍스트를 포함하는 요소를 찾기
           const wrapper = document.querySelectorAll('.title-wrapper');
+
+          if (!wrapper) {
+            return ['n'];
+          }
+
           const wrapperElements = Array.from(wrapper).find(el =>
-            el.textContent?.includes('카테고리')
+            el.textContent?.includes(' 카테고리 ')
           );
 
           if (!wrapperElements) {
-            return null; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
+            return [JSON.stringify(wrapper)]; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
           }
 
           const childrenElements =
@@ -193,7 +198,7 @@ export async function POST() {
           )[0].children;
 
           if (!targets) {
-            return null;
+            return ['nono'];
           }
 
           return Array.from(targets).map(
@@ -246,7 +251,7 @@ export async function POST() {
       return hrefList;
     };
 
-    const hrefList = (await crawlingList()).slice(0, 10);
+    const hrefList = (await crawlingList()).slice(0, 1);
     console.log(hrefList.length);
     // let failed: string[] = [];
     //href들을 4개씩 묶기. (병렬 처리를 위함)
@@ -273,28 +278,29 @@ export async function POST() {
 
     // console.log('==> failed: ', failed.length);
     // console.log('==> data length:', data.length);
-    // console.log(data);
+    console.log(data);
     // 크롤링한 정보를 형식에 맞게 가공
     const results = await convertAndCreateFormData(data);
+    void results;
 
     // console.log('FormData results:', results);
     // [formdata, formdata,...]
     // 크롤링한 데이터를 백엔드 API로 전송
-    const backendResponse = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}boardgame`,
-      results,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'X-API-Version': 1,
-        },
-      }
-    );
+    // const backendResponse = await axios.post(
+    //   `${process.env.NEXT_PUBLIC_API_BASE_URL}boardgame`,
+    //   results,
+    //   {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //       'X-API-Version': 1,
+    //     },
+    //   }
+    // );
 
     return NextResponse.json({
       message: 'Crawling and data transfer successful',
       // backendResponse: backendResponse.data,
-      backendResponse,
+      backendResponse: null,
     });
   } catch (error) {
     console.error('Error during crawling or data transfer:', error);

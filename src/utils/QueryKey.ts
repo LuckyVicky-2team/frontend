@@ -6,6 +6,7 @@ export const QueryKey = {
     KEY: 'user',
     LIST: (filters: any) => [QueryKey.USER.KEY, QueryKey.LIST, filters],
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],
+    COORDINATE: () => [QueryKey.USER.KEY, 'coordinate'],
   },
   GATHERING: {
     KEY: 'gathering',

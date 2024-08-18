@@ -92,23 +92,30 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 height={24}
               />
               <div>
-                {data.boardGameListResponseList.map(game => {
-                  return <div key={game.boardGameId}>{game.title}</div>;
-                })}
-              </div>
-              <div>
-                {data.genres.map((genre, i) => {
-                  return (
-                    <Tag key={i} closeButton={false}>
-                      {genre}
-                    </Tag>
-                  );
-                })}
+                <div>
+                  {data.boardGameListResponseList.map(game => {
+                    return <div key={game.boardGameId}>{game.title}</div>;
+                  })}
+                </div>
+                <div>
+                  {data.genres.map((genre, i) => {
+                    return (
+                      <Tag key={i} closeButton={false}>
+                        {genre}
+                      </Tag>
+                    );
+                  })}
+                </div>
               </div>
             </div>
             <div className={styles.firstGatheringInfoIcons}>
-              <div>찜하기</div>
-              <button type="button" onClick={handleShareModalOpen}>
+              <button className={styles.button} type="button">
+                찜하기
+              </button>
+              <button
+                className={styles.shareButton}
+                type="button"
+                onClick={handleShareModalOpen}>
                 <Image
                   src={'/assets/icons/share-2.svg'}
                   alt="공유하기 버튼"

@@ -14,6 +14,29 @@
   border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
   background: #fff;
 }
+.firstGatheringInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+}
+
+.firstGatheringInfoContent {
+  max-width: 400px;
+}
+
+.firstGatheringInfoIcons {
+  display: flex;
+  width: 112px;
+  .shareButton {
+    width: 48px;
+    height: 48px;
+    fill: var(--white, #fff);
+    border: 2px solid var(--gray-200, #e5e7eb);
+    border-radius: 9999px;
+    margin: 0 0 0 12px;
+  }
+}
 
 .title {
   color: var(--lukyviky-Blue-Darker, #002b59);

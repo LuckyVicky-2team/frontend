@@ -13,7 +13,7 @@ import Skeleton from './_components/Skeleton';
 import FilterContainer from './_components/FilterContainer';
 import { useClientSearchParams } from '@/hooks/useClientSearchParams';
 
-export default function GatheringsPageClient() {
+function GatheringsPageContent() {
   const searchParams = useClientSearchParams();
   const { ref, inView } = useInView();
   const params = searchParams.get();
@@ -63,9 +63,8 @@ export default function GatheringsPageClient() {
               />
             </button>
           </Link>
-          <Suspense>
-            <FilterContainer />
-          </Suspense>
+
+          <FilterContainer />
 
           <section className={`${styles.cardContainer} `}>
             {status === 'pending' ? (
@@ -95,5 +94,12 @@ export default function GatheringsPageClient() {
         </main>
       </div>
     </>
+  );
+}
+export default function GatheringsPageClient() {
+  return (
+    <Suspense>
+      <GatheringsPageContent />
+    </Suspense>
   );
 }

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import styles from './Card.module.scss';
 import IconButton from '@/components/common/IconButton';
-import Tag from '@/components/common/Tag';
 import Image from 'next/image';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import { transDate } from '../../../../utils/common';
@@ -92,9 +91,9 @@ export default function Card({
           <div className={styles.tagContainer}>
             {tags?.map((el, idx) => {
               return (
-                <Tag key={id + idx} fontColor="#007AFF" className={styles.tags}>
+                <p key={id + idx} className={styles.tags}>
                   {el}
-                </Tag>
+                </p>
               );
             })}
           </div>
@@ -108,12 +107,9 @@ export default function Card({
             />
             {games?.map((el, idx) => {
               return (
-                <Tag
-                  key={id + idx}
-                  fontColor="#007AFF"
-                  className={styles.games}>
+                <p key={id + idx} className={styles.games}>
                   {el}
-                </Tag>
+                </p>
               );
             })}
           </div>

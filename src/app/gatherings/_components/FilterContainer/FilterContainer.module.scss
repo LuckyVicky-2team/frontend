@@ -46,16 +46,12 @@
 
   .info {
     width: 387px;
-    margin: 0 36px;
+    padding-left: 18px;
     color: #9ca3af;
-
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 20px;
-    &.error {
-      color: #dd111e;
-    }
   }
 }
 .sortType {

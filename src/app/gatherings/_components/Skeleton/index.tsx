@@ -19,7 +19,6 @@ export default function Skeleton() {
         <div className={styles.tagContainer}>
           <div className={styles.tag} />
           <div className={styles.tag} />
-          <div className={styles.tag} />
         </div>
         <div className={styles.gameContainer}>
           <div className={styles.game} />

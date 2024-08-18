@@ -69,7 +69,11 @@ export default function GatheringsPageClient() {
             {status === 'pending' ? (
               <Skeleton />
             ) : status === 'error' ? (
-              <p>Error:{error.message}</p>
+              <div className={styles.empty}>
+                <p className={styles.emptyContent}>
+                  Error Message : {error.message}
+                </p>
+              </div>
             ) : gatherings.length ? (
               <section className={styles.cardContainer}>
                 {/* 찜 버튼 - 사용자 식별 필요*/}

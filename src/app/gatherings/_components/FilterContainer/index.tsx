@@ -168,9 +168,6 @@ export default function FilterContainer() {
           />
         </div>
       </div>
-      <div className={`${styles.info} ${errorMessage && styles.error}`}>
-        <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>
-      </div>
 
       <div className={styles.sortType}>
         <Image
@@ -188,6 +185,9 @@ export default function FilterContainer() {
           ]}
           clickOptionHandler={e => setParamsToUrl('sortBy', e.target.value)}
         />
+      </div>
+      <div className={styles.info}>
+        <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>
       </div>
     </section>
   );

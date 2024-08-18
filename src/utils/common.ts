@@ -16,33 +16,19 @@ export const transDate = (date: string) => {
 };
 
 //AS-IS : "Tue Aug 06 2024 00:00:00 GMT+0900 (한국 표준시)") -> 기본 new Date()
-//TO-BE : "2024-08-06T00:00:00" -> api request 형태. 00:00:00 시각이됨
+//TO-BE : "2024-08-06T00:00:00" -> api request 형태. 00:00:00:000 시각이됨
 export const dateToISOString = (date: Date | null) => {
   if (!date) return;
-  const dateOptions: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  };
+  const pad = (number: number) => String(number).padStart(2, '0');
 
-  const timeOptions: Intl.DateTimeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  };
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1); // 월은 0부터 시작하므로 1을 더해줍니다.
+  const day = pad(date.getDate());
 
-  // 날짜와 시간을 각각 구해서 형식을 변경
-  const datePart = date
-    .toLocaleDateString('ko-KR', dateOptions)
-    .replace(/\./g, '-')
-    .replace(/-\s?/g, '-'); // '-' 뒤의 공백 제거
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+  const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
 
-  const timePart = date
-    .toLocaleTimeString('ko-KR', timeOptions)
-    .replace(/ /g, ''); // 공백 제거
-
-  // const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
-
-  return `${datePart}T${timePart}`;
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };

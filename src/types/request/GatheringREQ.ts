@@ -1,5 +1,5 @@
 export interface IGatheringListRequestProps {
-  count?: number;
+  count: number;
   tag?: string;
   startDate?: Date | string;
   endDate?: Date | string;
@@ -9,5 +9,5 @@ export interface IGatheringListRequestProps {
   county?: string;
   page?: number;
   size?: number;
-  sortBy: 'MEETING_DATE' | 'PARTICIPANT_COUNT';
+  sortBy?: 'MEETING_DATE' | 'PARTICIPANT_COUNT';
 }

@@ -15,7 +15,7 @@ export default function ShareModal({
 }: IShareModalProps) {
   return (
     <div>
-      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={400} full>
+      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={400}>
         <div>
           <KakaoShare path={pathname} likeCount={12} sharedCount={30} />
           <button type="button">카카오로 공유하기</button>

@@ -1,3 +1,20 @@
+.section1 {
+  background: var(--lukyviky-Blue-Light, #e6f2ff);
+  padding: 40px 24px 29px;
+}
+
+.gatheringInfo {
+  display: flex;
+  padding: 24px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
+  background: #fff;
+}
+
 .title {
   color: var(--lukyviky-Blue-Darker, #002b59);
   font-family: Pretendard;
@@ -5,6 +22,19 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+}
+
+.place {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 7px;
+  color: var(--gray-700, #374151);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
 }
 
 .gatheringInfo .tag {

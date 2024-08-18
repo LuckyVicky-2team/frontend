@@ -8,6 +8,7 @@ import styles from './GatheringDetails.module.scss';
 import { dateTime } from '@/utils/dateTime';
 import Tag from '@/components/common/Tag';
 import ShareModal from '../ShareModal';
+import Image from 'next/image';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -39,73 +40,117 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
 
   return (
     <div>
-      <div>
+      <div className={styles.section1}>
         {/* <div style={{ width: '100%', height: '400px', position: 'relative' }}>
         <Image src={data.image} alt="썸네일 이미지" priority fill />
       </div> */}
         <div className={styles.gatheringInfo}>
-          <h1 className={styles.title}>{data.title} 모임원 모집</h1>
-          <div>
-            <button type="button" onClick={handleShareModalOpen}>
-              공유하기
+          <div className={styles.firstGatheringInfo}>
+            <div className={styles.firstGatheringInfoContent}>
+              <h1 className={styles.title}>{data.title} 모임원 모집</h1>
+              <div className={styles.place}>
+                <Image
+                  src={'/assets/icons/bar-black.svg'}
+                  alt={'검은색 선'}
+                  width={7}
+                  height={28}
+                />
+                <span>{data.city}</span> <span>{data.county}</span>
+              </div>
+              <Tag
+                borderColor={'none'}
+                fontColor={'#ffffff'}
+                backgroundColor={'#007AFF'}
+                className={`${styles.tag}`}
+                closeButton={false}>
+                {formattedDate}
+              </Tag>
+              <Tag
+                borderColor={'none'}
+                fontColor={'#ffffff'}
+                backgroundColor={'#007AFF'}
+                className={`${styles.tag}`}
+                closeButton={false}>
+                {formattedTime}
+              </Tag>
+              <div>
+                <div>모임장</div>
+                <div>
+                  <Image
+                    src={'/assets/icons/person.svg'}
+                    alt="사람 이미지"
+                    width={16}
+                    height={16}
+                  />
+                  {data.totalParticipantCount}/{data.limitParticipant}
+                </div>
+              </div>
+              <Image
+                src={'/assets/icons/ic_check.svg'}
+                alt="체크 이미지"
+                width={24}
+                height={24}
+              />
+              <div>
+                {data.boardGameListResponseList.map(game => {
+                  return <div key={game.boardGameId}>{game.title}</div>;
+                })}
+              </div>
+              <div>
+                {data.genres.map((genre, i) => {
+                  return (
+                    <Tag key={i} closeButton={false}>
+                      {genre}
+                    </Tag>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={styles.firstGatheringInfoIcons}>
+              <div>찜하기</div>
+              <button type="button" onClick={handleShareModalOpen}>
+                <Image
+                  src={'/assets/icons/share-2.svg'}
+                  alt="공유하기 버튼"
+                  priority
+                  width={24}
+                  height={24}
+                />
+              </button>
+              <ShareModal
+                modalOpen={shareModalOpen}
+                onClose={handleShareModalClose}
+                pathname={pathname}
+              />
+            </div>
+          </div>
+          <div className={styles.secondGatheringInfo}>
+            <div className={styles.people}>
+              <span>모집 정원 {data.totalParticipantCount}명</span>
+              <ProfileImages participants={data.userParticipantResponseList} />
+            </div>
+            <div></div>
+            <button type="button" onClick={handleProfileModalOpen}>
+              참여자 리스트 보기 ({data.totalParticipantCount}/
+              {data.limitParticipant})
             </button>
-            <ShareModal
-              modalOpen={shareModalOpen}
-              onClose={handleShareModalClose}
-              pathname={pathname}
+            <Members
+              modalOpen={profileModalOpen}
+              onClose={handleProfileModalClose}
+              data={data.userParticipantResponseList}
             />
           </div>
-          <div>
-            <span>{data.city}</span>
-            <span>{data.county}</span>
-          </div>
-          <Tag
-            borderColor={'none'}
-            fontColor={'#ffffff'}
-            backgroundColor={'#007AFF'}
-            className={`${styles.tag}`}
-            closeButton={false}>
-            {formattedDate}
-          </Tag>
-          <Tag
-            borderColor={'none'}
-            fontColor={'#ffffff'}
-            backgroundColor={'#007AFF'}
-            className={`${styles.tag}`}
-            closeButton={false}>
-            {formattedTime}
-          </Tag>
-          <div></div>
         </div>
       </div>
-      <div>{convertedContent}</div>
+      <div className={styles.section2}>
+        <div>{convertedContent}</div>
 
-      {/* <div>{data.place}</div> */}
-      {/* <div>{data.addressDetail}</div> */}
-      {/* <div>{data.latitude}</div>
+        {/* <div>{data.place}</div> */}
+        {/* <div>{data.addressDetail}</div> */}
+        {/* <div>{data.latitude}</div>
       <div>{data.longitude}</div> */}
-      <div>찜하기</div>
-      <div>{data.userNickName}</div>
-      <div>팀원 목록</div>
-      <ProfileImages participants={data.userParticipantResponseList} />
-      <button type="button" onClick={handleProfileModalOpen}>
-        참여자 리스트 보기 ({data.totalParticipantCount}/{data.limitParticipant}
-        )
-      </button>
-      <Members
-        modalOpen={profileModalOpen}
-        onClose={handleProfileModalClose}
-        data={data.userParticipantResponseList}
-      />
-      <div>
-        {data.boardGameListResponseList.map(game => {
-          return <div key={game.boardGameId}>{game.title}</div>;
-        })}
-      </div>
-      <div>
-        {data.genres.map((genre, i) => {
-          return <div key={i}>{genre}</div>;
-        })}
+
+        <div>{data.userNickName}</div>
       </div>
 
       <button type="button">(마스터) 내보내기</button>

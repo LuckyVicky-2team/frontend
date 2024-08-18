@@ -52,7 +52,7 @@ export default function SearchBar({
       />
       <button type="submit" onClick={searchHandler}>
         <Image
-          src={'/assets/icons/search.svg'}
+          src={'/assets/icons/searchLight.svg'}
           alt="finder"
           width={24}
           height={24}

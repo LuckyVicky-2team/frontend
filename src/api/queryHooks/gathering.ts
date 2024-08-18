@@ -1,9 +1,16 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { gatheringAPI } from '../apis/gatheringsApis';
 import { QueryKey } from '@/utils/QueryKey';
-import { gatheringAPI } from '../apis/gatheringApis';
 import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
 import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
 import { IErrorProps } from '@/types/CommonInterface';
+
+export const useGatheringDetails = (id: number) => {
+  return useQuery({
+    queryKey: [QueryKey.GATHERING.DETAIL(id)],
+    queryFn: () => gatheringAPI.getGatheringsInfo(id),
+  });
+};
 
 export const useGatheringList = (req: IGatheringListRequestProps) => {
   return useQuery<IGatheringListResponseProps, IErrorProps>({

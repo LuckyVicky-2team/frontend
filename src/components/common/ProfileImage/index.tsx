@@ -15,7 +15,16 @@ export default function ProfileImage({
 }: IProfileImageProps) {
   return (
     <div className={styles.profileImg}>
-      <Image src={url} alt="Profile" width={width} height={height} />
+      {url ? (
+        <Image src={url} alt="Profile" width={width} height={height} />
+      ) : (
+        <Image
+          src={'/assets/icons/default-profile.svg'}
+          alt="Profile"
+          width={width}
+          height={height}
+        />
+      )}
     </div>
   );
 }

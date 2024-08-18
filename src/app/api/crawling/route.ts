@@ -159,16 +159,14 @@ export async function POST() {
         );
         void _;
 
-        await page.waitForSelector('#game-top-btn-credits');
+        await page.waitForSelector('#game-top-btn-credits', { visible: true });
         const creditsButton = await page.$('#game-top-btn-credits');
-        // console.log(creditsButton);
         if (creditsButton) {
           await creditsButton.click();
-          await page.waitForSelector('.title-wrapper', { timeout: 5000 });
-          // 마지막 '.credits-row .title' 요소가 나타날 때까지 기다림
-          // await page.waitForSelector('.credits-row .title');
         }
-
+        await page.waitForSelector('.title-wrapper', { timeout: 5000 });
+        // // 클릭 후 필요한 작업 수행
+        // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
         // const genres = await page.$$eval('.credits-row .title', elements =>
         //   elements.map(el => (el as HTMLElement).innerText)
         // );
@@ -183,11 +181,11 @@ export async function POST() {
           }
 
           const wrapperElements = Array.from(wrapper).find(el =>
-            el.textContent?.includes(' 카테고리 ')
+            el.textContent?.includes('카테고리')
           );
 
           if (!wrapperElements) {
-            return [JSON.stringify(wrapper)]; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
+            return [JSON.stringify(Array.from(wrapper))]; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
           }
 
           const childrenElements =

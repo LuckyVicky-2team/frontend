@@ -1,41 +1,22 @@
-'use client';
-
-// import { getDehydratedQuery } from '@/utils/react-query';
-// import { QueryKey } from '@/utils/QueryKey';
+import { getDehydratedQuery, Hydrate } from '@/utils/react-query';
+import { QueryKey } from '@/utils/QueryKey';
 import GatheringDetails from './_components/GatheringDetails.tsx';
-// import { getGatheringsInfo } from '@/api/apis/gatheringsApis';
-// import { useRouter } from 'next/router';
-// import { useEffect, useState } from 'react';
-// import { useParams } from 'next/navigation.js';
+import { getGatheringsInfo } from '@/api/apis/gatheringsApis';
+
 // [key: string]: string
-export default function GatheringsInfo({ params }: { params: any }) {
-  // const router = useRouter();
-  // const { id } = router.query;
-  // const { id } = useParams();
+export default async function GatheringsInfo({ params }: { params: any }) {
   const { id } = params;
-  // const router = useRouter();
-  // const [id, setId] = useState<number | null>(null);
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     setId(Number(router.query.id));
-  //   }
-  // }, [router.isReady, router.query.id]);
+  const query = getDehydratedQuery({
+    queryKey: [QueryKey.DETAIL],
+    queryFn: () => getGatheringsInfo(Number(id)),
+  });
 
-  // if (!id) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // const query = getDehydratedQuery({
-  //   queryKey: [QueryKey.DETAIL],
-  //   queryFn: () => getGatheringsInfo(Number(id)),
-  // });
   return (
     <div>
-      {/* <Hydrate state={{ queries: [query] }}> */}
-      <GatheringDetails id={Number(id)} />
-      {/* </Hydrate> */}
-      ss
+      <Hydrate state={query}>
+        <GatheringDetails id={Number(id)} />
+      </Hydrate>
     </div>
   );
 }

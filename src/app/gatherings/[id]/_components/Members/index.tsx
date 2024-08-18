@@ -1,6 +1,6 @@
-import Modal from '@/components/common/Modal';
+import BottomSheet from '@/components/common/BottomSheet';
+import ProfileImage from '@/components/common/ProfileImage';
 import { IParticipant } from '@/types/response/Gathering';
-import Image from 'next/image';
 
 interface IMembersProps {
   modalOpen: boolean;
@@ -10,14 +10,13 @@ interface IMembersProps {
 
 export default function Members({ modalOpen, onClose, data }: IMembersProps) {
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose}>
+    <BottomSheet isOpen={modalOpen} onClose={onClose} full>
       <ul>
         {data.map(participant => {
           return (
             <button key={participant.userId}>
-              <Image
-                alt="프로필 이미지"
-                src={participant.profileImage}
+              <ProfileImage
+                url={participant.profileImage}
                 width={28}
                 height={28}
               />
@@ -25,6 +24,6 @@ export default function Members({ modalOpen, onClose, data }: IMembersProps) {
           );
         })}
       </ul>
-    </Modal>
+    </BottomSheet>
   );
 }

@@ -113,7 +113,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             style={{ width: '70px', height: '2px', backgroundColor: '#000000' }}
           />
         </div>
-        <div style={{ height: isFullScreen ? '100vh' : '' }}>{children}</div>
+        <div style={{ height: isFullScreen ? '100vh' : '50vh' }}>
+          {children}
+        </div>
         <div style={{ height: '600px' }} />
       </motion.div>
     </div>

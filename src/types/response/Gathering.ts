@@ -14,7 +14,7 @@ export interface IBoardGame {
 export interface IGatheringDetailsResponseProps {
   mettingId: number;
   userNickName: string;
-  meetingDateTime: Date;
+  meetingDatetime: string;
   title: string;
   content: string;
   longitude: number;

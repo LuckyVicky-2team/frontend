@@ -45,13 +45,13 @@ export default function FilterContainer() {
         searchWord: data['search_word'],
         searchType: data['search_type'],
       });
-    } else {
-      // @haewon 예외처리 필요한지 삭제할지 고민중
-      searchParams.remove('REPLACE', 'searchWord');
-      searchParams.remove('REPLACE', 'searchType');
     }
-
     setSearchResult(`${data['search_word']} 검색결과 입니다.`);
+
+    // else {
+    //   searchParams.remove('REPLACE', 'searchWord');
+    //   searchParams.remove('REPLACE', 'searchType');
+    // }
   };
 
   const setParamsToUrl = (name: string, value: any) => {

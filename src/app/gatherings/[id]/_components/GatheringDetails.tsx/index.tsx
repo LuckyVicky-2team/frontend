@@ -45,14 +45,28 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         {/* <div style={{ width: '100%', height: '400px', position: 'relative' }}>
         <Image src={data.image} alt="썸네일 이미지" priority fill />
       </div> */}
-        <div>
+        <div className={styles.gatheringInfo}>
           <h1 className={styles.title}>{data.title} 모임원 모집</h1>
           <div>
             <span>{data.city}</span>
             <span>{data.county}</span>
           </div>
-          <Tag>{formattedDate}</Tag>
-          <Tag>{formattedTime}</Tag>
+          <Tag
+            borderColor={'none'}
+            fontColor={'#ffffff'}
+            backgroundColor={'#007AFF'}
+            className={`${styles.tag}`}
+            closeButton={false}>
+            {formattedDate}
+          </Tag>
+          <Tag
+            borderColor={'none'}
+            fontColor={'#ffffff'}
+            backgroundColor={'#007AFF'}
+            className={`${styles.tag}`}
+            closeButton={false}>
+            {formattedTime}
+          </Tag>
           <div></div>
         </div>
       </div>

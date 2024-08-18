@@ -10,12 +10,19 @@
   z-index: 9000;
 }
 
-.modal {
-  background-color: white;
+.modalWithXButton {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
   z-index: 9000;
   max-height: 800px;
   max-width: 600px;
@@ -48,4 +55,12 @@
 
 .none {
   display: none;
+}
+
+.xButton {
+  background: var(--lukyviky-Blue-Normal, #007aff);
+  border-radius: 9999px;
+  width: 72px;
+  height: 72px;
+  z-index: 9000;
 }

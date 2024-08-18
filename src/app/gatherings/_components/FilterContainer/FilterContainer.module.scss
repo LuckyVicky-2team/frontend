@@ -1,0 +1,75 @@
+.searchTabHeader {
+  width: 100%;
+  padding: 24px 24px 0;
+
+  .filter {
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    display: flex;
+    gap: 6px;
+    margin: 24px 0px 10px 0;
+
+    select {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      color: #37393d;
+      align-items: flex-start;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 2px solid #f3f4f6;
+      max-width: 19%;
+    }
+
+    .aaa .datePicker {
+      height: 4vh;
+      border-radius: 12px;
+      outline: none;
+      border: 2px solid #f3f4f6;
+      color: #37393d;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      width: 100%;
+      min-width: fit-content;
+      padding: 0 10px 0 15px;
+      line-height: 20px;
+    }
+  }
+  button {
+    border: 1px solid rgb(177, 175, 175);
+    padding: 1px 4px;
+    border-radius: 14px;
+  }
+
+  .info {
+    width: 387px;
+    padding-left: 18px;
+    color: #9ca3af;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}
+.sortType {
+  border-radius: 12px;
+  border: 2px solid #f3f4f6;
+  background: #fff;
+  width: 100%;
+  margin-left: auto;
+  max-width: 110px;
+  padding: 8px 12px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: flex-end;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  color: #37393d;
+}

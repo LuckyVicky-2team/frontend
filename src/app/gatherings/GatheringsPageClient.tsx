@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useInView } from 'react-intersection-observer';
@@ -63,7 +63,9 @@ export default function GatheringsPageClient() {
               />
             </button>
           </Link>
-          <FilterContainer />
+          <Suspense>
+            <FilterContainer />
+          </Suspense>
 
           <section className={`${styles.cardContainer} `}>
             {status === 'pending' ? (
@@ -76,7 +78,7 @@ export default function GatheringsPageClient() {
               </div>
             ) : gatherings.length ? (
               <section className={styles.cardContainer}>
-                {/* 찜 버튼 - 사용자 식별 필요*/}
+                {/* 찜 버튼 - 사용자 식별 필요 && backend api 생성 대기중*/}
                 {gatherings.map(el => {
                   return <Card key={el.id} {...el} />;
                 })}

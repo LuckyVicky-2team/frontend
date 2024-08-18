@@ -5,7 +5,7 @@ import styles from './Card.module.scss';
 import IconButton from '@/components/common/IconButton';
 import Image from 'next/image';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
-import { transDate } from '../../../../utils/common';
+import { transDate } from '@/utils/common';
 
 interface ICardProps {
   id: number;

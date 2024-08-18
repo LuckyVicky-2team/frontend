@@ -6,7 +6,7 @@ import IconButton from '@/components/common/IconButton';
 import Tag from '@/components/common/Tag';
 import Image from 'next/image';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
-import useTransText from '../../../../utils/transText';
+import { transDate } from '../../../../utils/common';
 
 interface ICardProps {
   id: number;
@@ -38,7 +38,6 @@ export default function Card({
   onClick,
 }: ICardProps) {
   const progressValue = (participantCount / limitParticipant) * 100;
-  const { transDate } = useTransText();
   const { mondthAndDay, time } = transDate(meetingDate);
   const [savedItem, setSaveItem] = useSaveItemState();
 

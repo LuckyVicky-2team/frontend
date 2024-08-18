@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import styles from './GatheringsPageClient.module.scss';
-import { gatheringAPI } from '@/api/apis/gatheringApis';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
 import { QueryKey } from '@/utils/QueryKey';
 import Card from './_components/Card';
 import Skeleton from './_components/Skeleton';

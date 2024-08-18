@@ -2,7 +2,7 @@ import React from 'react';
 import GatheringsPageClient from './GatheringsPageClient';
 import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
 import { QueryKey } from '@/utils/QueryKey';
-import { gatheringAPI } from '@/api/apis/gatheringApis';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
 
 import {
   dehydrate,

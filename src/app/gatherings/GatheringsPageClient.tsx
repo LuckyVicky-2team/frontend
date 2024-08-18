@@ -41,7 +41,7 @@ function GatheringsPageContent() {
       },
     });
 
-  const gatherings = data?.pages.flatMap(page => page) || [];
+  const gatherings = data?.pages.flat() || [];
 
   useEffect(() => {
     if (inView) {

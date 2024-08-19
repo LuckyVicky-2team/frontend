@@ -49,8 +49,52 @@
   width: 100%;
   white-space: nowrap;
   overflow-x: scroll;
-  // scrollbar-width: none;
-  cursor: grab;
+  position: relative;
+  /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox */
+
+  /* Internet Explorer 10 이상에서 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE 10+ */
+  .prevBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    left: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    img {
+      display: block;
+    }
+  }
+  .nextBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    right: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+    img {
+      transform: rotate(180deg);
+    }
+  }
   li {
     display: inline-block;
     width: 32%;

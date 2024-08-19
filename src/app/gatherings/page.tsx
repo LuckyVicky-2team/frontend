@@ -1,96 +1,29 @@
-'use client';
+import React from 'react';
+import GatheringsPageClient from './GatheringsPageClient';
+import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
+import { QueryKey } from '@/utils/QueryKey';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
 
-import React, { useState, ChangeEvent } from 'react';
-import Link from 'next/link';
-import styles from './Gatherings.module.scss';
-import { genre, gatheringsList } from '@/data/dummyData';
-import { city, areas } from '@/data/locationData';
-import SelectBox from '@/components/common/SelectBox';
-import Card from './_components/Card';
-import DatePicker from '@/components/common/DatePicker';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 
-export default function GatheringsPage() {
-  const [selectCity, setSelectCity] = useState<string | undefined>();
-  const [selectArea, setSelectArea] = useState<string | undefined>();
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | null>(null);
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | null>(null);
-
-  // TODO @haewon
-  // verify logged in user
-  // 로그인한 유저 -> 유저정보 가져옴 , 로그인x, 비회원 -> localStorage 정보가져옴
-
-  const changeCityLocation = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectCity(e.target.value);
-    setSelectArea('');
+export default async function GatheringsPage() {
+  const queryClient = new QueryClient();
+  const req: IGatheringListRequestProps = {
+    page: 0,
+    count: 10,
+    sortBy: 'MEETING_DATE',
   };
-  const changeAreaLocation = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectArea(e.target.value);
-  };
-
+  await queryClient.prefetchQuery({
+    queryKey: QueryKey.GATHERING.LIST(req),
+    queryFn: () => gatheringAPI.gatheringList(req),
+  });
   return (
-    <>
-      <div>
-        <main>
-          <section className={styles.searchTabHeader}>
-            <div className={styles.filter}>
-              {/* 장르, 지역 선택 필터 */}
-              <div>
-                <SelectBox
-                  id="genre"
-                  optionTitle="선택"
-                  clickOptionHandler={value => {
-                    console.log(value);
-                  }}
-                  optionSet={genre}
-                />
-                <SelectBox
-                  id="city"
-                  optionTitle="시/도 선택"
-                  optionSet={city}
-                  clickOptionHandler={changeCityLocation}
-                />
-                <SelectBox
-                  id="area"
-                  optionTitle="구/군 선택"
-                  optionSet={selectCity ? areas[selectCity] : []}
-                  clickOptionHandler={changeAreaLocation}
-                  isDisabled={!selectCity}
-                  value={selectArea}
-                />
-              </div>
-
-              <div className={styles.aaa}>
-                <DatePicker
-                  selectedDate={selectedStartDate}
-                  setSelectedDate={setSelectedStartDate}
-                  placeholder="날짜 검색"
-                  className={`${styles.datePicker}`}
-                />
-              </div>
-              <div className={styles.aaa}>
-                <DatePicker
-                  selectedDate={selectedEndDate}
-                  setSelectedDate={setSelectedEndDate}
-                  placeholder="날짜 검색"
-                  className={`${styles.datePicker}`}
-                />
-              </div>
-            </div>
-
-            <Link href={'/gatherings/new'}>모임 생성하기</Link>
-          </section>
-          <div className={styles.sortType}>
-            <button>마감임박 순</button>
-            <button>참여인원 순</button>
-          </div>
-          <section className={styles.cardContainer}>
-            {/* 찜 버튼 - 사용자 식별 필요*/}
-            {gatheringsList.map(el => {
-              return <Card key={el.id} {...el} />;
-            })}
-          </section>
-        </main>
-      </div>
-    </>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <GatheringsPageClient />
+    </HydrationBoundary>
   );
 }

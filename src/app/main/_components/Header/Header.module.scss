@@ -1,7 +1,6 @@
 .space {
   width: 100%;
 }
-
 .headerContent {
   padding: 15px 0;
   z-index: 15;
@@ -17,10 +16,55 @@
   max-width: 600px;
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  min-height: 65px;
   h1 {
     font-size: 30px;
     color: #007aff;
     font-weight: 800;
+  }
+}
+
+//커스텀 헤더
+.customHeader {
+  .headerContent {
+    padding: 15px 0;
+    z-index: 15;
+    background: #fff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 100%;
+    border-bottom: 1px solid #007aff;
+    h1 {
+      font-size: 30px;
+      color: #007aff;
+      font-weight: 800;
+    }
+    h2 {
+      font-weight: bold;
+      font-size: 20px;
+      color: #007aff;
+    }
+    p {
+      font-size: 18px;
+      color: #757a83;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 }
 
@@ -30,6 +74,13 @@
   justify-content: flex-end;
   width: 20%;
   gap: 15%;
+  &.noneLogin {
+    a {
+      color: #007aff;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
   button {
     position: relative;
     img {

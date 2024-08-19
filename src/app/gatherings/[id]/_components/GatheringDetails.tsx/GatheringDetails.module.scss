@@ -1,5 +1,5 @@
 .section1 {
-  background: var(--lukyviky-Blue-Light, #e6f2ff);
+  background: $blue-light;
   padding: 40px 24px 29px;
 }
 
@@ -8,7 +8,6 @@
   padding: 24px 0px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
   flex-shrink: 0;
   border-radius: 10px;
   border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
@@ -19,23 +18,11 @@
   justify-content: space-between;
   gap: 24px;
   width: 100%;
+  padding: 0 24px 30px 24px;
 }
 
 .firstGatheringInfoContent {
   max-width: 400px;
-}
-
-.firstGatheringInfoIcons {
-  display: flex;
-  width: 112px;
-  .shareButton {
-    width: 48px;
-    height: 48px;
-    fill: var(--white, #fff);
-    border: 2px solid var(--gray-200, #e5e7eb);
-    border-radius: 9999px;
-    margin: 0 0 0 12px;
-  }
 }
 
 .title {
@@ -62,4 +49,124 @@
 
 .gatheringInfo .tag {
   border-radius: 4px;
+}
+
+.place {
+  margin: 12px 0;
+  color: var(--gray-700, #374151);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  gap: 8px;
+  color: var(--gray-700, #374151);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
+
+.games {
+  display: flex;
+  align-items: center;
+  color: $blue-normal;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
+
+.genres {
+  margin: 8px 0 0 0;
+}
+
+.firstGatheringInfoIcons {
+  display: flex;
+  width: 112px;
+  .shareButton {
+    width: 48px;
+    height: 48px;
+    fill: var(--white, #fff);
+    border: 2px solid var(--gray-200, #e5e7eb);
+    border-radius: 9999px;
+    margin: 0 0 0 12px;
+  }
+}
+
+.stroke {
+  width: 100%;
+  height: 2px;
+  position: relative;
+}
+
+.secondGatheringInfo {
+  width: 100%;
+  padding: 26px 24px 14px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.people {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  .totalParticipantCount {
+    color: var(--gray-900, #111827);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+  }
+}
+
+.progressBarBackground {
+  background-color: $blue-light;
+  position: relative;
+  height: 4px;
+  margin: 12px 0 8px 0;
+}
+
+.progressBar {
+  background-color: $blue-normal;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  left: 0;
+}
+
+.progressBarDescription {
+  display: flex;
+  justify-content: space-between;
+  color: var(--gray-700, #374151);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 133.333% */
+}
+
+.memberListButton {
+  display: flex;
+  height: 62px;
+  padding: 10px 0;
+  margin: 10px 0 0 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: 12px;
+  border: 1px solid var(--lukyviky-Blue-Normal, #007aff);
+  color: var(--lukyviky-Blue-Normal, #007aff);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 125% */
 }

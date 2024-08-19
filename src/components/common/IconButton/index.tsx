@@ -5,7 +5,7 @@ import Image from 'next/image';
 type MouseEventHandler<T = Element> = EventHandler<MouseEvent<T>>;
 interface IIconButtonProps {
   imgUrl: string;
-  size?: 'xsmall' | 'small' | 'medium' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'mediumLarge' | 'large';
   clickIconButtonHandler: MouseEventHandler<HTMLDivElement>;
   className?: string;
 }

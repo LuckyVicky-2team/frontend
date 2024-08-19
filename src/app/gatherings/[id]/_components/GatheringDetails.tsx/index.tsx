@@ -9,12 +9,16 @@ import { dateTime } from '@/utils/dateTime';
 import Tag from '@/components/common/Tag';
 import ShareModal from '../ShareModal';
 import Image from 'next/image';
+import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
+import IconButton from '@/components/common/IconButton';
 
 interface IGatheringDetailsProps {
   id: number;
 }
 
 export default function GatheringDetails({ id }: IGatheringDetailsProps) {
+  const [savedItem, setSaveItem] = useSaveItemState();
+  const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
   const { data } = useGatheringDetails(Number(id));
   console.log(data);
@@ -73,9 +77,17 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 closeButton={false}>
                 {formattedTime}
               </Tag>
-              <div>
-                <div>모임장</div>
-                <div>
+              <div className={styles.badge}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Image
+                    src={'/assets/icons/award.svg'}
+                    alt="뱃지 이미지"
+                    width={16}
+                    height={16}
+                  />
+                  모임장
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Image
                     src={'/assets/icons/person.svg'}
                     alt="사람 이미지"
@@ -85,33 +97,39 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   {data.totalParticipantCount}/{data.limitParticipant}
                 </div>
               </div>
-              <Image
-                src={'/assets/icons/ic_check.svg'}
-                alt="체크 이미지"
-                width={24}
-                height={24}
-              />
-              <div>
+              <div className={styles.games}>
+                <Image
+                  src={'/assets/icons/ic_check.svg'}
+                  alt="체크 이미지"
+                  width={24}
+                  height={24}
+                />
                 <div>
                   {data.boardGameListResponseList.map(game => {
                     return <div key={game.boardGameId}>{game.title}</div>;
                   })}
                 </div>
-                <div>
-                  {data.genres.map((genre, i) => {
-                    return (
-                      <Tag key={i} closeButton={false}>
-                        {genre}
-                      </Tag>
-                    );
-                  })}
-                </div>
+              </div>
+              <div className={styles.genres}>
+                {data.genres.map((genre, i) => {
+                  return (
+                    <Tag key={i} closeButton={false}>
+                      {genre}
+                    </Tag>
+                  );
+                })}
               </div>
             </div>
             <div className={styles.firstGatheringInfoIcons}>
-              <button className={styles.button} type="button">
-                찜하기
-              </button>
+              <IconButton
+                size="mediumLarge"
+                imgUrl={
+                  isSaved
+                    ? '/assets/icons/save.svg'
+                    : '/assets/icons/unSave.svg'
+                }
+                clickIconButtonHandler={() => setSaveItem(id)}
+              />
               <button
                 className={styles.shareButton}
                 type="button"
@@ -131,13 +149,32 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               />
             </div>
           </div>
+          <div className={styles.stroke}>
+            <Image alt="점선" src={'/assets/icons/stroke.svg'} fill />
+          </div>
           <div className={styles.secondGatheringInfo}>
             <div className={styles.people}>
-              <span>모집 정원 {data.totalParticipantCount}명</span>
+              <span className={styles.totalParticipantCount}>
+                모집 정원 {data.totalParticipantCount}명
+              </span>
               <ProfileImages participants={data.userParticipantResponseList} />
             </div>
-            <div></div>
-            <button type="button" onClick={handleProfileModalOpen}>
+            <div className={styles.progressBarBackground}>
+              <div
+                className={styles.progressBar}
+                style={{
+                  width: `${(data.totalParticipantCount * 100) / data.limitParticipant}%`,
+                }}
+              />
+            </div>
+            <div className={styles.progressBarDescription}>
+              <p>최소 인원 2명</p>
+              <p>최대 인원 {data.limitParticipant}명</p>
+            </div>
+            <button
+              type="button"
+              onClick={handleProfileModalOpen}
+              className={styles.memberListButton}>
               참여자 리스트 보기 ({data.totalParticipantCount}/
               {data.limitParticipant})
             </button>

@@ -20,6 +20,11 @@
     height: 32px;
   }
 
+  &[data-size='mediumLarge'] {
+    width: 48px;
+    height: 48px;
+  }
+
   &[data-size='large'] {
     width: 64px;
     height: 64px;

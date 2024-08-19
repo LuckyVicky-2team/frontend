@@ -11,6 +11,7 @@ import ShareModal from '../ShareModal';
 import Image from 'next/image';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import IconButton from '@/components/common/IconButton';
+import ProfileImage from '@/components/common/ProfileImage';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -61,22 +62,24 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 />
                 <span>{data.city}</span> <span>{data.county}</span>
               </div>
-              <Tag
-                borderColor={'none'}
-                fontColor={'#ffffff'}
-                backgroundColor={'#007AFF'}
-                className={`${styles.tag}`}
-                closeButton={false}>
-                {formattedDate}
-              </Tag>
-              <Tag
-                borderColor={'none'}
-                fontColor={'#ffffff'}
-                backgroundColor={'#007AFF'}
-                className={`${styles.tag}`}
-                closeButton={false}>
-                {formattedTime}
-              </Tag>
+              <div className={styles.dateAndTime}>
+                <Tag
+                  borderColor={'none'}
+                  fontColor={'#ffffff'}
+                  backgroundColor={'#007AFF'}
+                  className={`${styles.tag}`}
+                  closeButton={false}>
+                  {formattedDate}
+                </Tag>
+                <Tag
+                  borderColor={'none'}
+                  fontColor={'#ffffff'}
+                  backgroundColor={'#007AFF'}
+                  className={`${styles.tag}`}
+                  closeButton={false}>
+                  {formattedTime}
+                </Tag>
+              </div>
               <div className={styles.badge}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Image
@@ -187,14 +190,35 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         </div>
       </div>
       <div className={styles.section2}>
-        <div>{convertedContent}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '35px' }}>
+          <Image
+            src={'/assets/icons/vector-252.svg'}
+            alt="세로줄"
+            width={4}
+            height={60}
+          />
+          <h1 className={styles.title2}>{data.title} 모임원 모집</h1>
+        </div>
+        <div className={styles.convertedContent}>{convertedContent}</div>
 
         {/* <div>{data.place}</div> */}
         {/* <div>{data.addressDetail}</div> */}
         {/* <div>{data.latitude}</div>
       <div>{data.longitude}</div> */}
-
-        <div>{data.userNickName}</div>
+        <h2>모임장 정보</h2>
+        <p>모임장님은 이런 분이세요!</p>
+        <div>
+          <ProfileImage
+            url={
+              data.userParticipantResponseList.find(
+                participant => participant.type === 'LEADER'
+              )?.profileImage
+            }
+            width={56}
+            height={56}
+          />
+          <div>{data.userNickName}</div>
+        </div>
       </div>
 
       <button type="button">(마스터) 내보내기</button>

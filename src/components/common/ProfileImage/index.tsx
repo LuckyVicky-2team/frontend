@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 import Image from 'next/image';
 
 interface IProfileImageProps {
-  url: string;
+  url: string | undefined;
   width: number;
   height: number;
 }

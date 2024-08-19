@@ -60,6 +60,11 @@
   line-height: 20px; /* 125% */
 }
 
+.dateAndTime {
+  display: flex;
+  gap: 8px;
+}
+
 .badge {
   display: flex;
   align-items: center;
@@ -84,6 +89,9 @@
 
 .genres {
   margin: 8px 0 0 0;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .firstGatheringInfoIcons {
@@ -169,4 +177,20 @@
   font-style: normal;
   font-weight: 600;
   line-height: 20px; /* 125% */
+}
+
+.section2 {
+  padding: 54px 24px;
+  .title2 {
+    color: $blue-normal;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .convertedContent {
+    margin: 38px 0 0;
+    min-height: 300px;
+  }
 }

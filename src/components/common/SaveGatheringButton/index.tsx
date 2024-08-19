@@ -4,7 +4,7 @@ import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 interface ISaveGatheringButtonProps {
   id: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
-  className: string;
+  className?: string;
 }
 
 export default function SaveGatheringButton({

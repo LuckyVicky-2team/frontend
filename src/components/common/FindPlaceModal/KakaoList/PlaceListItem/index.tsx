@@ -1,36 +1,47 @@
 import Link from 'next/link';
-import { IPlaceInfoResponse } from '@/types/kakao';
 import styles from './PlaceListItem.module.scss';
 
 interface IPlaceListItemProps {
-  item: IPlaceInfoResponse;
+  placeName: string;
+  address: string;
+  distance?: string;
+  placeURL?: string;
+  categoryName?: string;
   index?: number;
   className?: string;
 }
 
 export default function PlaceListItem({
-  item,
-  index = 0,
+  placeName,
+  address,
+  distance,
+  placeURL,
+  categoryName,
+  index,
   className,
 }: IPlaceListItemProps) {
   return (
     <div className={`${styles.item} ${className}`}>
       <div className={styles.nameArea}>
-        <span className={styles.order}>{index + 1}</span>
-        <Link href={item.place_url} target="_blank" className={styles.name}>
-          {item.place_name}
-        </Link>
+        {index !== undefined && <span className={styles.order}>{index}</span>}
+        {placeURL ? (
+          <Link
+            href={placeURL}
+            target="_blank"
+            className={`${styles.name} ${styles.url}`}>
+            {placeName}
+          </Link>
+        ) : (
+          <div className={styles.name}>{placeName}</div>
+        )}
         <span className={styles.category}>
-          {item.category_name.split(' > ').at(-1)}
+          {categoryName?.split(' > ').at(-1)}
         </span>
       </div>
-      <div className={styles.infoArea}>
-        <div className={styles.address}>
-          {item.road_address_name || item.address_name}
-        </div>
-        {item.distance && (
-          <div className={styles.distance}>{`${item.distance}km`}</div>
-        )}
+      <div
+        className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}>
+        <div className={styles.address}>{address}</div>
+        {distance && <div className={styles.distance}>{`${distance}km`}</div>}
       </div>
     </div>
   );

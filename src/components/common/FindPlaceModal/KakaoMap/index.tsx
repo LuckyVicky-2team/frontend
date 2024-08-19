@@ -1,18 +1,42 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import PlaceListItem from '../KakaoList/PlaceListItem';
 import styles from './KakaoMap.module.scss';
 
 interface IKakaoMapProps {
-  coordinate?: { lat: string; lon: string };
-  placeName?: string;
+  coordinate: { lat: string; lon: string };
+  placeName: string;
   index?: number;
+  address: string;
+  distance?: string;
+  placeURL?: string;
+  categoryName?: string;
+  className?: string;
+  mapLatio?: string;
 }
 
+/**
+ * @param coordinate 장소의 좌표값
+ * @param placeName 장소의 이름
+ * @param index 리스트 상의 index 값. 모달에서만 사용.
+ * @param address 장소의 주소
+ * @param distance 장소와 내 위치 사이의 거리. 모달에서만 사용.
+ * @param placeURL 장소의 카카오 정보 페이지 URL
+ * @param categoryName 장소의 분류
+ * @param mapLatio 지도의 가로, 세로 비율
+ * @param className 컴포넌트 임의 스타일 지정
+ */
 export default function KakaoMap({
-  coordinate = { lat: '30', lon: '120' },
+  coordinate,
   placeName,
   index,
+  address,
+  distance,
+  placeURL,
+  categoryName,
+  className,
+  mapLatio = '1/1',
 }: IKakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
@@ -86,5 +110,21 @@ export default function KakaoMap({
     });
   }, [coordinate, placeName, index]);
 
-  return <div className={`${styles.map}`} ref={mapRef}></div>;
+  return (
+    <div className={`${styles.container} ${className}`}>
+      <div
+        className={styles.map}
+        ref={mapRef}
+        style={{ aspectRatio: mapLatio }}></div>
+      <PlaceListItem
+        index={index}
+        placeName={placeName}
+        address={address}
+        distance={distance}
+        placeURL={placeURL}
+        categoryName={categoryName}
+        className={styles.item}
+      />
+    </div>
+  );
 }

@@ -7,7 +7,6 @@ import { IPlaceInfoResponse } from '@/types/kakao';
 import { useFunnel } from '@/hooks/useFunnel';
 import KakaoList from './KakaoList';
 import KakaoMap from './KakaoMap';
-import PlaceListItem from './KakaoList/PlaceListItem';
 import useGetCurrentCoordinate from '@/api/queryHooks/geolocation';
 import kakaoSearch from '@/utils/kakaoSearch';
 import PlaceSearchBar from './PlaceSearchBar';
@@ -76,7 +75,7 @@ export default function FindPlaceModal({
   }, [myPosition, isLoading]);
 
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose}>
+    <Modal modalOpen={modalOpen} onClose={onClose} xButton maxWidth={600}>
       <div className={styles.container}>
         <Funnel>
           <Step name="list">
@@ -118,11 +117,12 @@ export default function FindPlaceModal({
                   index={selectedItem.index}
                   coordinate={{ lat: selectedItem.y, lon: selectedItem.x }}
                   placeName={selectedItem.place_name}
-                />
-                <PlaceListItem
-                  item={selectedItem}
-                  index={selectedItem.index}
-                  className={styles.selectedItem}
+                  address={
+                    selectedItem.road_address_name || selectedItem.address_name
+                  }
+                  distance={selectedItem.distance}
+                  placeURL={selectedItem.place_url}
+                  categoryName={selectedItem.category_name}
                 />
                 <button
                   className={styles.selectButton}

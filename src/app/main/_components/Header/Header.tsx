@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,11 +7,17 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const [loggedIn, setLoggedIn] = useState(true);
   const pathName = usePathname();
   const router = useRouter();
 
   //현재 pathname
   const currentPathName = pathName.split('/')[1];
+
+  useEffect(() => {
+    const getLocal = localStorage.getItem('accessToken');
+    setLoggedIn(getLocal !== null);
+  }, [pathName]);
 
   return (
     <header>
@@ -52,25 +58,31 @@ export default function Header() {
             <h1>
               <Link href="/main">BOGO</Link>
             </h1>
-            <div className={styles.right}>
-              <button>
-                <Image
-                  width={56}
-                  height={56}
-                  src={'/assets/mainImages/alarm.svg'}
-                  alt="알람 아이콘"
-                />
-                <span></span>
-              </button>
-              <Link href={`/mypage`}>
-                <Image
-                  width={32}
-                  height={32}
-                  src={'/assets/mainImages/profile.svg'}
-                  alt="마이페이지 아이콘"
-                />
-              </Link>
-            </div>
+            {loggedIn === true ? (
+              <div className={styles.right}>
+                <button>
+                  <Image
+                    width={56}
+                    height={56}
+                    src={'/assets/mainImages/alarm.svg'}
+                    alt="알람 아이콘"
+                  />
+                  <span></span>
+                </button>
+                <Link href={`/mypage`}>
+                  <Image
+                    width={32}
+                    height={32}
+                    src={'/assets/mainImages/profile.svg'}
+                    alt="마이페이지 아이콘"
+                  />
+                </Link>
+              </div>
+            ) : (
+              <div className={`${styles.right} ${styles.noneLogin}`}>
+                <Link href="/signin">로그인</Link>
+              </div>
+            )}
           </div>
         </div>
       )}

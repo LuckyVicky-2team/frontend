@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import styles from './SelectBox.module.scss';
 
 interface ISelectOptionProps {
-  optionSet: (number | string)[] | [];
+  optionSet: (number | string)[] | { [key: string]: any }[] | [];
 }
 interface ISelectBoxProps extends ISelectOptionProps {
   optionTitle?: string;
@@ -31,11 +31,21 @@ export default function SelectBox({
       onChange={clickOptionHandler}>
       {optionTitle && <option value={''}>{optionTitle}</option>}
       {optionSet.map((item, idx) => {
-        return (
-          <option key={idx} value={item}>
-            {item}
-          </option>
-        );
+        if (typeof item === 'object') {
+          return (
+            <option
+              key={`${item.name ?? item.value}_${idx}`}
+              value={item?.value ?? item.name}>
+              {item.name}
+            </option>
+          );
+        } else {
+          return (
+            <option key={idx} value={item}>
+              {item}
+            </option>
+          );
+        }
       })}
     </select>
   );

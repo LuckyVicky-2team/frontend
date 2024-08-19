@@ -1,7 +1,7 @@
 import { getDehydratedQuery, Hydrate } from '@/utils/react-query';
 import { QueryKey } from '@/utils/QueryKey';
 import GatheringDetails from './_components/GatheringDetails.tsx';
-import { getGatheringsInfo } from '@/api/apis/gatheringsApis';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
 
 // [key: string]: string
 export default async function GatheringsInfo({ params }: { params: any }) {
@@ -9,7 +9,7 @@ export default async function GatheringsInfo({ params }: { params: any }) {
 
   const query = getDehydratedQuery({
     queryKey: [QueryKey.DETAIL],
-    queryFn: () => getGatheringsInfo(Number(id)),
+    queryFn: () => gatheringAPI.getGatheringsInfo(Number(id)),
   });
 
   return (

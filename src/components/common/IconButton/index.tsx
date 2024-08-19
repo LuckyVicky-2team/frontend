@@ -14,15 +14,14 @@ export default function IconButton({
   clickIconButtonHandler,
   className,
   imgUrl,
-  size,
+  size = 'small',
 }: IIconButtonProps) {
   return (
-    <div data-size={size} className={styles.iconContainer}>
-      <div
-        className={`${styles.icon} ${className}`}
-        onClick={clickIconButtonHandler}>
-        <Image alt="icon" src={imgUrl} fill />
-      </div>
+    <div
+      data-size={size}
+      className={`${styles.icon} ${className}`}
+      onClick={clickIconButtonHandler}>
+      <Image alt="icon" src={imgUrl} fill />
     </div>
   );
 }

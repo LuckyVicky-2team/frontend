@@ -1,10 +1,8 @@
-.iconContainer {
+.icon {
   position: relative;
-  .icon {
-    border-radius: 100%;
-    cursor: pointer;
-    overflow: hidden;
-  }
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
   &[data-size='xsmall'] {
     width: 16px;
     height: 16px;
@@ -26,7 +24,7 @@
   }
 
   &[data-size='large'] {
-    width: 64px;
-    height: 64px;
+    width: 48px;
+    height: 48px;
   }
 }

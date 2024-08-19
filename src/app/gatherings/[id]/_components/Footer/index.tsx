@@ -17,21 +17,23 @@ export default function GatheringFooter({
 }: IGatheringFooterProps) {
   return (
     <div className={styles.background}>
-      {type === 'none' && (
-        <div>
-          <BackButton />
-          <div className={styles.cta}>모임 참가하기</div>
-          <IconButton
-            size="medium"
-            imgUrl={
-              isSaved
-                ? '/assets/mainImages/heart_fill_ico.svg'
-                : '/assets/icons/ic_heart.svg'
-            }
-            clickIconButtonHandler={() => setSaveItem(id)}
-          />
+      <div>
+        <BackButton />
+        <div className={styles.cta}>
+          {type === 'none' && '모임 참가하기'}
+          {(type === 'leader' || type === 'member') && '모임 참가하기'}
         </div>
-      )}
+        <IconButton
+          size="medium"
+          imgUrl={
+            isSaved
+              ? '/assets/mainImages/heart_fill_ico.svg'
+              : '/assets/icons/ic_heart.svg'
+          }
+          clickIconButtonHandler={() => setSaveItem(id)}
+        />
+      </div>
+
       <button type="button">(비멤버) 모임 참여하기</button>
       <button type="button">(멤버) 채팅방으로 가기</button>
       <button type="button">

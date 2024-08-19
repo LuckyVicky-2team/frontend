@@ -10,7 +10,7 @@ export default function Footer() {
   const pathName = usePathname();
   const currentPathName = pathName.split('/')[1];
   const currentPathName2 = pathName.split('/')[2];
-  console.log(currentPathName2);
+
   useEffect(() => {
     if (currentPathName === 'main') {
       setOn(3);

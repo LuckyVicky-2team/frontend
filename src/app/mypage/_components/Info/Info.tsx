@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styles from './info.module.scss';
 import Image from 'next/image';
@@ -28,8 +28,7 @@ export default function Info({
 }: InfoProps) {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-
-  const getLocal = localStorage.getItem('accessToken');
+  const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
 
   // 프로필 이미지 파일 선택 처리
@@ -59,8 +58,18 @@ export default function Info({
     }
   };
 
+  useEffect(() => {
+    const getLocal = localStorage.getItem('accessToken');
+    if (getLocal === null) {
+      setLoggedIn(false);
+    } else {
+      setLoggedIn(true);
+    }
+  }, [loggedIn]);
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
+    setLoggedIn(false);
     alert('로그아웃 되었습니다.');
     router.push('/');
   };
@@ -169,10 +178,11 @@ export default function Info({
           <div className={styles.rightInfo}>
             <div className={styles.topInfo}>
               <b>{mypageInfo?.nickName}</b>
-              {getLocal === null ? (
+              {loggedIn === false ? (
                 <Link href="signin">로그인</Link>
               ) : (
                 <button
+                  type={'button'}
                   onClick={() => {
                     handleLogout();
                   }}>

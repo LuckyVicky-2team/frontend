@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,12 +7,17 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const [loggedIn, setLoggedIn] = useState(true);
   const pathName = usePathname();
   const router = useRouter();
-  const getLocal = localStorage.getItem('accessToken');
 
   //현재 pathname
   const currentPathName = pathName.split('/')[1];
+
+  useEffect(() => {
+    const getLocal = localStorage.getItem('accessToken');
+    setLoggedIn(getLocal !== null);
+  }, [pathName]);
 
   return (
     <header>
@@ -53,11 +58,7 @@ export default function Header() {
             <h1>
               <Link href="/main">BOGO</Link>
             </h1>
-            {getLocal === null ? (
-              <div className={`${styles.right} ${styles.noneLogin}`}>
-                <Link href="/signin">로그인</Link>
-              </div>
-            ) : (
+            {loggedIn === true ? (
               <div className={styles.right}>
                 <button>
                   <Image
@@ -76,6 +77,10 @@ export default function Header() {
                     alt="마이페이지 아이콘"
                   />
                 </Link>
+              </div>
+            ) : (
+              <div className={`${styles.right} ${styles.noneLogin}`}>
+                <Link href="/signin">로그인</Link>
               </div>
             )}
           </div>

@@ -4,11 +4,13 @@ import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 interface ISaveGatheringButtonProps {
   id: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
+  className: string;
 }
 
 export default function SaveGatheringButton({
   id,
-  size = 'small',
+  size,
+  className,
 }: ISaveGatheringButtonProps) {
   const [savedItem, setSaveItem] = useSaveItemState();
 
@@ -20,6 +22,7 @@ export default function SaveGatheringButton({
 
   return (
     <IconButton
+      className={className}
       size={size}
       imgUrl={isSaved ? '/assets/icons/save.svg' : '/assets/icons/unSave.svg'}
       clickIconButtonHandler={handleButton}

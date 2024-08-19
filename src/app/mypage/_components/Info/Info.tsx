@@ -1,9 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import styles from './info.module.scss';
 import Image from 'next/image';
 import { updateProfileImage } from '@/api/apis/mypageApis';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface UserProfile {
   email: string; // 회원 고유 ID
@@ -26,6 +28,8 @@ export default function Info({
 }: InfoProps) {
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
 
   // 프로필 이미지 파일 선택 처리
   const handleProfileImageChange = (
@@ -41,8 +45,6 @@ export default function Info({
     }
   };
 
-  console.log('profileImage :', profileImage);
-
   // 프로필 이미지 업로드 처리
   const handleProfileImageUpload = async () => {
     if (profileImage) {
@@ -54,6 +56,22 @@ export default function Info({
         console.error('프로필 이미지 수정 실패:', error);
       }
     }
+  };
+
+  useEffect(() => {
+    const getLocal = localStorage.getItem('accessToken');
+    if (getLocal === null) {
+      setLoggedIn(false);
+    } else {
+      setLoggedIn(true);
+    }
+  }, [loggedIn]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    setLoggedIn(false);
+    alert('로그아웃 되었습니다.');
+    router.push('/');
   };
   return (
     <div className={styles.relative}>
@@ -160,7 +178,17 @@ export default function Info({
           <div className={styles.rightInfo}>
             <div className={styles.topInfo}>
               <b>{mypageInfo?.nickName}</b>
-              <button>로그아웃</button>
+              {loggedIn === false ? (
+                <Link href="signin">로그인</Link>
+              ) : (
+                <button
+                  type={'button'}
+                  onClick={() => {
+                    handleLogout();
+                  }}>
+                  로그아웃
+                </button>
+              )}
             </div>
             <ul className={styles.list}>
               <li>

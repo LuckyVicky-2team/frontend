@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import styles from './Modal.module.scss';
+import Image from 'next/image';
 
 // 사용 예시
 // useModal을 사용하여 생성한 modalOpen과 handleModalClose를 Modal 컴포넌트의 Props로 내려줍니다.
-// 화면을 꽉 채우는 모달의 경우 full을 props로 내려줍니다.
+// 화면을 꽉 채우는 모달의 경우 full을 props로 내려줍니다. (full과 xButton은 같이 사용 X)
 // function Page() {
 //   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
 //   return (
@@ -26,6 +27,7 @@ interface IModalProps {
   onClose: () => void;
   maxWidth?: number;
   full?: boolean;
+  xButton?: boolean;
   children: ReactNode | undefined;
 }
 
@@ -34,6 +36,7 @@ export default function Modal({
   onClose,
   maxWidth = 300,
   full = false,
+  xButton = false,
   children,
 }: IModalProps) {
   return (
@@ -45,16 +48,36 @@ export default function Modal({
           onClick={e => {
             e.stopPropagation();
           }}
-          className={`${full ? styles.fullModal : modalOpen ? styles.modal : styles.none} ${full ? (modalOpen ? styles.slideUp : styles.slideDown) : ''}`}
+          className={
+            full
+              ? `${styles.fullModal} ${modalOpen ? styles.slideUp : styles.slideDown}`
+              : `${styles.modalWithXButton}`
+          }
           style={{
-            width: full ? '' : `min(${maxWidth}px, 80%)`,
+            width: full ? 'min(100%, 600px)' : `min(${maxWidth}px, 80%)`,
           }}>
-          {full && (
-            <button type="button" onClick={onClose}>
-              x
+          <div
+            className={`${full ? '' : modalOpen ? styles.modal : styles.none}`}
+            style={{
+              width: '100%',
+            }}>
+            {full && (
+              <button type="button" onClick={onClose}>
+                x
+              </button>
+            )}
+            {children}
+          </div>
+          {xButton && modalOpen && (
+            <button type="button" onClick={onClose} className={styles.xButton}>
+              <Image
+                src={'/assets/icons/x-button.svg'}
+                alt={'닫기 버튼'}
+                width={38}
+                height={38}
+              />
             </button>
           )}
-          {children}
         </div>
       </div>
     </>

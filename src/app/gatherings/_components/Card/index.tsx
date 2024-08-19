@@ -1,11 +1,8 @@
-'use client';
-
 import Link from 'next/link';
 import styles from './Card.module.scss';
-import IconButton from '@/components/common/IconButton';
 import Image from 'next/image';
-import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import { transDate } from '@/utils/common';
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface ICardProps {
   id: number;
@@ -38,14 +35,8 @@ export default function Card({
 }: ICardProps) {
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
-  const [savedItem, setSaveItem] = useSaveItemState();
-
-  const handleButton = () => {
-    setSaveItem(id);
-  };
-
-  const isSaved = savedItem?.includes(id);
   const isFullParticipant = participantCount === limitParticipant;
+
   return (
     <>
       <div className={styles.card} onClick={onClick}>
@@ -79,13 +70,7 @@ export default function Card({
                 <h3 className={styles.timeDetail}>{time}</h3>
               </div>
             </div>
-            <IconButton
-              size="medium"
-              imgUrl={
-                isSaved ? '/assets/icons/save.svg' : '/assets/icons/unSave.svg'
-              }
-              clickIconButtonHandler={handleButton}
-            />
+            <SaveGatheringButton id={id} size={'medium'} />
           </div>
 
           <div className={styles.tagContainer}>

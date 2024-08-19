@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './index.module.scss';
+import styles from './ProfileImage.module.scss';
 import Image from 'next/image';
 
 interface IProfileImageProps {

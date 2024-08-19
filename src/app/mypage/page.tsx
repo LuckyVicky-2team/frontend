@@ -34,8 +34,6 @@ export default function MyPage() {
   useEffect(() => {
     fetchPersonalInfo();
   }, []);
-
-  console.log('info :', info);
   return (
     <div className={styles.relative}>
       <div className={`${styles.editModal}${editOpen === true ? 'on' : ''}`}>

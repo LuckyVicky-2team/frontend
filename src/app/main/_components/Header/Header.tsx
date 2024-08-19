@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export default function Header() {
   const pathName = usePathname();
   const router = useRouter();
+  const getLocal = localStorage.getItem('accessToken');
 
   //현재 pathname
   const currentPathName = pathName.split('/')[1];
@@ -52,25 +53,31 @@ export default function Header() {
             <h1>
               <Link href="/main">BOGO</Link>
             </h1>
-            <div className={styles.right}>
-              <button>
-                <Image
-                  width={56}
-                  height={56}
-                  src={'/assets/mainImages/alarm.svg'}
-                  alt="알람 아이콘"
-                />
-                <span></span>
-              </button>
-              <Link href={`/mypage`}>
-                <Image
-                  width={32}
-                  height={32}
-                  src={'/assets/mainImages/profile.svg'}
-                  alt="마이페이지 아이콘"
-                />
-              </Link>
-            </div>
+            {getLocal === null ? (
+              <div className={`${styles.right} ${styles.noneLogin}`}>
+                <Link href="/signin">로그인</Link>
+              </div>
+            ) : (
+              <div className={styles.right}>
+                <button>
+                  <Image
+                    width={56}
+                    height={56}
+                    src={'/assets/mainImages/alarm.svg'}
+                    alt="알람 아이콘"
+                  />
+                  <span></span>
+                </button>
+                <Link href={`/mypage`}>
+                  <Image
+                    width={32}
+                    height={32}
+                    src={'/assets/mainImages/profile.svg'}
+                    alt="마이페이지 아이콘"
+                  />
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       )}

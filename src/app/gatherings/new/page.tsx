@@ -11,6 +11,10 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
 import TypeInput from './_components/TypeInput';
 import Image from 'next/image';
+import { dateToString } from '@/utils/dateTostring';
+import FindPlaceModal from '@/components/common/FindPlaceModal';
+import useModal from '@/hooks/useModal';
+import { axiosInstance } from '@/api/instance';
 // import AuthSubmitButton from '@/app/(authentication)/_components/AuthSubmitButton';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
@@ -35,6 +39,13 @@ export default function NewGatheringPage() {
   const [showGameData, setShowGameData] = useState(false);
   const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
   const [gameTitle, setGameTitle] = useState('');
+  const {
+    modalOpen: findPlaceModalOpen,
+    handleModalClose: handleFindPlaceModalClose,
+    handleModalOpen: handleFindPlaceModalOpen,
+  } = useModal();
+  // const [latitude, setLatitude] = useState<string | null>(null);
+  // const [longitude, setLongitude] = useState<string | null>(null);
 
   const gameData = [
     { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
@@ -44,27 +55,51 @@ export default function NewGatheringPage() {
   ];
 
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
-    const { contentWithoutHtml, image, ...info } = gatheringInfo;
+    const { contentWithoutHtml, image, meetingDatetime, ...info } =
+      gatheringInfo;
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
     const formData = new FormData();
-    formData.append('file', image);
+    formData.append('image', image);
+
+    //임시 코드
+    const { genreIdList } = info;
+    void genreIdList;
+    // void latitude;
+    // void longitude;
     formData.append(
-      'requestDTO',
-      new Blob([JSON.stringify(info)], {
-        type: 'application/json',
-      })
+      'meetingCreateRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            genreIdList: [1, 2, 3],
+            meetingDatetime: dateToString(meetingDatetime),
+            // latitude: latitude,
+            // longitude: longitude,
+            info,
+          }),
+        ],
+        {
+          type: 'application/json',
+        }
+      )
     );
+    // formData.append(
+    //   'requestDTO',
+    //   new Blob([JSON.stringify(info)], {
+    //     type: 'application/json',
+    //   })
+    // );
     console.log(info);
-    // try {
-    //   const response = await axios.post('/api/upload', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   });
-    //   console.log(response.data);
-    // } catch (error) {
-    //   console.error('There was an error uploading the file!', error);
-    // }
+    try {
+      const response = await axiosInstance.post('/meeting', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('There was an error uploading the file!', error);
+    }
   };
 
   useEffect(() => {
@@ -209,6 +244,22 @@ export default function NewGatheringPage() {
                 어디서 만나나요? <br />
                 해당 위치는 목록에서는 전체공개되지 않습니다.
               </p>
+              <button
+                type="button"
+                onClick={handleFindPlaceModalOpen}
+                style={{
+                  backgroundColor: 'red',
+                  width: '100px',
+                  height: '20px',
+                }}
+              />
+              <FindPlaceModal
+                modalOpen={findPlaceModalOpen}
+                onClose={handleFindPlaceModalClose}
+                setLatitude={x => setValue('latitude', x)}
+                setLongitude={x => setValue('longitude', x)}
+                setValue={setValue}
+              />
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="meetingDatetime" className={styles.title}>
@@ -238,7 +289,7 @@ export default function NewGatheringPage() {
             <div className={styles.inputContainer}>
               <div className={styles.title}>참여 유형</div>
               <TypeInput
-                register={register}
+                register={register('type')}
                 freeButtonClick={freeButtonClick}
                 setFreeButtonClick={setFreeButtonClick}
               />

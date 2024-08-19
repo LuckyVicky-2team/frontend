@@ -8,6 +8,8 @@ export interface INewGatheringFormValuesRequest {
   country: string; //구
   latitude: string; //위도
   longitude: string; //경도
+  detailAddress: string;
+  locationName: string;
   meetingDatetime: Date; //만나는 날짜 === 마감일
   boardGameIdList: number[];
   genreIdList: number[];

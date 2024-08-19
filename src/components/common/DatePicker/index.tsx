@@ -52,11 +52,15 @@ interface IDatePickerProps<F extends FieldValues> {
   control?: Control<F>; //react hook form 사용할 시
   name?: Path<F>; //react hook form 사용할 시
   selectedDate?: Date | null; //react hook form 사용 안 할 시
-  setSelectedDate?: Dispatch<SetStateAction<Date | null>>; //react hook form 사용 안 할 시
+  setSelectedDate?:
+    | Dispatch<SetStateAction<Date | null>>
+    | ((_date: Date | null) => void); //react hook form 사용 안 할 시
   id?: string;
   placeholder?: string;
+  isDisabled?: boolean;
   time?: boolean;
   className?: string;
+  minDate?: Date | null;
 }
 
 function DatePicker<F extends FieldValues>({
@@ -64,6 +68,8 @@ function DatePicker<F extends FieldValues>({
   name,
   selectedDate,
   setSelectedDate,
+  isDisabled,
+  minDate,
   id = '',
   placeholder,
   time = false,
@@ -99,10 +105,12 @@ function DatePicker<F extends FieldValues>({
         <ReactDatePicker
           id={id}
           locale="ko"
+          disabled={isDisabled}
           dateFormat="yyyy.MM.dd"
           className={styles.input}
           placeholderText={placeholder}
           selected={selectedDate}
+          minDate={minDate || undefined}
           onChange={date => setSelectedDate(date)}
           showTimeSelect={time}
         />

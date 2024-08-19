@@ -20,6 +20,7 @@ export default function Members({ modalOpen, onClose, data }: IMembersProps) {
                 width={28}
                 height={28}
               />
+              내보내기
             </button>
           );
         })}

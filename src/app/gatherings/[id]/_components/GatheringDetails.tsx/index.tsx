@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import IconButton from '@/components/common/IconButton';
 import ProfileImage from '@/components/common/ProfileImage';
+import GatheringFooter from '../Footer';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -200,33 +201,54 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           <h1 className={styles.title2}>{data.title} 모임원 모집</h1>
         </div>
         <div className={styles.convertedContent}>{convertedContent}</div>
-
+      </div>
+      <div className={styles.section3}>
+        <h2 className={styles.h2}>위치 정보</h2>
+        <p className={styles.h2Description}>이쪽에서 모임이 진행됩니다.</p>
         {/* <div>{data.place}</div> */}
         {/* <div>{data.addressDetail}</div> */}
         {/* <div>{data.latitude}</div>
       <div>{data.longitude}</div> */}
-        <h2>모임장 정보</h2>
-        <p>모임장님은 이런 분이세요!</p>
-        <div>
-          <ProfileImage
-            url={
-              data.userParticipantResponseList.find(
-                participant => participant.type === 'LEADER'
-              )?.profileImage
-            }
-            width={56}
-            height={56}
+      </div>
+      <div className={styles.section4}>
+        <h2 className={styles.h2}>모임장 정보</h2>
+        <p className={styles.h2Description}>모임장님은 이런 분이세요!</p>
+        <div className={styles.leaderProfile}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              height: '90px',
+            }}>
+            <ProfileImage
+              url={
+                data.userParticipantResponseList.find(
+                  participant => participant.type === 'LEADER'
+                )?.profileImage
+              }
+              width={56}
+              height={56}
+            />
+          </div>
+          <div className={styles.leaderDescription}>
+            <div className={styles.userNickname}>{data.userNickName}</div>
+            <div className={styles.rating}>평점 4.5점</div>
+            <div className={styles.gatheringCount}>운영 모임 50회</div>
+          </div>
+          <Image
+            src={'/assets/icons/chevron-right-blue.svg'}
+            alt="오른쪽 화살표"
+            width={36}
+            height={90}
           />
-          <div>{data.userNickName}</div>
         </div>
       </div>
-
-      <button type="button">(마스터) 내보내기</button>
-      <button type="button">(비멤버) 모임 참여하기</button>
-      <button type="button">(멤버) 채팅방으로 가기</button>
-      <button type="button">
-        (마스터) 모임 삭제하기+ 채팅방으로 가기+ 모집 완료
-      </button>
+      <GatheringFooter
+        id={id}
+        type="none"
+        isSaved={isSaved}
+        setSaveItem={setSaveItem}
+      />
     </div>
   );
 }

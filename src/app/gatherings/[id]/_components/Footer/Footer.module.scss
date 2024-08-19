@@ -1,0 +1,12 @@
+.background {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: min(100%, 600px);
+  height: 108px;
+  display: flex;
+  border-radius: 10px 10px 0px 0px;
+  background-color: white;
+  box-shadow: 0 -10px 20px 0 rgb(0, 122, 255, 10%);
+}

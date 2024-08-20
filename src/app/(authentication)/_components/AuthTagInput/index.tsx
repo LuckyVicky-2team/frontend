@@ -14,12 +14,12 @@ export default function AuthTagInput({
   return (
     <div className={styles.container}>
       <label className={styles.label} htmlFor="prTags">
-        PR 태그
+        나의 취향을 입력해보세요!
       </label>
       <TagInput
         id="prTags"
         setItems={setPRTagValues}
-        placeholder="태그를 작성해주세요!"
+        placeholder="당신의 취향을 입력해보세요!"
       />
       <div className={styles.suggest}>
         <h1 className={styles.title}>이런 태그는 어떠세요?</h1>

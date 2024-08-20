@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/Button';
 import AuthInput from '../../AuthInput';
-import { getNickNameDupCheck, getSocialToken } from '@/api/apis/authApis';
+import { getNickNameDupCheck } from '@/api/apis/authApis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import AuthTagInput from '../../AuthTagInput';
 import { usePostSocialSignupForm } from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
+import { getTokenFromCookie } from '@/actions/AuthActions';
 import styles from './SocialSignupForm.module.scss';
 
 export default function SocialSignupForm() {
@@ -60,67 +61,25 @@ export default function SocialSignupForm() {
           localStorage.setItem('accessToken', token);
           router.push('/signup/result');
         },
-        onError: () => {
+        onError: (error, data) => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
+          console.log(error, data);
         },
       }
     );
   };
 
   useEffect(() => {
-    (async () => {
-      if (
-        document.cookie
-          .split('; ')
-          .some(cookie => cookie.startsWith('Authorization'))
-      ) {
-        try {
-          const response = await getSocialToken();
+    const transferToken = async () => {
+      const token = await getTokenFromCookie();
 
-          if (!response.headers || typeof response.headers.get !== 'function')
-            throw new Error();
-
-          const token = response.headers.get('Authorization');
-
-          setToken(token as string);
-        } catch {
-          addToast(
-            '로그인 중 문제가 발생했습니다. 다시 로그인 해주세요.',
-            'error'
-          );
-          router.push('/signin');
-        }
+      if (token) {
+        setToken(`Bearer ${token}`);
       }
-    })();
+    };
+
+    transferToken();
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (
-  //       document.cookie
-  //         .split('; ')
-  //         .some(cookie => cookie.startsWith('Authorization'))
-  //     ) {
-  //       try {
-  //         const response = await getSocialToken();
-
-  //         if (!response.headers || typeof response.headers.get !== 'function')
-  //           throw new Error();
-
-  //         const token = response.headers.get('Authorization');
-
-  //         localStorage.setItem('accessToken', token as string);
-  //       } catch {
-  //         localStorage.removeItem('accessToken');
-  //         addToast(
-  //           '로그인 중 문제가 발생했습니다. 다시 로그인 해주세요.',
-  //           'error'
-  //         );
-  //         router.push('/signin');
-  //       }
-  //     }
-  //   })();
-  // }, []);
 
   return (
     <form

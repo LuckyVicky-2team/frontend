@@ -67,21 +67,21 @@ export default function NewGatheringPage() {
     // void latitude;
     // void longitude;
     // console.log(dateToString(meetingDatetime));
-    // formData.append(
-    //   'meetingCreateRequest',
-    //   new Blob(
-    //     [
-    //       JSON.stringify({
-    //         genreIdList: [1, 2, 3],
-    //         meetingDatetime: dateToString(meetingDatetime),
-    //         ...info2,
-    //       }),
-    //     ],
-    //     {
-    //       type: 'application/json',
-    //     }
-    //   )
-    // );
+    formData.append(
+      'meetingCreateRequest',
+      new Blob(
+        [
+          JSON.stringify({
+            genreIdList: [1, 2, 3],
+            meetingDatetime: dateToString(meetingDatetime),
+            ...info2,
+          }),
+        ],
+        {
+          type: 'application/json',
+        }
+      )
+    );
     console.log(
       JSON.stringify({
         genreIdList: [1, 2, 3],
@@ -89,14 +89,14 @@ export default function NewGatheringPage() {
         ...info2,
       })
     );
-    formData.append(
-      'meetingCreateRequest',
-      JSON.stringify({
-        genreIdList: [1, 2, 3],
-        meetingDatetime: dateToString(meetingDatetime),
-        info,
-      })
-    );
+    // formData.append(
+    //   'meetingCreateRequest',
+    //   JSON.stringify({
+    //     genreIdList: [1, 2, 3],
+    //     meetingDatetime: dateToString(meetingDatetime),
+    //     ...info2,
+    //   })
+    // );
 
     for (const x of formData) {
       console.log(x);

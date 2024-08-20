@@ -13,16 +13,19 @@ import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import IconButton from '@/components/common/IconButton';
 import ProfileImage from '@/components/common/ProfileImage';
 import GatheringFooter from '../Footer';
+import { useToast } from '@/contexts/toastContext';
+import { useEffect } from 'react';
 
 interface IGatheringDetailsProps {
   id: number;
 }
 
 export default function GatheringDetails({ id }: IGatheringDetailsProps) {
+  const { addToast } = useToast();
   const [savedItem, setSaveItem] = useSaveItemState();
   const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
-  const { data } = useGatheringDetails(Number(id));
+  const { data, isError } = useGatheringDetails(Number(id));
   console.log(data);
 
   const {
@@ -36,9 +39,13 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     handleModalClose: handleProfileModalClose,
   } = useModal();
 
-  if (!data) {
-    return;
-  }
+  useEffect(() => {
+    if (isError) {
+      addToast('에러가 발생했습니다.', 'error');
+    }
+  }, [isError]);
+
+  if (!data) return;
 
   const convertedContent = parse(data.content);
   console.log(typeof data.meetingDatetime);

@@ -19,6 +19,11 @@ export default function Header() {
     setLoggedIn(getLocal !== null);
   }, [pathName]);
 
+  useEffect(() => {
+    const getFavorite = localStorage.getItem('heart');
+    console.log(getFavorite?.length);
+  }, []);
+
   return (
     <header>
       {currentPathName === 'mypage' ? (
@@ -60,6 +65,18 @@ export default function Header() {
             </h1>
             {loggedIn === true ? (
               <div className={styles.right}>
+                <a
+                  href="/mypage/myFavoriteGatherings"
+                  className={styles.headerFavorite}>
+                  <Image
+                    width={32}
+                    height={32}
+                    objectFit="cover"
+                    src={'/assets/mainImages/blackHeart.svg'}
+                    alt=""
+                  />
+                  <span>12</span>
+                </a>
                 <button>
                   <Image
                     width={56}

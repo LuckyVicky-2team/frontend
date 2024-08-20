@@ -74,6 +74,24 @@
   justify-content: flex-end;
   width: 20%;
   gap: 15%;
+  .headerFavorite {
+    display: block;
+    width: 30%;
+    position: relative;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+    }
+  }
   &.noneLogin {
     a {
       color: #007aff;

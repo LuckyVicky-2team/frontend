@@ -11,10 +11,12 @@ import { EmailSignupFormType } from '@/types/request/authRequestTypes';
 import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import styles from './EmailSignupForm.module.scss';
+import { useToast } from '@/contexts/toastContext';
 
 export default function EmailSignupForm() {
   const router = useRouter();
   const { Funnel, Step, setStep } = useFunnel('first');
+  const { addToast } = useToast();
   const [isEmailDupOk, setIsEmailDupOk] = useState(false);
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const {
@@ -50,7 +52,7 @@ export default function EmailSignupForm() {
           { shouldFocus: true }
         );
       } else {
-        console.log(error);
+        addToast('중복확인 중 오류가 발생했습니다.', 'error');
       }
     }
   };
@@ -67,7 +69,7 @@ export default function EmailSignupForm() {
           { shouldFocus: true }
         );
       } else {
-        console.log(error);
+        addToast('중복확인 중 오류가 발생했습니다.', 'error');
       }
     }
   };
@@ -79,11 +81,10 @@ export default function EmailSignupForm() {
 
     signupMutate(newFormData, {
       onSuccess: () => {
-        console.log('회원가입에 성공했습니다');
         router.push('/signup/result');
       },
       onError: () => {
-        console.log('에러가 발생했습니다.');
+        addToast('회원가입 중 오류가 발생했습니다.', 'error');
       },
     });
   };

@@ -1,19 +1,22 @@
 'use client';
 
 import Button from '@/components/common/Button';
-import styles from './SocialSignupForm.module.scss';
 import AuthInput from '../../AuthInput';
-import { getNickNameDupCheck } from '@/api/apis/authApis';
-import { useState } from 'react';
+import { getNickNameDupCheck, getSocialToken } from '@/api/apis/authApis';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
 import { useForm } from 'react-hook-form';
 import AuthTagInput from '../../AuthTagInput';
 import { usePostSocialSignupForm } from '@/api/queryHooks/auth';
+import { useToast } from '@/contexts/toastContext';
+import styles from './SocialSignupForm.module.scss';
 
 export default function SocialSignupForm() {
   const router = useRouter();
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
+  const [token, setToken] = useState('');
+  const { addToast } = useToast();
 
   const {
     register,
@@ -44,22 +47,80 @@ export default function SocialSignupForm() {
           { shouldFocus: true }
         );
       } else {
-        console.log(error);
+        addToast('중복확인 중 오류가 발생했습니다.', 'error');
       }
     }
   };
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
-    signupMutate(formData, {
-      onSuccess: () => {
-        console.log('회원가입에 성공했습니다');
-        router.push('/signup/result');
-      },
-      onError: () => {
-        console.log('에러가 발생했습니다.');
-      },
-    });
+    signupMutate(
+      { data: formData, token },
+      {
+        onSuccess: () => {
+          localStorage.setItem('accessToken', token);
+          router.push('/signup/result');
+        },
+        onError: () => {
+          addToast('회원가입 중 오류가 발생했습니다.', 'error');
+        },
+      }
+    );
   };
+
+  useEffect(() => {
+    (async () => {
+      if (
+        document.cookie
+          .split('; ')
+          .some(cookie => cookie.startsWith('Authorization'))
+      ) {
+        try {
+          const response = await getSocialToken();
+
+          if (!response.headers || typeof response.headers.get !== 'function')
+            throw new Error();
+
+          const token = response.headers.get('Authorization');
+
+          setToken(token as string);
+        } catch {
+          addToast(
+            '로그인 중 문제가 발생했습니다. 다시 로그인 해주세요.',
+            'error'
+          );
+          router.push('/signin');
+        }
+      }
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     if (
+  //       document.cookie
+  //         .split('; ')
+  //         .some(cookie => cookie.startsWith('Authorization'))
+  //     ) {
+  //       try {
+  //         const response = await getSocialToken();
+
+  //         if (!response.headers || typeof response.headers.get !== 'function')
+  //           throw new Error();
+
+  //         const token = response.headers.get('Authorization');
+
+  //         localStorage.setItem('accessToken', token as string);
+  //       } catch {
+  //         localStorage.removeItem('accessToken');
+  //         addToast(
+  //           '로그인 중 문제가 발생했습니다. 다시 로그인 해주세요.',
+  //           'error'
+  //         );
+  //         router.push('/signin');
+  //       }
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <form
@@ -67,7 +128,7 @@ export default function SocialSignupForm() {
       onSubmit={handleSubmit(formData => submitSocialSignupForm(formData))}>
       <div className={styles.buttonInput}>
         <AuthInput
-          labelName="* 닉네임"
+          labelName="닉네임"
           placeholder="닉네임을 입력해주세요"
           error={errors.nickName}
           disabled={isNickNameDupOk}

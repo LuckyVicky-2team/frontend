@@ -24,7 +24,7 @@ export default function SignupResult() {
           어떤 플레이를 하게 될까요?!
         </p>
       </div>
-      <Link href="/main">
+      <Link href="/signin">
         <Button>BOGO 즐기러 가기</Button>
       </Link>
     </main>

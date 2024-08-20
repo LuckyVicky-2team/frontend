@@ -4,16 +4,44 @@
   left: 50%;
   transform: translate(-50%, 0);
   width: min(100%, 600px);
-  height: 108px;
+  height: 130px;
   display: flex;
   border-radius: 10px 10px 0px 0px;
   background-color: white;
   box-shadow: 0 -10px 20px 0 rgb(0, 122, 255, 10%);
+  padding: 22px 13px;
+  gap: 12px;
 }
 
-.zzimButtonBackground {
-  width: 50px;
-  height: 50px;
+.backButton {
+  display: flex;
+  height: 88px;
+  width: 80px;
+  padding: 10px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
+}
+
+.cta {
+  display: flex;
+  height: 88px;
+  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+  border-radius: 6px;
+  border: 2px solid var(--lukyviky-Blue-Normal, #007aff);
+  background: var(--lukyviky-Blue-Normal, #007aff);
+  color: var(--lukyviky-Blue-Light, #e6f2ff);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.8px;
 }
 
 .zzimButton {

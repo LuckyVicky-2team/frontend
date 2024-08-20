@@ -85,11 +85,11 @@ export default function FindPlaceModal({
       // selectedItem?.y && setValue('longitude', selectedItem?.y);
       if (selectedItem?.road_address_name || selectedItem?.address_name) {
         if (selectedItem?.road_address_name) {
-          setValue('city', selectedItem?.road_address_name.split(' ')[1]);
-          setValue('country', selectedItem?.road_address_name.split(' ')[0]);
+          setValue('city', selectedItem?.road_address_name.split(' ')[0]);
+          setValue('county', selectedItem?.road_address_name.split(' ')[1]);
         } else {
-          setValue('city', selectedItem?.address_name.split(' ')[1]);
-          setValue('country', selectedItem?.address_name.split(' ')[0]);
+          setValue('city', selectedItem?.address_name.split(' ')[0]);
+          setValue('county', selectedItem?.address_name.split(' ')[1]);
         }
         setValue(
           'detailAddress',

@@ -9,7 +9,7 @@ export const dateToString = (date: Date) => {
   const seconds = String(date.getSeconds()).padStart(2, '0');
 
   // 포맷팅
-  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+  const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 
   return formattedDate;
 };

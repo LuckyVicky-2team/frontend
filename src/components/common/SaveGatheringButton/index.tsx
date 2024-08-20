@@ -1,10 +1,12 @@
 import IconButton from '@/components/common/IconButton';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
+import styles from './SaveGatheringButton.module.scss';
 
 interface ISaveGatheringButtonProps {
   id: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   type?: 'blue' | 'red' | 'default';
+  rectangle?: boolean; //네모 테두리
   className?: string;
 }
 const path = '/assets/icons';
@@ -27,6 +29,7 @@ export default function SaveGatheringButton({
   type = 'default',
   id,
   size,
+  rectangle = false,
   className,
 }: ISaveGatheringButtonProps) {
   const [savedItem, setSaveItem] = useSaveItemState();
@@ -40,11 +43,11 @@ export default function SaveGatheringButton({
     ? iconPathsObj[type].saved
     : iconPathsObj[type].unsaved;
   return (
-    <IconButton
-      className={className}
-      size={size}
-      imgUrl={imgUrl}
-      clickIconButtonHandler={handleButton}
-    />
+    <div
+      className={`${rectangle ? styles.rectangle : styles.notRectangle} ${className}`}
+      onClick={handleButton}
+      data-size={size}>
+      <IconButton className={className} size={size} imgUrl={imgUrl} />
+    </div>
   );
 }

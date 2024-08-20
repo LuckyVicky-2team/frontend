@@ -1,8 +1,4 @@
-.icon {
-  position: relative;
-  border-radius: 100%;
-  cursor: pointer;
-  overflow: hidden;
+.notRectangle {
   &[data-size='xsmall'] {
     width: 16px;
     height: 16px;
@@ -22,4 +18,16 @@
     width: 48px;
     height: 48px;
   }
+}
+
+.rectangle {
+  display: flex;
+  height: 88px;
+  width: 80px;
+  padding: 10px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
 }

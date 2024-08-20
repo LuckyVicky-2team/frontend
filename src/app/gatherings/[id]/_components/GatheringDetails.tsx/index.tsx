@@ -9,12 +9,12 @@ import { dateTime } from '@/utils/dateTime';
 import Tag from '@/components/common/Tag';
 import ShareModal from '../ShareModal';
 import Image from 'next/image';
-import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
-import IconButton from '@/components/common/IconButton';
 import ProfileImage from '@/components/common/ProfileImage';
 import GatheringFooter from '../Footer';
 import { useToast } from '@/contexts/toastContext';
 import { useEffect } from 'react';
+import { useMe } from '@/api/queryHooks/me';
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -22,10 +22,11 @@ interface IGatheringDetailsProps {
 
 export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   const { addToast } = useToast();
-  const [savedItem, setSaveItem] = useSaveItemState();
-  const isSaved = savedItem?.includes(id);
+  // const [savedItem, setSaveItem] = useSaveItemState();
+  // const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
   const { data, isError } = useGatheringDetails(Number(id));
+  const { data: dataMe, isError: isErrorMe } = useMe();
   console.log(data);
 
   const {
@@ -40,16 +41,20 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   } = useModal();
 
   useEffect(() => {
-    if (isError) {
+    if (isError || isErrorMe) {
       addToast('에러가 발생했습니다.', 'error');
     }
   }, [isError]);
 
-  if (!data) return;
+  if (!data || !dataMe) return;
 
   const convertedContent = parse(data.content);
   console.log(typeof data.meetingDatetime);
   const { formattedDate, formattedTime } = dateTime(data.meetingDatetime);
+
+  const myType = data.userParticipantResponseList.find(participant => {
+    return participant.userId === dataMe;
+  })?.type;
 
   return (
     <div>
@@ -132,15 +137,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               </div>
             </div>
             <div className={styles.firstGatheringInfoIcons}>
-              <IconButton
-                size="mediumLarge"
-                imgUrl={
-                  isSaved
-                    ? '/assets/icons/save.svg'
-                    : '/assets/icons/unSave.svg'
-                }
-                clickIconButtonHandler={() => setSaveItem(id)}
-              />
+              <SaveGatheringButton id={id} type="default" size={'large'} />
               <button
                 className={styles.shareButton}
                 type="button"
@@ -252,9 +249,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       </div>
       <GatheringFooter
         id={id}
-        type="none"
-        isSaved={isSaved}
-        setSaveItem={setSaveItem}
+        type={myType}
+        // isSaved={isSaved}
+        // setSaveItem={setSaveItem}
       />
     </div>
   );

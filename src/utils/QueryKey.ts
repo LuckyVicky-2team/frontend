@@ -3,6 +3,7 @@ export const QueryKey = {
   DETAIL: 'detail',
   INFO: 'info',
   USER: {
+    ME: 'me',
     KEY: 'user',
     LIST: (filters: any) => [QueryKey.USER.KEY, QueryKey.LIST, filters],
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],

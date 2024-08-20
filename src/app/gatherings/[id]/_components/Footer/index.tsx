@@ -1,44 +1,49 @@
-import BackButton from '@/components/common/BackButton';
+'use client';
+
 import styles from './Footer.module.scss';
-import IconButton from '@/components/common/IconButton';
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface IGatheringFooterProps {
   id: number;
-  isSaved: boolean;
-  setSaveItem: (_newValue: number) => void;
-  type: 'none' | 'leader' | 'member';
+  // isSaved: boolean;
+  // setSaveItem: (_newValue: number) => void;
+  type: string | undefined;
 }
 
-export default function GatheringFooter({
-  id,
-  isSaved,
-  setSaveItem,
-  type,
-}: IGatheringFooterProps) {
+export default function GatheringFooter({ id, type }: IGatheringFooterProps) {
+  const router = useRouter();
   return (
     <div className={styles.background}>
       <div>
-        <BackButton />
+        <button
+          className={styles.backButton}
+          onClick={() => {
+            router.back;
+          }}>
+          <Image
+            src={'/assets/icons/pen.svg'}
+            alt="수정 이미지"
+            width={36}
+            height={36}
+          />
+        </button>
         <div className={styles.cta}>
-          {type === 'none' && '모임 참가하기'}
-          {(type === 'leader' || type === 'member') && '모임 참가하기'}
+          {!type && '모임 참가하기'}
+          {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
         </div>
-        <IconButton
-          size="medium"
-          imgUrl={
-            isSaved
-              ? '/assets/mainImages/heart_fill_ico.svg'
-              : '/assets/icons/ic_heart.svg'
-          }
-          clickIconButtonHandler={() => setSaveItem(id)}
-        />
+        {type !== 'LEADER' ? (
+          <SaveGatheringButton
+            id={id}
+            type="red"
+            className={`${styles.zzimButton}`}
+            rectangle
+          />
+        ) : (
+          <div className={styles.editButton}></div>
+        )}
       </div>
-
-      <button type="button">(비멤버) 모임 참여하기</button>
-      <button type="button">(멤버) 채팅방으로 가기</button>
-      <button type="button">
-        (마스터) 모임 삭제하기+ 채팅방으로 가기+ 모집 완료
-      </button>
     </div>
   );
 }

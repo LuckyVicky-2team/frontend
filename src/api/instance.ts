@@ -11,10 +11,12 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   config => {
-    const accesssToken = localStorage.getItem('accessToken');
+    if (typeof window !== 'undefined') {
+      const accesssToken = localStorage.getItem('accessToken');
 
-    if (accesssToken) {
-      config.headers.Authorization = accesssToken;
+      if (accesssToken) {
+        config.headers.Authorization = accesssToken;
+      }
     }
     return config;
   },

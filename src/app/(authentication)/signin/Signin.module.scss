@@ -23,27 +23,8 @@
   }
 
   .squareButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
     width: 100%;
-    border-radius: 12px;
-    height: 56px;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.64px;
     position: relative;
-    color: #3e82f1;
-    border: 2px solid #3e82f1;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &:active {
-      opacity: 0.6;
-    }
 
     .balloon {
       position: absolute;

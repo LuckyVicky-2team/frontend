@@ -34,8 +34,10 @@
     font-size: 20px;
     font-weight: 700;
 
-    &:hover {
-      color: #3e82f1;
+    &.url {
+      &:hover {
+        color: #3e82f1;
+      }
     }
   }
 
@@ -52,6 +54,10 @@
   gap: 10px;
   font-size: 16px;
   color: #9ca3af;
+
+  &.notIndexInfo {
+    padding-left: 0;
+  }
 
   .distance {
     display: flex;

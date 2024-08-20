@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import InfoEdit from './_components/infoEdit/infoEdit';
+import Image from 'next/image';
 
 interface UserProfile {
   email: string; // 회원 고유 ID
@@ -17,6 +18,7 @@ interface UserProfile {
 export default function MyPage() {
   const [info, setInfo] = useState<UserProfile | null>(null); // UserProfile 타입 사용
   const [editOpen, setEditOpen] = useState(false);
+  const [prOpen, setPrOpen] = useState(false);
 
   const handleEditOpen = () => {
     setEditOpen(!editOpen);
@@ -34,6 +36,7 @@ export default function MyPage() {
   useEffect(() => {
     fetchPersonalInfo();
   }, []);
+  console.log(info);
   return (
     <div className={styles.relative}>
       <div className={`${styles.editModal}${editOpen === true ? 'on' : ''}`}>
@@ -50,11 +53,50 @@ export default function MyPage() {
           updateInfo={fetchPersonalInfo}
         />
       </div>
+      <div className={styles.averageGrade}>
+        <b>매너능력치</b>
+        <div className={styles.line}>
+          <div className={styles.averageLine}>
+            <p className={styles.average}>{info?.averageGrade}</p>
+          </div>
+        </div>
+      </div>
       <div className={styles.prWrap}>
-        <ul>
+        <button
+          type={'button'}
+          onClick={() => {
+            setPrOpen(!prOpen);
+            console.log(prOpen);
+          }}>
+          <Image
+            objectFit="cover"
+            src={'/assets/icons/downArrow.svg'}
+            alt="pr태그 펼치기 아이콘"
+            width={24}
+            height={24}
+          />
+        </button>
+        <ul className={prOpen === false ? null : `${styles.prOpen}`}>
           {info?.prTags.map((item, i) => {
             return <li key={i}>{item}</li>;
           })}
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
+          <li>pr태그</li>
         </ul>
       </div>
       <ul className={styles.menuWrap}>
@@ -68,7 +110,7 @@ export default function MyPage() {
           <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>
         </li>
         <li>
-          <Link href="/">알림 설정</Link>
+          <Link href="/mypage/settingAlarm">알림 설정</Link>
         </li>
         <li>
           <Link href="/mypage/review">리뷰</Link>

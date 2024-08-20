@@ -89,7 +89,7 @@ export default function DeadLineGather() {
       id: 8,
       tag: ['전략게임', '정정당당'],
       registerDate: '2024.07.31 17:55',
-      gatheringDate: '2024.08.17 19:00',
+      gatheringDate: '2024.08.20 20:00',
       title: '안녕하세요~ 2명 구합니다',
       participantCount: 0,
       capacity: 2,
@@ -106,7 +106,7 @@ export default function DeadLineGather() {
       id: 9,
       tag: ['컬렉터블 게임', '고수환영', '초보환영'],
       registerDate: '2024.07.30 13:00',
-      gatheringDate: '2024.08.17 13:00',
+      gatheringDate: '2024.08.21 13:00',
       title: '스플렌더 배우면서 하실분?',
       location: '서울특별시 구로구',
       content: '처음해보는 게임이라 초보,전문가 다 좋습니다. ',
@@ -124,7 +124,7 @@ export default function DeadLineGather() {
       participantCount: 2,
       capacity: 5,
       registerDate: '2024.07.31 20:00',
-      gatheringDate: '2024.08.17 20:00',
+      gatheringDate: '2024.08.21 20:00',
       title: '파티게임류 좋아하시는분만',
       location: '서울특별시 관악구',
       content: '딕싯,한밤의 늑대인간,뱅,블리츠..등등 할거에요!',
@@ -220,7 +220,7 @@ export default function DeadLineGather() {
       participantCount: 0,
       capacity: 1,
       registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.17 21:00',
+      gatheringDate: '2024.08.22 15:30',
       title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
       location: '서울특별시 강서구',
       content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
@@ -237,6 +237,24 @@ export default function DeadLineGather() {
       endDate <= new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000) // 3일 안쪽
     );
   });
+
+  const formatTimeLeft = (endDate: Date) => {
+    const now = new Date();
+    const timeDiff = endDate.getTime() - now.getTime();
+    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hoursLeft = Math.floor(
+      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+    const parts = [];
+    if (daysLeft > 0) parts.push(`${daysLeft}일`);
+    if (hoursLeft > 0 || daysLeft > 0) parts.push(`${hoursLeft}시간`);
+    if (minutesLeft > 0 || hoursLeft > 0 || daysLeft > 0)
+      parts.push(`${minutesLeft}분`);
+
+    return parts.join(' ');
+  };
 
   return (
     <div>
@@ -271,6 +289,7 @@ export default function DeadLineGather() {
         )}
 
         {filterDeadLineGathering.map(e => {
+          const gatheringDate = new Date(e.gatheringDate);
           return (
             <li
               key={e.id}
@@ -279,14 +298,15 @@ export default function DeadLineGather() {
                 transition: '0.3s ease all',
               }}>
               <Link href="/">
+                <span className={styles.famousIco}>★ 인기★</span>
                 <span className={styles.deadLineIco}>
                   <Image
-                    src={'/assets/mainImages/deadLineTime.svg'}
+                    src={'/assets/icons/alarmIcon.svg'}
                     width={16}
                     height={16}
                     alt={'마감임박 이미지'}
                   />
-                  마감임박
+                  {formatTimeLeft(gatheringDate)} 후 마감
                 </span>
                 <span className={styles.img}>
                   <Image

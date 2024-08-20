@@ -111,13 +111,24 @@
       display: block;
       width: 100%;
       position: relative;
+      overflow: hidden;
+      .famousIco {
+        background: #f8e049;
+        color: #007aff;
+        padding: 10px 30px;
+        position: absolute;
+        top: 12px;
+        left: -30px;
+        transform: rotate(-45deg);
+        font-size: 12px;
+      }
 
       .deadLineIco {
         position: absolute;
-        top: 0;
-        left: 0;
+        bottom: 0;
+        right: 0;
         z-index: 10;
-        background: #ea580c; /* 마감임박 강조색 */
+        background: #007aff; /* 마감임박 강조색 */
         color: #fff;
         display: flex;
         align-items: center;
@@ -125,7 +136,8 @@
         padding: 7px 10px;
         font-size: 14px;
         gap: 5px;
-        border-bottom-right-radius: 13px;
+        border-top-left-radius: 13px;
+        font-size: 12px;
       }
 
       .img {

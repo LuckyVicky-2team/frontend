@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { QueryKey } from '../../utils/QueryKey';
+import { useToast } from '@/contexts/toastContext';
 
 const getCurrentCoordinate = async (): Promise<{ x: number; y: number }> => {
   return new Promise((res, rej) => {
@@ -23,9 +24,17 @@ const getCurrentCoordinate = async (): Promise<{ x: number; y: number }> => {
 };
 
 const useGetCurrentCoordinate = () => {
+  const { addToast } = useToast();
+
   return useQuery({
     queryKey: QueryKey.USER.COORDINATE(),
-    queryFn: async () => await getCurrentCoordinate(),
+    queryFn: async () => {
+      try {
+        return await getCurrentCoordinate();
+      } catch (error: any) {
+        addToast(error.message, 'error');
+      }
+    },
     staleTime: 60000,
     retry: false,
   });

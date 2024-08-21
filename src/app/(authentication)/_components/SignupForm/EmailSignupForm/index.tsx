@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import AuthInput from '../../AuthInput';
 import { useForm } from 'react-hook-form';
-import AuthSubmitButton from '../../AuthSubmitButton';
+import Button from '@/components/common/Button';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTagInput from '../../AuthTagInput';
 import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
@@ -11,10 +11,12 @@ import { EmailSignupFormType } from '@/types/request/authRequestTypes';
 import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import styles from './EmailSignupForm.module.scss';
+import { useToast } from '@/contexts/toastContext';
 
 export default function EmailSignupForm() {
   const router = useRouter();
   const { Funnel, Step, setStep } = useFunnel('first');
+  const { addToast } = useToast();
   const [isEmailDupOk, setIsEmailDupOk] = useState(false);
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const {
@@ -24,6 +26,7 @@ export default function EmailSignupForm() {
     setValue,
     getValues,
     trigger,
+    setError,
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
@@ -38,22 +41,36 @@ export default function EmailSignupForm() {
   const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
 
   const emailDupCheck = async (email: string) => {
-    const response = await getEmailDupCheck(email);
-
-    if (response.status === 200) {
+    try {
+      await getEmailDupCheck(email);
       setIsEmailDupOk(true);
-    } else {
-      console.log('오류가 발생했습니다');
+    } catch (error: any) {
+      if (error.response.data.errorCode === 4002) {
+        setError(
+          'email',
+          { message: '이미 존재하는 이메일입니다', type: 'shouldUnregister' },
+          { shouldFocus: true }
+        );
+      } else {
+        addToast('중복확인 중 오류가 발생했습니다.', 'error');
+      }
     }
   };
 
   const nickNameDupCheck = async (nickName: string) => {
-    const response = await getNickNameDupCheck(nickName);
-
-    if (response.status === 200) {
+    try {
+      await getNickNameDupCheck(nickName);
       setIsNickNameDupOk(true);
-    } else {
-      console.log('오류가 발생했습니다');
+    } catch (error: any) {
+      if (error.response.data.errorCode === 4002) {
+        setError(
+          'nickName',
+          { message: '이미 존재하는 닉네임입니다', type: 'shouldUnregister' },
+          { shouldFocus: true }
+        );
+      } else {
+        addToast('중복확인 중 오류가 발생했습니다.', 'error');
+      }
     }
   };
 
@@ -64,11 +81,10 @@ export default function EmailSignupForm() {
 
     signupMutate(newFormData, {
       onSuccess: () => {
-        console.log('회원가입에 성공했습니다');
-        router.push('/signin');
+        router.push('/signup/result');
       },
       onError: () => {
-        console.log('에러가 발생했습니다.');
+        addToast('회원가입 중 오류가 발생했습니다.', 'error');
       },
     });
   };
@@ -94,8 +110,7 @@ export default function EmailSignupForm() {
                 },
               })}
             />
-            <AuthSubmitButton
-              type="button"
+            <Button
               onClick={async () => {
                 if (!errors.email && getValues('email')) {
                   emailDupCheck(getValues('email'));
@@ -104,7 +119,7 @@ export default function EmailSignupForm() {
               disabled={isEmailDupOk}
               className={styles.checkButton}>
               중복확인
-            </AuthSubmitButton>
+            </Button>
           </div>
           <div className={styles.buttonInput}>
             <AuthInput
@@ -124,8 +139,7 @@ export default function EmailSignupForm() {
                 },
               })}
             />
-            <AuthSubmitButton
-              type="button"
+            <Button
               onClick={() => {
                 if (!errors.nickName && getValues('nickName')) {
                   nickNameDupCheck(getValues('nickName'));
@@ -134,7 +148,7 @@ export default function EmailSignupForm() {
               disabled={isNickNameDupOk}
               className={styles.checkButton}>
               중복확인
-            </AuthSubmitButton>
+            </Button>
           </div>
           <AuthInput
             labelName="비밀번호"
@@ -173,8 +187,7 @@ export default function EmailSignupForm() {
                 '비밀번호와 일치하지 않습니다',
             })}
           />
-          <AuthSubmitButton
-            type="button"
+          <Button
             onClick={() => {
               setStep('second');
             }}
@@ -186,12 +199,14 @@ export default function EmailSignupForm() {
               !getValues('passwordCheck')
             }>
             확인
-          </AuthSubmitButton>
+          </Button>
         </Step>
 
         <Step name="second">
           <AuthTagInput setValue={setValue} />
-          <AuthSubmitButton disabled={isPending}>확인</AuthSubmitButton>
+          <Button disabled={isPending} type="submit">
+            확인
+          </Button>
         </Step>
       </Funnel>
     </form>

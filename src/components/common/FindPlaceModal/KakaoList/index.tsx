@@ -39,7 +39,14 @@ export default function KakaoList({
                   setStep('map');
                 }}
                 className={styles.itemButton}>
-                <PlaceListItem index={idx} item={item} />
+                <PlaceListItem
+                  index={idx}
+                  placeName={item.place_name}
+                  address={item.road_address_name || item.address_name}
+                  distance={item.distance}
+                  placeURL={item.place_url}
+                  categoryName={item.category_name}
+                />
               </button>
               {idx !== list.length - 1 && <hr className={styles.boundary} />}
             </Fragment>

@@ -8,7 +8,7 @@ export default function SignupResult() {
     <main className={styles.container}>
       <div className={styles.welcome}>
         <Image
-          src="/assets/images/firework.png"
+          src="/assets/authImages/firework.png"
           alt="welcome"
           width={320}
           height={320}

@@ -11,6 +11,7 @@ interface ITagProps {
   borderColor?: string;
   size?: 'small' | 'medium' | 'large';
   onClick?: () => void;
+  enableDelete?: boolean;
   className?: string;
   closeButton?: boolean;
 }
@@ -21,8 +22,8 @@ function Tag({
   fontColor = '#007AFF',
   borderColor = '#007AFF',
   size = 'large',
+  enableDelete = false,
   onClick,
-  closeButton = true,
   className,
 }: ITagProps) {
   return (
@@ -35,8 +36,8 @@ function Tag({
         borderColor: `${borderColor}`,
       }}>
       {children}
-      {closeButton && (
-        <button className={styles.removeButton} onClick={onClick}>
+      {enableDelete && (
+        <button type="button" className={styles.removeButton} onClick={onClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

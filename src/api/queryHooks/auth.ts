@@ -26,8 +26,14 @@ export const usePostEmailSignupForm = () => {
 
 export const usePostSocialSignupForm = () => {
   return useMutation({
-    mutationFn: async (data: SocialSignupFormType) => {
-      await postSocialSignupForm(data);
+    mutationFn: async ({
+      data,
+      token,
+    }: {
+      data: SocialSignupFormType;
+      token: string;
+    }) => {
+      await postSocialSignupForm(data, token);
     },
   });
 };

@@ -24,8 +24,15 @@ export const getNickNameDupCheck = (nickName: string) => {
   return axiosInstance.get(`/check-nickname?nickName=${nickName}`);
 };
 
-export const postSocialSignupForm = (data: SocialSignupFormType) => {
-  return axiosInstance.post('/social/signup', data);
+export const postSocialSignupForm = (
+  data: SocialSignupFormType,
+  token: string
+) => {
+  return axiosInstance.post('/social/signup', data, {
+    headers: {
+      Authorization: token,
+    },
+  });
 };
 
 export const getSocialToken = () => {

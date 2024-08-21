@@ -27,8 +27,8 @@ export default function TagInput({
   const handleKeyupEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const targetValue = e.currentTarget.value;
-      // 한글과 영어, 숫자만 허용(띄어쓰기 금지)
-      const tagPattern = /^[a-zA-Z0-9가-힣]+$/;
+      // 한글과 영어, 숫자, 띄어쓰기만 허용
+      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/;
 
       if (
         !targetValue ||
@@ -77,7 +77,8 @@ export default function TagInput({
               key={idx}
               className={styles.value}
               onClick={() => handleClickTagRemove(value)}
-              size="large">
+              size="large"
+              enableDelete>
               {value}
             </Tag>
           );

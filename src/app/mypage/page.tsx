@@ -80,26 +80,12 @@ export default function MyPage() {
           {info?.prTags.map((item, i) => {
             return <li key={i}>{item}</li>;
           })}
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
-          <li>pr태그</li>
         </ul>
       </div>
       <ul className={styles.menuWrap}>
+        <li>
+          <Link href="/mypage/prEdit">PR태그수정</Link>
+        </li>
         <li>
           <Link href="/mypage/friendsList">친구목록</Link>
         </li>

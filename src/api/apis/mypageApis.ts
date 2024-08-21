@@ -36,3 +36,14 @@ export const checkNicknameDuplication = (nickName: string) => {
     params: { nickName },
   });
 };
+//pr태그 수정
+export const updatePRTags = (tags: string[]) => {
+  const formData = new FormData();
+  tags.forEach(tag => formData.append('prTags', tag));
+
+  return axiosInstance.patch('/personal-info/prTags', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};

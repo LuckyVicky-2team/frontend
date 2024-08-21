@@ -1,10 +1,10 @@
+'use client';
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
 import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
 import Image from 'next/image';
 import styles from './main.module.scss';
-
 export default function Main() {
   return (
     <main>

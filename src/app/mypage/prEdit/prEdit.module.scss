@@ -1,0 +1,36 @@
+.prWrap {
+  padding: 0 24px;
+  box-sizing: border-box;
+  h1 {
+    display: block;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    gap: 16px;
+    margin: 50px 0;
+    li {
+      display: block;
+      button {
+        display: block;
+        padding: 5px 15px;
+        box-sizing: border-box;
+        border: 1px solid #007aff;
+        border-radius: 20px;
+        color: #007aff;
+      }
+    }
+  }
+  input {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #f5f6f7;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+}

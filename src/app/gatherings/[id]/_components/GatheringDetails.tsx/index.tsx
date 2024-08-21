@@ -15,6 +15,7 @@ import { useToast } from '@/contexts/toastContext';
 import { useEffect } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -55,6 +56,8 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   const myType = data.userParticipantResponseList.find(participant => {
     return participant.userId === dataMe;
   })?.type;
+
+  // console.log(String(data.latitude), String(data.longitude));
 
   return (
     <div>
@@ -101,7 +104,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                     width={16}
                     height={16}
                   />
-                  모임장
+                  {data.userNickName}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Image
@@ -120,7 +123,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   width={24}
                   height={24}
                 />
-                <div>
+                <div style={{ display: 'flex', gap: '11px' }}>
                   {data.boardGameListResponseList.map(game => {
                     return <div key={game.boardGameId}>{game.title}</div>;
                   })}
@@ -209,6 +212,13 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       <div className={styles.section3}>
         <h2 className={styles.h2}>위치 정보</h2>
         <p className={styles.h2Description}>이쪽에서 모임이 진행됩니다.</p>
+        <KakaoMap
+          coordinate={{
+            lat: String(data?.latitude),
+            lon: String(data?.longitude),
+          }}
+          placeName={'마마마'}
+        />
         {/* <div>{data.place}</div> */}
         {/* <div>{data.addressDetail}</div> */}
         {/* <div>{data.latitude}</div>

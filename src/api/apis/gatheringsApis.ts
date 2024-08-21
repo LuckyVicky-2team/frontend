@@ -22,4 +22,10 @@ export const gatheringAPI = {
     });
     return content;
   },
+
+  // joinGathering: async (id: number) => {
+  //   const data = axiosInstance.post('/meeting-participant/participation', {
+  //     meetingId: id,
+  //   });
+  // },
 };

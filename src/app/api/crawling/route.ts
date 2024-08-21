@@ -178,6 +178,8 @@ export async function POST() {
         // if (creditsButton) {
         //   await creditsButton.click();
         // }
+
+        // await page.waitForSelector('.title-wrapper.credit');
         // await page.waitForSelector('.title-wrapper', { timeout: 5000 });
         // // 클릭 후 필요한 작업 수행
         // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
@@ -185,6 +187,12 @@ export async function POST() {
         //   elements.map(el => (el as HTMLElement).innerText)
         // );
         // console.log(genres);
+        // const [response] = await Promise.all([
+        //   page.waitForNavigation(), // The promise resolves after navigation has finished
+        //   page.click('#game-top-btn-credits'), // Clicking the link will indirectly cause a navigation
+        // ]);
+        // console.log('response==>>>>>', response);
+
         const genres = await page.evaluate(() => {
           // const creditButton = document
           //   .getElementById('game-top-btn-credits')

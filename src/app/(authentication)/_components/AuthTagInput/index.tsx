@@ -14,15 +14,10 @@ export default function AuthTagInput({
   return (
     <div className={styles.container}>
       <label className={styles.label} htmlFor="prTags">
-        나의 취향을 입력해보세요!
+        PR 태그
       </label>
-      <TagInput
-        id="prTags"
-        setItems={setPRTagValues}
-        placeholder="당신의 취향을 입력해보세요!"
-      />
       <div className={styles.suggest}>
-        <h1 className={styles.title}>이런 태그는 어떠세요?</h1>
+        <h1 className={styles.title}>이런 태그도 추천 드려요!</h1>
         <ul className={styles.contents}>
           <li className={styles.content}>• 성별</li>
           <li className={styles.content}>• 나이</li>
@@ -34,10 +29,15 @@ export default function AuthTagInput({
             {'• 나의 게임 스타일(전략가, 승부사, 평화주의자)'}
           </li>
           <li className={styles.content}>
-            • 그 외 나를 소개할만한 문구를 적어보세요!
+            • 그 외에 나를 소개할만한 문구를 적어보세요!
           </li>
         </ul>
       </div>
+      <TagInput
+        id="prTags"
+        setItems={setPRTagValues}
+        placeholder="나를 소개하는 문구를 적어보세요!"
+      />
     </div>
   );
 }

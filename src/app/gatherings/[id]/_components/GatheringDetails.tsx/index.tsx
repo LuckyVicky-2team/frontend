@@ -212,13 +212,17 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       <div className={styles.section3}>
         <h2 className={styles.h2}>위치 정보</h2>
         <p className={styles.h2Description}>이쪽에서 모임이 진행됩니다.</p>
-        <KakaoMap
-          coordinate={{
-            lat: String(data?.latitude),
-            lon: String(data?.longitude),
-          }}
-          placeName={'마마마'}
-        />
+        <div className={styles.kakaoMap}>
+          <KakaoMap
+            coordinate={{
+              lat: String(data?.latitude),
+              lon: String(data?.longitude),
+            }}
+            placeName={'마마마'}
+            address={'주소디테일'}
+            mapLatio={'2.8'}
+          />
+        </div>
         {/* <div>{data.place}</div> */}
         {/* <div>{data.addressDetail}</div> */}
         {/* <div>{data.latitude}</div>

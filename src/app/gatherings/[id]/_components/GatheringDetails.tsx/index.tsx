@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
+import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -32,8 +33,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     data?.totalParticipantCount || 0
   );
   console.log(data);
-  console.log('dataMe', dataMe);
-
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,
@@ -60,7 +59,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   if (!data || !dataMe) return;
 
   const convertedContent = parse(data.content);
-  console.log(typeof data.meetingDatetime);
   const { formattedDate, formattedTime } = dateTime(data.meetingDatetime);
 
   const myType = data.userParticipantResponseList.find(participant => {
@@ -68,7 +66,189 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   })?.type;
 
   // console.log(String(data.latitude), String(data.longitude));
-
+  //참여자 mockdata
+  const participants: IParticipant[] = [
+    {
+      userId: 1,
+      profileImage: '',
+      nickname: '',
+      type: 'LEADER',
+    },
+    {
+      userId: 2,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 3,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 4,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 5,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 6,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 7,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 8,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 9,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 10,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 22,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 12,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 21,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 13,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 14,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 15,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 16,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 17,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 18,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 19,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 30,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 31,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 32,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 33,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 34,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 35,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 36,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 37,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 38,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+    {
+      userId: 39,
+      profileImage: '',
+      nickname: '',
+      type: 'PARTICIPANT',
+    },
+  ];
   return (
     <div>
       <div className={styles.section1}>
@@ -198,10 +378,15 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               className={styles.memberListButton}>
               참여자 리스트 보기 ({participantCount}/{data.limitParticipant})
             </button>
-            <Members
+            {/* <Members
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
               data={data.userParticipantResponseList}
+            /> */}
+            <Members
+              modalOpen={profileModalOpen}
+              onClose={handleProfileModalClose}
+              data={participants}
             />
           </div>
         </div>

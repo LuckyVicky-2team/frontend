@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 41px 29px 29px 24px;
+}
+
+.title {
+  color: var(--lukyviky-Blue-Normal, #007aff);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.buttons {
+  overflow: scroll;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

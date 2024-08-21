@@ -6,27 +6,28 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import { usePostJoinGathering } from '@/api/queryHooks/gathering';
+import { Dispatch, SetStateAction } from 'react';
 
 interface IGatheringFooterProps {
   id: number;
-  userId: number;
   type: string | undefined;
+  setParticipantCount: Dispatch<SetStateAction<number>>;
 }
 
 export default function GatheringFooter({
   id,
-  userId,
   type,
+  setParticipantCount,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
 
-  console.log(userId);
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
   const handleJoinButtonClick = () => {
     joinMutate(id, {
       onSuccess: () => {
         console.log('참여하기 성공!');
+        setParticipantCount(prev => prev + 1);
       },
       onError: error => {
         console.log(error);

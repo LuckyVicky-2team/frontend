@@ -12,7 +12,7 @@ import Image from 'next/image';
 import ProfileImage from '@/components/common/ProfileImage';
 import GatheringFooter from '../Footer';
 import { useToast } from '@/contexts/toastContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
@@ -28,7 +28,11 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   const pathname = `/gatherings/${id}`;
   const { data, isError } = useGatheringDetails(Number(id));
   const { data: dataMe, isError: isErrorMe } = useMe();
+  const [participantCount, setParticipantCount] = useState<number>(
+    data?.totalParticipantCount || 0
+  );
   console.log(data);
+  console.log('dataMe', dataMe);
 
   const {
     modalOpen: shareModalOpen,
@@ -46,6 +50,12 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       addToast('에러가 발생했습니다.', 'error');
     }
   }, [isError]);
+
+  useEffect(() => {
+    if (data) {
+      setParticipantCount(data.totalParticipantCount);
+    }
+  }, [data, setParticipantCount]);
 
   if (!data || !dataMe) return;
 
@@ -174,7 +184,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               <div
                 className={styles.progressBar}
                 style={{
-                  width: `${(data.totalParticipantCount * 100) / data.limitParticipant}%`,
+                  width: `${(participantCount * 100) / data.limitParticipant}%`,
                 }}
               />
             </div>
@@ -186,8 +196,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               type="button"
               onClick={handleProfileModalOpen}
               className={styles.memberListButton}>
-              참여자 리스트 보기 ({data.totalParticipantCount}/
-              {data.limitParticipant})
+              참여자 리스트 보기 ({participantCount}/{data.limitParticipant})
             </button>
             <Members
               modalOpen={profileModalOpen}
@@ -264,7 +273,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       <GatheringFooter
         id={id}
         type={myType}
-        userId={dataMe}
+        setParticipantCount={setParticipantCount}
         // isSaved={isSaved}
         // setSaveItem={setSaveItem}
       />

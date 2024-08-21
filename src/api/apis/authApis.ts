@@ -36,7 +36,7 @@ export const postSocialSignupForm = (
 };
 
 export const getSocialToken = () => {
-  return axiosInstance.get('/token', {
+  return axiosInstance.get(`/token`, {
     withCredentials: true,
   });
 };

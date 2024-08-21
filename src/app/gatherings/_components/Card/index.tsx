@@ -29,29 +29,27 @@ export default function Card({
   meetingDate,
   city,
   county,
-  // thumbnail,
+  thumbnail,
   nickName,
   onClick,
 }: ICardProps) {
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
+  const isDateOver = new Date(meetingDate) < new Date();
 
   return (
     <>
       <div className={styles.card} onClick={onClick}>
         <div className={styles.thumbnail}>
           <Image
-            src={
-              // `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}` ??
-              '/assets/images/bg_greenblue.png'
-            }
+            src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
             alt="thumbnail"
             fill
             sizes="100%"
             priority
           />
-          {isFullParticipant ? (
+          {isFullParticipant || isDateOver ? (
             <div className={styles.fullUser}>
               <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
             </div>

@@ -1,22 +1,88 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import styles from './infoEdit.module.scss';
-import { updatePersonalInfo } from '@/api/apis/mypageApis';
+import {
+  updatePersonalInfo,
+  checkNicknameDuplication,
+} from '@/api/apis/mypageApis';
 
-interface infoEdit {
+interface InfoEditProps {
   handleEditOpen: () => void;
   updateInfo: () => void;
 }
 
-export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
-  const [newName, setNewName] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
+interface FormData {
+  nickName: string;
+  password: string;
+}
 
-  const fetchPersonalInfo = async () => {
+export default function InfoEdit({
+  handleEditOpen,
+  updateInfo,
+}: InfoEditProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+    watch,
+  } = useForm<FormData>({
+    mode: 'onChange',
+  });
+
+  const [isNameChecked, setIsNameChecked] = useState<boolean>(false);
+  const [isNameDuplicate, setIsNameDuplicate] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const newName = watch('nickName', '');
+
+  // 닉네임 유효성 검사 함수
+  const validateNickname = (nickName: string): boolean => {
+    const nicknameRegex = /^[가-힣a-zA-Z0-9]{1,8}$/; // 한글, 영어, 숫자만 사용 가능하고 8자 이하
+    return nicknameRegex.test(nickName);
+  };
+
+  const checkNickname = async () => {
+    if (!validateNickname(newName)) {
+      setError('nickName', {
+        type: 'manual',
+        message:
+          '닉네임은 한글, 영어, 숫자만 사용 가능하며 8자 이하로 입력해주세요.',
+      });
+      setIsNameChecked(false);
+      setIsNameDuplicate(false);
+      setErrorMessage('');
+      return;
+    }
+
     try {
-      const res = await updatePersonalInfo(newName, newPassword);
-      console.log('수정완료 :', res.data);
+      await checkNicknameDuplication(newName);
+      setIsNameDuplicate(false);
+      setErrorMessage('사용 가능한 닉네임입니다.');
+      setIsNameChecked(true);
+      clearErrors('nickName'); // 중복 체크 성공 시 에러를 지웁니다.
+    } catch (error: any) {
+      if (error.response?.status === 400) {
+        setIsNameDuplicate(true);
+        setError('nickName', {
+          type: 'manual',
+          message: '이미 사용 중인 닉네임입니다.',
+        });
+        setErrorMessage(''); // Clear any previous success message
+      } else {
+        setErrorMessage('닉네임 확인 중 오류가 발생했습니다.');
+      }
+      setIsNameChecked(true);
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await updatePersonalInfo(data.nickName, data.password);
+      console.log('수정 완료:', res.data);
       updateInfo(); // 부모 컴포넌트의 정보를 업데이트
       handleEditOpen(); // 창을 닫음
     } catch (error) {
@@ -24,181 +90,66 @@ export default function InfoEdit({ handleEditOpen, updateInfo }: infoEdit) {
     }
   };
 
-  const isFormValid = newName.trim().length > 0; // 닉네임이 빈 문자열이 아니어야 함
-
   return (
     <div className={styles.infoEditModal}>
       <div className={styles.title}>개인정보 수정</div>
-      <div className={styles.nameInput}>
-        <b>닉네임</b>
-        <input
-          type="text"
-          placeholder={'변경하고싶은 닉네임을 입력해주세요.'}
-          onChange={e => {
-            setNewName(e.currentTarget.value);
-          }}
-          value={newName}
-        />
-      </div>
-      <div className={styles.passwordInput}>
-        <b>비밀번호 (선택)</b>
-        <input
-          type="password"
-          placeholder={'변경하고싶은 비밀번호를 입력해주세요.'}
-          onChange={e => {
-            setNewPassword(e.currentTarget.value);
-          }}
-          value={newPassword}
-        />
-      </div>
-      <button
-        type="button"
-        className={isFormValid ? styles.editBtn : styles.disabledBtn}
-        disabled={!isFormValid} // 닉네임이 비어있으면 비활성화
-        onClick={() => {
-          fetchPersonalInfo();
-        }}>
-        수정하기
-      </button>
-      <button
-        type={'button'}
-        className={styles.cancleBtn}
-        onClick={() => {
-          handleEditOpen();
-        }}>
-        취소하기
-      </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.nameInput}>
+          <b>닉네임</b>
+          <input
+            type="text"
+            placeholder={'변경하고 싶은 닉네임을 입력해주세요.'}
+            {...register('nickName', {
+              required: '닉네임을 입력해주세요.',
+              validate: validateNickname,
+            })}
+            onChange={() => {
+              setIsNameChecked(false);
+              setErrorMessage('');
+            }}
+          />
+          <button
+            type="button"
+            onClick={checkNickname}
+            className={styles.checkBtn}
+            // disabled={newName.trim().length === 0}
+          >
+            중복 체크
+          </button>
+          {errors.nickName && (
+            <div className={styles.error}>{errors.nickName.message}</div>
+          )}
+          {errorMessage && !errors.nickName && (
+            <div className={isNameDuplicate ? styles.error : styles.success}>
+              {errorMessage}
+            </div>
+          )}
+        </div>
+        <div className={styles.passwordInput}>
+          <b>비밀번호 (선택)</b>
+          <input
+            type="password"
+            placeholder={'변경하고 싶은 비밀번호를 입력해주세요.'}
+            {...register('password')}
+          />
+        </div>
+        <button
+          type="submit"
+          className={
+            isNameChecked && !isNameDuplicate
+              ? styles.editBtn
+              : styles.disabledBtn
+          }
+          disabled={!isNameChecked || isNameDuplicate}>
+          수정하기
+        </button>
+        <button
+          type="button"
+          className={styles.cancleBtn}
+          onClick={handleEditOpen}>
+          취소하기
+        </button>
+      </form>
     </div>
   );
 }
-
-// 'use client';
-
-// import { useState } from 'react';
-// import { useForm, Controller } from 'react-hook-form';
-// import styles from './infoEdit.module.scss';
-// import {
-//   checkNicknameDuplication,
-//   updatePersonalInfo,
-// } from '@/api/apis/mypageApis';
-
-// interface InfoEditProps {
-//   handleEditOpen: () => void;
-//   updateInfo: () => void;
-// }
-
-// interface FormValues {
-//   newName: string;
-//   newPassword: string;
-// }
-
-// export default function InfoEdit({
-//   handleEditOpen,
-//   updateInfo,
-// }: InfoEditProps) {
-//   const {
-//     control,
-//     handleSubmit,
-//     formState: { errors, isSubmitting },
-//   } = useForm<FormValues>({
-//     defaultValues: {
-//       newName: '',
-//       newPassword: '',
-//     },
-//   });
-
-//   const [isNicknameAvailable, setIsNicknameAvailable] = useState<
-//     boolean | null
-//   >(null);
-
-//   const onSubmit = async (data: FormValues) => {
-//     try {
-//       const { newName, newPassword } = data;
-//       if (isNicknameAvailable === false) {
-//         alert('닉네임이 이미 사용 중입니다.');
-//         return;
-//       }
-//       const res = await updatePersonalInfo(newName, newPassword);
-//       console.log('수정완료 :', res.data);
-//       updateInfo(); // 부모 컴포넌트의 정보를 업데이트
-//       handleEditOpen(); // 창을 닫음
-//     } catch (error) {
-//       console.log('error', error);
-//       alert('정보 수정 중 오류가 발생했습니다.');
-//     }
-//   };
-
-//   const checkNickname = async (nickName: string) => {
-//     try {
-//       const response = await checkNicknameDuplication(nickName);
-//       console.log('API Response:', response.data); // 응답 데이터 확인
-//       if (response.data.available) {
-//         // 응답 데이터 구조에 맞게 수정
-//         setIsNicknameAvailable(true);
-//         alert('사용 가능한 닉네임입니다.');
-//       } else {
-//         setIsNicknameAvailable(false);
-//         alert('이미 사용 중인 닉네임입니다.');
-//       }
-//     } catch (error) {
-//       console.log('Error:', error);
-//       alert('서버와의 통신 중 오류가 발생했습니다.');
-//     }
-//   };
-
-//   return (
-//     <div className={styles.infoEditModal}>
-//       <div className={styles.title}>개인정보 수정</div>
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <div className={styles.nameInput}>
-//           <b>닉네임</b>
-//           <Controller
-//             name="newName"
-//             control={control}
-//             rules={{ required: '닉네임을 입력해주세요.' }}
-//             render={({ field }) => (
-//               <>
-//                 <input
-//                   type="text"
-//                   placeholder={'변경하고싶은 닉네임을 입력해주세요.'}
-//                   {...field}
-//                   onBlur={() => checkNickname(field.value)}
-//                 />
-//                 {errors.newName && (
-//                   <span className={styles.error}>{errors.newName.message}</span>
-//                 )}
-//               </>
-//             )}
-//           />
-//         </div>
-//         <div className={styles.passwordInput}>
-//           <b>비밀번호 (선택)</b>
-//           <Controller
-//             name="newPassword"
-//             control={control}
-//             render={({ field }) => (
-//               <input
-//                 type="password"
-//                 placeholder={'변경하고싶은 비밀번호를 입력해주세요.'}
-//                 {...field}
-//               />
-//             )}
-//           />
-//         </div>
-//         <button
-//           type="submit"
-//           className={styles.editBtn}
-//           disabled={isSubmitting || isNicknameAvailable === false} // 닉네임이 비활성화 상태일 때 비활성화
-//         >
-//           수정하기
-//         </button>
-//         <button
-//           type="button"
-//           className={styles.cancleBtn}
-//           onClick={() => handleEditOpen()}>
-//           취소하기
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }

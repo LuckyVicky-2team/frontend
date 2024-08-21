@@ -5,6 +5,10 @@ export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
 
+// 닉네임 중복 확인을 위한 API 요청
+export const checkNicknameDuplication = (nickName: string) => {
+  return axiosInstance.get(`/check-nickname?nickName=${nickName}`);
+};
 // 개인정보 수정을 위한 API 요청
 export const updatePersonalInfo = (nickName: string, password: string) => {
   return axiosInstance.patch('/personal-info', {
@@ -30,12 +34,6 @@ export const updateProfileImage = async (file: File) => {
   return response.data;
 };
 
-// 닉네임 중복 확인을 위한 API 요청
-export const checkNicknameDuplication = (nickName: string) => {
-  return axiosInstance.get(`/check-nickname`, {
-    params: { nickName },
-  });
-};
 //pr태그 수정
 export const updatePRTags = (tags: string[]) => {
   const formData = new FormData();

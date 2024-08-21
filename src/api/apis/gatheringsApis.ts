@@ -4,14 +4,10 @@ import { axiosInstance } from '../instance';
 
 export const gatheringAPI = {
   getGatheringsInfo: async (id: number) => {
-    try {
-      const response = await axiosInstance.get<IGatheringDetailsResponseProps>(
-        `/meeting/${id}`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await axiosInstance.get<IGatheringDetailsResponseProps>(
+      `/meeting/${id}`
+    );
+    return response.data;
   },
 
   gatheringList: async (req: IGatheringListRequestProps) => {
@@ -23,9 +19,9 @@ export const gatheringAPI = {
     return content;
   },
 
-  // joinGathering: async (id: number) => {
-  //   const data = axiosInstance.post('/meeting-participant/participation', {
-  //     meetingId: id,
-  //   });
-  // },
+  joinGathering: async (id: number) => {
+    return axiosInstance.post('/meeting-participant/participation', {
+      meetingId: id,
+    });
+  },
 };

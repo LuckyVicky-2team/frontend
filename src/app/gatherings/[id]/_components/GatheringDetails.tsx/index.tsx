@@ -84,7 +84,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   fontColor={'#ffffff'}
                   backgroundColor={'#007AFF'}
                   className={`${styles.tag}`}
-                  closeButton={false}>
+                  enableDelete={false}>
                   {formattedDate}
                 </Tag>
                 <Tag
@@ -92,7 +92,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   fontColor={'#ffffff'}
                   backgroundColor={'#007AFF'}
                   className={`${styles.tag}`}
-                  closeButton={false}>
+                  enableDelete={false}>
                   {formattedTime}
                 </Tag>
               </div>
@@ -132,7 +132,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               <div className={styles.genres}>
                 {data.genres.map((genre, i) => {
                   return (
-                    <Tag key={i} closeButton={false}>
+                    <Tag key={i} enableDelete={false}>
                       {genre}
                     </Tag>
                   );
@@ -264,6 +264,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       <GatheringFooter
         id={id}
         type={myType}
+        userId={dataMe}
         // isSaved={isSaved}
         // setSaveItem={setSaveItem}
       />

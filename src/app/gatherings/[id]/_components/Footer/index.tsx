@@ -1,36 +1,45 @@
 'use client';
 
-import { axiosInstance } from '@/api/instance';
 import styles from './Footer.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
+import { usePostJoinGathering } from '@/api/queryHooks/gathering';
 
 interface IGatheringFooterProps {
   id: number;
+  userId: number;
   type: string | undefined;
 }
 
-export default function GatheringFooter({ id, type }: IGatheringFooterProps) {
+export default function GatheringFooter({
+  id,
+  userId,
+  type,
+}: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
 
+  console.log(userId);
+  const { mutate: joinMutate, isPending } = usePostJoinGathering();
   const handleJoinButtonClick = () => {
-    try {
-      const data = axiosInstance.post('/meeting-participant/participation', {
-        meetingId: id,
-      });
-      console.log(data);
-    } catch (error) {
-      addToast('참여하기 요청에 실패했습니다.', 'error');
-    }
+    joinMutate(id, {
+      onSuccess: () => {
+        console.log('참여하기 성공!');
+      },
+      onError: error => {
+        console.log(error);
+        addToast('참여하기 요청에 실패했습니다.', 'error');
+      },
+    });
   };
 
   return (
     <div className={styles.background}>
       <button
         type="button"
+        disabled={isPending}
         className={styles.backButton}
         onClick={() => {
           router.back();

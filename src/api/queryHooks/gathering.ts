@@ -1,4 +1,4 @@
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { useQuery, keepPreviousData, useMutation } from '@tanstack/react-query';
 import { gatheringAPI } from '../apis/gatheringsApis';
 import { QueryKey } from '@/utils/QueryKey';
 import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
@@ -18,5 +18,13 @@ export const useGatheringList = (req: IGatheringListRequestProps) => {
     queryFn: () => gatheringAPI.gatheringList(req),
     staleTime: 60 * 1000 * 30,
     placeholderData: keepPreviousData,
+  });
+};
+
+export const usePostJoinGathering = () => {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      return await gatheringAPI.joinGathering(id);
+    },
   });
 };

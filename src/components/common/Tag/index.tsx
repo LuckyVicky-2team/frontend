@@ -13,7 +13,6 @@ interface ITagProps {
   onClick?: () => void;
   enableDelete?: boolean;
   className?: string;
-  closeButton?: boolean;
 }
 
 function Tag({

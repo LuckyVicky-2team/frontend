@@ -61,9 +61,8 @@ export default function SocialSignupForm() {
           localStorage.setItem('accessToken', token);
           router.push('/signup/result');
         },
-        onError: (error, data) => {
+        onError: () => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
-          console.log(error, data);
         },
       }
     );

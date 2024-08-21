@@ -13,7 +13,7 @@ interface IKakaoMapProps {
   placeURL?: string;
   categoryName?: string;
   className?: string;
-  mapLatio?: string;
+  mapLatio?: `${number}/${number}`;
 }
 
 /**

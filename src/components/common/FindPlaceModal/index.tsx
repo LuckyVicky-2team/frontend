@@ -18,6 +18,7 @@ interface IFindPlaceModalProps {
   onClose: () => void;
   setLatitude: (_y: string) => void;
   setLongitude: (_x: string) => void;
+  mapLatio?: `${number}/${number}`;
 }
 
 export default function FindPlaceModal({
@@ -25,6 +26,7 @@ export default function FindPlaceModal({
   onClose,
   setLatitude,
   setLongitude,
+  mapLatio = '1/1',
 }: IFindPlaceModalProps) {
   const { Funnel, Step, setStep } = useFunnel('list');
   const [list, setList] = useState<IPlaceInfoResponse[]>([]);
@@ -125,6 +127,7 @@ export default function FindPlaceModal({
                   distance={selectedItem.distance}
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
+                  mapLatio={mapLatio}
                 />
                 <button
                   className={styles.selectButton}

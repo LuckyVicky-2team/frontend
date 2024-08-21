@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import AuthInput from '../AuthInput';
 import Button from '@/components/common/Button';
@@ -16,6 +17,8 @@ export default function SigninForm() {
     formState: { errors },
     watch,
   } = useForm({ mode: 'onBlur' });
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const { addToast } = useToast();
 
@@ -49,16 +52,19 @@ export default function SigninForm() {
         type="email"
         placeholder="이메일을 입력해주세요"
         error={errors.username}
+        autoComplete="email"
         {...register('username', {
           required: '이메일을 입력해주세요',
         })}
       />
       <AuthInput
         labelName="비밀번호"
-        isPasswordInput={true}
+        handleToggleEye={() => setPasswordVisible(prev => !prev)}
+        eyeState={passwordVisible}
         type="password"
         placeholder="비밀번호를 입력해주세요"
         error={errors.password}
+        autoComplete="off"
         {...register('password', {
           required: '비밀번호를 입력해주세요',
         })}

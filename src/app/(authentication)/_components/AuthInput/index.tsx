@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, InputHTMLAttributes, useState } from 'react';
+import { forwardRef, InputHTMLAttributes } from 'react';
 import Image from 'next/image';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 import Input from '@/components/common/Input';
@@ -8,20 +8,24 @@ import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
-  isPasswordInput?: boolean;
+  handleToggleEye?: () => void;
+  eyeState?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  { className, type, isPasswordInput, labelName, disabled, error, ...props },
+  {
+    className,
+    type,
+    handleToggleEye,
+    eyeState,
+    labelName,
+    disabled,
+    error,
+    ...props
+  },
   ref
 ) {
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
-
-  const handleEyeToggle = () => {
-    setPasswordVisible(prev => !prev);
-  };
-
   return (
     <div className={`${styles.container} ${className}`}>
       <label className={styles.label} htmlFor={labelName}>
@@ -29,26 +33,26 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
       </label>
       <div className={styles.inputContainer}>
         <Input
-          type={passwordVisible ? 'text' : type}
+          type={eyeState ? 'text' : type}
           ref={ref}
           id={labelName}
           isError={Boolean(error)}
           disabled={disabled}
-          className={isPasswordInput ? styles.passwordInput : ''}
+          className={eyeState !== undefined ? styles.passwordInput : ''}
           {...props}
         />
-        {isPasswordInput && (
+        {eyeState !== undefined && (
           <button
             className={styles.eyeButton}
-            onClick={handleEyeToggle}
+            onClick={handleToggleEye}
             type="button">
             <Image
               src={
-                passwordVisible
+                eyeState
                   ? '/assets/icons/openEye.svg'
                   : '/assets/icons/closedEye.svg'
               }
-              alt={passwordVisible ? 'password-visible' : 'password-invisible'}
+              alt={eyeState ? 'password-visible' : 'password-invisible'}
               width={24}
               height={24}
             />

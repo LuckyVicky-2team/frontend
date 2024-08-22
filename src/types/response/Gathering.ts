@@ -27,7 +27,7 @@ export interface IGatheringDetailsResponseProps {
   totalParticipantCount: number;
   userParticipantResponseList: IParticipant[];
   boardGameListResponseList: IBoardGame[];
-  thumbNail: string;
+  thumbnail: string;
   detailAddress: string;
   locationName: string;
   shareCount: number;

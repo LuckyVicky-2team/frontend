@@ -268,9 +268,17 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   return (
     <div>
       <div className={styles.section1}>
-        {/* <div style={{ width: '100%', height: '400px', position: 'relative' }}>
-        <Image src={data.image} alt="썸네일 이미지" priority fill />
-      </div> */}
+        <div className={styles.thumbnailBackground}>
+          <Image
+            src={`https://${
+              process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+            }/${data.thumbnail}`}
+            alt="썸네일 이미지"
+            priority
+            fill
+            objectFit="contain"
+          />
+        </div>
         <div className={styles.gatheringInfo}>
           <div className={styles.firstGatheringInfo}>
             <div className={styles.firstGatheringInfoContent}>

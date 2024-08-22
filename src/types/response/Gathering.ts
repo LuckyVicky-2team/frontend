@@ -22,7 +22,7 @@ export interface IGatheringDetailsResponseProps {
   city: string;
   county: string;
   limitParticipant: 9;
-  state: string;
+  state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   genres: string[];
   totalParticipantCount: number;
   userParticipantResponseList: IParticipant[];

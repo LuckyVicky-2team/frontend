@@ -269,10 +269,16 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     <div>
       <div className={styles.section1}>
         <div className={styles.thumbnailBackground}>
+          {/* 나중에 기본이미지 넣기 */}
           <Image
-            src={`https://${
-              process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
-            }/${data.thumbnail}`}
+            src={
+              data.thumbnail
+                ? /* eslint-disable indent */
+                  `https://${
+                    process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+                  }/${data.thumbnail}`
+                : 'assets/'
+            }
             alt="썸네일 이미지"
             priority
             fill
@@ -285,7 +291,12 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               <h1 className={styles.title}>{data.title} 모임원 모집</h1>
               {isMobile && (
                 <div style={{ display: 'flex', margin: '10px 0 0' }}>
-                  <SaveGatheringButton id={id} type="default" size={'large'} />
+                  <SaveGatheringButton
+                    id={id}
+                    type="default"
+                    size={'large'}
+                    isInitialSaved={data.likeStatus}
+                  />
                   <button
                     className={styles.shareButton}
                     type="button"
@@ -392,6 +403,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 modalOpen={shareModalOpen}
                 onClose={handleShareModalClose}
                 pathname={pathname}
+                shareCount={data.shareCount}
               />
             </div>
           </div>
@@ -449,25 +461,23 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         </div>
         <div className={styles.convertedContent}>{convertedContent}</div>
       </div>
-      <div className={styles.section3}>
-        <h2 className={styles.h2}>위치 정보</h2>
-        <p className={styles.h2Description}>이쪽에서 모임이 진행됩니다.</p>
-        <div className={styles.kakaoMap}>
-          <KakaoMap
-            coordinate={{
-              lat: String(data?.latitude),
-              lon: String(data?.longitude),
-            }}
-            placeName={'마마마'}
-            address={'주소디테일'}
-            mapLatio={'2.8'}
-          />
+      {(myType === 'LEADER' || myType === 'PARTICIPANT') && (
+        <div className={styles.section3}>
+          <h2 className={styles.h2}>위치 정보</h2>
+          <p className={styles.h2Description}>이쪽에서 모임이 진행됩니다.</p>
+          <div className={styles.kakaoMap}>
+            <KakaoMap
+              coordinate={{
+                lat: String(data?.latitude),
+                lon: String(data?.longitude),
+              }}
+              placeName={data.locationName}
+              address={data.detailAddress}
+              mapLatio={'2.8'}
+            />
+          </div>
         </div>
-        {/* <div>{data.place}</div> */}
-        {/* <div>{data.addressDetail}</div> */}
-        {/* <div>{data.latitude}</div>
-      <div>{data.longitude}</div> */}
-      </div>
+      )}
       <div className={styles.section4}>
         <h2 className={styles.h2}>모임장 정보</h2>
         <p className={styles.h2Description}>모임장님은 이런 분이세요!</p>
@@ -491,7 +501,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           <div className={styles.leaderDescription}>
             <div className={styles.userNickname}>{data.userNickName}</div>
             <div className={styles.rating}>평점 4.5점</div>
-            <div className={styles.gatheringCount}>운영 모임 50회</div>
+            <div className={styles.gatheringCount}>
+              운영 모임 {data.createMeetingCount}회
+            </div>
           </div>
           <Image
             src={'/assets/icons/chevron-right-blue.svg'}
@@ -507,7 +519,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         setParticipantCount={setParticipantCount}
         // isSaved={isSaved}
         // setSaveItem={setSaveItem}
+        isInitialSaved={data.likeStatus}
         isMobile={isMobile}
+        state={data.state}
       />
     </div>
   );

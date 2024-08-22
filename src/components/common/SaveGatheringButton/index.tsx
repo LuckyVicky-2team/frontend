@@ -7,6 +7,7 @@ interface ISaveGatheringButtonProps {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   type?: 'blue' | 'red' | 'default';
   rectangle?: boolean; //네모 테두리
+  isInitialSaved?: 'Y' | 'N';
   className?: string;
 }
 const path = '/assets/icons';
@@ -30,9 +31,11 @@ export default function SaveGatheringButton({
   id,
   size,
   rectangle = false,
+  isInitialSaved = 'N',
   className,
 }: ISaveGatheringButtonProps) {
   const [savedItem, setSaveItem] = useSaveItemState();
+  void isInitialSaved;
 
   const handleButton = () => {
     setSaveItem(id);

@@ -13,6 +13,8 @@ interface IGatheringFooterProps {
   type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
   setParticipantCount: Dispatch<SetStateAction<number>>;
   isMobile: boolean;
+  isInitialSaved: 'Y' | 'N';
+  state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
 }
 
 export default function GatheringFooter({
@@ -20,6 +22,8 @@ export default function GatheringFooter({
   type,
   setParticipantCount,
   isMobile,
+  isInitialSaved,
+  state,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
@@ -76,15 +80,28 @@ export default function GatheringFooter({
         }
         type="button"
         onClick={handleButtonClick}
-        disabled={type === 'QUIT'}>
-        {(!type || type === 'NONE') && !isMobile && '모임 참가하기'}
-        {(!type || type === 'NONE') && isMobile && (
+        disabled={
+          type === 'QUIT' || state === 'COMPLETE' || state === 'FINISH'
+        }>
+        {state === 'PROGRESS' &&
+          (!type || type === 'NONE') &&
+          !isMobile &&
+          '모임 참가하기'}
+        {state === 'PROGRESS' && (!type || type === 'NONE') && isMobile && (
           <div>
             모임 <br /> 참가하기
           </div>
         )}
         {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
         {type === 'QUIT' && '참여할 수 없는 모임입니다.'}
+        {state === 'COMPLETE' &&
+          type !== 'LEADER' &&
+          type !== 'PARTICIPANT' &&
+          '모집 완료되었습니다. '}
+        {state === 'FINISH' &&
+          type !== 'LEADER' &&
+          type !== 'PARTICIPANT' &&
+          '종료된 모집입니다. '}
       </button>
       {type !== 'LEADER' ? (
         <SaveGatheringButton
@@ -92,6 +109,7 @@ export default function GatheringFooter({
           type="red"
           className={`${styles.zzimButton}`}
           rectangle
+          isInitialSaved={isInitialSaved}
         />
       ) : (
         <button className={styles.editButton} type="button">

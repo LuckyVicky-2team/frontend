@@ -1,0 +1,63 @@
+.background {
+  padding: 39px 0 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 33px;
+}
+
+.title {
+  color: var(--lukyviky-Blue-Darker, #002b59);
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px; /* 115.385% */
+  letter-spacing: 1.04px;
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: center;
+  justify-content: center;
+}
+
+.copyImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #e9e9eb;
+}
+
+.closeButton {
+  width: 100%;
+  height: 113px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--lukyviky-Blue-Light, #e6f2ff);
+  align-items: center;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 75% */
+  letter-spacing: 0.96px;
+  background: var(--lukyviky-Blue-Normal, #007aff);
+}

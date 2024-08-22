@@ -1,35 +1,53 @@
 import Modal from '@/components/common/Modal';
 import KakaoShare from '../KakaoShare';
 import { handleCopyClipBoard } from '@/utils/handleCopyClipBoard';
+import Image from 'next/image';
+import styles from './ShareModal.module.scss';
 
 interface IShareModalProps {
   modalOpen: boolean;
   onClose: () => void;
   pathname: string;
+  shareCount: number;
 }
 
 export default function ShareModal({
   modalOpen,
   onClose,
   pathname,
+  shareCount,
 }: IShareModalProps) {
   return (
     <div>
-      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={400}>
-        <div>
-          <KakaoShare path={pathname} likeCount={12} sharedCount={30} />
-          <button type="button">카카오로 공유하기</button>
-          <button
-            type="button"
-            onClick={() =>
-              handleCopyClipBoard(
-                `${process.env.NEXT_PUBLIC_DEPLOY_URL}${pathname}`
-              )
-            }>
-            클립보드
-            복사하기ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
-          </button>
+      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552}>
+        <div className={styles.background}>
+          <p className={styles.title}>내가 좋아하는 모임을 공유해 보세요!</p>
+          <div className={styles.buttons}>
+            <button
+              type="button"
+              onClick={() =>
+                handleCopyClipBoard(
+                  `${process.env.NEXT_PUBLIC_DEPLOY_URL}${pathname}`
+                )
+              }
+              className={styles.button}>
+              <div className={styles.copyImage}>
+                <Image
+                  src={'/assets/icons/copy.svg'}
+                  alt="복사 이미지"
+                  width={34}
+                  height={34}
+                />
+              </div>
+              클립보드
+            </button>
+            {/* <KakaoShare path={pathname} likeCount={12} sharedCount={shareCount} /> */}
+            <KakaoShare path={pathname} sharedCount={shareCount} />
+          </div>
         </div>
+        <button className={styles.closeButton} type="button" onClick={onClose}>
+          닫기
+        </button>
       </Modal>
     </div>
   );

@@ -59,7 +59,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 400);
+      setIsMobile(window.innerWidth <= 439);
     };
 
     window.addEventListener('resize', handleResize);

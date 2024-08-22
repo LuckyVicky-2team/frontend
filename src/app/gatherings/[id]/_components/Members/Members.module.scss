@@ -17,7 +17,23 @@
 }
 
 .buttons {
-  overflow: scroll;
+  overflow-y: scroll;
+  padding: 0 19px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #007aff;
+    border-radius: 6px;
+    border: 2px solid #ffffff;
+  }
 }
 
 .button {
@@ -25,4 +41,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 19px 30px 19px 75px;
+  border-bottom: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
 }

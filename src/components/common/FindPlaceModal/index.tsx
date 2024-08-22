@@ -151,6 +151,7 @@ export default function FindPlaceModal({
                   distance={selectedItem.distance}
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
+                  mapLatio={'3/2'}
                 />
                 <button
                   className={styles.selectButton}

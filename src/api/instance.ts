@@ -15,6 +15,17 @@ axiosInstance.interceptors.request.use(
       const accesssToken = localStorage.getItem('accessToken');
 
       if (accesssToken) {
+        const token = accesssToken.split(' ')[1];
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        const expiryTime = tokenPayload.exp * 1000;
+        const currentTime = Date.now();
+
+        if (expiryTime < currentTime) {
+          localStorage.removeItem('accessToken');
+          window.location.href = '/signin';
+          return config;
+        }
+
         config.headers.Authorization = accesssToken;
       }
     }

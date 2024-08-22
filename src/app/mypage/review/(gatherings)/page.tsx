@@ -7,29 +7,7 @@ export default function ReviewPage() {
   return (
     <>
       {gatheringList?.map(item => {
-        const {
-          thumbnail,
-          title,
-          city,
-          county,
-          gatheringDate,
-          id,
-          participants,
-        } = item;
-        return (
-          <GatheringItem
-            key={item.id}
-            {...{
-              thumbnail,
-              title,
-              city,
-              county,
-              gatheringDate,
-              id,
-              participants,
-            }}
-          />
-        );
+        return <GatheringItem key={item.id} item={item} />;
       })}
       {gatheringList.length === 0 && (
         <div className={styles.emptyReview}>

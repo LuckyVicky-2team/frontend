@@ -2,33 +2,27 @@ import styles from './GatheringItem.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 interface IGatheringProps {
-  thumbnail: string;
-  title: string;
-  city: string;
-  county: string;
-  gatheringDate: string;
-  id: number;
-  participants: any[];
+  item: {
+    thumbnail: string;
+    title: string;
+    city: string;
+    county: string;
+    gatheringDate: string;
+    id: number;
+    participants: any[];
+  };
 }
-export default function GatheringItem({
-  // thumbnail,
-  title,
-  city,
-  county,
-  gatheringDate,
-  id,
-  // participants,
-}: IGatheringProps) {
+
+export default function GatheringItem({ item }: IGatheringProps) {
+  const { title, thumbnail, city, county, id, gatheringDate } = item;
+  const imageURL = thumbnail
+    ? `https//${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+    : '/assets/images/emptyThumbnail.png';
+
   return (
     <div className={styles.gatheringItem}>
       <div className={styles.thumbnail}>
-        <Image
-          src={'/assets/images/bg_greenblue.png'}
-          alt="thumbnail"
-          fill
-          sizes={'100%'}
-          priority
-        />
+        <Image src={imageURL} alt="thumbnail" fill sizes={'100%'} priority />
       </div>
       <div className={styles.content}>
         <div>

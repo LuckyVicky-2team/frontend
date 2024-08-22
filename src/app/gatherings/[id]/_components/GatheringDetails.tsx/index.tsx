@@ -32,6 +32,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   const [participantCount, setParticipantCount] = useState<number>(
     data?.totalParticipantCount || 0
   );
+  const [isMobile, setIsMobile] = useState(false);
   console.log(data);
   const {
     modalOpen: shareModalOpen,
@@ -56,6 +57,17 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     }
   }, [data, setParticipantCount]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 400);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (!data || !dataMe) return;
 
   const convertedContent = parse(data.content);
@@ -71,19 +83,19 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     {
       userId: 1,
       profileImage: '',
-      nickname: '',
+      nickname: '알러뷰ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ',
       type: 'LEADER',
     },
     {
       userId: 2,
       profileImage: '',
-      nickname: '',
+      nickname: 'ㅇㅇㅇㅇㅇㅇㅇ',
       type: 'PARTICIPANT',
     },
     {
       userId: 3,
       profileImage: '',
-      nickname: '',
+      nickname: 'd',
       type: 'PARTICIPANT',
     },
     {
@@ -259,6 +271,23 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           <div className={styles.firstGatheringInfo}>
             <div className={styles.firstGatheringInfoContent}>
               <h1 className={styles.title}>{data.title} 모임원 모집</h1>
+              {isMobile && (
+                <div style={{ display: 'flex', margin: '10px 0 0' }}>
+                  <SaveGatheringButton id={id} type="default" size={'large'} />
+                  <button
+                    className={styles.shareButton}
+                    type="button"
+                    onClick={handleShareModalOpen}>
+                    <Image
+                      src={'/assets/icons/share-2.svg'}
+                      alt="공유하기 버튼"
+                      priority
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </div>
+              )}
               <div className={styles.place}>
                 <Image
                   src={'/assets/icons/bar-black.svg'}
@@ -330,19 +359,23 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               </div>
             </div>
             <div className={styles.firstGatheringInfoIcons}>
-              <SaveGatheringButton id={id} type="default" size={'large'} />
-              <button
-                className={styles.shareButton}
-                type="button"
-                onClick={handleShareModalOpen}>
-                <Image
-                  src={'/assets/icons/share-2.svg'}
-                  alt="공유하기 버튼"
-                  priority
-                  width={24}
-                  height={24}
-                />
-              </button>
+              {!isMobile && (
+                <>
+                  <SaveGatheringButton id={id} type="default" size={'large'} />
+                  <button
+                    className={styles.shareButton}
+                    type="button"
+                    onClick={handleShareModalOpen}>
+                    <Image
+                      src={'/assets/icons/share-2.svg'}
+                      alt="공유하기 버튼"
+                      priority
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </>
+              )}
               <ShareModal
                 modalOpen={shareModalOpen}
                 onClose={handleShareModalClose}
@@ -387,6 +420,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
               data={participants}
+              isMobile={isMobile}
             />
           </div>
         </div>
@@ -461,6 +495,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         setParticipantCount={setParticipantCount}
         // isSaved={isSaved}
         // setSaveItem={setSaveItem}
+        isMobile={isMobile}
       />
     </div>
   );

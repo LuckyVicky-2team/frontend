@@ -12,12 +12,14 @@ interface IGatheringFooterProps {
   id: number;
   type: string | undefined;
   setParticipantCount: Dispatch<SetStateAction<number>>;
+  isMobile: boolean;
 }
 
 export default function GatheringFooter({
   id,
   type,
   setParticipantCount,
+  isMobile,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
@@ -56,7 +58,12 @@ export default function GatheringFooter({
         className={styles.cta}
         type="button"
         onClick={handleJoinButtonClick}>
-        {!type && '모임 참가하기'}
+        {!type && !isMobile && '모임 참가하기'}
+        {!type && isMobile && (
+          <div>
+            모임 <br /> 참가하기
+          </div>
+        )}
         {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
       </button>
       {type !== 'LEADER' ? (

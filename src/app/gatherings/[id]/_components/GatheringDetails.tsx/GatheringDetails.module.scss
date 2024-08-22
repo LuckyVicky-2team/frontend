@@ -98,14 +98,18 @@
 .firstGatheringInfoIcons {
   display: flex;
   width: 112px;
-  .shareButton {
-    width: 48px;
-    height: 48px;
-    fill: var(--white, #fff);
-    border: 2px solid var(--gray-200, #e5e7eb);
-    border-radius: 9999px;
-    margin: 0 0 0 12px;
+  @media screen and (max-width: 400px) {
+    display: none;
   }
+}
+
+.shareButton {
+  width: 48px;
+  height: 48px;
+  fill: var(--white, #fff);
+  border: 2px solid var(--gray-200, #e5e7eb);
+  border-radius: 9999px;
+  margin: 0 0 0 12px;
 }
 
 .stroke {

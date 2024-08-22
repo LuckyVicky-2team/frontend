@@ -8,9 +8,15 @@ interface IMembersProps {
   modalOpen: boolean;
   onClose: () => void;
   data: IParticipant[];
+  isMobile: boolean;
 }
 
-export default function Members({ modalOpen, onClose, data }: IMembersProps) {
+export default function Members({
+  modalOpen,
+  onClose,
+  data,
+  isMobile,
+}: IMembersProps) {
   // const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
@@ -35,18 +41,33 @@ export default function Members({ modalOpen, onClose, data }: IMembersProps) {
         </button>
       </div>
       <ul
-        className={styles.buttons}
+        className={styles.profiles}
         style={{ height: `calc(100% - 111.14px)` }}>
         {data.map(participant => {
           return (
-            <button key={participant.userId} className={styles.button}>
-              <ProfileImage
-                url={participant.profileImage}
-                width={28}
-                height={28}
-              />
-              내보내기
-            </button>
+            <div key={participant.userId} className={styles.profile}>
+              <button className={styles.profilePart1}>
+                <div className={styles.crown}>
+                  {participant.type === 'LEADER' && (
+                    <Image
+                      src={'/assets/icons/crown.svg'}
+                      alt="왕관"
+                      width={isMobile ? 26 : 34}
+                      height={isMobile ? 26 : 32}
+                    />
+                  )}
+                </div>
+                <ProfileImage
+                  url={participant.profileImage}
+                  width={isMobile ? 34 : 56}
+                  height={isMobile ? 34 : 56}
+                />
+                <p className={styles.nickname}>{participant.nickname}</p>
+              </button>
+              <button type="button" className={styles.kick}>
+                내보내기
+              </button>
+            </div>
           );
         })}
       </ul>

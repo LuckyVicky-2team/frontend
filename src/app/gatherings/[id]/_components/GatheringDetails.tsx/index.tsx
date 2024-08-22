@@ -68,14 +68,18 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (!data || !dataMe) return;
+  if (!data) return;
 
   const convertedContent = parse(data.content);
   const { formattedDate, formattedTime } = dateTime(data.meetingDatetime);
 
-  const myType = data.userParticipantResponseList.find(participant => {
+  let myType = data.userParticipantResponseList.find(participant => {
     return participant.userId === dataMe;
   })?.type;
+
+  if (!dataMe) {
+    myType = 'NONE';
+  }
 
   // console.log(String(data.latitude), String(data.longitude));
   //참여자 mockdata

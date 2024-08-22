@@ -26,7 +26,8 @@
   border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
 }
 
-.cta {
+.cta,
+.ctaWhite {
   display: flex;
   height: 88px;
   padding: 10px 16px;
@@ -43,9 +44,36 @@
   font-weight: 700;
   line-height: normal;
   letter-spacing: 0.8px;
+  &:disabled {
+    border: none;
+    background: var(--lukyviky-gray-Normal, #9ca3af);
+    color: var(--lukyviky-Blue-Light, #e6f2ff);
+  }
+}
+
+.ctaWhite {
+  border: 2px solid var(--lukyviky-Blue-Normal, #007aff);
+  background-color: white;
+  color: $blue-normal;
+  &:disabled {
+    border: none;
+    background: var(--lukyviky-gray-Normal, #9ca3af);
+    color: var(--lukyviky-Blue-Light, #e6f2ff);
+  }
 }
 
 .zzimButton {
   width: 36px;
   height: 36px;
+}
+
+.editButton {
+  display: flex;
+  height: 88px;
+  padding: 10px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
 }

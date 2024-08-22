@@ -2,7 +2,7 @@ export interface IParticipant {
   userId: number;
   profileImage: string;
   nickname: string;
-  type: string;
+  type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
 }
 
 export interface IBoardGame {
@@ -27,9 +27,10 @@ export interface IGatheringDetailsResponseProps {
   totalParticipantCount: number;
   userParticipantResponseList: IParticipant[];
   boardGameListResponseList: IBoardGame[];
-
-  // image: string;
-  // addressDetail: string;
-  // place: string;
-  // isZzimed: boolean;
+  thumbNail: string;
+  detailAddress: string;
+  locationName: string;
+  shareCount: number;
+  createMeetingCount: string;
+  likeStatus: 'N' | 'Y';
 }

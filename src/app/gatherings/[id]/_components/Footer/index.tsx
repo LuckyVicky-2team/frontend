@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface IGatheringFooterProps {
   id: number;
-  type: string | undefined;
+  type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
   setParticipantCount: Dispatch<SetStateAction<number>>;
   isMobile: boolean;
 }
@@ -25,6 +25,16 @@ export default function GatheringFooter({
   const { addToast } = useToast();
 
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
+
+  const handleButtonClick = () => {
+    if (type === undefined || type === 'NONE') {
+      handleJoinButtonClick();
+    }
+    if (type === 'PARTICIPANT' || type === 'LEADER') {
+      handleChatButtonClick();
+    }
+  };
+
   const handleJoinButtonClick = () => {
     joinMutate(id, {
       onSuccess: () => {
@@ -38,6 +48,10 @@ export default function GatheringFooter({
     });
   };
 
+  const handleChatButtonClick = () => {
+    addToast('아직 구현되지 않은 기능입니다.', 'error');
+  };
+
   return (
     <div className={styles.background}>
       <button
@@ -49,22 +63,28 @@ export default function GatheringFooter({
         }}>
         <Image
           src={'/assets/icons/chevron-left.svg'}
-          alt="수정 이미지"
+          alt="뒤로가기 이미지"
           width={36}
           height={36}
         />
       </button>
       <button
-        className={styles.cta}
+        className={
+          type === 'LEADER' || type === 'PARTICIPANT'
+            ? styles.ctaWhite
+            : styles.cta
+        }
         type="button"
-        onClick={handleJoinButtonClick}>
-        {!type && !isMobile && '모임 참가하기'}
-        {!type && isMobile && (
+        onClick={handleButtonClick}
+        disabled={type === 'QUIT'}>
+        {(!type || type === 'NONE') && !isMobile && '모임 참가하기'}
+        {(!type || type === 'NONE') && isMobile && (
           <div>
             모임 <br /> 참가하기
           </div>
         )}
         {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
+        {type === 'QUIT' && '참여할 수 없는 모임입니다.'}
       </button>
       {type !== 'LEADER' ? (
         <SaveGatheringButton

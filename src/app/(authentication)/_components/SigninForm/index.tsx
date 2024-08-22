@@ -2,9 +2,10 @@
 
 import { useForm } from 'react-hook-form';
 import AuthInput from '../AuthInput';
-import AuthSubmitButton from '../AuthSubmitButton';
+import Button from '@/components/common/Button';
 import { usePostSigninForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/contexts/toastContext';
 import styles from './SigninForm.module.scss';
 
 export default function SigninForm() {
@@ -16,6 +17,8 @@ export default function SigninForm() {
     watch,
   } = useForm({ mode: 'onBlur' });
 
+  const { addToast } = useToast();
+
   const { mutate: signinMutate, isPending } = usePostSigninForm();
 
   const submitSigninForm = (data: FormData) => {
@@ -25,8 +28,8 @@ export default function SigninForm() {
         localStorage.setItem('accessToken', token);
         router.push('/main');
       },
-      onError: error => {
-        console.log(error);
+      onError: () => {
+        addToast('로그인에 실패했습니다.', 'error');
       },
     });
   };
@@ -60,10 +63,11 @@ export default function SigninForm() {
           required: '비밀번호를 입력해주세요',
         })}
       />
-      <AuthSubmitButton
+      <Button
+        type="submit"
         disabled={!watch('username') || !watch('password') || isPending}>
         로그인하기
-      </AuthSubmitButton>
+      </Button>
     </form>
   );
 }

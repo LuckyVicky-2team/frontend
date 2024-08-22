@@ -1,23 +1,22 @@
 import styles from './ReceivedReviewItem.module.scss';
 import { MannerList } from './MannerList';
-import { IReceivedReviewItemProps } from '@/app/mypage/mockDataType';
-
+import { IReceivedReviewItemProps } from '@/app/mypage/mockData/mockDataType';
 export default function ReceivedReviewItem({
-  goodManners,
-  badManners,
+  positiveTags,
+  negativeTags,
 }: IReceivedReviewItemProps) {
   return (
     <>
       <div className={styles.reviewItem}>
         <MannerList
-          manners={goodManners}
-          title="받은 매너 칭찬"
+          evaluationTags={positiveTags}
+          title="받은 좋은매너 평가"
           icon="😊"
           emptyMessage="받은 칭찬매너가 없어요"
         />
         <MannerList
-          manners={badManners}
-          title="받은 비매너"
+          evaluationTags={negativeTags}
+          title="받은 비매너 평가"
           icon="😟"
           emptyMessage="받은 비매너가 없어요"
         />

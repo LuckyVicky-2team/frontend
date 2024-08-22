@@ -1,0 +1,23 @@
+.container {
+  padding: 15px 20px;
+  height: 100%;
+  background-color: #f9f9f9;
+  p {
+    padding: 20px 0;
+  }
+}
+.emptyReview {
+  display: table;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .boxInfo {
+    height: calc(100vh - 250px);
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 14px;
+  }
+}

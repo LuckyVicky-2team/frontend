@@ -8,6 +8,10 @@ const nextConfig = {
       },
     ];
   },
+  sassOptions: {
+    includePaths: ['styles'],
+    additionalData: `@import "@/styles/color.scss"; @import "@/styles/typography.scss";`,
+  },
 };
 
 export default nextConfig;

@@ -1,10 +1,10 @@
 .container {
   position: relative;
-  height: calc(100vh - 140px);
+  max-height: calc(100vh - 145px);
+  overflow: hidden;
 
   .header {
     position: sticky;
-
     display: block;
     text-align: center;
     h1 {
@@ -33,16 +33,15 @@
     }
   }
   .tabHeader {
+    align-items: center;
     border-bottom: 1px solid #dadada;
     height: 45px;
     position: sticky;
-    top: 50px;
     display: flex;
     left: 0;
     width: 100%;
     background-color: #fff;
-
-    justify-content: space-between;
+    justify-content: space-around;
     button {
       display: flex;
       position: relative;
@@ -62,23 +61,25 @@
       }
     }
   }
-  .emptyReview {
-    display: table;
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    .boxInfo {
-      height: calc(100vh - 250px);
-      display: table-cell;
-      width: 100%;
-      vertical-align: middle;
-      color: #aaa;
-      font-size: 14px;
-    }
-  }
+
   .reviewContainer {
-    height: calc(100vh - 235px);
+    height: calc(100vh - 240px);
     overflow-y: auto;
     overflow-x: hidden;
+  }
+}
+.emptyReview {
+  display: table;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .boxInfo {
+    height: calc(100vh - 250px);
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 14px;
   }
 }

@@ -1,6 +1,10 @@
+.container {
+  height: 50%;
+}
 .meetingName {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+
   font-size: 18px;
   color: #333;
   margin-bottom: 10px;

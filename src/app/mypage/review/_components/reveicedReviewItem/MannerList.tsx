@@ -1,35 +1,34 @@
 import Image from 'next/image';
 import styles from './MannerList.module.scss';
 
-interface Manner {
-  content: string;
+interface ITag {
+  tagPhrase: string;
   count: number;
-  id: number;
 }
 
-interface MannerListProps {
-  manners: Manner[];
+interface IMannerListProps {
+  evaluationTags: ITag[];
   title: string;
   icon: string;
   emptyMessage: string;
 }
 
 export function MannerList({
-  manners,
+  evaluationTags,
   title,
   icon,
   emptyMessage,
-}: MannerListProps) {
+}: IMannerListProps) {
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.meetingName}>
         <span className={styles.icon}>{icon}</span> {title}
       </div>
       <div className={styles.tags}>
-        {manners.length > 0 ? (
-          manners.map(manner => (
-            <div key={manner.id} className={styles.tagItem}>
-              <span className={styles.tagContent}>{manner.content}</span>
+        {evaluationTags?.length > 0 ? (
+          evaluationTags.map((tag, idx) => (
+            <div key={idx + '_evaluationTag'} className={styles.tagItem}>
+              <span className={styles.tagContent}>{tag.tagPhrase}</span>
               <span className={styles.tagCount}>
                 <span className={styles.countIcon}>
                   <Image
@@ -39,7 +38,7 @@ export function MannerList({
                     height={15}
                   />
                 </span>
-                {manner.count}
+                {tag.count}
               </span>
             </div>
           ))

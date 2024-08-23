@@ -516,10 +516,11 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       </div>
       <GatheringFooter
         id={id}
+        title={data.title}
         type={myType}
+        // FREE or ACCEPT
+        // gatheringType={data.type}
         setParticipantCount={setParticipantCount}
-        // isSaved={isSaved}
-        // setSaveItem={setSaveItem}
         isInitialSaved={data.likeStatus}
         isMobile={isMobile}
         state={data.state}

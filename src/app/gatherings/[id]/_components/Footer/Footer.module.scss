@@ -77,3 +77,108 @@
   border-radius: 6px;
   border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
 }
+
+.modalBackground {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--lukyviky-Blue-Darker, #002b59);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: 1.04px;
+  height: 226px;
+  gap: 6px;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 16px;
+  }
+
+  .title {
+    color: var(--lukyviky-Blue-Normal, #007aff);
+    text-align: center;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px; /* 115.385% */
+    letter-spacing: 1.04px;
+    @media only screen and (max-width: 520px) {
+      font-size: 20px;
+    }
+  }
+
+  .description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 13px 0 0;
+    width: min(100%, 388px);
+    padding: 9px 23px;
+    border-radius: 10px;
+    background: var(--lukyviky-Blue-Light, #e6f2ff);
+    color: var(--lukyviky-gray-Darker, #37393d);
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 133.333% */
+    @media only screen and (max-width: 520px) {
+      font-size: 14px;
+    }
+  }
+}
+
+.modalButtons {
+  display: flex;
+  width: 100%;
+  height: 113px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 75% */
+  letter-spacing: 0.96px;
+  text-align: center;
+  @media only screen and (max-width: 520px) {
+    font-size: 16px;
+  }
+  .modalFirstButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lukyviky-Blue-Normal, #007aff);
+    width: 50%;
+    border: 1px solid var(--lukyviky-Blue-Normal, #007aff);
+  }
+
+  .modalSecondButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lukyviky-Blue-Light, #e6f2ff);
+    background: var(--lukyviky-Blue-Normal, #007aff);
+    width: 50%;
+  }
+}
+
+.modalFullButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lukyviky-Blue-Light, #e6f2ff);
+  background: var(--lukyviky-Blue-Normal, #007aff);
+  display: flex;
+  width: 100%;
+  height: 113px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 75% */
+  letter-spacing: 0.96px;
+  text-align: center;
+  @media only screen and (max-width: 520px) {
+    font-size: 16px;
+  }
+}

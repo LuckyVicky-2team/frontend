@@ -4,25 +4,25 @@ import styles from './prEdit.module.scss';
 import { useEffect, useState, KeyboardEvent } from 'react';
 import { getPersonalInfo, updatePRTags } from '@/api/apis/mypageApis';
 
-interface UserProfile {
-  email: string; // 회원 고유 ID
-  nickName: string; // 닉네임
-  profileImage: string; // 프로필 이미지
-  averageGrade: number; // 평균 별점
-  prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
-}
+// interface UserProfile {
+//   email: string; // 회원 고유 ID
+//   nickName: string; // 닉네임
+//   profileImage: string; // 프로필 이미지
+//   averageGrade: number; // 평균 별점
+//   prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
+// }
 
 export default function PrEdit() {
-  const [info, setInfo] = useState<UserProfile | null>(null); // UserProfile 타입 사용
+  // const [info, setInfo] = useState<UserProfile | null>(null);
   const [prTags, setPrTags] = useState<string[]>([]);
-  const [newTag, setNewTag] = useState<string>(''); // 새로 추가될 태그의 상태
-  const [error, setError] = useState<string | null>(null); // 오류 메시지 상태 추가
+  const [newTag, setNewTag] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   const fetchPersonalInfo = async () => {
     try {
       const response = await getPersonalInfo();
-      setInfo(response.data);
-      setPrTags(response.data.prTags); // 기존 PR 태그 설정
+      // setInfo(response.data);
+      setPrTags(response.data.prTags);
     } catch (err) {
       console.error('err:', err);
     }
@@ -35,8 +35,9 @@ export default function PrEdit() {
   // 태그 목록을 서버에 업데이트하는 함수
   const updateTagsOnServer = async (newTags: string[]) => {
     try {
-      await updatePRTags(newTags); // 새로운 API 호출
-      setPrTags(newTags); // 성공적으로 업데이트되면 로컬 상태도 업데이트
+      const uniqueTags = Array.from(new Set(newTags)); // 중복 제거
+      await updatePRTags(uniqueTags);
+      setPrTags(uniqueTags);
     } catch (error) {
       console.error('PR 태그를 업데이트하는 중 오류가 발생했습니다.', error);
     }
@@ -47,16 +48,14 @@ export default function PrEdit() {
     if (e.key === 'Enter') {
       e.preventDefault();
       const trimmedTag = newTag.trim();
-
-      // 유효성 검사
-      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/; // 한글과 영어, 숫자, 띄어쓰기만 허용
+      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/;
 
       if (
-        !trimmedTag || // 빈 값 검사
-        prTags.includes(trimmedTag) || // 중복 검사
-        prTags.length >= 10 || // 최대 태그 수 검사
-        trimmedTag.length > 30 || // 태그 길이 검사
-        !tagPattern.test(trimmedTag) // 문자 패턴 검사
+        !trimmedTag ||
+        prTags.includes(trimmedTag) ||
+        prTags.length >= 10 ||
+        trimmedTag.length > 30 ||
+        !tagPattern.test(trimmedTag)
       ) {
         let errorMessage = '';
 
@@ -72,15 +71,15 @@ export default function PrEdit() {
           errorMessage = '한글, 영어, 숫자, 띄어쓰기만 허용됩니다.';
         }
 
-        setError(errorMessage); // 오류 메시지 설정
-        setNewTag(''); // 입력 필드 초기화
+        setError(errorMessage);
+        setNewTag('');
         return;
       }
 
-      setError(null); // 유효성 검사 통과 시 오류 메시지 초기화
+      setError(null);
       const updatedTags = [...prTags, trimmedTag];
       await updateTagsOnServer(updatedTags);
-      setNewTag(''); // 입력 필드 초기화
+      setNewTag('');
     }
   };
 
@@ -94,7 +93,7 @@ export default function PrEdit() {
     <div className={styles.prWrap}>
       <h1>PR태그 수정</h1>
       <ul>
-        {info?.prTags.map((tag, index) => (
+        {prTags.map((tag, index) => (
           <li key={index} className={styles.tagItem}>
             <button
               type="button"
@@ -108,11 +107,12 @@ export default function PrEdit() {
       <input
         type="text"
         value={newTag}
-        onChange={e => setNewTag(e.target.value)} // 입력값이 변경될 때 newTag 상태 업데이트
-        onKeyUp={handleKeyUp} // 엔터 키 눌렀을 때 처리
+        onChange={e => setNewTag(e.target.value)}
+        onKeyUp={handleKeyUp}
         placeholder="PR태그를 입력해주세요"
+        disabled={prTags.length >= 10} // 10개 이상일 때 입력 비활성화
       />
-      {error && <p className={styles.error}>{error}</p>}{' '}
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 }

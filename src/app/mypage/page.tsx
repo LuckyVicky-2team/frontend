@@ -11,7 +11,7 @@ interface UserProfile {
   email: string; // 회원 고유 ID
   nickName: string; // 닉네임
   profileImage: string; // 프로필 이미지
-  averageGrade: number; // 평균 별점
+  averageRating: number; // 평균 별점
   prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
 }
 
@@ -57,7 +57,7 @@ export default function MyPage() {
         <b>매너능력치</b>
         <div className={styles.line}>
           <div className={styles.averageLine}>
-            <p className={styles.average}>{info?.averageGrade}</p>
+            <p className={styles.average}>{info?.averageRating}</p>
           </div>
         </div>
       </div>

@@ -37,11 +37,14 @@ export const updateProfileImage = async (file: File) => {
 //pr태그 수정
 export const updatePRTags = (tags: string[]) => {
   const formData = new FormData();
+
+  // tags 배열의 각 태그를 'prTags'라는 필드 이름으로 FormData에 추가
   tags.forEach(tag => formData.append('prTags', tag));
 
+  // axiosInstance를 사용해 FormData를 서버로 PATCH 요청
   return axiosInstance.patch('/personal-info/prTags', formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      'Content-Type': 'multipart/form-data', // FormData 전송을 위한 헤더 설정
     },
   });
 };

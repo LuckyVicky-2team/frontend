@@ -5,7 +5,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}`,
-        port: '',
       },
     ],
   },

@@ -40,6 +40,10 @@ export default function GatheringFooter({
   };
 
   const handleJoinButtonClick = () => {
+    const accesssToken = localStorage.getItem('accessToken');
+    if (!accesssToken) {
+      return;
+    }
     joinMutate(id, {
       onSuccess: () => {
         console.log('참여하기 성공!');

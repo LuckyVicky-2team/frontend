@@ -404,6 +404,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 onClose={handleShareModalClose}
                 pathname={pathname}
                 shareCount={data.shareCount}
+                isMobile={isMobile}
               />
             </div>
           </div>

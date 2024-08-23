@@ -14,7 +14,7 @@ export default function CrawlingPage() {
 
   return (
     <div>
-      <button onClick={handleCrawl}>크롤링 실행</button>
+      <button onClick={handleCrawl}>크롤링 실행합시다</button>
     </div>
   );
 }

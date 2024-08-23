@@ -3,7 +3,7 @@
 import styles from './Footer.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import { usePostJoinGathering } from '@/api/queryHooks/gathering';
 import { Dispatch, SetStateAction } from 'react';
@@ -33,6 +33,8 @@ export default function GatheringFooter({
   state,
 }: IGatheringFooterProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const currentURL = `${window.location.origin}${pathname}`;
   const { addToast } = useToast();
 
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
@@ -109,6 +111,7 @@ export default function GatheringFooter({
   };
 
   const handleGoToLoginPage = () => {
+    document.cookie = `referer=${currentURL}; path=/`;
     router.push('/signin');
   };
 

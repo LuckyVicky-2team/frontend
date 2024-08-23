@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+    remotePatterns: ${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}
       ? [
           {
             protocol: 'https',
@@ -11,7 +11,6 @@ const nextConfig = {
         ]
       : [],
   },
-};
   async rewrites() {
     return [
       {

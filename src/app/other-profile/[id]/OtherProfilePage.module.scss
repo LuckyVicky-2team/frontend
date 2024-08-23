@@ -1,0 +1,59 @@
+.container {
+  height: calc(100vh - 185px);
+  padding: 35px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .pageTitle {
+    color: #000;
+    font-family: LaundryGothicOTF;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.2px;
+    flex-shrink: 0;
+  }
+}
+
+.profile {
+  height: 100%;
+
+  .header {
+    position: relative;
+    height: 65px;
+    background: #007aff;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom: 3px solid #004999;
+    overflow: hidden;
+
+    .headerImage {
+      position: absolute;
+      top: 18px;
+      right: 69.8px;
+    }
+  }
+
+  .boundary {
+    width: 100%;
+    height: 10px;
+    background-color: #007aff;
+    margin: 0;
+    border: none;
+  }
+
+  .contents {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    border: 2px solid #e5e7eb;
+    background: #fff;
+    padding: 10px 24px 42px;
+  }
+}

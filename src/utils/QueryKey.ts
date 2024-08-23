@@ -8,6 +8,15 @@ export const QueryKey = {
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],
     COORDINATE: () => [QueryKey.USER.KEY, 'coordinate'],
   },
+  OTHER_USER: {
+    KEY: 'other-user',
+    INFO: (id: number) => [QueryKey.OTHER_USER.KEY, QueryKey.INFO, id],
+    EVALUATION_TAGS: (id: number) => [
+      QueryKey.OTHER_USER.KEY,
+      'evaluation-tags',
+      id,
+    ],
+  },
   GATHERING: {
     KEY: 'gathering',
     LIST: (filters: any) => [QueryKey.GATHERING.KEY, QueryKey.LIST, filters],

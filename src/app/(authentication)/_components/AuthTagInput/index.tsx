@@ -1,16 +1,7 @@
-import { UseFormSetValue } from 'react-hook-form';
 import TagInput from '@/components/common/TagInput';
 import styles from './AuthTagInput.module.scss';
 
-export default function AuthTagInput({
-  setValue,
-}: {
-  setValue: UseFormSetValue<any>;
-}) {
-  const setPRTagValues = (tags: string[]) => {
-    setValue('prTags', tags);
-  };
-
+export default function AuthTagInput() {
   return (
     <div className={styles.container}>
       <label className={styles.label} htmlFor="prTags">
@@ -35,8 +26,8 @@ export default function AuthTagInput({
       </div>
       <TagInput
         id="prTags"
-        setItems={setPRTagValues}
         placeholder="나를 소개하는 문구를 적어보세요!"
+        fieldName="prTags"
       />
     </div>
   );

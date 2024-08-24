@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import AuthHeader from '../_components/AuthHeader';
 import SpeechBalloon from '../_components/SpeechBalloon';
 import SigninForm from '../_components/SigninForm';
 import Button from '@/components/common/Button';
+import AuthTitle from '../_components/AuthTitle';
 import styles from './Signin.module.scss';
 
 export default function Signin() {
   return (
     <main className={styles.container}>
-      <AuthHeader title="로그인" />
+      <AuthTitle title="로그인" />
       <SigninForm />
       <div className={styles.buttons}>
         <p className={styles.guideText}>BOGO가 처음이신가요?</p>

@@ -1,31 +1,27 @@
 'use client';
 
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
-  handleToggleEye?: () => void;
-  eyeState?: boolean;
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  fieldName: string;
+  hasEye?: boolean;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  {
-    className,
-    type,
-    handleToggleEye,
-    eyeState,
-    labelName,
-    disabled,
-    error,
-    ...props
-  },
+  { className, type, labelName, disabled, fieldName, hasEye = false, ...props },
   ref
 ) {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   return (
     <div className={`${styles.container} ${className}`}>
       <label className={styles.label} htmlFor={labelName}>
@@ -33,34 +29,36 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
       </label>
       <div className={styles.inputContainer}>
         <Input
-          type={eyeState ? 'text' : type}
+          type={passwordVisible ? 'text' : type}
           ref={ref}
           id={labelName}
-          isError={Boolean(error)}
+          isError={!!errors[fieldName]}
           disabled={disabled}
-          className={eyeState !== undefined ? styles.passwordInput : ''}
+          className={hasEye ? styles.passwordInput : ''}
           {...props}
         />
-        {eyeState !== undefined && (
+        {hasEye && (
           <button
             className={styles.eyeButton}
-            onClick={handleToggleEye}
+            onClick={() => setPasswordVisible(prev => !prev)}
             type="button">
             <Image
               src={
-                eyeState
+                passwordVisible
                   ? '/assets/icons/openEye.svg'
                   : '/assets/icons/closedEye.svg'
               }
-              alt={eyeState ? 'password-visible' : 'password-invisible'}
+              alt={passwordVisible ? 'password-visible' : 'password-invisible'}
               width={24}
               height={24}
             />
           </button>
         )}
       </div>
-      {error?.message && (
-        <span className={styles.errorMessage}>{String(error.message)}</span>
+      {errors[fieldName]?.message && (
+        <span className={styles.errorMessage}>
+          {String(errors[fieldName]?.message)}
+        </span>
       )}
       {disabled && (
         <span className={styles.successMessage}>중복확인이 완료되었습니다</span>

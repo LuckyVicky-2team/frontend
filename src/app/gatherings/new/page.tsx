@@ -41,6 +41,13 @@ export default function NewGatheringPage() {
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
   const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
+  const [boardGameIdListClicked, setBoardGameIdListClicked] =
+    useState<boolean>(false);
+  const [boardGameIdListError, setBoardGameIdListError] =
+    useState<boolean>(false);
+  const [locationNameClicked, setLocationNameClicked] =
+    useState<boolean>(false);
+  const [locationNameError, setLocationNameError] = useState<boolean>(false);
 
   const {
     modalOpen: findPlaceModalOpen,
@@ -131,6 +138,25 @@ export default function NewGatheringPage() {
     setValue('boardGameIdList', boardGameIdList);
   }, [boardGameIdList, setValue]);
 
+  useEffect(() => {
+    if (boardGameIdList.length === 0 && boardGameIdListError === true) {
+      setBoardGameIdListError(true);
+      return;
+    }
+    setBoardGameIdListError(false);
+  }, [boardGameIdList, boardGameIdListError]);
+
+  useEffect(() => {
+    if (
+      (!getValues('locationName') || getValues('locationName').length === 0) &&
+      locationNameError === true
+    ) {
+      setLocationNameError(true);
+      return;
+    }
+    setLocationNameError(false);
+  }, [getValues('locationName'), locationNameError]);
+
   return (
     <div className={styles.body}>
       <h1 className={styles.header}>모임 만들기</h1>
@@ -147,13 +173,17 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 사람들이 끌릴만한 제목을 지어보세요!
               </p>
-              <input
-                id="title"
-                {...register('title', { required: '제목을 입력해 주세요.' })}
-                className={styles.commonInput}
-                placeholder={'모임 이름을 입력해 주세요.'}
-              />
-              {errors.title && errors.title.message}
+              <div style={{ margin: '0 0 28px' }}>
+                <input
+                  id="title"
+                  {...register('title', { required: '제목을 입력해 주세요.' })}
+                  className={`${styles.commonInput} ${errors.title && styles.error}`}
+                  placeholder={'모임 이름을 입력해 주세요.'}
+                />
+                <div className={styles.errorMessage}>
+                  {errors.title && errors.title.message}
+                </div>
+              </div>
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="content" className={styles.title}>
@@ -169,8 +199,11 @@ export default function NewGatheringPage() {
                   // onChangeWithReactHookForm={register('content').onChange}
                   register={register}
                 />
+                <div className={styles.errorMessage}>
+                  {errors.contentWithoutHtml &&
+                    errors.contentWithoutHtml.message}
+                </div>
               </div>
-              {errors.contentWithoutHtml && errors.contentWithoutHtml.message}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="gameTitle" className={styles.title}>
@@ -179,13 +212,26 @@ export default function NewGatheringPage() {
               <p className={styles.titleDescription}>
                 어떤 보드게임을 진행하실 건가요?
               </p>
-              <input
-                id="gameTitle"
-                readOnly
-                className={styles.commonInput}
-                placeholder={'게임을 선택해 주세요.'}
-                onClick={handleChooseGameModalOpen}
-              />
+              <div style={{ margin: '0 0 28px' }}>
+                <input
+                  id="gameTitle"
+                  readOnly
+                  className={`${styles.commonInput} ${boardGameIdListError && styles.error}`}
+                  placeholder={'게임을 선택해 주세요.'}
+                  onClick={() => {
+                    handleChooseGameModalOpen();
+                    setBoardGameIdListClicked(true);
+                  }}
+                  onBlur={() => {
+                    if (boardGameIdList.length === 0) {
+                      setBoardGameIdListError(true);
+                    }
+                  }}
+                />
+                <div className={styles.errorMessage}>
+                  {boardGameIdListError && ' 게임을 선택해 주세요.'}
+                </div>
+              </div>
               <GameDataList
                 modalOpen={chooseGameModalOpen}
                 onClose={handleChooseGameModalClose}
@@ -204,6 +250,7 @@ export default function NewGatheringPage() {
                         const newPrev = prev.filter(element => element !== id);
                         return newPrev;
                       });
+                      setBoardGameIdListError(true);
                     }}>
                     {id}
                   </button>
@@ -264,13 +311,29 @@ export default function NewGatheringPage() {
                 어디서 만나나요? <br />
                 해당 위치는 목록에서는 전체공개되지 않습니다.
               </p>
-              <input
-                readOnly
-                placeholder={'장소를 입력해 주세요.'}
-                value={getValues('locationName')}
-                onClick={handleFindPlaceModalOpen}
-                className={styles.placeInput}
-              />
+              <div style={{ margin: '0 0 28px' }}>
+                <input
+                  readOnly
+                  placeholder={'장소를 입력해 주세요.'}
+                  value={getValues('locationName')}
+                  onClick={() => {
+                    handleFindPlaceModalOpen();
+                    setLocationNameClicked(true);
+                  }}
+                  className={`${styles.placeInput} ${locationNameError && styles.error}`}
+                  onBlur={() => {
+                    if (
+                      !getValues('locationName') ||
+                      getValues('locationName')?.length === 0
+                    ) {
+                      setLocationNameError(true);
+                    }
+                  }}
+                />
+                <div className={styles.errorMessage}>
+                  {locationNameError && '장소를 선택해 주세요'}
+                </div>
+              </div>
               <FindPlaceModal
                 modalOpen={findPlaceModalOpen}
                 onClose={handleFindPlaceModalClose}
@@ -283,15 +346,19 @@ export default function NewGatheringPage() {
               <label htmlFor="meetingDatetime" className={styles.title}>
                 날짜
               </label>
-              <DatePicker
-                control={control}
-                name="meetingDatetime"
-                id="meetingDatetime"
-                placeholder="날짜를 선택해 주세요."
-                className={styles.datePicker}
-                time
-              />
-              {errors.meetingDatetime && errors.meetingDatetime.message}
+              <div style={{ margin: '0 0 28px' }}>
+                <DatePicker
+                  control={control}
+                  name="meetingDatetime"
+                  id="meetingDatetime"
+                  placeholder="날짜를 선택해 주세요."
+                  className={`${styles.datePicker} ${errors.meetingDatetime && styles.error}`}
+                  time
+                />
+                <div className={styles.errorMessage}>
+                  {errors.meetingDatetime && errors.meetingDatetime.message}
+                </div>
+              </div>
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="title" className={styles.title}>
@@ -315,7 +382,13 @@ export default function NewGatheringPage() {
           </div>
           <button
             type="submit"
-            disabled={!isValid}
+            disabled={
+              !isValid ||
+              boardGameIdListError ||
+              !boardGameIdListClicked ||
+              !locationNameClicked ||
+              locationNameError
+            }
             className={styles.submitButton}>
             확인
           </button>

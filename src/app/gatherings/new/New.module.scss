@@ -52,7 +52,10 @@
   border-radius: 10px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
   padding: 0 16px;
-  margin: 0 0 28px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .textEditor {
@@ -89,12 +92,14 @@
   border-radius: 10px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
   padding: 34px;
-  margin: 0 0 28px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .inputContainer .datePicker {
   width: 100%;
-  margin: 0 0 28px;
   height: 66px;
 }
 
@@ -131,4 +136,21 @@
   &:disabled {
     background: #9ca3af;
   }
+}
+
+.error {
+  border-radius: 10px;
+  border: 1px solid #dd111e;
+  background: #fff;
+}
+
+.errorMessage {
+  color: var(--error, #dd111e);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+  letter-spacing: 0.64px;
+  margin: 8px 0 0;
 }

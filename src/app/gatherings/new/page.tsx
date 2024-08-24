@@ -15,6 +15,8 @@ import { dateToString } from '@/utils/dateTostring';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
 import useModal from '@/hooks/useModal';
 import { axiosInstance } from '@/api/instance';
+import { useToast } from '@/contexts/toastContext';
+import { useRouter } from 'next/navigation';
 // import AuthSubmitButton from '@/app/(authentication)/_components/AuthSubmitButton';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
@@ -33,17 +35,27 @@ export default function NewGatheringPage() {
     handleSubmit,
     control,
     setValue,
+    getValues,
     formState: { errors, isValid },
   } = methods;
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
   const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
-  const [gameTitle, setGameTitle] = useState('');
+
   const {
     modalOpen: findPlaceModalOpen,
     handleModalClose: handleFindPlaceModalClose,
     handleModalOpen: handleFindPlaceModalOpen,
   } = useModal();
+
+  const {
+    modalOpen: chooseGameModalOpen,
+    handleModalClose: handleChooseGameModalClose,
+    handleModalOpen: handleChooseGameModalOpen,
+  } = useModal();
+
+  const { addToast } = useToast();
+  const router = useRouter();
   // const [latitude, setLatitude] = useState<string | null>(null);
   // const [longitude, setLongitude] = useState<string | null>(null);
 
@@ -108,8 +120,10 @@ export default function NewGatheringPage() {
         },
       });
       console.log(response.data);
+      router.push('/gatherings/new/success');
     } catch (error) {
-      console.error('There was an error uploading the file!', error);
+      void error;
+      addToast('모임 생성에 실패했어요.', 'error');
     }
   };
 
@@ -167,23 +181,18 @@ export default function NewGatheringPage() {
               </p>
               <input
                 id="gameTitle"
+                readOnly
                 className={styles.commonInput}
-                value={gameTitle}
-                onChange={e => {
-                  if (e.target.value === '') {
-                    setShowGameData(false);
-                    return;
-                  }
-                  setGameTitle(e.target.value);
-                  setShowGameData(true);
-                }}
+                placeholder={'게임을 선택해 주세요.'}
+                onClick={handleChooseGameModalOpen}
               />
               <GameDataList
+                modalOpen={chooseGameModalOpen}
+                onClose={handleChooseGameModalClose}
                 gameData={gameData}
                 showGameData={showGameData}
                 setShowGameData={setShowGameData}
                 setBoardGameIdList={setBoardGameIdList}
-                setGameTitle={setGameTitle}
               />
               {boardGameIdList.map(id => {
                 return (
@@ -255,14 +264,12 @@ export default function NewGatheringPage() {
                 어디서 만나나요? <br />
                 해당 위치는 목록에서는 전체공개되지 않습니다.
               </p>
-              <button
-                type="button"
+              <input
+                readOnly
+                placeholder={'장소를 입력해 주세요.'}
+                value={getValues('locationName')}
                 onClick={handleFindPlaceModalOpen}
-                style={{
-                  backgroundColor: 'red',
-                  width: '100px',
-                  height: '20px',
-                }}
+                className={styles.placeInput}
               />
               <FindPlaceModal
                 modalOpen={findPlaceModalOpen}

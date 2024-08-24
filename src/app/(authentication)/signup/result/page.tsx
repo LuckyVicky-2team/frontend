@@ -3,7 +3,13 @@ import styles from './SignupResult.module.scss';
 import Button from '@/components/common/Button';
 import Link from 'next/link';
 
-export default function SignupResult() {
+export default function SignupResult({
+  searchParams,
+}: {
+  searchParams: { type: 'local' | 'social' };
+}) {
+  const { type } = searchParams;
+
   return (
     <main className={styles.container}>
       <div className={styles.welcome}>
@@ -24,7 +30,7 @@ export default function SignupResult() {
           어떤 플레이를 하게 될까요?!
         </p>
       </div>
-      <Link href="/signin">
+      <Link href={type === 'local' ? '/signin' : '/main'}>
         <Button>BOGO 즐기러 가기</Button>
       </Link>
     </main>

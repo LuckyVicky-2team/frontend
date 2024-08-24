@@ -8,7 +8,7 @@ export default function LoadingPage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '80vh',
+        minHeight: '80vh',
       }}>
       <RollingDice />
     </div>

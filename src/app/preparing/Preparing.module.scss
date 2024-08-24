@@ -1,8 +1,7 @@
 .container {
-  min-height: calc(100vh - 185px);
+  height: calc(100vh - 185px);
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 0 24px;
 }
 
@@ -18,21 +17,16 @@
   flex-direction: column;
   align-items: center;
   line-height: normal;
+  gap: 20px;
 }
 
-.wow {
-  color: #007aff;
-  font-size: 100px;
+.image {
+  position: relative;
+  width: 80%;
+  aspect-ratio: 3/2;
 }
 
-.errorCode {
-  color: #002b59;
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 40px;
-}
-
-.where {
+.title {
   color: #002b59;
   font-size: 20px;
   font-weight: 400;

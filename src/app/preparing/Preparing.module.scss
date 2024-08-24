@@ -1,15 +1,10 @@
 .container {
-  height: calc(100vh - 185px);
-  display: flex;
-  flex-direction: column;
-  padding: 0 24px;
-}
-
-.innerContainer {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-grow: 1;
+  padding: 30px 24px;
+  gap: 220px;
 }
 
 .contents {
@@ -35,9 +30,4 @@
 .subTitle {
   color: #002b59;
   font-size: 18px;
-}
-
-.button {
-  margin-top: 20px;
-  flex-shrink: 0;
 }

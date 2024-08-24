@@ -10,22 +10,18 @@ export default function NotFoundPage() {
 
   return (
     <main className={styles.container}>
-      <div className={styles.innerContainer}>
-        <div className={styles.contents}>
-          <div className={styles.wow}>!</div>
-          <div className={styles.errorCode}>404</div>
-          <Image
-            src="/assets/icons/404.svg"
-            alt="not-found"
-            width={280}
-            height={260}
-          />
-          <p className={styles.where}>엇? 여긴 어디지?</p>
-        </div>
+      <div className={styles.contents}>
+        <div className={styles.wow}>!</div>
+        <div className={styles.errorCode}>404</div>
+        <Image
+          src="/assets/icons/404.svg"
+          alt="not-found"
+          width={280}
+          height={260}
+        />
+        <p className={styles.where}>엇? 여긴 어디지?</p>
       </div>
-      <Button className={styles.button} onClick={() => router.back()}>
-        이전 페이지로 가기
-      </Button>
+      <Button onClick={() => router.back()}>이전 페이지로 가기</Button>
     </main>
   );
 }

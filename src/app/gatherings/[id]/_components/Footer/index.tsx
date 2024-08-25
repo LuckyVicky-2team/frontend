@@ -57,7 +57,6 @@ export default function GatheringFooter({
   } = useModal();
 
   const handleButtonClick = () => {
-    handleLoginModalOpen();
     if (type === undefined || type === 'NONE') {
       handleJoinButtonClick();
     }

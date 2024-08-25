@@ -8,10 +8,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import styles from './OtherProfilePage.module.scss';
 import BackButton from '@/components/common/BackButton';
 import Link from 'next/link';
 import Image from 'next/image';
+import OtherProfile from './_components/OtherProfile';
+import OtherEvaluationTags from './_components/OtherEvaluationTags';
+import styles from './OtherProfilePage.module.scss';
 
 const prefetchUserData = async (id: number) => {
   const queryClient = new QueryClient();
@@ -19,7 +21,7 @@ const prefetchUserData = async (id: number) => {
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: QueryKey.OTHER_USER.INFO(id),
-      queryFn: () => getOtherProfile(id),
+      queryFn: () => getOtherProfile(id, true),
     }),
     queryClient.prefetchQuery({
       queryKey: QueryKey.OTHER_USER.EVALUATION_TAGS(id),
@@ -55,8 +57,8 @@ export default async function OtherProfilePage({
               <Image
                 src="/assets/icons/backArrow.svg"
                 alt="돌아가기"
-                width={32}
-                height={32}
+                width={24}
+                height={24}
               />
             </Link>
           ) : (
@@ -75,7 +77,12 @@ export default async function OtherProfilePage({
             />
           </div>
           <hr className={styles.boundary} />
-          <div className={styles.contents}></div>
+          <div className={styles.contents}>
+            <OtherProfile userId={+userId} />
+            <div className={styles.tags}>
+              <OtherEvaluationTags userId={+userId} />
+            </div>
+          </div>
         </div>
       </HydrationBoundary>
     </main>

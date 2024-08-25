@@ -1,11 +1,27 @@
+import {
+  IOtherEvaluationTagsResponse,
+  IOtherProfileResponse,
+} from '@/types/response/OtherProfileRES';
 import { axiosInstance } from '../instance';
 
-export const getOtherProfile = async (id: number) => {
-  return await axiosInstance.get(`/personal-info/${id}`);
+export const getOtherProfile = async (
+  id: number,
+  isServer: boolean
+): Promise<IOtherProfileResponse> => {
+  const { data } = await axiosInstance.get(
+    isServer
+      ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/personal-info/${id}`
+      : `/personal-info/${id}`
+  );
+
+  return data;
 };
 
-export const getOtherEvaluationTags = async (_id: number) => {
-  // return await axiosInstance.get(``);
+export const getOtherEvaluationTags = async (
+  _id: number
+): Promise<IOtherEvaluationTagsResponse> => {
+  // const { data } = await axiosInstance.get(``);
+  // return data
   return {
     positiveTags: [
       {

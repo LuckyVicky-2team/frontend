@@ -17,6 +17,7 @@
     line-height: normal;
     position: absolute;
     top: -10px;
+    transition: left 1s ease-in-out;
   }
 
   .progressBar {
@@ -30,15 +31,7 @@
       height: 100%;
       background: #007bff;
       border-radius: 6px 0 0 6px;
+      transition: width 1s ease-in-out;
     }
-  }
-}
-
-@keyframes fillProgress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%; /* 최종 목표 width */
   }
 }

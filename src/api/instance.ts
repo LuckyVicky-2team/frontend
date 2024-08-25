@@ -20,6 +20,7 @@ axiosInstance.interceptors.request.use(
         const expiryTime = tokenPayload.exp * 1000;
         const currentTime = Date.now();
 
+        // 토큰이 만료되었으면 토큰 삭제 후 로그인 화면 이동
         if (expiryTime < currentTime) {
           localStorage.removeItem('accessToken');
           window.location.href = '/signin';

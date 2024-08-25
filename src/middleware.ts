@@ -5,10 +5,12 @@ export function middleware(request: NextRequest) {
   const currentUrl = request.nextUrl;
   const hostname = request.nextUrl.hostname;
 
+  // 개발 환경에서만 crawling 페이지 접근 허용
   if (currentUrl.pathname === '/crawling' && hostname !== 'localhost') {
     return new NextResponse('Access Denied', { status: 403 });
   }
 
+  // main 입장 시 referer 쿠키 있으면 쿠키 값의 경로로 이동
   if (currentUrl.pathname === '/main') {
     const referer = request.cookies.get('referer')?.value;
 

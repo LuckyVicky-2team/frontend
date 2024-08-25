@@ -1,71 +1,53 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './info.module.scss';
 import Image from 'next/image';
-import { updateProfileImage } from '@/api/apis/mypageApis';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import ProfileImageEdit from '../../_components/profileImageEdit/profileImageEdit';
 
-interface UserProfile {
-  email: string; // 회원 고유 ID
-  nickName: string; // 닉네임
-  profileImage: string; // 프로필 이미지
-  averageGrade: number; // 평균 별점
-  prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
+// 환경 변수에서 도메인 가져오기
+const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
+
+interface IUserProfile {
+  email: string;
+  nickName: string;
+  profileImage: string;
+  averageRating: number;
+  prTags: string[];
 }
 
-interface InfoProps {
-  mypageInfo: UserProfile | null; // 전달받은 props 타입 정의
+interface IInfoProps {
+  mypageInfo: IUserProfile | null;
   handleEditOpen: () => void;
   updateInfo: () => void;
+  handleEditOpen2: () => void;
 }
 
 export default function Info({
   mypageInfo,
   handleEditOpen,
   updateInfo,
-}: InfoProps) {
-  const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
-  const [loggedIn, setLoggedIn] = useState(false);
+}: IInfoProps) {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [profileHover, setProfileHover] = useState<boolean>(false);
+  const [editOpen2, setEditOpen2] = useState<boolean>(false);
+
   const router = useRouter();
 
-  // 프로필 이미지 파일 선택 처리
-  const handleProfileImageChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-      setProfileImage(file);
+  // 프로필 이미지 URL
+  const profileImageUrl = mypageInfo?.profileImage
+    ? `https://${cloud}/${mypageInfo.profileImage}`
+    : '/assets/myPageImages/profileImgEdit.png';
 
-      // 이미지 미리보기 생성
-      const objectURL = URL.createObjectURL(file);
-      setPreview(objectURL);
-    }
-  };
-
-  // 프로필 이미지 업로드 처리
-  const handleProfileImageUpload = async () => {
-    if (profileImage) {
-      try {
-        await updateProfileImage(profileImage);
-        console.log('프로필 이미지 수정 완료');
-        updateInfo();
-      } catch (error) {
-        console.error('프로필 이미지 수정 실패:', error);
-      }
-    }
-  };
+  // 핸들러 함수 정의
+  const handleMouseEnter = () => setProfileHover(true);
+  const handleMouseLeave = () => setProfileHover(false);
 
   useEffect(() => {
-    const getLocal = localStorage.getItem('accessToken');
-    if (getLocal === null) {
-      setLoggedIn(false);
-    } else {
-      setLoggedIn(true);
-    }
-  }, [loggedIn]);
+    const token = localStorage.getItem('accessToken');
+    setLoggedIn(!!token);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -73,121 +55,67 @@ export default function Info({
     alert('로그아웃 되었습니다.');
     router.push('/');
   };
+
+  const handleUploadSuccess = () => {
+    updateInfo(); // 부모 컴포넌트의 정보를 업데이트
+    setEditOpen2(false); // 프로필 이미지 수정 모달 닫기
+  };
+
+  const handleEditOpen2 = () => setEditOpen2(prev => !prev);
+
   return (
     <div className={styles.relative}>
-      <div className={styles.editProfileImgModal}>
-        <h1>프로필사진 수정</h1>
-        <div className={styles.profileImgInput}>
-          <input
-            type="file"
-            id="profileImageInput"
-            accept="image/*"
-            onChange={handleProfileImageChange}
-            style={{ display: 'none' }} // 기본 input 숨기기
-          />
-          <label htmlFor="profileImageInput" className={styles.imageLabel}>
-            {preview ? (
-              <img
-                src={preview as string}
-                alt="Preview"
-                className={styles.previewImage}
-              />
-            ) : (
-              <Image
-                width={111}
-                height={111}
-                src={`/${mypageInfo?.profileImage || 'assets/myPageImages/profileImgEdit.png'}`}
-                alt="프로필 사진"
-                style={{ width: '100%', height: '100%' }}
-              />
-            )}
-          </label>
-        </div>
-        {preview ? (
-          <button
-            type={'button'}
-            className={styles.profileImgEditBtn}
-            disabled={false}
-            onClick={() => {
-              handleProfileImageUpload();
-            }}>
-            수정하기
-          </button>
-        ) : (
-          <button
-            type={'button'}
-            className={styles.disabledBtn}
-            disabled={true}>
-            수정하기
-          </button>
-        )}
-        <button
-          type={'button'}
-          className={styles.cancleBtn}
-          onClick={() => {
-            handleEditOpen();
-          }}>
-          취소하기
-        </button>
+      <div
+        className={`${styles.editModal2} ${editOpen2 ? styles.on : styles.off}`}>
+        <ProfileImageEdit
+          onUploadSuccess={handleUploadSuccess}
+          initialImage={profileImageUrl}
+          handleEditOpen2={handleEditOpen2}
+        />
       </div>
       <div className={styles.card}>
         <div className={styles.top}>
           <h2>내 프로필</h2>
-          <button
-            type="button"
-            onClick={() => {
-              handleEditOpen();
-            }}>
-            편집
+          <button type="button" onClick={handleEditOpen}>
+            <Image
+              width={32}
+              height={32}
+              src="/assets/icons/penEditIco.svg"
+              alt="프로필 편집 아이콘"
+            />
           </button>
         </div>
         <div className={styles.bottom}>
           <div className={styles.profileImg}>
-            <div className={styles.proImgSpace}>
-              <input type="file" id="proimg" />
-              {/* <label htmlFor="proimg">
-                {mypageInfo?.profileImage === null ? (
-                  <Image
-                    width={111}
-                    height={111}
-                    src={'/assets/myPageImages/profileImgEdit.png'}
-                    alt="프로필사진 기본 이미지"
-                    style={{ width: '100%', height: '100%' }}
-                  />
-                ) : (
-                  <Image
-                    width={111}
-                    height={111}
-                    src={`/${mypageInfo?.profileImage}`}
-                    alt="프로필 이미지"
-                    style={{ width: '100%', height: '100%' }}
-                  />
-                )}
-              </label> */}
-              <label htmlFor="proimg">
-                <Image
-                  width={111}
-                  height={111}
-                  src={'/assets/myPageImages/profileImgEdit.png'}
-                  alt="프로필사진 기본 이미지"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </label>
+            <div
+              className={styles.proImgSpace}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>
+              <Image
+                width={111}
+                height={111}
+                src={profileImageUrl}
+                alt="프로필사진"
+                style={{ width: '100%', height: '100%' }}
+                unoptimized
+              />
+              <button
+                type="button"
+                className={profileHover ? styles.on : styles.off}
+                onClick={handleEditOpen2}>
+                수정
+              </button>
             </div>
           </div>
           <div className={styles.rightInfo}>
             <div className={styles.topInfo}>
               <b>{mypageInfo?.nickName}</b>
-              {loggedIn === false ? (
-                <Link href="signin">로그인</Link>
-              ) : (
-                <button
-                  type={'button'}
-                  onClick={() => {
-                    handleLogout();
-                  }}>
+              {loggedIn ? (
+                <button type="button" onClick={handleLogout}>
                   로그아웃
                 </button>
+              ) : (
+                <Link href="/signin">로그인</Link>
               )}
             </div>
             <ul className={styles.list}>

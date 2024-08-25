@@ -1,16 +1,4 @@
 .infoEditModal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  z-index: 100;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 600px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  padding: 15px;
   .title {
     display: block;
     margin-top: 15px;
@@ -90,4 +78,49 @@
     box-sizing: border-box;
     border-radius: 12px;
   }
+}
+
+.prFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafb;
+  position: relative;
+  width: 100%;
+  border-radius: 5px;
+  input {
+    width: 80%;
+  }
+  button {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+
+    border-radius: 10px;
+    padding: 10px 15px;
+    &.on {
+      background: #007aff;
+      color: #fff;
+    }
+    &.off {
+      background: #9ca3af;
+      color: #fff;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.successMessage {
+  color: #3e82f1;
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.errorMessage {
+  color: #e74133;
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
 }

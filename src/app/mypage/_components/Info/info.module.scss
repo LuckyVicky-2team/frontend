@@ -32,21 +32,33 @@
     padding: 25px;
     position: relative;
     .profileImg {
-      width: 30%;
+      width: 25%;
       .proImgSpace {
-        border: 1px solid #ddd;
+        border: 1px solid #666;
         border-radius: 100%;
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         position: absolute;
         top: -12%;
         left: 5%;
-        input {
-          position: fixed;
-          left: -9999px;
-        }
-        input + label {
-          cursor: pointer;
+        overflow: hidden;
+        background: #fff;
+        button {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          background: rgba(0, 0, 0, 0.5);
+          top: 0;
+          left: 0;
+          color: #fff;
+          align-items: center;
+          justify-content: center;
+          &.on {
+            display: flex;
+          }
+          &.off {
+            display: none;
+          }
         }
         img {
           display: block;
@@ -173,5 +185,27 @@
     padding: 15px;
     box-sizing: border-box;
     border-radius: 12px;
+  }
+}
+
+.editModal2 {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 600px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 15px;
+  z-index: 500;
+  transition: 0.3s ease all;
+  &.off {
+    top: -100%;
+  }
+  &.on {
+    top: 0%;
   }
 }

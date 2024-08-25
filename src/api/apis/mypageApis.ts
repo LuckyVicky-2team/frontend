@@ -25,16 +25,20 @@ export const updateProfileImage = async (file: File) => {
   const formData = new FormData();
   formData.append('profileImage', file);
 
-  const response = await axiosInstance.patch(
-    '/personal-info/profile',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-  );
-  return response.data;
+  try {
+    const response = await axiosInstance.patch(
+      '/personal-info/profile',
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to upload profile image');
+  }
 };
 
 //pr태그 수정

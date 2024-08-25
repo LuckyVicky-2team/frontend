@@ -5,14 +5,44 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { getPersonalInfo } from '@/api/apis/mypageApis';
+
+interface IUserProfile {
+  email: string; // 회원 고유 ID
+  nickName: string; // 닉네임
+  profileImage: string; // 프로필 이미지
+  averageRating: number; // 평균 별점
+  prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
+}
 
 export default function Header() {
+  const [info, setInfo] = useState<IUserProfile | null>(null); // UserProfile 타입 사용
   const [loggedIn, setLoggedIn] = useState(true);
   const pathName = usePathname();
   const router = useRouter();
 
   //현재 pathname
   const currentPathName = pathName.split('/')[1];
+  // 환경 변수에서 도메인 가져오기
+  const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
+
+  // 올바른 이미지 URL 구성
+  const profileImageUrl = info?.profileImage
+    ? `https://${cloud}/${info?.profileImage}`
+    : '/assets/myPageImages/profileImgEdit.png';
+
+  const fetchPersonalInfo = async () => {
+    try {
+      const response = await getPersonalInfo();
+      setInfo(response.data);
+    } catch (err) {
+      console.error('err:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchPersonalInfo();
+  }, []);
 
   useEffect(() => {
     const getLocal = localStorage.getItem('accessToken');
@@ -86,12 +116,14 @@ export default function Header() {
                   />
                   <span></span>
                 </button>
-                <Link href={`/mypage`}>
+                <Link href={`/mypage`} className={styles.headerMyapgeButton}>
                   <Image
-                    width={32}
-                    height={32}
-                    src={'/assets/mainImages/profile.svg'}
-                    alt="마이페이지 아이콘"
+                    width={24}
+                    height={24}
+                    src={profileImageUrl}
+                    alt="프로필사진"
+                    style={{ width: '100%', height: '100%' }}
+                    unoptimized={true}
                   />
                 </Link>
               </div>

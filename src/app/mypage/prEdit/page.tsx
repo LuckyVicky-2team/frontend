@@ -48,8 +48,8 @@ export default function PrEdit() {
         errorMessage = '이미 존재하는 태그입니다.';
       } else if (prTags.length >= 10) {
         errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
-      } else if (trimmedTag.length > 30) {
-        errorMessage = '태그는 최대 30자까지 입력할 수 있습니다.';
+      } else if (trimmedTag.length > 10) {
+        errorMessage = '태그는 최대 10자까지 입력할 수 있습니다.';
       } else if (!tagPattern.test(trimmedTag)) {
         errorMessage = '띄어쓰기 없이 한글, 영어, 숫자만 허용됩니다.';
       } else if (!trimmedTag) {

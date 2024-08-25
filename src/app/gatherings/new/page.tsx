@@ -28,6 +28,7 @@ export default function NewGatheringPage() {
     defaultValues: {
       type: 'FREE',
       boardGameIdList: [],
+      image: '',
     },
   });
   const {
@@ -36,7 +37,8 @@ export default function NewGatheringPage() {
     control,
     setValue,
     getValues,
-    formState: { errors, isValid },
+    watch,
+    formState: { errors, dirtyFields, isValid },
   } = methods;
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
@@ -48,6 +50,15 @@ export default function NewGatheringPage() {
   const [locationNameClicked, setLocationNameClicked] =
     useState<boolean>(false);
   const [locationNameError, setLocationNameError] = useState<boolean>(false);
+  //[성공 메세지 표시 유무, 에러 메세지 표시 유무]
+  const [locationNameMessage, setLocationNameMessage] = useState<boolean[]>([
+    false,
+    false,
+  ]);
+  const [chooseGameMessage, setChooseGameMessage] = useState<boolean[]>([
+    false,
+    false,
+  ]);
 
   const {
     modalOpen: findPlaceModalOpen,
@@ -65,6 +76,12 @@ export default function NewGatheringPage() {
   const router = useRouter();
   // const [latitude, setLatitude] = useState<string | null>(null);
   // const [longitude, setLongitude] = useState<string | null>(null);
+
+  // 'image' 필드의 값 변화를 감지
+  const watchedImage = watch('image');
+
+  // 'limitParticipant' 필드의 값 변화를 감지
+  const watchedParticipant = watch('limitParticipant');
 
   const gameData = [
     { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
@@ -147,6 +164,7 @@ export default function NewGatheringPage() {
   }, [boardGameIdList, boardGameIdListError]);
 
   useEffect(() => {
+    console.log('location:', getValues('locationName'));
     if (
       (!getValues('locationName') || getValues('locationName').length === 0) &&
       locationNameError === true
@@ -156,6 +174,34 @@ export default function NewGatheringPage() {
     }
     setLocationNameError(false);
   }, [getValues('locationName'), locationNameError]);
+
+  useEffect(() => {
+    if (!findPlaceModalOpen) {
+      if (locationNameError) {
+        setLocationNameMessage([false, true]);
+        return;
+      }
+      if (locationNameClicked && !locationNameError) {
+        setLocationNameMessage([true, false]);
+        return;
+      }
+      return;
+    }
+  }, [findPlaceModalOpen, locationNameError, locationNameClicked]);
+
+  useEffect(() => {
+    if (!chooseGameModalOpen) {
+      if (boardGameIdListError) {
+        setChooseGameMessage([false, true]);
+        return;
+      }
+      if (boardGameIdListClicked && !boardGameIdListError) {
+        setChooseGameMessage([true, false]);
+        return;
+      }
+      return;
+    }
+  }, [chooseGameModalOpen, boardGameIdListError, boardGameIdListClicked]);
 
   return (
     <div className={styles.body}>
@@ -183,6 +229,11 @@ export default function NewGatheringPage() {
                 <div className={styles.errorMessage}>
                   {errors.title && errors.title.message}
                 </div>
+                <div className={styles.successMessage}>
+                  {dirtyFields.title &&
+                    !errors.title &&
+                    '정말 멋진 모임 이름이네요!'}
+                </div>
               </div>
             </div>
             <div className={styles.inputContainer}>
@@ -203,6 +254,11 @@ export default function NewGatheringPage() {
                   {errors.contentWithoutHtml &&
                     errors.contentWithoutHtml.message}
                 </div>
+                <div className={styles.successMessage}>
+                  {dirtyFields.content &&
+                    !errors.content &&
+                    '이해가 쏙쏙 되네요!'}
+                </div>
               </div>
             </div>
             <div className={styles.inputContainer}>
@@ -216,7 +272,7 @@ export default function NewGatheringPage() {
                 <input
                   id="gameTitle"
                   readOnly
-                  className={`${styles.commonInput} ${boardGameIdListError && styles.error}`}
+                  className={`${styles.commonInput} ${chooseGameMessage[1] === true && styles.error}`}
                   placeholder={'게임을 선택해 주세요.'}
                   onClick={() => {
                     handleChooseGameModalOpen();
@@ -229,7 +285,10 @@ export default function NewGatheringPage() {
                   }}
                 />
                 <div className={styles.errorMessage}>
-                  {boardGameIdListError && ' 게임을 선택해 주세요.'}
+                  {chooseGameMessage[1] === true && '게임을 선택해 주세요.'}
+                </div>
+                <div className={styles.successMessage}>
+                  {chooseGameMessage[0] === true && '이 게임도 너무 재밌죠!'}
                 </div>
               </div>
               <GameDataList
@@ -301,6 +360,9 @@ export default function NewGatheringPage() {
                     상세 페이지에서 제일 먼저 보이는 이미지 입니다.
                   </p>
                 </FileInput>
+                <div className={styles.successMessage}>
+                  {watchedImage !== '' && '사진이 너무 멋있어요!'}
+                </div>
               </div>
             </div>
             <div className={styles.inputContainer}>
@@ -320,7 +382,7 @@ export default function NewGatheringPage() {
                     handleFindPlaceModalOpen();
                     setLocationNameClicked(true);
                   }}
-                  className={`${styles.placeInput} ${locationNameError && styles.error}`}
+                  className={`${styles.placeInput} ${locationNameMessage[1] === true && styles.error}`}
                   onBlur={() => {
                     if (
                       !getValues('locationName') ||
@@ -331,7 +393,14 @@ export default function NewGatheringPage() {
                   }}
                 />
                 <div className={styles.errorMessage}>
-                  {locationNameError && '장소를 선택해 주세요'}
+                  {/* {locationNameError &&  */}
+                  {locationNameMessage[1] === true && '장소를 선택해 주세요'}
+                </div>
+                <div className={styles.successMessage}>
+                  {/* {locationNameClicked &&
+                    !locationNameError && */}
+                  {locationNameMessage[0] === true &&
+                    '여기도 정말 보드게임하기 좋은 곳이죠!'}
                 </div>
               </div>
               <FindPlaceModal
@@ -358,6 +427,11 @@ export default function NewGatheringPage() {
                 <div className={styles.errorMessage}>
                   {errors.meetingDatetime && errors.meetingDatetime.message}
                 </div>
+                <div className={styles.successMessage}>
+                  {dirtyFields.meetingDatetime &&
+                    !errors.meetingDatetime &&
+                    '날과 시간이 모두 완벽해요!'}
+                </div>
               </div>
             </div>
             <div className={styles.inputContainer}>
@@ -369,6 +443,11 @@ export default function NewGatheringPage() {
               </p>
               <div className={styles.numberInput}>
                 <NumberInput setValue={setValue} />
+                <div className={styles.successMessage}>
+                  {watchedParticipant &&
+                    !errors.limitParticipant &&
+                    '이 정도 인원이면 보드게임 하기에 충분하죠!'}
+                </div>
               </div>
             </div>
             <div className={styles.inputContainer}>

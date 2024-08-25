@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import InfoEdit from './_components/infoEdit/infoEdit';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 interface UserProfile {
   email: string; // 회원 고유 ID
@@ -68,13 +68,13 @@ export default function MyPage() {
             setPrOpen(!prOpen);
             console.log(prOpen);
           }}>
-          <Image
+          {/* <Image
             objectFit="cover"
             src={'/assets/icons/downArrow.svg'}
             alt="pr태그 펼치기 아이콘"
             width={24}
             height={24}
-          />
+          /> */}
         </button>
         <ul className={prOpen === false ? null : `${styles.prOpen}`}>
           {info?.prTags.map((item, i) => {

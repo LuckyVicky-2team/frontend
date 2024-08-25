@@ -26,14 +26,13 @@
     gap: 10px;
     flex-wrap: wrap;
     width: 100%;
-    height: 4vh;
     overflow: hidden;
     transition: 0.3s ease all;
-    &.prOpen {
-      height: auto;
-      overflow: hidden;
-      transition: 0.3s ease all;
-    }
+    // &.prOpen {
+    //   height: auto;
+    //   overflow: hidden;
+    //   transition: 0.3s ease all;
+    // }
     li {
       background: #f0f0f0;
       display: block;

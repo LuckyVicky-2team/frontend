@@ -10,11 +10,14 @@ export const checkNicknameDuplication = (nickName: string) => {
   return axiosInstance.get(`/check-nickname?nickName=${nickName}`);
 };
 // 개인정보 수정을 위한 API 요청
-export const updatePersonalInfo = (nickName: string, password: string) => {
-  return axiosInstance.patch('/personal-info', {
-    nickName,
-    password,
-  });
+export const updatePersonalInfo = (nickName: string, password?: string) => {
+  const payload: { nickName: string; password?: string } = { nickName };
+
+  if (password) {
+    payload.password = password;
+  }
+
+  return axiosInstance.patch('/personal-info', payload);
 };
 
 // 프로필 이미지 수정을 위한 API 요청

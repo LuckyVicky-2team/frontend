@@ -45,6 +45,7 @@ export default function InfoEdit({
     return nicknameRegex.test(nickName);
   };
 
+  // 닉네임 중복 체크 함수
   const checkNickname = async () => {
     if (!validateNickname(newName)) {
       setError('nickName', {
@@ -63,7 +64,7 @@ export default function InfoEdit({
       setIsNameDuplicate(false);
       setErrorMessage('사용 가능한 닉네임입니다.');
       setIsNameChecked(true);
-      clearErrors('nickName'); // 중복 체크 성공 시 에러를 지웁니다.
+      clearErrors('nickName');
     } catch (error: any) {
       if (error.response?.status === 400) {
         setIsNameDuplicate(true);
@@ -71,7 +72,7 @@ export default function InfoEdit({
           type: 'manual',
           message: '이미 사용 중인 닉네임입니다.',
         });
-        setErrorMessage(''); // Clear any previous success message
+        setErrorMessage('');
       } else {
         setErrorMessage('닉네임 확인 중 오류가 발생했습니다.');
       }
@@ -79,9 +80,27 @@ export default function InfoEdit({
     }
   };
 
+  // 개인정보 수정 제출 함수
   const onSubmit = async (data: FormData) => {
     try {
-      const res = await updatePersonalInfo(data.nickName, data.password);
+      // 비밀번호와 닉네임 값을 포함할 객체를 만듭니다.
+      const updateData: { nickName: string; password?: string } = {
+        nickName: data.nickName,
+      };
+
+      // 비밀번호가 입력된 경우에만 추가합니다.
+      if (data.password.trim()) {
+        updateData.password = data.password;
+      }
+
+      console.log('전송할 데이터:', updateData);
+
+      // 비밀번호가 포함된 경우와 포함되지 않은 경우를 분리해서 요청합니다.
+      const res = await updatePersonalInfo(
+        updateData.nickName,
+        updateData.password
+      );
+
       console.log('수정 완료:', res.data);
       updateInfo(); // 부모 컴포넌트의 정보를 업데이트
       handleEditOpen(); // 창을 닫음
@@ -111,9 +130,7 @@ export default function InfoEdit({
           <button
             type="button"
             onClick={checkNickname}
-            className={styles.checkBtn}
-            // disabled={newName.trim().length === 0}
-          >
+            className={styles.checkBtn}>
             중복 체크
           </button>
           {errors.nickName && (

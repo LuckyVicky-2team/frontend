@@ -3,17 +3,9 @@
 import styles from './prEdit.module.scss';
 import { useEffect, useState, KeyboardEvent } from 'react';
 import { getPersonalInfo, updatePRTags } from '@/api/apis/mypageApis';
-
-// interface UserProfile {
-//   email: string; // 회원 고유 ID
-//   nickName: string; // 닉네임
-//   profileImage: string; // 프로필 이미지
-//   averageGrade: number; // 평균 별점
-//   prTags: string[]; // PR 태그 (없을 경우 빈 배열 반환)
-// }
+import Image from 'next/image';
 
 export default function PrEdit() {
-  // const [info, setInfo] = useState<UserProfile | null>(null);
   const [prTags, setPrTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
@@ -48,29 +40,23 @@ export default function PrEdit() {
     if (e.key === 'Enter') {
       e.preventDefault();
       const trimmedTag = newTag.trim();
-      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/;
+      const tagPattern = /^[a-zA-Z0-9가-힣]+$/; // 띄어쓰기 없는 한글, 영어, 숫자만 허용
 
-      if (
-        !trimmedTag ||
-        prTags.includes(trimmedTag) ||
-        prTags.length >= 10 ||
-        trimmedTag.length > 30 ||
-        !tagPattern.test(trimmedTag)
-      ) {
-        let errorMessage = '';
+      let errorMessage = '';
 
-        if (!trimmedTag) {
-          errorMessage = '태그를 입력해주세요.';
-        } else if (prTags.includes(trimmedTag)) {
-          errorMessage = '이미 존재하는 태그입니다.';
-        } else if (prTags.length >= 10) {
-          errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
-        } else if (trimmedTag.length > 30) {
-          errorMessage = '태그는 최대 30자까지 입력할 수 있습니다.';
-        } else if (!tagPattern.test(trimmedTag)) {
-          errorMessage = '한글, 영어, 숫자, 띄어쓰기만 허용됩니다.';
-        }
+      if (prTags.includes(trimmedTag)) {
+        errorMessage = '이미 존재하는 태그입니다.';
+      } else if (prTags.length >= 10) {
+        errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
+      } else if (trimmedTag.length > 30) {
+        errorMessage = '태그는 최대 30자까지 입력할 수 있습니다.';
+      } else if (!tagPattern.test(trimmedTag)) {
+        errorMessage = '띄어쓰기 없이 한글, 영어, 숫자만 허용됩니다.';
+      } else if (!trimmedTag) {
+        errorMessage = '태그를 입력해주세요.';
+      }
 
+      if (errorMessage) {
         setError(errorMessage);
         setNewTag('');
         return;
@@ -99,7 +85,15 @@ export default function PrEdit() {
               type="button"
               onClick={() => handleTagRemove(tag)}
               className={styles.removeButton}>
-              <span> {tag}</span>
+              <span className={styles.tagName}>
+                {tag}
+                <Image
+                  width={16}
+                  height={16}
+                  src={'/assets/icons/x-circle.svg'}
+                  alt="pr태그 수정 삭제 아이콘"
+                />
+              </span>
             </button>
           </li>
         ))}

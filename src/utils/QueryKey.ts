@@ -2,6 +2,7 @@ export const QueryKey = {
   LIST: 'list',
   DETAIL: 'detail',
   INFO: 'info',
+  GAME: 'game',
   USER: {
     ME: 'me',
     KEY: 'user',

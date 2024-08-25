@@ -296,7 +296,7 @@ export async function POST() {
     //     }
     //     await delay(1000);
     //   }
-    const hrefList = await crawlingList();
+    const hrefList = (await crawlingList()).slice(13, 900);
     const cutting = sliceArray(hrefList, 4);
     // cutting 배열 만큼 반복문 돌리기
     let count = 0;

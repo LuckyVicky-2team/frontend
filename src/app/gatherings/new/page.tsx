@@ -30,6 +30,7 @@ export default function NewGatheringPage() {
       boardGameIdList: [],
       image: '',
       meetingDatetime: undefined,
+      genreIdList: [],
     },
   });
   const {
@@ -75,8 +76,6 @@ export default function NewGatheringPage() {
 
   const { addToast } = useToast();
   const router = useRouter();
-  // const [latitude, setLatitude] = useState<string | null>(null);
-  // const [longitude, setLongitude] = useState<string | null>(null);
 
   // 'image' 필드의 값 변화를 감지
   const watchedImage = watch('image');
@@ -84,12 +83,12 @@ export default function NewGatheringPage() {
   // 'limitParticipant' 필드의 값 변화를 감지
   const watchedParticipant = watch('limitParticipant');
 
-  const gameData = [
-    { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
-    { id: 2, title: '장기', image: '/assets/images/rectangle.png' },
-    { id: 3, title: '바둑', image: '/assets/images/rectangle.png' },
-    { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
-  ];
+  // const gameData = [
+  //   { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
+  //   { id: 2, title: '장기', image: '/assets/images/rectangle.png' },
+  //   { id: 3, title: '바둑', image: '/assets/images/rectangle.png' },
+  //   { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
+  // ];
 
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
     const { contentWithoutHtml, image, meetingDatetime, ...info } =
@@ -104,6 +103,7 @@ export default function NewGatheringPage() {
     // void latitude;
     // void longitude;
     // console.log(dateToString(meetingDatetime));
+    console.log(info2);
     formData.append(
       'meetingCreateRequest',
       new Blob(
@@ -294,7 +294,6 @@ export default function NewGatheringPage() {
               <GameDataList
                 modalOpen={chooseGameModalOpen}
                 onClose={handleChooseGameModalClose}
-                gameData={gameData}
                 showGameData={showGameData}
                 setShowGameData={setShowGameData}
                 setBoardGameIdList={setBoardGameIdList}

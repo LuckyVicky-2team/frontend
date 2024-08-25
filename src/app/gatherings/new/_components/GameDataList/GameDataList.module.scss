@@ -1,5 +1,35 @@
-.gameInput {
+.body {
+  padding: 108px 24px 60px;
+}
+
+.title {
+  color: #000;
+  font-family: LaundryGothicOTF;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.2px;
+}
+
+.description {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+  letter-spacing: 0.64px;
+  margin: 12px 0 48px;
+}
+
+.inputContainer {
   border-bottom: 1px solid var(--lukyviky-Blue-Normal, #007aff);
+  display: flex;
+  align-items: center;
+}
+
+.gameInput {
+  flex-grow: 1;
   height: 56px;
   width: min(100%, 600px);
 

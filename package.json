@@ -16,7 +16,6 @@
     "@tanstack/react-query": "^5.51.11",
     "axios": "^1.7.2",
     "draft-js": "^0.11.7",
-    "form-data": "^4.0.0",
     "framer-motion": "^11.3.24",
     "html-react-parser": "^5.1.12",
     "husky": "^9.1.4",
@@ -29,7 +28,6 @@
     "react-intersection-observer": "^9.13.0",
     "react-quill": "^2.0.0",
     "sass": "^1.77.8",
-    "sharp": "^0.33.4",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

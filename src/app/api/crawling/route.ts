@@ -108,26 +108,8 @@ async function convertAndCreateFormData(data: IGameInfo[]) {
         });
 
         // 나머지 데이터를 FormData에 추가
-        formData.append(
-          'title',
-          // Buffer.from(
-          //   JSON.stringify({
-          title,
-          //   }),
-          //   'utf-8'
-          // ),
-          { contentType: 'text/plain' }
-        );
-        formData.append(
-          'minPeople',
-          // Buffer.from(
-          //   JSON.stringify({
-          minPeople,
-          // }),
-          //   'utf-8'
-          // ),
-          { contentType: 'text/plain' }
-        );
+        formData.append('title', title, { contentType: 'text/plain' });
+        formData.append('minPeople', minPeople, { contentType: 'text/plain' });
         formData.append('maxPeople', maxPeople, { contentType: 'text/plain' });
         formData.append('minPlayTime', minPlayTime, {
           contentType: 'text/plain',
@@ -360,11 +342,6 @@ export async function POST() {
     }
     // console.log('==> data :');
     // console.log(data);
-
-    // void results;
-    // console.log('FormData results:', results);
-    // [formdata, formdata,...]
-    // 크롤링한 데이터를 백엔드 API로 전송
 
     await browser.close();
 

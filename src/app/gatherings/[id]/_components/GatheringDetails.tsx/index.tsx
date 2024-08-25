@@ -266,7 +266,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     },
   ];
   return (
-    <div>
+    <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>
         <div className={styles.thumbnailBackground}>
           {/* 나중에 기본이미지 넣기 */}

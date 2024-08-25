@@ -3,13 +3,14 @@
 import styles from './Footer.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import { usePostJoinGathering } from '@/api/queryHooks/gathering';
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
+import LoginModal from '@/components/common/Modal/LoginModal';
 
 interface IGatheringFooterProps {
   id: number;
@@ -33,8 +34,6 @@ export default function GatheringFooter({
   state,
 }: IGatheringFooterProps) {
   const router = useRouter();
-  const pathname = usePathname();
-  const currentURL = `${window.location.origin}${pathname}`;
   const { addToast } = useToast();
 
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
@@ -58,6 +57,7 @@ export default function GatheringFooter({
   } = useModal();
 
   const handleButtonClick = () => {
+    handleLoginModalOpen();
     if (type === undefined || type === 'NONE') {
       handleJoinButtonClick();
     }
@@ -108,11 +108,6 @@ export default function GatheringFooter({
 
   const handleAlertLater = () => {
     handleSuccessModalClose();
-  };
-
-  const handleGoToLoginPage = () => {
-    document.cookie = `referer=${currentURL}; path=/`;
-    router.push('/signin');
   };
 
   return (
@@ -260,21 +255,7 @@ export default function GatheringFooter({
           다른 모임방 둘러보기
         </button>
       </Modal>
-      <Modal
-        modalOpen={loginModalOpen}
-        onClose={handleLoginModalClose}
-        maxWidth={552}>
-        <div className={styles.modalBackground}>
-          <p className={styles.title}>로그인이 필요합니다.</p>
-          로그인 하시겠습니까?
-        </div>
-        <button
-          type="button"
-          onClick={handleGoToLoginPage}
-          className={styles.modalFullButton}>
-          로그인하러 가기
-        </button>
-      </Modal>
+      <LoginModal modalOpen={loginModalOpen} onClose={handleLoginModalClose} />
     </>
   );
 }

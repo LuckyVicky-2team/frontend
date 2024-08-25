@@ -29,6 +29,7 @@ export default function NewGatheringPage() {
       type: 'FREE',
       boardGameIdList: [],
       image: '',
+      meetingDatetime: undefined,
     },
   });
   const {
@@ -164,7 +165,6 @@ export default function NewGatheringPage() {
   }, [boardGameIdList, boardGameIdListError]);
 
   useEffect(() => {
-    console.log('location:', getValues('locationName'));
     if (
       (!getValues('locationName') || getValues('locationName').length === 0) &&
       locationNameError === true

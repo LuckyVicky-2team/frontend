@@ -1,3 +1,185 @@
+.container {
+  width: 100%;
+  height: calc(100vh - 145px);
+  .meetingDetailContainer {
+    margin: 0 auto;
+    max-width: 534px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 46px 24px 0 24px;
+
+    .meetingDeatilHeader {
+      color: #757a83;
+      font-family: LaundryGothicOTF;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 1.2px;
+      display: flex;
+      h1 {
+        font-family: inherit;
+        max-width: 70%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .meetingDetailContent {
+      display: flex;
+      padding: 31px 24px;
+      border-radius: 20px;
+      background: #fff;
+      gap: 20px;
+      align-self: stretch;
+
+      .thumbnail {
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        width: 25%;
+        max-width: 100px;
+        max-height: 132px;
+      }
+      .content {
+        display: flex;
+        max-width: 324px;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 0 0 0 16px;
+        justify-content: center;
+
+        .title {
+          line-height: 1.3;
+          width: 100%;
+          color: #1f2937;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 600;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .location {
+          color: #374151;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          span {
+            color: $black-b400;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 600;
+          }
+        }
+        .time {
+          display: flex;
+          gap: 8px;
+          align-items: flex-start;
+          p {
+            padding: 2px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            background-color: #007aff;
+            color: white;
+            font-style: normal;
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+    .titleAndDate {
+      display: flex;
+      justify-content: space-between;
+      h2 {
+        max-width: 70%;
+      }
+      span {
+        transform: translateY(10%);
+      }
+    }
+  }
+  .participantListContainer {
+    padding: 0 24px;
+    width: 100%;
+    height: 100%;
+
+    .title {
+      padding-bottom: 10px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      span {
+        color: $blue-normal;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+      }
+    }
+    .revieweeCardContainer {
+      display: inline-flex;
+      width: 100%;
+      padding: 20px 30px 10px 30px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      overflow-y: auto;
+      max-height: calc(100vh - 470px);
+      .reviewee {
+        .profile {
+          width: 56px;
+          height: 56px;
+        }
+        align-items: center;
+        gap: 16px;
+        align-self: stretch;
+
+        width: 100%;
+        display: flex;
+
+        .name {
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: $gray-darker;
+          font-size: 24px;
+          font-style: normal;
+          font-weight: 700;
+        }
+        .writeReviewBtn {
+          width: 100%;
+          max-width: 103px;
+          padding: 10px 0;
+          justify-content: center;
+          align-items: center;
+          border-radius: 12px;
+          border: $blue-normal;
+          background: $blue-normal;
+
+          color: #f4f9ff;
+          text-align: center;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 20px; /* 142.857% */
+        }
+      }
+    }
+  }
+}
+
 .detailModal {
   max-width: 600px;
   width: 590px;
@@ -21,66 +203,5 @@
     color: #555;
     font-size: 14px;
     line-height: 1.6;
-  }
-}
-.modalHeader {
-  padding: 35px 30px;
-  z-index: 1000;
-  position: sticky;
-  top: 0;
-
-  .titleAndDate {
-    display: flex;
-    justify-content: space-between;
-    h2 {
-      max-width: 70%;
-    }
-    span {
-      transform: translateY(10%);
-    }
-  }
-}
-.listContainer {
-  padding: 20px 24px 20px;
-
-  .participantslist {
-    padding: 4px 0;
-    gap: 8px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-
-    .user {
-      border-radius: 14px;
-      background-color: #f9f9f9;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px;
-      min-height: 50px;
-      border-radius: 14px;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: #e0e0e0; // 밝은 회색으로 변경
-      }
-
-      button {
-        cursor: pointer;
-        border: none;
-        background-color: #007aff;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 8px;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #006ee6;
-        }
-        &:active {
-          background-color: #0062cc;
-        }
-      }
-    }
   }
 }

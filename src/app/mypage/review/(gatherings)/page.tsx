@@ -1,11 +1,11 @@
-import styles from '../Layout.module.scss';
+import styles from './ReviewPage.module.scss';
 import GatheringItem from '../_components/GatheringItem';
 import { gatheringList } from '../../mockData/mockData';
 import React from 'react';
 
 export default function ReviewPage() {
   return (
-    <>
+    <div className={styles.container}>
       {gatheringList?.map(item => {
         return <GatheringItem key={item.id} item={item} />;
       })}
@@ -16,6 +16,6 @@ export default function ReviewPage() {
           </span>
         </div>
       )}
-    </>
+    </div>
   );
 }

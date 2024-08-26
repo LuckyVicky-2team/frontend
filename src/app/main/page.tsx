@@ -79,7 +79,7 @@ export default function Main() {
             <RecommendCase />
           </div>
           <div className={styles.contentContainer}>
-            <GenreGather />
+            <GenreGather meetingList={meetingList} />
           </div>
           <div className={styles.contentContainer}>
             <DeadLineGather meetingList={meetingList} />

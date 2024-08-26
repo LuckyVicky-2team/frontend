@@ -1,9 +1,8 @@
-'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './DeadLineGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-// IMeetingProps 타입 정의
+
 interface IMeetingProps {
   id: number;
   title: string;
@@ -19,79 +18,45 @@ interface IMeetingProps {
   games: string[];
   tags: string[];
 }
+
 interface DeadLineGatherProps {
   meetingList: IMeetingProps[] | undefined;
 }
 
 export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
-  // const [heart, setHeart] = useState<{ [key: number]: boolean }>({});
   const [slidePx, setSlidePx] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const listRef = useRef<HTMLUListElement>(null);
+  const screenWidth = 320; // 고정된 화면 너비 (예: 최소 320px)
 
-  // useEffect(() => {
-  //   // 로컬 스토리지에서 heart 상태 불러오기
-  //   const savedHeart = localStorage.getItem('heart');
-  //   if (savedHeart) {
-  //     setHeart(JSON.parse(savedHeart));
-  //   }
-  // }, []);
+  const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
-  // useEffect(() => {
-  //   if (Object.keys(heart).length > 0) {
-  //     localStorage.setItem('heart', JSON.stringify(heart));
-  //   }
-  // }, [heart]);
+  useEffect(() => {
+    const calculateContainerWidth = () => {
+      if (listRef.current) {
+        const listWidth = listRef.current.scrollWidth;
+        setContainerWidth(listWidth);
+      }
+    };
 
-  // const toggleHeart = (id: number) => {
-  //   setHeart(prevHeart => {
-  //     const newHeart = { ...prevHeart, [id]: !prevHeart[id] };
-  //     const storedItems = JSON.parse(
-  //       localStorage.getItem('savedItems') || '[]'
-  //     );
+    // 컴포넌트 마운트 시 및 윈도우 리사이즈 시 컨테이너 너비 계산
+    calculateContainerWidth();
+    window.addEventListener('resize', calculateContainerWidth);
 
-  //     if (newHeart[id]) {
-  //       // 찜 추가
-  //       const itemToSave = data.find(item => item.id === id);
-  //       if (
-  //         itemToSave &&
-  //         !storedItems.some((item: DateData) => item.id === id)
-  //       ) {
-  //         localStorage.setItem(
-  //           'savedItems',
-  //           JSON.stringify([...storedItems, itemToSave])
-  //         );
-  //       }
-  //     } else {
-  //       // 찜 제거
-  //       const updatedItems = storedItems.filter(
-  //         (item: DateData) => item.id !== id
-  //       );
-  //       localStorage.setItem('savedItems', JSON.stringify(updatedItems));
-  //     }
-
-  //     return newHeart;
-  //   });
-  // };
+    return () => {
+      window.removeEventListener('resize', calculateContainerWidth);
+    };
+  }, [meetingList]);
 
   const prevSlideBtn = () => {
-    if (slidePx < 0) {
-      setSlidePx(slidePx + 200);
-    }
+    setSlidePx(prev => Math.min(prev + screenWidth, 0)); // 슬라이드가 0보다 커지지 않도록
   };
+
   const nextSlideBtn = () => {
-    if (slidePx > -800) {
-      setSlidePx(slidePx - 200);
-    }
+    setSlidePx(prev =>
+      Math.max(prev - screenWidth, -(containerWidth - screenWidth))
+    );
   };
-
-  // const today = new Date();
-  // const filterDeadLineGathering = data.filter(e => {
-  //   const endDate = new Date(e.gatheringDate);
-  //   return (
-  //     endDate >= today &&
-  //     endDate <= new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000) // 3일 안쪽
-  //   );
-  // });
-
   const formatTimeLeft = (endDate: Date) => {
     const now = new Date();
     const timeDiff = endDate.getTime() - now.getTime();
@@ -118,99 +83,96 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
         <p>추리게임</p>
       </div>
 
-      <ul className={styles.genreList}>
-        {slidePx != 0 && (
-          <button onClick={prevSlideBtn} className={styles.prevBtn}>
-            <Image
-              width={20}
-              height={20}
-              objectFit="cover"
-              src={'/assets/mainImages/backIcon.svg'}
-              alt="왼쪽 슬라이드 버튼"
-            />
-          </button>
-        )}
-        {slidePx != -800 && (
-          <button onClick={nextSlideBtn} className={styles.nextBtn}>
-            <Image
-              width={20}
-              height={20}
-              objectFit="cover"
-              src={'/assets/mainImages/backIcon.svg'}
-              alt="오른쪽 슬라이드 버튼"
-            />
-          </button>
-        )}
+      <div className={styles.sliderContainer}>
+        <ul ref={listRef} className={styles.genreList}>
+          {slidePx < 0 && (
+            <button onClick={prevSlideBtn} className={styles.prevBtn}>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/mainImages/backIcon.svg'}
+                alt="왼쪽 슬라이드 버튼"
+              />
+            </button>
+          )}
+          {slidePx > -(containerWidth - screenWidth) && (
+            <button onClick={nextSlideBtn} className={styles.nextBtn}>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/mainImages/backIcon.svg'}
+                alt="오른쪽 슬라이드 버튼"
+              />
+            </button>
+          )}
 
-        {meetingList?.map(e => {
-          const gatheringDate = new Date(e.meetingDate);
-          return (
-            <li
-              key={e.id}
-              style={{
-                transform: `translateX(${slidePx}%)`,
-                transition: '0.3s ease all',
-              }}>
-              <Link href="/">
-                <span className={styles.famousIco}>★ 인기★</span>
-                <span className={styles.deadLineIco}>
-                  <Image
-                    src={'/assets/icons/alarmIcon.svg'}
-                    width={16}
-                    height={16}
-                    alt={'마감임박 이미지'}
-                  />
-                  {formatTimeLeft(gatheringDate)} 후 마감
-                </span>
-                <span className={styles.img}>
-                  <Image
-                    // src={e.thumbnail}
-                    src={'/assets/mainImages/game.png'}
-                    alt="게임이미지"
-                    width={224}
-                    height={224}
-                  />
-                </span>
-              </Link>
-              <span className={styles.mid}>
-                <span className={styles.loc}>
-                  <Image
-                    src={'/assets/mainImages/loc_ico.svg'}
-                    width={24}
-                    height={24}
-                    alt="지도 이미지"
-                  />
-                  {e.city}
-                </span>
-                <span className={styles.heart}>
-                  <input
-                    type="checkbox"
-                    id={`favorite${e.id}`}
-                    // checked={!!heart[e.id]}
-                    // onChange={() => toggleHeart(e.id)}
-                  />
-                  <label htmlFor={`favorite${e.id}`}>
-                    {/* <Image
-                      src={
-                        heart[e.id]
-                          ? '/assets/mainImages/heart_fill_ico.svg'
-                          : '/assets/mainImages/heart_ico.svg'
-                      }
+          {meetingList?.map(e => {
+            const gatheringDate = new Date(e.meetingDate);
+            return (
+              <li
+                key={e.id}
+                style={{
+                  transform: `translateX(${slidePx}px)`,
+                  transition: '0.3s ease all',
+                }}>
+                <Link href="/">
+                  <span className={styles.famousIco}>★ 인기★</span>
+                  <span className={styles.deadLineIco}>
+                    <Image
+                      src={'/assets/icons/alarmIcon.svg'}
+                      width={16}
+                      height={16}
+                      alt={'마감임박 이미지'}
+                    />
+                    {formatTimeLeft(gatheringDate)} 후 마감
+                  </span>
+                  <span className={styles.img}>
+                    <Image
+                      src={`https://${cloud}/${e?.thumbnail}`}
+                      alt="게임이미지"
+                      width={224}
+                      height={224}
+                      unoptimized={true}
+                    />
+                  </span>
+                </Link>
+                <span className={styles.mid}>
+                  <span className={styles.loc}>
+                    <Image
+                      src={'/assets/mainImages/loc_ico.svg'}
                       width={24}
                       height={24}
-                      alt="찜 하트"
-                    /> */}
-                  </label>
+                      alt="지도 이미지"
+                    />
+                    {e.city}
+                  </span>
+                  <span className={styles.heart}>
+                    <input type="checkbox" id={`favorite${e.id}`} />
+                    <label htmlFor={`favorite${e.id}`}>
+                      {/* <Image
+                        src={
+                          heart[e.id]
+                            ? '/assets/mainImages/heart_fill_ico.svg'
+                            : '/assets/mainImages/heart_ico.svg'
+                        }
+                        width={24}
+                        height={24}
+                        alt="찜 하트"
+                      /> */}
+                    </label>
+                  </span>
                 </span>
-              </span>
-              <Link href="/">
-                <span className={styles.tag}>{e.title}</span>
-              </Link>
-              <span className={styles.date}>{e.meetingDate}</span>
-            </li>
-          );
-        })}
-      </ul>
+                <Link href="/">
+                  <span className={styles.tag}>{e.title}</span>
+                </Link>
+                <span className={styles.date}>{e.meetingDate}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

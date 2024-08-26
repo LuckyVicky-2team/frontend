@@ -112,7 +112,7 @@ export const gatheringList: any[] = [
     imageUrl: '',
     city: '서울특별시',
     county: '도봉구',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2023:08:07T19:00:000.0000',
     participants: [
       {
         userId: 5678111,
@@ -122,6 +122,46 @@ export const gatheringList: any[] = [
         userId: 91011112,
         userName: '양지원',
       },
+      {
+        userId: 567877831,
+        userName: '조효은',
+      },
+      {
+        userId: 910109142,
+        userName: '김수환',
+      },
+      {
+        userId: 91011953,
+        userName: '이예진',
+      },
+      {
+        userId: 567123816,
+        userName: '진찬용1',
+      },
+      {
+        userId: 910177717,
+        userName: '기송은1',
+      },
+      {
+        userId: 5671238128,
+        userName: '조효은1',
+      },
+      {
+        userId: 910177729,
+        userName: '기송은2',
+      },
+      {
+        userId: 56712383100,
+        userName: '진찬용3',
+      },
+      {
+        userId: 910177732111,
+        userName: '조효은2',
+      },
+      {
+        userId: 91017774122,
+        userName: '기송은4',
+      },
     ],
   },
   {
@@ -130,7 +170,7 @@ export const gatheringList: any[] = [
     imageUrl: '',
     city: '서울특별시',
     county: '성북구',
-    gatheringDate: '2024.04.05 13:00',
+    gatheringDate: '2024:04:05T13:00:000.0000',
     participants: [
       {
         userId: 56787783,
@@ -152,7 +192,7 @@ export const gatheringList: any[] = [
     imageUrl: '',
     city: '인천광역시',
     county: '계양구',
-    gatheringDate: '2024.07.10 20:00',
+    gatheringDate: '2024:07:10T20:00:000.0000',
     participants: [
       {
         userId: 567123816,
@@ -193,7 +233,7 @@ export const writtenReviewList: any[] = [
     thumbnail: '',
     content:
       'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2023:08:07T19:00',
     reviewedUsers: [
       {
         userId: 5678113,
@@ -216,7 +256,7 @@ export const writtenReviewList: any[] = [
     title: 'React Developer Meetup',
     thumbnail: '',
     content: 'compiled in 194ms',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2023:08L07T19:00',
     reviewedUsers: [
       {
         userId: 1213315,
@@ -237,7 +277,7 @@ export const writtenReviewList: any[] = [
     title: 'Data Science Workshop',
     thumbnail: '',
     content: '하하오오',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2023:08:07T19:00',
     reviewedUsers: [
       {
         userId: 1415416,
@@ -261,7 +301,7 @@ export const writtenReviewList: any[] = [
     thumbnail: '',
     content:
       'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2023:08:07T19:00',
     reviewedUsers: [
       {
         userId: 5678618,
@@ -285,7 +325,7 @@ export const writtenReviewList: any[] = [
     thumbnail: '',
     content:
       'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
-    gatheringDate: '2023.08.07 19:00',
+    gatheringDate: '2024:07:31T17:55',
     reviewedUsers: [
       {
         userId: 5678820,
@@ -310,17 +350,18 @@ export const receivedReviewList: any = {
   positiveTags: [
     { tagPhrase: '친절하고 매너가 좋아요', count: 56 },
     { tagPhrase: '재미있어요', count: 54 },
-    { tagPhrase: '시간 약속을 잘 지켜요', count: 53 },
-    { tagPhrase: '공정해요', count: 32 },
-    { tagPhrase: '보드게임의 신', count: 27 },
+    { tagPhrase: '시간 약속을 잘 지켜요', count: 2 },
+    // { tagPhrase: '공정해요', count: 321 },
+    // { tagPhrase: '보드게임의 신', count: 27 },
     { tagPhrase: '다시 만나고싶어요!', count: 27 },
   ],
   negativeTags: [
     { tagPhrase: '비매너 플레이어', count: 18 },
     { tagPhrase: '시간을 안지켜요', count: 5 },
     { tagPhrase: '의도가 부적절해요', count: 0 },
-    { tagPhrase: '공정하지 못해요', count: 3 },
-    { tagPhrase: '다시 만나기 싫어요!', count: 0 },
+    // { tagPhrase: '공정하지 못해요', count: 3 },
+    // { tagPhrase: '다시 만나기 싫어요!', count: 0 },
+    { tagPhrase: '다시 만나기 싫어요!', count: 100 },
   ],
 };
 

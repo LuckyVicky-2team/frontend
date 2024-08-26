@@ -1,5 +1,5 @@
 //배열을 size만큼 자르는 함수
-export const sliceArray = (arr: string[], size: number) => {
+export const sliceArray = (arr: string[] | number[], size: number) => {
   //원하는 사이즈로 자르고 담을 배열
   const result = [];
   // 자를 시점을 체크하기 위한 변수

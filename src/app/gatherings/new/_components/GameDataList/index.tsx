@@ -47,10 +47,19 @@ export default function GameDataList({
 }: IGameDataListProps) {
   const { addToast } = useToast();
   const [gameTitle, setGameTitle] = useState('');
-  const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(24);
+  const [currentPage, setCurrentPage] = useState(1);
   const [gameData, setGameData] = useState<IGame[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  // const gameDataMock = Array.from({ length: 5 }, (_, i) => i + 1).map(i => {
+  //   return {
+  //     id: i,
+  //     title: `title${i}`,
+  //     thumbnail: '/',
+  //     genres: { title: 'genre', id: 1 },
+  //   };
+  // });
 
   const fetchGames = useCallback(async () => {
     console.log(gameTitle);
@@ -124,6 +133,9 @@ export default function GameDataList({
               height={24}
             />
           </div>
+          {isLoading && !showGameData && (
+            <p className={styles.loading}>로딩 중...</p>
+          )}
           {showGameData && (
             <div className={styles.gameDataList}>
               {gameData.map((data, i) => {
@@ -198,9 +210,9 @@ export default function GameDataList({
                   </div>
                 );
               })}
-              {isLoading && <p className={styles.loading}>로딩 중...</p>}
+
               <div className={styles.buttons}>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                {/* {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   page => (
                     <button
                       key={page}
@@ -210,7 +222,85 @@ export default function GameDataList({
                       {page}
                     </button>
                   )
-                )}
+                )} */}
+                <button type="button" onClick={() => handlePageChange(1)}>
+                  <Image
+                    src={'/assets/icons/chevron-double-left.svg'}
+                    alt="맨 이전 번호로 가기"
+                    width={36}
+                    height={36}
+                  />
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCurrentPage(prev => {
+                      if (prev !== 1) {
+                        return prev - 1;
+                      }
+                      return prev;
+                    })
+                  }>
+                  <Image
+                    src={'/assets/icons/chevron-left.svg'}
+                    alt="이전 번호로 가기"
+                    width={36}
+                    height={36}
+                  />
+                </button>
+                {/* 1,2,3,4,5             {length: 5, start: 1}
+                    6,7,8,9,10           {length: 5, start: 6}
+                    11,12,13,14,15    {length: 5, start: 11}
+                    16, 17                 {length: 2, start: 16}
+
+                    17 나누기 5 = 몫:3, 나머지: 2 */}
+                {Array.from(
+                  //페이지 숫자의 개수를 설정하는 부분 (화살표 사이에 들어가는 숫자의 개수)
+                  {
+                    length:
+                      totalPages - currentPage <
+                      totalPages - Math.floor(totalPages / 5) * 5
+                        ? totalPages - Math.floor((currentPage - 1) / 5) * 5
+                        : 5,
+                  },
+                  (_, i) => Math.floor((currentPage - 1) / 5) * 5 + i + 1
+                ).map(page => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => handlePageChange(page)}
+                    disabled={currentPage === page}
+                    className={`${styles.numberButton} ${currentPage === page ? styles.blue : ''}`}>
+                    {page}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCurrentPage(prev => {
+                      if (prev !== totalPages) {
+                        return prev + 1;
+                      }
+                      return prev;
+                    })
+                  }>
+                  <Image
+                    src={'/assets/icons/chevron-right.svg'}
+                    alt="이후 번호로 가기"
+                    width={36}
+                    height={36}
+                  />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(totalPages)}>
+                  <Image
+                    src={'/assets/icons/chevron-double-right.svg'}
+                    alt="맨 이후 번호로 가기"
+                    width={36}
+                    height={36}
+                  />
+                </button>
               </div>
             </div>
           )}

@@ -1,8 +1,18 @@
 'use client';
+
 import React from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import styles from './Layout.module.scss';
+import NavLink from './_components/NavLink';
+import { usePathname } from 'next/navigation';
+
+const navLinks = [
+  {
+    href: '/mypage/review',
+    label: '리뷰 작성하기',
+  },
+  { href: '/mypage/review/myReviews', label: '보낸 리뷰' },
+  { href: '/mypage/review/receivedReviews', label: '받은 리뷰' },
+];
 
 export default function ReviewLayout({
   children,
@@ -11,37 +21,30 @@ export default function ReviewLayout({
 }) {
   const pathname = usePathname();
 
+  // pathname에 number 혹은 'reviewee' 문자열이 포함된 경우 확인
+  const writeReviewRoute = /^\/mypage\/review\/\d+\/reviewee-/.test(pathname);
+  const writeReviewDetailRoute = /^\/mypage\/review\/\d+$/.test(pathname);
+
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <h1>보고</h1>
-        <div className={styles.commonLayout}>
-          <h2>리뷰 내역</h2>
-        </div>
-      </header>
-
-      <section>
-        {/* @haewon 버튼 디자인 적용안되어있음 */}
-        <nav className={styles.tabHeader}>
-          <Link
-            href="/mypage/review"
-            className={`${pathname === '/mypage/review' && styles.active}`}>
-            리뷰 작성하기
-          </Link>
-          <Link
-            href="/mypage/review/myReviews"
-            className={`${pathname === '/mypage/review/myReviews' && styles.active}`}>
-            내가 쓴 리뷰
-          </Link>
-          <Link
-            href="/mypage/review/receivedReviews"
-            className={`${pathname === '/mypage/review/receivedReviews' && styles.active}`}>
-            나에게 달린 리뷰
-          </Link>
-        </nav>
-
-        <main className={styles.reviewContainer}>{children}</main>
-      </section>
+      {writeReviewRoute || writeReviewDetailRoute ? (
+        <main>{children}</main>
+      ) : (
+        <>
+          <header className={styles.header}>
+            <h1>보고</h1>
+            <h2>리뷰</h2>
+          </header>
+          <section>
+            <nav className={styles.tabHeader}>
+              {navLinks.map(link => (
+                <NavLink key={link.href} href={link.href} label={link.label} />
+              ))}
+            </nav>
+            <main className={styles.reviewContainer}>{children}</main>
+          </section>
+        </>
+      )}
     </div>
   );
 }

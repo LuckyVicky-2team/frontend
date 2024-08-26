@@ -5,8 +5,7 @@
 
   .header {
     position: sticky;
-    display: block;
-    text-align: center;
+    width: 100%;
     h1 {
       overflow: hidden;
       position: absolute;
@@ -15,54 +14,37 @@
       margin: -1px;
       clip: rect(0px, 0px, 0px, 0px);
     }
+
     h2 {
-      transform: translateX(-20%);
-      margin: auto;
-      font-weight: 500;
+      font-family: LaundryGothicOTF;
+      padding: 30px 24px 30px 24px;
+      font-size: 30px;
+      font-style: normal;
+      letter-spacing: 1.2px;
+      font-weight: 700;
+      color: #000;
       line-height: normal;
-      overflow: hidden;
-    }
-    .commonLayout {
-      margin: 0 auto;
-      box-sizing: border-box;
-      height: 50px;
-      background-color: rgb(255, 255, 255);
-      display: flex;
-      justify-content: space-between;
-      padding: 0 10px;
     }
   }
   .tabHeader {
-    align-items: center;
-    border-bottom: 1px solid #dadada;
-    height: 45px;
+    padding: 0 24px;
+    width: 100%;
+    align-items: flex-start;
+    gap: 32px;
     position: sticky;
     display: flex;
     left: 0;
-    width: 100%;
     background-color: #fff;
-    justify-content: space-around;
-    button {
-      display: flex;
-      position: relative;
-      padding: 0 10px;
-      font-weight: 700;
-      color: #c1bfbf;
-      font-size: 14px;
-      text-align: center;
-      flex: 1 1;
-      align-items: center;
-      justify-content: center;
-
-      &.active {
-        border-bottom: 2px solid #222;
-        color: #000;
-        margin-bottom: -1px;
-      }
-    }
   }
 
   .reviewContainer {
+    width: 100%;
+    padding: 54px 24px;
+    background: #f4f9ff;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+
     height: calc(100vh - 240px);
     overflow-y: auto;
     overflow-x: hidden;

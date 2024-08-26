@@ -2,6 +2,7 @@ import ReceivedReviewItem from '../_components/reveicedReviewItem';
 import { receivedReviewList } from '../../mockData/mockData';
 
 import styles from './ReceivedReviews.module.scss';
+import Rating from '@/components/common/Rating';
 
 export default function ReceivedReviews() {
   const { positiveTags, negativeTags, averageRating } = receivedReviewList;
@@ -15,7 +16,11 @@ export default function ReceivedReviews() {
 
   return (
     <div className={styles.container}>
-      <p>내 평균 평점 : {averageRating}</p>
+      <div className={styles.rating}>
+        <Rating readable rating={averageRating} size={'medium'} />
+        <p>{averageRating}</p>
+      </div>
+
       <ReceivedReviewItem
         positiveTags={positiveTags}
         negativeTags={negativeTags}

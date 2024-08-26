@@ -2,7 +2,6 @@
   width: 100%;
   max-width: 534px;
   max-height: 235px;
-  border: 1px solid rgb(203, 202, 200);
   display: flex;
   padding: 32px 28px;
   border-radius: 20px;
@@ -95,19 +94,25 @@
       margin: 4px 0;
       color: #555;
     }
-    .writeBtn {
-      max-width: 100%;
+    .button {
       width: 100%;
-      border-radius: 12px;
-      max-height: 39px;
-      padding: 8px 16px;
-      border: 2px solid $blue-normal;
-      color: $blue-normal;
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 20px;
-      text-align: center;
+      min-height: 39px;
+      max-height: fit-content;
+      display: flex;
+      justify-content: center;
+
+      .writeBtn {
+        width: 100%;
+        border-radius: 12px;
+        padding: 8px 16px;
+        border: 2px solid $blue-normal;
+        color: $blue-normal;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: center;
+      }
     }
   }
 }

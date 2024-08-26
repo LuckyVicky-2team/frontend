@@ -69,8 +69,8 @@ export interface UserData {
 
 //@haewon review type
 interface ReviewedUser {
-  userId: number; // 리뷰를 받은 사용자의 ID
-  userName: string; // 리뷰를 받은 사용자의 이름
+  reviewId: number; // 리뷰를 받은 사용자의 ID
+  revieweeName: string; // 리뷰를 받은 사용자의 이름
   rating: number; // 별점
   positiveTags: string[]; // 긍정 리뷰 태그 목록
   negativeTags: string[]; // 부정 리뷰 태그 목록
@@ -82,8 +82,10 @@ export interface IMeetingReviewProps {
     id: number; // 모임의 고유 ID
     title: string; // 모임의 제목
     thumbnail: string; // 모임 썸네일 이미지 URL
+    city: string;
+    county: string;
     gatheringDate: string;
-    reviewedUsers: ReviewedUser[]; // 모임에서 리뷰를 받은 사용자 목록
+    reviewee: ReviewedUser[]; // 모임에서 리뷰를 받은 사용자 목록
   };
 }
 

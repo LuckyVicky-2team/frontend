@@ -3,23 +3,31 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
 interface IGatheringProps {
-  item: {
+  buttonName: string;
+  href?: string;
+  modalOpen?: () => void;
+  data: {
     thumbnail: string;
     title: string;
     city: string;
     county: string;
     gatheringDate: string;
     id: number;
-    participants: any[];
+    participants?: any[];
   };
 }
 
-export default function GatheringItem({ item }: IGatheringProps) {
-  const { title, thumbnail, city, county, id, gatheringDate } = item;
+export default function GatheringItem({
+  data,
+  href,
+  buttonName,
+  modalOpen,
+}: IGatheringProps) {
+  const { title, thumbnail, city, county, gatheringDate } = data;
 
   const { mondthAndDay, time } = transDate(gatheringDate);
   const imageURL = thumbnail
-    ? `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+    ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
     : '/assets/images/emptyThumbnail.png';
 
   return (
@@ -46,9 +54,17 @@ export default function GatheringItem({ item }: IGatheringProps) {
               <p className={styles.timeDetail}>{time}</p>
             </div>
           </div>
-          <Link href={`review/${id}`} className={styles.writeBtn}>
-            리뷰 남기기
-          </Link>
+          <div className={styles.button}>
+            {href ? (
+              <Link href={href} className={styles.writeBtn}>
+                {buttonName}
+              </Link>
+            ) : (
+              <button onClick={modalOpen} className={styles.writeBtn}>
+                {buttonName}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

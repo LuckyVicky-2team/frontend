@@ -79,7 +79,7 @@ export const mockUserData: UserData = {
     writtenReviews: [
       {
         meetingName: 'Weekend War Game Session', // 리뷰 대상 모임 이름
-        tags: ['#공정해요', '#재미있어요'], // 평가 태그
+        tags: ['공정해요', '재미있어요'], // 평가 태그
         rating: 5, // 별점
       },
     ],
@@ -87,7 +87,7 @@ export const mockUserData: UserData = {
     receivedReviews: [
       {
         meetingName: 'Strategy Game Marathon', // 리뷰 대상 모임 이름
-        tags: ['#매너가 좋아요', '#다시 만나고싶어요!'], // 평가 태그
+        tags: ['매너가 좋아요', '다시 만나고싶어요!'], // 평가 태그
         rating: 4, // 별점
       },
     ],
@@ -231,23 +231,23 @@ export const writtenReviewList: any[] = [
     id: 9876,
     title: 'Python Study Group',
     thumbnail: '',
-    content:
-      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    city: 'a',
+    county: 'b',
     gatheringDate: '2023:08:07T19:00',
-    reviewedUsers: [
+    reviewee: [
       {
-        userId: 5678113,
-        userName: '이해원1',
+        reviewId: 5678113,
+        revieweeName: '이해원1',
         rating: 4.5,
-        positiveTags: ['#지식이풍부해요', '#친절해요'],
+        positiveTags: ['지식이풍부해요', '친절해요'],
         negativeTags: [],
       },
       {
-        userId: 91011214,
-        userName: '이해원2',
+        reviewId: 91011214,
+        revieweeName: '이해원2',
         rating: 4.0,
-        positiveTags: ['#재미있어요'],
-        negativeTags: ['#공정하지 못해요'],
+        positiveTags: ['재미있어요'],
+        negativeTags: ['공정하지 못해요'],
       },
     ],
   },
@@ -255,20 +255,16 @@ export const writtenReviewList: any[] = [
     id: 5432,
     title: 'React Developer Meetup',
     thumbnail: '',
-    content: 'compiled in 194ms',
-    gatheringDate: '2023:08L07T19:00',
-    reviewedUsers: [
+    city: 'a',
+    county: 'b',
+    gatheringDate: '2023:08:07T20:00',
+    reviewee: [
       {
-        userId: 1213315,
-        userName: '이해원3',
-        rating: 5.0,
-        positiveTags: [
-          '#보드게임의 신',
-          '#시간 약속을 잘 지켜요',
-          '#재미있어요',
-          '#다시 만나고싶어요!',
-        ],
-        negativeTags: [],
+        reviewId: 1,
+        revieweeName: '리뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
       },
     ],
   },
@@ -276,22 +272,138 @@ export const writtenReviewList: any[] = [
     id: 1098,
     title: 'Data Science Workshop',
     thumbnail: '',
-    content: '하하오오',
+    city: 'a',
+    county: 'b',
     gatheringDate: '2023:08:07T19:00',
-    reviewedUsers: [
+    reviewee: [
       {
-        userId: 1415416,
-        userName: '이해원4',
+        reviewId: 1415416,
+        revieweeName: '이해원4',
         rating: 3.5,
-        positiveTags: ['#재미있어요', '#보드게임의 신', '#다시 만나고싶어요!'],
-        negativeTags: ['#시간을 안지켜요', '#공정하지 못해요'],
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
       },
       {
-        userId: 1617517,
-        userName: '이해원5',
-        rating: 4.8,
-        positiveTags: [],
-        negativeTags: ['#의도가 부적절해요', '#시간을 안지켜요'],
+        reviewId: 3,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 1,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 1415416,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 3,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 1,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+
+      {
+        reviewId: 1002,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 3002,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 10012,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+
+      {
+        reviewId: 14154162,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 32,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 12,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 14154162,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 322,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 133,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+
+      {
+        reviewId: 1003,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 3003,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 10013,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
       },
     ],
   },
@@ -299,23 +411,44 @@ export const writtenReviewList: any[] = [
     id: 7777,
     title: 'Python Study Group',
     thumbnail: '',
-    content:
-      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    city: 'a',
+    county: 'b',
     gatheringDate: '2023:08:07T19:00',
-    reviewedUsers: [
+    reviewee: [
       {
-        userId: 5678618,
-        userName: '이해원6',
+        reviewId: 5678618,
+        revieweeName: '이해원6',
         rating: 4.5,
-        positiveTags: ['#지식이풍부해요', '#친절해요'],
-        negativeTags: [],
+        positiveTags: ['지식이풍부해요', '친절해요'],
+        negativeTags: ['비매너 플레이어'],
       },
       {
-        userId: 91011719,
-        userName: '이해원7',
+        reviewId: 91011719,
+        revieweeName: '이해원7',
         rating: 4.0,
-        positiveTags: ['#재미있어요'],
-        negativeTags: ['#공정하지 못해요'],
+        positiveTags: ['재미있어요'],
+        negativeTags: ['공정하지 못해요'],
+      },
+      {
+        reviewId: 1415416,
+        revieweeName: '이해원4',
+        rating: 3.5,
+        positiveTags: ['재미있어요', '보드게임의 신', '다시 만나고싶어요!'],
+        negativeTags: ['시간을 안지켜요', '공정하지 못해요'],
+      },
+      {
+        reviewId: 3,
+        revieweeName: '리뷰aa리뷰',
+        rating: 1,
+        positiveTags: ['시간을 안 지켜요'],
+        negativeTags: ['비매너 플레이어'],
+      },
+      {
+        reviewId: 1,
+        revieweeName: '리bb뷰리뷰',
+        rating: 4,
+        positiveTags: ['시간을 잘 지켜요'],
+        negativeTags: ['비매너 플레이어'],
       },
     ],
   },
@@ -323,23 +456,23 @@ export const writtenReviewList: any[] = [
     id: 6666,
     title: 'Python Study Group',
     thumbnail: '',
-    content:
-      'while serializing webpack/lib/cache/PackFileCacheStrategy PackContentItems -> ',
+    city: 'a',
+    county: 'b',
     gatheringDate: '2024:07:31T17:55',
-    reviewedUsers: [
+    reviewee: [
       {
-        userId: 5678820,
-        userName: '이해원8',
+        reviewId: 5678820,
+        revieweeName: '이해원8',
         rating: 4.5,
-        positiveTags: ['#지식이풍부해요', '#친절해요'],
+        positiveTags: ['지식이풍부해요', '친절해요'],
         negativeTags: [],
       },
       {
-        userId: 91011921,
-        userName: '이해원9',
+        reviewId: 91011921,
+        revieweeName: '이해원9',
         rating: 4.0,
-        positiveTags: ['#재미있어요'],
-        negativeTags: ['#공정하지 못해요'],
+        positiveTags: ['재미있어요'],
+        negativeTags: ['공정하지 못해요'],
       },
     ],
   },

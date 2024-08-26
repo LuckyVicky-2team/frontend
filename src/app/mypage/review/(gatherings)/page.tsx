@@ -7,7 +7,14 @@ export default function ReviewPage() {
   return (
     <div className={styles.container}>
       {gatheringList?.map(item => {
-        return <GatheringItem key={item.id} item={item} />;
+        return (
+          <GatheringItem
+            key={item.id}
+            data={item}
+            buttonName="리뷰 남기기"
+            href={`review/${item.id}`}
+          />
+        );
       })}
       {gatheringList.length === 0 && (
         <div className={styles.emptyReview}>

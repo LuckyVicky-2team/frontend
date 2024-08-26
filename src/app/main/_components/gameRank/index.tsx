@@ -4,8 +4,17 @@ import styles from './gameRank.module.scss';
 import { getGameRank } from '@/api/apis/mypageApis';
 import Image from 'next/image';
 
+// GameRankItem 인터페이스 정의
+interface IGameRankItem {
+  gameId: number;
+  title: string;
+  thumbnail: string;
+  cumulativeCount: number;
+}
+
 export default function GameRank() {
-  const [game, setGame] = useState();
+  // useState의 타입을 IGameRankItem 배열로 지정
+  const [game, setGame] = useState<IGameRankItem[] | undefined>(undefined);
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
   useEffect(() => {
@@ -48,7 +57,7 @@ export default function GameRank() {
           else if (i === 2) crownSrc = '/assets/icons/bronzeCrown.svg';
 
           return (
-            <div className={styles.rankItem} key={e?.gameId}>
+            <div className={styles.rankItem} key={e.gameId}>
               <b>{i + 1}</b>
               <div className={styles.img}>
                 <Image
@@ -72,9 +81,9 @@ export default function GameRank() {
                     />
                   )}
                 </span>
-                <span className={styles.name}>{e?.title}</span>
+                <span className={styles.name}>{e.title}</span>
                 <span className={styles.count}>
-                  누적플레이 수 {e?.cumulativeCount}회
+                  누적플레이 수 {e.cumulativeCount}회
                 </span>
               </div>
             </div>

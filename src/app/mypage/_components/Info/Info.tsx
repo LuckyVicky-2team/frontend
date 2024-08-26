@@ -21,7 +21,6 @@ interface IInfoProps {
   mypageInfo: IUserProfile | null;
   handleEditOpen: () => void;
   updateInfo: () => void;
-  handleEditOpen2: () => void;
 }
 
 export default function Info({

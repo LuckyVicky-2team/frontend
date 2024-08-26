@@ -2,7 +2,7 @@
 import { getRecommendInfo } from '@/api/apis/mypageApis';
 import { useEffect, useState } from 'react';
 import styles from './recommend.module.scss';
-// import Image from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Recommend() {
@@ -63,20 +63,138 @@ export default function Recommend() {
           type="text"
           placeholder={'보드게임 이름으로 전체검색 해보세요!'}
         />
-        <button>돋보기</button>
+        <button>
+          <Image
+            width={24}
+            height={24}
+            objectFit="cover"
+            src={'/assets/icons/search.svg'}
+            alt=""
+          />
+        </button>
       </div>
       <div className={styles.recoTabWrap}>
-        <Link href="/">2인 게임</Link>
+        <Link href="/" className={styles.on}>
+          2인 게임
+        </Link>
         <Link href="/">3인 게임</Link>
         <Link href="/">다인용 게임</Link>
       </div>
       <div className={styles.recoListWrap}>
         <div className={styles.recoItem}>
-          <div className={styles.img}>이미지</div>
-          <h1 className={styles.title}>보드게임이름명</h1>
+          <div className={styles.img}>
+            <Image
+              width={555}
+              height={555}
+              objectFit="cover"
+              src={'/assets/mainImages/game.png'}
+              alt="상황별 추천 게임 이미지"
+            />
+          </div>
+          <h1 className={styles.title}>
+            보드게임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명
+          </h1>
           <div className={styles.info}>
-            <span>사람아이콘 2명</span>
-            <span>시계아이콘 15분</span>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/user.svg'}
+                alt=""
+              />
+              2명
+            </span>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/x-circle.svg'}
+                alt=""
+              />{' '}
+              15분
+            </span>
+          </div>
+          <div className={styles.category}>
+            <span>카테고리</span>
+            <span>카테고리</span>
+          </div>
+        </div>
+        <div className={styles.recoItem}>
+          <div className={styles.img}>
+            <Image
+              width={555}
+              height={555}
+              objectFit="cover"
+              src={'/assets/mainImages/game.png'}
+              alt="상황별 추천 게임 이미지"
+            />
+          </div>
+          <h1 className={styles.title}>
+            보드게임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명
+          </h1>
+          <div className={styles.info}>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/user.svg'}
+                alt=""
+              />
+              2명
+            </span>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/x-circle.svg'}
+                alt=""
+              />{' '}
+              15분
+            </span>
+          </div>
+          <div className={styles.category}>
+            <span>카테고리</span>
+            <span>카테고리</span>
+          </div>
+        </div>
+        <div className={styles.recoItem}>
+          <div className={styles.img}>
+            <Image
+              width={555}
+              height={555}
+              objectFit="cover"
+              src={'/assets/mainImages/game.png'}
+              alt="상황별 추천 게임 이미지"
+            />
+          </div>
+          <h1 className={styles.title}>
+            보드게임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명임이름명
+          </h1>
+          <div className={styles.info}>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/user.svg'}
+                alt=""
+              />
+              2명
+            </span>
+            <span>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/icons/x-circle.svg'}
+                alt=""
+              />{' '}
+              15분
+            </span>
           </div>
           <div className={styles.category}>
             <span>카테고리</span>

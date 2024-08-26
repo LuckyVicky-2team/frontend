@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './MainNav.module.scss';
 import Image from 'next/image';
 
-interface MainNavProps {
+interface IMainNavProps {
   scrollToSection: (
     _ref: React.RefObject<HTMLDivElement>,
     _offset: number
@@ -15,7 +15,7 @@ export default function MainNav({
   scrollToSection,
   deadlineRef,
   popularRef,
-}: MainNavProps) {
+}: IMainNavProps) {
   return (
     <div className={styles.mainNav}>
       <div

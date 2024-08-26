@@ -44,13 +44,13 @@ export default function TagInput({ fieldName, ...props }: ITagInputProps) {
         e.currentTarget.value = '';
         return;
       }
-      if (targetValue.length > 30) {
-        setErrorMessage('태그는 최대 30자까지 입력할 수 있습니다');
+      if (targetValue.length > 10) {
+        setErrorMessage('태그는 최대 10자까지 입력할 수 있습니다');
         e.currentTarget.value = '';
         return;
       }
       if (!tagPattern.test(targetValue)) {
-        setErrorMessage('한글, 영어, 숫자, 띄어쓰기만 허용됩니다');
+        setErrorMessage('한글과 영어, 숫자, 띄어쓰기만 허용됩니다');
         e.currentTarget.value = '';
         return;
       }

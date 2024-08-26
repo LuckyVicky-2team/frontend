@@ -20,7 +20,7 @@ interface IUserProfile {
 interface IInfoProps {
   mypageInfo: IUserProfile | null;
   handleEditOpen: () => void;
-  // updateInfo: () => void;
+  updateInfo: () => void;
   handleEditOpen2: () => void;
 }
 
@@ -30,8 +30,8 @@ export default function Info({
   // updateInfo,
 }: IInfoProps) {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [profileHover, setProfileHover] = useState<boolean>(false);
-  const [editOpen2, setEditOpen2] = useState<boolean>(false);
+  // const [profileHover, setProfileHover] = useState<boolean>(false);
+  // const [editOpen2, setEditOpen2] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -41,8 +41,8 @@ export default function Info({
     : '/assets/myPageImages/profileImgEdit.png';
 
   // 핸들러 함수 정의
-  const handleMouseEnter = () => setProfileHover(true);
-  const handleMouseLeave = () => setProfileHover(false);
+  // const handleMouseEnter = () => setProfileHover(true);
+  // const handleMouseLeave = () => setProfileHover(false);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -61,12 +61,11 @@ export default function Info({
   //   setEditOpen2(false); // 프로필 이미지 수정 모달 닫기
   // };
 
-  const handleEditOpen2 = () => setEditOpen2(prev => !prev);
+  // const handleEditOpen2 = () => setEditOpen2(prev => !prev);
 
   return (
     <div className={styles.relative}>
-      <div
-        className={`${styles.editModal2} ${editOpen2 ? styles.on : styles.off}`}>
+      <div className={`${styles.editModal2}`}>
         {/* <ProfileImageEdit
           onUploadSuccess={handleUploadSuccess}
           initialImage={profileImageUrl}
@@ -87,10 +86,7 @@ export default function Info({
         </div>
         <div className={styles.bottom}>
           <div className={styles.profileImg}>
-            <div
-              className={styles.proImgSpace}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}>
+            <div className={styles.proImgSpace}>
               <Image
                 width={111}
                 height={111}
@@ -99,12 +95,6 @@ export default function Info({
                 style={{ width: '100%', height: '100%' }}
                 unoptimized
               />
-              <button
-                type="button"
-                className={profileHover ? styles.on : styles.off}
-                onClick={handleEditOpen2}>
-                수정
-              </button>
             </div>
           </div>
           <div className={styles.rightInfo}>

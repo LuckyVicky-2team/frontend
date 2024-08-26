@@ -1,16 +1,30 @@
-.title1 {
-  color: #9ca3af;
-  font-weight: 600;
-  font-size: 20px;
-}
+.newTitle {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  margin-bottom: 25px;
+  img {
+    max-width: 70px;
+    display: block;
+    max-height: 70px;
+    width: 100%;
+    height: 100%;
+  }
+  .titleTxt {
+    .title1 {
+      color: #9ca3af;
+      font-weight: 500;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
 
-.title2 {
-  color: #2d7dff;
-  font-weight: 800;
-  font-size: 22px;
-  display: block;
-  margin-top: 8px;
-  margin-bottom: 50px;
+    .title2 {
+      color: #333;
+      font-weight: 900;
+      font-size: 28px;
+      display: block;
+    }
+  }
 }
 
 .lineTitle {

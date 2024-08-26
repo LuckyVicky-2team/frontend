@@ -60,8 +60,18 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
 
   return (
     <div>
-      <h1 className={styles.title1}>장르에 따라 달라지는 인기모임!</h1>
-      <b className={styles.title2}>인기장르 모임!</b>
+      <div className={styles.newTitle}>
+        <Image
+          width={155}
+          height={155}
+          src={'/assets/mainImages/fire.png'}
+          alt="타이틀 왼쪽 이미지"
+        />
+        <div className={styles.titleTxt}>
+          <h1 className={styles.title1}>그 모임 지금 핫해요!</h1>
+          <b className={styles.title2}>인기모임</b>
+        </div>
+      </div>
       <div className={styles.lineTitle}>
         <p>추리게임</p>
       </div>

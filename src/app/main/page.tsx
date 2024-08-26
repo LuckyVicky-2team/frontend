@@ -1,13 +1,13 @@
 'use client';
+import React from 'react';
 import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
 import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
 import GameRank from './_components/gameRank';
-import Image from 'next/image';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -25,10 +25,14 @@ interface IMeetingProps {
   games: string[];
   tags: string[];
 }
+
 export default function Main() {
   const [meetingList, setMeetingList] = useState<IMeetingProps[] | undefined>(
     undefined
   );
+
+  const deadlineRef = useRef<HTMLDivElement>(null);
+  const popularRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchMeetingList = async () => {
@@ -43,18 +47,25 @@ export default function Main() {
     fetchMeetingList();
   }, []);
 
-  console.log('모임목록 :', meetingList);
+  const scrollToSection = (
+    ref: React.RefObject<HTMLDivElement>,
+    offset: number
+  ) => {
+    if (ref.current) {
+      const topPosition = ref.current.offsetTop - offset;
+      window.scrollTo({ top: topPosition, behavior: 'smooth' });
+    }
+  };
+
   return (
     <main>
       <div className={styles.container}>
-        {/* <Header /> */}
         <div className={styles.banner}>
           <h2>
             <span>BOGO</span>
             <span>OPEN !!</span>
           </h2>
           <p>보드게임, 같이 할래요?</p>
-          {/* <Image src={Banner} alt="배너이미지" /> */}
         </div>
         <div className={styles.searchBarWrap}>
           <div className={styles.searchBar}>
@@ -62,33 +73,29 @@ export default function Main() {
               type="text"
               placeholder={'나에게 딱! 맞는 모임을 추천해주세요'}
             />
-            <button type="button">
-              <Image
-                src={'/assets/mainImages/search.png'}
-                width={24}
-                height={24}
-                alt="검색이미지"></Image>
-            </button>
           </div>
         </div>
         <div className={styles.contentContainer}>
-          <MainNav />
+          <MainNav
+            scrollToSection={scrollToSection}
+            deadlineRef={deadlineRef}
+            popularRef={popularRef}
+          />
         </div>
         <div className={styles.contentContainerWrap}>
           <div className={styles.contentContainer}>
             <RecommendCase />
           </div>
-          <div className={styles.contentContainer}>
+          <div className={styles.contentContainer} ref={popularRef}>
             <GenreGather meetingList={meetingList} />
           </div>
-          <div className={styles.contentContainer}>
+          <div className={styles.contentContainer} ref={deadlineRef}>
             <DeadLineGather meetingList={meetingList} />
           </div>
           <div className={styles.contentContainer}>
             <GameRank />
           </div>
         </div>
-        {/* <Footer /> */}
       </div>
     </main>
   );

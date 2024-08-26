@@ -77,8 +77,18 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
 
   return (
     <div>
-      <h1 className={styles.title1}>얼른 모임에 들어가야하는 !</h1>
-      <b className={styles.title2}>마감임박 모임!</b>
+      <div className={styles.newTitle}>
+        <Image
+          width={155}
+          height={155}
+          src={'/assets/mainImages/time.png'}
+          alt="타이틀 왼쪽 이미지"
+        />
+        <div className={styles.titleTxt}>
+          <h1 className={styles.title1}>곧! 모집이 마감됩니다!</h1>
+          <b className={styles.title2}>마감임박</b>
+        </div>
+      </div>
       <div className={styles.lineTitle}>
         <p>추리게임</p>
       </div>

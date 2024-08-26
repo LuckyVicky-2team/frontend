@@ -1,0 +1,44 @@
+.recoWrap {
+  padding: 30px 15px;
+  box-sizing: border-box;
+  .searchBar {
+    display: block;
+    width: 100%;
+    position: relative;
+    input {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      box-sizing: border-box;
+      background: #fff;
+      color: #9ca3af;
+      font-size: 20px;
+    }
+    button {
+    }
+  }
+  .recoTabWrap {
+    a {
+    }
+  }
+  .recoListWrap {
+    .recoItem {
+      .img {
+        img {
+        }
+      }
+      .title {
+      }
+      .info {
+        span {
+          img {
+          }
+        }
+      }
+      .category {
+        span {
+        }
+      }
+    }
+  }
+}

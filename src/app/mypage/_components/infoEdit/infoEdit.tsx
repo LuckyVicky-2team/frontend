@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-// import { useRouter } from 'next/navigation';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
 import styles from './infoEdit.module.scss';
 import {
@@ -44,7 +43,6 @@ export default function InfoEdit({
   });
 
   const { addToast } = useToast();
-  // const router = useRouter();
 
   const [isNameChecked, setIsNameChecked] = useState<boolean>(false);
   const [isNameDuplicate, setIsNameDuplicate] = useState<boolean>(false);
@@ -133,7 +131,7 @@ export default function InfoEdit({
   };
 
   // 개인정보 수정 제출 함수
-  const onSubmit = async (data: IFormData) => {
+  const onSubmit: SubmitHandler<IFormData> = async data => {
     if (password !== confirmPassword) {
       addToast('비밀번호가 서로 다릅니다. 확인해주세요.', 'error');
       return;
@@ -172,6 +170,7 @@ export default function InfoEdit({
       <div className={styles.title}>프로필 수정하기</div>
       <ProfileEdit
         onUploadSuccess={handleUploadSuccess}
+        initialImage={mypageInfo?.profileImage} // `initialImage` 속성을 추가
         mypageInfo={mypageInfo}
       />
       <form onSubmit={handleSubmit(onSubmit)}>

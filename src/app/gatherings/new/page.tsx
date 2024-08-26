@@ -5,7 +5,7 @@ import styles from './New.module.scss';
 import DatePicker from '@/components/common/DatePicker';
 import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
@@ -21,6 +21,11 @@ import { useRouter } from 'next/navigation';
 
 // 나중에 Input 컴포넌트로 뺄 것들은 빼겠습니다.
 // 생성일 추가? (상의)
+
+interface IBoardGameIdTitle {
+  id: number;
+  title: string;
+}
 
 export default function NewGatheringPage() {
   const methods = useForm<INewGatheringFormValuesRequest>({
@@ -44,11 +49,21 @@ export default function NewGatheringPage() {
   } = methods;
   const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
-  const [boardGameIdList, setBoardGameIdList] = useState<number[]>([]);
-  const [boardGameIdListClicked, setBoardGameIdListClicked] =
-    useState<boolean>(false);
-  const [boardGameIdListError, setBoardGameIdListError] =
-    useState<boolean>(false);
+  const [genreIdList, setGenreIdList] = useState<number[]>([]);
+  const [boardGameIdTitleList, setBoardGameIdTitleList] = useState<
+    IBoardGameIdTitle[]
+  >([]);
+
+  const isGameListEmpty = useMemo(() => {
+    return boardGameIdTitleList.length === 0;
+  }, [boardGameIdTitleList]);
+
+  const [showGameListMessage, setShowGameListMessage] = useState(false);
+
+  // const [gameSelectInputTouched, setGameSelectInputTouched] =
+  //   useState<boolean>(false);
+  // const [boardGameIdListError, setBoardGameIdListError] =
+  //   useState<boolean>(false);
   const [locationNameClicked, setLocationNameClicked] =
     useState<boolean>(false);
   const [locationNameError, setLocationNameError] = useState<boolean>(false);
@@ -57,10 +72,10 @@ export default function NewGatheringPage() {
     false,
     false,
   ]);
-  const [chooseGameMessage, setChooseGameMessage] = useState<boolean[]>([
-    false,
-    false,
-  ]);
+  // const [chooseGameMessage, setChooseGameMessage] = useState<boolean[]>([
+  //   false,
+  //   false,
+  // ]);
 
   const {
     modalOpen: findPlaceModalOpen,
@@ -153,16 +168,15 @@ export default function NewGatheringPage() {
   };
 
   useEffect(() => {
+    const boardGameIdList = boardGameIdTitleList.map(idTitle => {
+      return idTitle.id;
+    });
     setValue('boardGameIdList', boardGameIdList);
-  }, [boardGameIdList, setValue]);
+  }, [boardGameIdTitleList, setValue]);
 
   useEffect(() => {
-    if (boardGameIdList.length === 0 && boardGameIdListError === true) {
-      setBoardGameIdListError(true);
-      return;
-    }
-    setBoardGameIdListError(false);
-  }, [boardGameIdList, boardGameIdListError]);
+    setValue('genreIdList', genreIdList);
+  }, [genreIdList, setValue]);
 
   useEffect(() => {
     if (
@@ -188,20 +202,6 @@ export default function NewGatheringPage() {
       return;
     }
   }, [findPlaceModalOpen, locationNameError, locationNameClicked]);
-
-  useEffect(() => {
-    if (!chooseGameModalOpen) {
-      if (boardGameIdListError) {
-        setChooseGameMessage([false, true]);
-        return;
-      }
-      if (boardGameIdListClicked && !boardGameIdListError) {
-        setChooseGameMessage([true, false]);
-        return;
-      }
-      return;
-    }
-  }, [chooseGameModalOpen, boardGameIdListError, boardGameIdListClicked]);
 
   return (
     <div className={styles.body}>
@@ -262,7 +262,7 @@ export default function NewGatheringPage() {
               </div>
             </div>
             <div className={styles.inputContainer}>
-              <label htmlFor="gameTitle" className={styles.title}>
+              <label htmlFor="boardGameIdList" className={styles.title}>
                 게임 선택
               </label>
               <p className={styles.titleDescription}>
@@ -270,25 +270,61 @@ export default function NewGatheringPage() {
               </p>
               <div style={{ margin: '0 0 28px' }}>
                 <input
-                  id="gameTitle"
+                  id="boardGameIdList"
                   readOnly
-                  className={`${styles.commonInput} ${chooseGameMessage[1] === true && styles.error}`}
+                  // className={`${styles.commonInput} ${chooseGameMessage[1] === true && styles.error}`}
+                  className={`${styles.commonInput} ${
+                    showGameListMessage && isGameListEmpty && styles.error
+                  }`}
                   placeholder={'게임을 선택해 주세요.'}
                   onClick={() => {
                     handleChooseGameModalOpen();
-                    setBoardGameIdListClicked(true);
+                    // setGameSelectInputTouched(true);
                   }}
                   onBlur={() => {
-                    if (boardGameIdList.length === 0) {
-                      setBoardGameIdListError(true);
-                    }
+                    setShowGameListMessage(true);
                   }}
                 />
+                <div
+                  className={
+                    showGameListMessage && !isGameListEmpty
+                      ? styles.boardGameTitles
+                      : styles.none
+                  }>
+                  {boardGameIdTitleList.map(idTitle => {
+                    return (
+                      <div key={idTitle.id} className={styles.boardGameTitle}>
+                        {idTitle.title}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setBoardGameIdTitleList(prev => {
+                              const newPrev = prev.filter(
+                                element => element.title !== idTitle.title
+                              );
+                              return newPrev;
+                            });
+                          }}>
+                          <Image
+                            src={'/assets/icons/x-button-blue.svg'}
+                            alt="없애기 버튼"
+                            width={24}
+                            height={24}
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
                 <div className={styles.errorMessage}>
-                  {chooseGameMessage[1] === true && '게임을 선택해 주세요.'}
+                  {showGameListMessage &&
+                    isGameListEmpty &&
+                    '게임을 선택해 주세요.'}
                 </div>
                 <div className={styles.successMessage}>
-                  {chooseGameMessage[0] === true && '이 게임도 너무 재밌죠!'}
+                  {showGameListMessage &&
+                    !isGameListEmpty &&
+                    '이 게임도 너무 재밌죠!'}
                 </div>
               </div>
               <GameDataList
@@ -296,24 +332,9 @@ export default function NewGatheringPage() {
                 onClose={handleChooseGameModalClose}
                 showGameData={showGameData}
                 setShowGameData={setShowGameData}
-                setBoardGameIdList={setBoardGameIdList}
+                setBoardGameIdTitleList={setBoardGameIdTitleList}
+                setGenreIdList={setGenreIdList}
               />
-              {boardGameIdList.map(id => {
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    onClick={() => {
-                      setBoardGameIdList(prev => {
-                        const newPrev = prev.filter(element => element !== id);
-                        return newPrev;
-                      });
-                      setBoardGameIdListError(true);
-                    }}>
-                    {id}
-                  </button>
-                );
-              })}
             </div>
             {/* <div className={styles.inputContainer}>
               <label htmlFor="tags" className={styles.title}>
@@ -462,8 +483,7 @@ export default function NewGatheringPage() {
             type="submit"
             disabled={
               !isValid ||
-              boardGameIdListError ||
-              !boardGameIdListClicked ||
+              isGameListEmpty ||
               !locationNameClicked ||
               locationNameError
             }

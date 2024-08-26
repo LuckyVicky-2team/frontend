@@ -23,12 +23,18 @@ interface IGame {
   genres: IGenre[];
 }
 
+interface IBoardGameIdTitle {
+  id: number;
+  title: string;
+}
+
 interface IGameDataListProps {
   modalOpen: boolean;
   onClose: () => void;
   showGameData: boolean;
   setShowGameData: Dispatch<SetStateAction<boolean>>;
-  setBoardGameIdList: Dispatch<SetStateAction<number[]>>;
+  setBoardGameIdTitleList: Dispatch<SetStateAction<IBoardGameIdTitle[]>>;
+  setGenreIdList: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function GameDataList({
@@ -36,7 +42,8 @@ export default function GameDataList({
   onClose,
   showGameData,
   setShowGameData,
-  setBoardGameIdList,
+  setBoardGameIdTitleList,
+  setGenreIdList,
 }: IGameDataListProps) {
   const { addToast } = useToast();
   const [gameTitle, setGameTitle] = useState('');
@@ -64,6 +71,29 @@ export default function GameDataList({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleGameClick = (data: IGame) => {
+    console.log(data.id);
+    setBoardGameIdTitleList(prev => {
+      for (let game of prev) {
+        if (game.id === data.id) return prev;
+      }
+      return [...new Set([...prev, { title: data.title, id: data.id }])];
+    });
+    setGenreIdList(prev => {
+      if (data.genres) {
+        let genreIds = [];
+        for (const genre of data.genres) {
+          genreIds.push(genre.id);
+        }
+        return [...new Set([...prev, ...genreIds])];
+      }
+      return prev;
+    });
+    setShowGameData(false);
+    setGameTitle('');
+    onClose();
   };
 
   return (
@@ -122,15 +152,7 @@ export default function GameDataList({
                         type="radio"
                         value={data.id}
                         defaultChecked
-                        onClick={() => {
-                          console.log(data.id);
-                          setBoardGameIdList(prev => {
-                            return [...new Set([...prev, data.id])];
-                          });
-                          setShowGameData(false);
-                          setGameTitle('');
-                          onClose();
-                        }}
+                        onClick={() => handleGameClick(data)}
                       />
                     </div>
                   </div>

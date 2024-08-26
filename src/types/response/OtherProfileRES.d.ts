@@ -17,3 +17,8 @@ export interface IOtherEvaluationTagsResponse {
   positiveTags: IEvalueationTag[];
   negativeTags: IEvalueationTag[];
 }
+
+export interface IOtherProfileAPIError {
+  errorCode: number;
+  message: string;
+}

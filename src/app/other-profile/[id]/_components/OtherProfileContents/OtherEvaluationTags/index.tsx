@@ -1,6 +1,5 @@
 'use client';
 
-import { notFound } from 'next/navigation';
 import { useGetOtherEvaluationTags } from '@/api/queryHooks/otherProfile';
 import EvaluationTag from './EvaluationgTag';
 import styles from './OtherEvaluationTags.module.scss';
@@ -8,8 +7,8 @@ import styles from './OtherEvaluationTags.module.scss';
 export default function OtherEvaluationTags({ userId }: { userId: number }) {
   const { data } = useGetOtherEvaluationTags(userId);
 
-  if (!data) {
-    return notFound();
+  if (!data || 'errorCode' in data) {
+    return;
   }
 
   return (

@@ -1,45 +1,74 @@
-.container {
-  height: 50%;
-}
-.meetingName {
-  display: flex;
-  align-items: flex-start;
+// .container {
+//   height: 50%;
+// }
+// .meetingName {
+//   display: flex;
+//   align-items: flex-start;
 
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 10px;
+//   font-size: 18px;
+//   color: #333;
+//   margin-bottom: 10px;
 
-  .icon {
-    margin-right: 8px;
-  }
-}
+//   .icon {
+//     margin-right: 8px;
+//   }
+// }
 
 .tags {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
 }
 
 .tagItem {
-  background-color: #f7f7f7;
-  border-radius: 4px;
-  padding: 10px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
 
   .tagContent {
-    font-size: 16px;
-    color: #555;
+    display: flex;
+    padding: 8px 20px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0px 20px 20px 20px;
+
+    p {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 20px;
+    }
+    &[data-tagtype='positive'] {
+      background: $blue-light;
+      p {
+        color: $blue-normal;
+      }
+    }
+    &[data-tagtype='negative'] {
+      background: #fff2d3;
+      p {
+        color: #f85d1b;
+      }
+    }
   }
 
   .tagCount {
+    min-width: 14%;
     display: flex;
     align-items: center;
 
     .countIcon {
       margin-right: 10px;
       color: white;
+      color: gray-Darker, #37393d;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px; /* 111.111% */
     }
   }
 }

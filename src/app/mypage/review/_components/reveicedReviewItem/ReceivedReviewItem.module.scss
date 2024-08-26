@@ -1,7 +1,10 @@
 .reviewItem {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 48px;
-  border-radius: 12px;
+  padding: 30px 40px;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+  border-radius: 10px;
+  background: #fff;
 }

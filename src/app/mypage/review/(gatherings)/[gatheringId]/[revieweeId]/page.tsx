@@ -125,19 +125,6 @@ export default function WriteReviewPage({ params }: any) {
           건너뛰기
         </button>
       </div>
-
-      {/* <Modal full modalOpen={modalOpen} onClose={handleModalClose}>
-        <div className={styles.detailModal}>
-          {meetingParticipantList && (
-            <ReviewWriteDetail
-              gatheringId={item.id}
-              routerBackHandler={handleModalClose}
-              name={meetingParticipantList.userName}
-              id={meetingParticipantList.userId}
-            />
-          )}
-        </div>
-      </Modal> */}
     </div>
   );
 }

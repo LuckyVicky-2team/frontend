@@ -1,0 +1,33 @@
+.linkBtn {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  p {
+    width: fit-content;
+    color: $gray-normal;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+
+    &.active {
+      color: $blue-normal;
+      font-size: 20px;
+      font-style: normal;
+      line-height: 20px;
+    }
+  }
+
+  .underline {
+    width: 100%;
+    height: 2px;
+    position: relative;
+  }
+}

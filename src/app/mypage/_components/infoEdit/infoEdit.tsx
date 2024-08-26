@@ -9,10 +9,15 @@ import {
   updatePersonalInfo,
   checkNicknameDuplication,
 } from '@/api/apis/mypageApis';
+import ProfileEdit from '../profileImageEdit/profileImageEdit';
 
 interface IInfoEditProps {
   handleEditOpen: () => void;
   updateInfo: () => void;
+  mypageInfo: {
+    profileImage: string | null;
+    nickName: string;
+  };
 }
 
 interface IFormData {
@@ -24,6 +29,7 @@ interface IFormData {
 export default function InfoEdit({
   handleEditOpen,
   updateInfo,
+  mypageInfo,
 }: IInfoEditProps) {
   const {
     register,
@@ -47,9 +53,13 @@ export default function InfoEdit({
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [confirmPasswordValue, setConfirmPasswordValue] = useState<string>('');
 
-  // const newName = watch('nickName', '');
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
+
+  const handleUploadSuccess = () => {
+    updateInfo(); // 부모 컴포넌트의 정보를 업데이트
+    handleEditOpen(); // 프로필 이미지 수정 모달 닫기
+  };
 
   // 비밀번호와 비밀번호 확인 검사 함수
   const validatePasswords = () => {
@@ -162,7 +172,12 @@ export default function InfoEdit({
 
   return (
     <div className={styles.infoEditModal}>
-      <div className={styles.title}>개인정보 수정</div>
+      <div className={styles.logoTitle}>BOGO</div>
+      <div className={styles.title}>프로필 수정하기</div>
+      <ProfileEdit
+        onUploadSuccess={handleUploadSuccess}
+        mypageInfo={mypageInfo}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.nameInput}>
           <b>닉네임</b>

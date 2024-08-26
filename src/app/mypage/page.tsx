@@ -73,6 +73,7 @@ export default function MyPage() {
         <InfoEdit
           handleEditOpen={handleEditOpen}
           updateInfo={fetchPersonalInfo}
+          mypageInfo={info}
         />
       </div>
 

@@ -2,37 +2,46 @@
 
 import React, { useState, useEffect } from 'react';
 import { useToast } from '@/contexts/toastContext';
-import { updateProfileImage } from '@/api/apis/mypageApis'; // API 함수 import
-import styles from './profileImageEdit.module.scss'; // 스타일 import
+import { updateProfileImage } from '@/api/apis/mypageApis';
+import styles from './profileImageEdit.module.scss';
 import Image from 'next/image';
 
 interface IProfilePictureUploadProps {
-  onUploadSuccess: () => void; // 업로드 성공 후 호출할 콜백 함수
-  initialImage: string; // 초기 프로필 이미지 URL
-  handleEditOpen2: () => void; // 프로필 수정 모달을 닫는 함수
+  onUploadSuccess: () => void;
+  initialImage: string | null;
+  mypageInfo: { profileImage: string | null };
 }
 
 const ProfileImageEdit: React.FC<IProfilePictureUploadProps> = ({
   onUploadSuccess,
   initialImage,
-  handleEditOpen2,
+  mypageInfo,
 }) => {
-  const { addToast } = useToast(); // 토스트 훅 호출
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>(
-    initialImage
-  );
+  const { addToast } = useToast();
+  const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
-  useEffect(() => {
-    setPreview(initialImage);
-  }, [initialImage]);
+  const cloudFrontDomain = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN || '';
 
-  // 파일 선택 핸들러
+  useEffect(() => {
+    const defaultImage = '/assets/mypage/defaultProfileImage.png';
+
+    const getImageUrl = (url: string | null) => {
+      if (!url) return defaultImage;
+      return url.startsWith('http://') || url.startsWith('https://')
+        ? url
+        : `https://${cloudFrontDomain}/${url}`;
+    };
+
+    setPreview(
+      getImageUrl(mypageInfo?.profileImage) || getImageUrl(initialImage)
+    );
+  }, [initialImage, mypageInfo?.profileImage, cloudFrontDomain]);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.size > 5 * 1024 * 1024) {
-        // 5MB 초과 체크
         addToast('파일 크기는 5MB를 초과할 수 없습니다.', 'error');
         return;
       }
@@ -44,34 +53,41 @@ const ProfileImageEdit: React.FC<IProfilePictureUploadProps> = ({
     }
   };
 
-  // 파일 업로드 핸들러
   const handleUpload = async () => {
     if (!file) return;
 
     try {
       await updateProfileImage(file);
       addToast('프로필 사진이 성공적으로 업로드되었습니다.', 'success');
-      onUploadSuccess(); // 업로드 성공 후 호출할 콜백
+      onUploadSuccess();
     } catch (error) {
       console.error('Upload error:', error);
       addToast('프로필 이미지 업로드 중 오류가 발생했습니다.', 'error');
     }
   };
 
+  // const handleDelete = async () => {
+  //   try {
+  //     await deleteProfileImage(); // 서버에서 프로필 사진 삭제
+  //     setPreview('/public/assets/myPageImages/profileImgEdit.png'); // 기본 프로필 이미지로 변경
+  //     addToast('프로필 사진이 삭제되었습니다.', 'success');
+  //     onUploadSuccess();
+  //   } catch (error) {
+  //     console.error('Delete error:', error);
+  //     addToast('프로필 사진 삭제 중 오류가 발생했습니다.', 'error');
+  //   }
+  // };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>프로필 이미지 수정</h1>
+      {/* <h1 className={styles.title}>프로필 이미지 수정</h1> */}
       <div className={styles.preview}>
         <div className={styles.previewImgWrap}>
-          {preview ? (
-            <img
-              src={preview as string}
-              alt="Profile Preview"
-              className={styles.image}
-            />
-          ) : (
-            <p>이미지가 없습니다.</p>
-          )}
+          <img
+            src={preview as string}
+            alt="Profile Preview"
+            className={styles.image}
+          />
         </div>
         <div className={styles.inputWrap}>
           <input
@@ -79,7 +95,7 @@ const ProfileImageEdit: React.FC<IProfilePictureUploadProps> = ({
             accept="image/*"
             onChange={handleFileChange}
             id="profileEditBtn"
-            className={styles.fileInput} // 클래스 추가
+            className={styles.fileInput}
           />
           <label htmlFor="profileEditBtn">
             <Image
@@ -96,12 +112,12 @@ const ProfileImageEdit: React.FC<IProfilePictureUploadProps> = ({
         onClick={handleUpload}
         disabled={!file}
         className={styles.uploadButton}>
-        수정하기
+        프로필 이미지 수정하기
       </button>
 
-      <button onClick={handleEditOpen2} className={styles.cancleBtn}>
-        취소하기
-      </button>
+      {/* <button onClick={handleDelete} className={styles.deleteButton}>
+        기본 프로필 사진으로 변경
+      </button> */}
     </div>
   );
 };

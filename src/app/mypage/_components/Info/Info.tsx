@@ -4,7 +4,7 @@ import styles from './info.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import ProfileImageEdit from '../../_components/profileImageEdit/profileImageEdit';
+// import ProfileImageEdit from '../../_components/profileImageEdit/profileImageEdit';
 
 // 환경 변수에서 도메인 가져오기
 const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -20,14 +20,14 @@ interface IUserProfile {
 interface IInfoProps {
   mypageInfo: IUserProfile | null;
   handleEditOpen: () => void;
-  updateInfo: () => void;
+  // updateInfo: () => void;
   handleEditOpen2: () => void;
 }
 
 export default function Info({
   mypageInfo,
   handleEditOpen,
-  updateInfo,
+  // updateInfo,
 }: IInfoProps) {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [profileHover, setProfileHover] = useState<boolean>(false);
@@ -56,10 +56,10 @@ export default function Info({
     router.push('/');
   };
 
-  const handleUploadSuccess = () => {
-    updateInfo(); // 부모 컴포넌트의 정보를 업데이트
-    setEditOpen2(false); // 프로필 이미지 수정 모달 닫기
-  };
+  // const handleUploadSuccess = () => {
+  //   updateInfo(); // 부모 컴포넌트의 정보를 업데이트
+  //   setEditOpen2(false); // 프로필 이미지 수정 모달 닫기
+  // };
 
   const handleEditOpen2 = () => setEditOpen2(prev => !prev);
 
@@ -67,11 +67,11 @@ export default function Info({
     <div className={styles.relative}>
       <div
         className={`${styles.editModal2} ${editOpen2 ? styles.on : styles.off}`}>
-        <ProfileImageEdit
+        {/* <ProfileImageEdit
           onUploadSuccess={handleUploadSuccess}
           initialImage={profileImageUrl}
           handleEditOpen2={handleEditOpen2}
-        />
+        /> */}
       </div>
       <div className={styles.card}>
         <div className={styles.top}>

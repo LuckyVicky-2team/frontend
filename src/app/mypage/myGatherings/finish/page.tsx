@@ -1,5 +1,3 @@
-// pages/participant.tsx
-
 'use client';
 import { useState, useEffect } from 'react';
 import { getPersonalGatherings } from '@/api/apis/mypageApis';
@@ -68,7 +66,7 @@ export default function Finish() {
           </h1>
           <h2>BOGO</h2>
           <p>
-            참여중인 모임이 없어요! <br />
+            종료된 모임이 없어요! <br />
             모임을 둘러보면서 <br />
             다양한 게임들을 경험해보세요!
           </p>

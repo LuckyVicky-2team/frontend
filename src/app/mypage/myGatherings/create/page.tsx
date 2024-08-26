@@ -5,6 +5,7 @@ import styles from '../myGatherings.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// 인터페이스 이름을 I로 시작하도록 수정
 interface IGathering {
   meetingId: string;
   title: string;
@@ -15,7 +16,7 @@ interface IGathering {
   imageUrl: string;
 }
 
-export default function Create() {
+export default function Finish() {
   const [gatherings, setGatherings] = useState<IGathering[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,10 +25,10 @@ export default function Create() {
     const fetchGatherings = async () => {
       try {
         const response = await getPersonalGatherings('CREATE');
-        if (response.status === 204 || !response.data) {
-          setGatherings([]); // 빈 배열로 설정
-        } else {
+        if (Array.isArray(response.data)) {
           setGatherings(response.data);
+        } else {
+          setGatherings([]); // 빈 배열로 설정
         }
       } catch (err) {
         setError('모임을 불러오는 중 오류가 발생했습니다.');
@@ -65,7 +66,7 @@ export default function Create() {
           </h1>
           <h2>BOGO</h2>
           <p>
-            참여중인 모임이 없어요! <br />
+            내가 만든 모임이 없어요! <br />
             모임을 둘러보면서 <br />
             다양한 게임들을 경험해보세요!
           </p>

@@ -119,7 +119,7 @@ export default function MyPage() {
           <Link href="/mypage/friendsList">친구 목록</Link>
         </li>
         <li>
-          <Link href="/mypage/myGatherings">내 모임</Link>
+          <Link href="/mypage/myGatherings/participant">내 모임</Link>
         </li>
         <li>
           <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>

@@ -77,7 +77,7 @@ export default function PrEdit() {
 
   return (
     <div className={styles.prWrap}>
-      <h1>PR태그 수정</h1>
+      <h1>PR태그</h1>
       <ul>
         {prTags.map((tag, index) => (
           <li key={index} className={styles.tagItem}>
@@ -103,7 +103,7 @@ export default function PrEdit() {
         value={newTag}
         onChange={e => setNewTag(e.target.value)}
         onKeyUp={handleKeyUp}
-        placeholder="PR태그를 입력해주세요"
+        placeholder="PR태그를 입력해주세요. 10개 까지 추가 할수있습니다!"
         disabled={prTags.length >= 10} // 10개 이상일 때 입력 비활성화
       />
       {error && <p className={styles.error}>{error}</p>}

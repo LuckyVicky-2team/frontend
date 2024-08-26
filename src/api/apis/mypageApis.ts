@@ -4,6 +4,28 @@ import { axiosInstance } from '../instance';
 export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
+// 상황별 추천 조회를 위한 API 요청
+export const getRecommendInfo = () => {
+  return axiosInstance.get('/home/situation', {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+// 나의모임 목록 조회 함수
+export const getPersonalGatherings = (filter: string) => {
+  return axiosInstance.get(`/my/meeting?filter=${filter}`);
+};
+
+//나의모임 목록 조회 함수
+export const getMeetingList = () => {
+  return axiosInstance.get(`/meeting`);
+};
+
+// 게임 랭크 조회 함수
+export const getGameRank = () => {
+  return axiosInstance.get(`/home/cumulative-popularity`);
+};
 
 // 닉네임 중복 확인을 위한 API 요청
 export const checkNicknameDuplication = (nickName: string) => {

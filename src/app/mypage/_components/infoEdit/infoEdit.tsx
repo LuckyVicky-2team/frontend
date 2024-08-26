@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import styles from './infoEdit.module.scss';
 import {
@@ -44,7 +44,7 @@ export default function InfoEdit({
   });
 
   const { addToast } = useToast();
-  const router = useRouter();
+  // const router = useRouter();
 
   const [isNameChecked, setIsNameChecked] = useState<boolean>(false);
   const [isNameDuplicate, setIsNameDuplicate] = useState<boolean>(false);
@@ -59,6 +59,9 @@ export default function InfoEdit({
   const handleUploadSuccess = () => {
     updateInfo(); // 부모 컴포넌트의 정보를 업데이트
     handleEditOpen(); // 프로필 이미지 수정 모달 닫기
+    setTimeout(() => {
+      window.location.reload(); // 페이지 새로고침
+    }, 1500);
   };
 
   // 비밀번호와 비밀번호 확인 검사 함수
@@ -156,14 +159,7 @@ export default function InfoEdit({
       updateInfo();
       reset();
       handleEditOpen();
-      addToast(
-        '개인정보 수정을 완료했습니다.\n 새로 로그인을 하기 위하여 로그인 페이지로 돌아갑니다.',
-        'success'
-      );
-      localStorage.removeItem('accessToken');
-      setTimeout(() => {
-        router.push('/signin');
-      }, 1500);
+      addToast('개인정보가 수정되었습니다.', 'success');
     } catch (error) {
       console.log('error', error);
       addToast('정보 수정 중 오류가 발생했습니다.', 'error');

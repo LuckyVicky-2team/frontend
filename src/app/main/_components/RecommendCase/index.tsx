@@ -94,7 +94,7 @@ export default function RecommendCase() {
       <b className={styles.title2}>상황별 추천!</b>
       <ul className={styles.recommendList}>
         <li>
-          <Link href="/">
+          <Link href="/recommend">
             <span className={styles.img}>
               <Image
                 width={222}

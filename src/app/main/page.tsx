@@ -3,9 +3,28 @@ import RecommendCase from './_components/RecommendCase';
 import GenreGather from './_components/GenreGather';
 import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
+import GameRank from './_components/gameRank';
 import Image from 'next/image';
 import styles from './main.module.scss';
+import { getMeetingList } from '@/api/apis/mypageApis';
+import { useEffect, useState } from 'react';
 export default function Main() {
+  const [meetingList, setMeetingList] = useState();
+
+  useEffect(() => {
+    const fetchMeetingList = async () => {
+      try {
+        const res = await getMeetingList();
+        setMeetingList(res.data.content);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchMeetingList();
+  }, []);
+
+  console.log('모임목록 :', meetingList);
   return (
     <main>
       <div className={styles.container}>
@@ -44,7 +63,10 @@ export default function Main() {
             <GenreGather />
           </div>
           <div className={styles.contentContainer}>
-            <DeadLineGather />
+            <DeadLineGather meetingList={meetingList} />
+          </div>
+          <div className={styles.contentContainer}>
+            <GameRank />
           </div>
         </div>
         {/* <Footer /> */}

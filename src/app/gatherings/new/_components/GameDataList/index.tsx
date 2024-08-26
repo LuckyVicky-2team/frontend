@@ -48,14 +48,17 @@ export default function GameDataList({
   const { addToast } = useToast();
   const [gameTitle, setGameTitle] = useState('');
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [gameData, setGameData] = useState<IGame[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchGames = useCallback(async () => {
+    console.log(gameTitle);
+    console.log(currentPage);
     setIsLoading(true);
     try {
       const data = await getGames(gameTitle, currentPage);
+      console.log(data);
       setTotalPages(data.totalPages);
       setGameData(data.content);
     } catch (error) {
@@ -63,7 +66,7 @@ export default function GameDataList({
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [gameTitle, currentPage]);
 
   useEffect(() => {
     fetchGames();
@@ -109,12 +112,9 @@ export default function GameDataList({
               placeholder={'보드게임'}
               value={gameTitle}
               onChange={e => {
-                if (e.target.value === '') {
-                  setShowGameData(false);
-                  return;
-                }
+                const isEmpty = e.target.value === '';
                 setGameTitle(e.target.value);
-                setShowGameData(true);
+                setShowGameData(!isEmpty);
               }}
             />
             <Image
@@ -132,20 +132,60 @@ export default function GameDataList({
                     {i !== 0 && <div className={styles.line} />}
                     <div className={styles.gameData}>
                       <label htmlFor={`${data.title}`} className={styles.label}>
-                        <Image
-                          src={
-                            data.thumbnail
-                              ? /* eslint-disable indent */
-                                `https://${
-                                  process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
-                                }/${data.thumbnail}`
-                              : 'assets/images/boardgame.png'
-                          }
-                          alt={data.title}
-                          width={30}
-                          height={30}
-                        />
-                        <p>{data.title}</p>
+                        <div className={styles.thumbnail}>
+                          <Image
+                            src={
+                              data.thumbnail
+                                ? /* eslint-disable indent */
+                                  `https://${
+                                    process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+                                  }/${data.thumbnail}`
+                                : 'assets/images/boardgame.png'
+                            }
+                            alt={data.title}
+                            width={40}
+                            height={47}
+                          />
+                        </div>
+                        <div>
+                          <p className={styles.gameTitle}>{data.title}</p>
+                          <div className={styles.gameInfo}>
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                              }}>
+                              <Image
+                                src={'/assets/icons/person-icon.svg'}
+                                alt="사람"
+                                width={16}
+                                height={16}
+                              />
+                              2명
+                            </div>
+                            <Image
+                              src={'/assets/icons/vector-vertical-gray.svg'}
+                              alt="구분선"
+                              width={1}
+                              height={20}
+                            />
+                            <div
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                              }}>
+                              <Image
+                                src={'/assets/icons/clock.svg'}
+                                alt="시계"
+                                width={16}
+                                height={16}
+                              />
+                              15분
+                            </div>
+                          </div>
+                        </div>
                       </label>
                       <input
                         id={`${data.title}`}
@@ -158,7 +198,7 @@ export default function GameDataList({
                   </div>
                 );
               })}
-              {isLoading && <p>로딩 중...</p>}
+              {isLoading && <p className={styles.loading}>로딩 중...</p>}
               <div className={styles.buttons}>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   page => (

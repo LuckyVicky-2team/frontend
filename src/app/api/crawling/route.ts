@@ -124,14 +124,14 @@ async function convertAndCreateFormData(data: IGameInfo[]) {
           { contentType: 'application/json' }
         );
 
-        // console.log({
-        //   title,
-        //   minPeople,
-        //   maxPeople,
-        //   minPlayTime,
-        //   maxPlayTime,
-        //   genres,
-        // });
+        console.log({
+          title,
+          minPeople,
+          maxPeople,
+          minPlayTime,
+          maxPlayTime,
+          genres,
+        });
         // 결과 배열에 추가
         results.push(formData);
       }
@@ -296,7 +296,7 @@ export async function POST() {
     //     }
     //     await delay(1000);
     //   }
-    const hrefList = (await crawlingList()).slice(100, 100);
+    const hrefList = (await crawlingList()).slice(582, 600);
     const cutting = sliceArray(hrefList, 4);
     // cutting 배열 만큼 반복문 돌리기
     let count = 0;
@@ -305,7 +305,7 @@ export async function POST() {
       try {
         // 사이즈 만큼 나눠진 url 페이지 열어서 작동
         const test = hrefs.map(async href => {
-          await delay(1000);
+          await delay(500);
           return await crawling(href);
         });
         await Promise.all(test);
@@ -333,7 +333,7 @@ export async function POST() {
           console.log(backendResponse.data);
           count++;
         } catch (error) {
-          console.log('보내기 실페: ', error);
+          console.log('보내기 실패: ', error);
           return;
         }
       }

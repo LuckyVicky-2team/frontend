@@ -4,8 +4,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}` || 'd248qe8akqy587.cloudfront.net',
-        pathname:"**",
+        hostname:
+          `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}` ||
+          'd248qe8akqy587.cloudfront.net',
+        pathname: '**',
       },
     ],
   },

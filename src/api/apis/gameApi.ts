@@ -46,8 +46,13 @@ interface IGameData {
 }
 
 export const getGames = async (searchWord: string, page: number) => {
-  const response = await axiosInstance.get<IGameData>(
-    `/boardgame?searchWord=${searchWord}&page=${page}`
-  );
+  const response = await axiosInstance.get<IGameData>('/boardgame', {
+    params: {
+      searchWord,
+      page,
+      // count: 10,
+      // size: 5,
+    },
+  });
   return response.data;
 };

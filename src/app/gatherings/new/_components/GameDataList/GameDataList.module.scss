@@ -33,6 +33,10 @@
   height: 56px;
   width: min(100%, 600px);
 
+  &:focus {
+    outline: none;
+  }
+
   &:placeholder-shown {
     color: var(--gray-400, #9ca3af);
     font-size: 18px;
@@ -75,4 +79,44 @@
     align-items: center;
     gap: 7px;
   }
+}
+
+.thumbnail {
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 2px solid var(--lukyviky-gray-light-hover, #f0f1f3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameTitle {
+  color: var(--lukyviky-gray-Dark, #757a83);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 100% */
+}
+
+.gameInfo {
+  color: var(--lukyviky-gray-normal-active, #7d828c);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+}
+
+.loading {
+  width: min(100%, 600px);
+  color: var(--lukyviky-gray-Dark, #757a83);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 100% */
 }

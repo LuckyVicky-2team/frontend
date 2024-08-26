@@ -8,8 +8,27 @@ import Image from 'next/image';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
 import { useEffect, useState } from 'react';
+
+// Meeting 타입 정의
+interface IMeetingProps {
+  id: number;
+  title: string;
+  city: string;
+  county: string;
+  thumbnail: string;
+  meetingDate: string;
+  participantCount: number;
+  limitParticipant: number;
+  nickName: string;
+  likeStatus: string;
+  viewCount: number;
+  games: string[];
+  tags: string[];
+}
 export default function Main() {
-  const [meetingList, setMeetingList] = useState();
+  const [meetingList, setMeetingList] = useState<IMeetingProps[] | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     const fetchMeetingList = async () => {

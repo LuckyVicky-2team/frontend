@@ -68,14 +68,17 @@ export default function MyPage() {
 
   return (
     <div className={styles.relative}>
-      <div
-        className={`${styles.editModal} ${editOpen ? styles.on : styles.off}`}>
-        <InfoEdit
-          handleEditOpen={handleEditOpen}
-          updateInfo={fetchPersonalInfo}
-          mypageInfo={info}
-        />
-      </div>
+      {/* Conditionally render InfoEdit only if info is not null */}
+      {info && (
+        <div
+          className={`${styles.editModal} ${editOpen ? styles.on : styles.off}`}>
+          <InfoEdit
+            handleEditOpen={handleEditOpen}
+            updateInfo={fetchPersonalInfo}
+            mypageInfo={info}
+          />
+        </div>
+      )}
 
       <h1 className={styles.title}>마이페이지</h1>
       <div>

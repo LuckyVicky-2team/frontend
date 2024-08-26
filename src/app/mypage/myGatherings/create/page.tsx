@@ -31,7 +31,7 @@ export default function Create() {
         }
       } catch (err) {
         setError('모임을 불러오는 중 오류가 발생했습니다.');
-        console.log('err :', err);
+        console.error('Error fetching gatherings:', err);
       } finally {
         setLoading(false);
       }
@@ -43,8 +43,6 @@ export default function Create() {
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
-  console.log('불러와!! :', gatherings);
-
   return (
     <div className={styles.myGatheringsListWrap}>
       <div className={styles.tabBtn2}>
@@ -55,14 +53,14 @@ export default function Create() {
         </Link>
       </div>
 
-      {gatherings === undefined ? (
+      {gatherings.length === 0 ? (
         <div className={styles.noMyGatheringsList}>
           <h1>
             <Image
               width={62}
               height={62}
               src={'/assets/myPageImages/logoGray.png'}
-              alt="리스트 없을때 로고"
+              alt="리스트 없을 때 로고"
             />
           </h1>
           <h2>BOGO</h2>
@@ -74,29 +72,29 @@ export default function Create() {
           <Link href="/">다양한 모임 둘러보기</Link>
         </div>
       ) : (
-        gatherings.map(e => (
-          <div className={styles.myGathdringsItem} key={e?.meetingId}>
+        gatherings.map(gathering => (
+          <div className={styles.myGathdringsItem} key={gathering.meetingId}>
             <div className={styles.img}>
               <Image
-                src={'/assets/mainImages/game.png'}
+                src={gathering.imageUrl || '/assets/mainImages/game.png'} // Use imageUrl if available
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
               />
             </div>
             <div className={styles.info}>
-              <h1>{e?.title}</h1>
-              <b>{e?.detailAddress}</b>
+              <h1>{gathering.title}</h1>
+              <b>{gathering.detailAddress}</b>
               <p>
-                <span className={styles.time}>{e?.meetingDatetime}</span>
+                <span className={styles.time}>{gathering.meetingDatetime}</span>
                 <span className={styles.person}>
                   <Image
-                    src={'/assets/myPageImages/person.svg'}
-                    alt={'인원 아이콘'}
+                    src="/assets/myPageImages/person.svg"
+                    alt="인원 아이콘"
                     width={18}
                     height={18}
                   />
-                  {e?.currentParticipant}/{e?.limitParticipant}
+                  {gathering.currentParticipant}/{gathering.limitParticipant}
                 </span>
               </p>
 

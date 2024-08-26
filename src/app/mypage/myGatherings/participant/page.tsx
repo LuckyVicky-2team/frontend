@@ -26,10 +26,15 @@ export default function Participant() {
     const fetchGatherings = async () => {
       try {
         const response = await getPersonalGatherings('PARTICIPANT');
-        setGatherings(response.data);
+        // Validate response data
+        if (Array.isArray(response.data)) {
+          setGatherings(response.data);
+        } else {
+          throw new Error('Invalid data format');
+        }
       } catch (err) {
         setError('모임을 불러오는 중 오류가 발생했습니다.');
-        console.log('err :', err);
+        console.error('Error fetching gatherings:', err);
       } finally {
         setLoading(false);
       }
@@ -41,7 +46,6 @@ export default function Participant() {
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
-  console.log(gatherings);
   return (
     <div className={styles.myGatheringsListWrap}>
       <div className={styles.tabBtn2}>
@@ -51,31 +55,30 @@ export default function Participant() {
         <Link href="finish">종료된모임</Link>
         <Link href="create">내가만든모임</Link>
       </div>
-      {gatherings.map(e => {
-        return (
-          <div className={styles.myGathdringsItem} key={e?.meetingId}>
+      {gatherings.length > 0 ? (
+        gatherings.map(gathering => (
+          <div className={styles.myGathdringsItem} key={gathering.meetingId}>
             <div className={styles.img}>
               <Image
-                src={'/assets/mainImages/game.png'}
+                src={gathering.imageUrl || '/assets/mainImages/game.png'} // Use imageUrl if available
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
               />
             </div>
             <div className={styles.info}>
-              <h1>{e?.title}</h1>
-              <b>{e?.detailAddress}</b>
+              <h1>{gathering.title}</h1>
+              <b>{gathering.detailAddress}</b>
               <p>
-                {/* <span className={styles.time}>1월 7일 ∙ 17:30</span> */}
-                <span className={styles.time}>{e?.meetingDatetime}</span>
+                <span className={styles.time}>{gathering.meetingDatetime}</span>
                 <span className={styles.person}>
                   <Image
-                    src={'/assets/myPageImages/person.svg'}
-                    alt={'인원 아이콘'}
+                    src="/assets/myPageImages/person.svg"
+                    alt="인원 아이콘"
                     width={18}
                     height={18}
                   />
-                  {e?.currentParticipant}/{e?.limitParticipant}
+                  {gathering.currentParticipant}/{gathering.limitParticipant}
                 </span>
               </p>
 
@@ -84,8 +87,10 @@ export default function Participant() {
               </div>
             </div>
           </div>
-        );
-      })}
+        ))
+      ) : (
+        <p>참여중인 모임이 없습니다.</p>
+      )}
     </div>
   );
 }

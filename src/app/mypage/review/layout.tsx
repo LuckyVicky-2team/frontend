@@ -28,7 +28,7 @@ export default function ReviewLayout({
   return (
     <div className={styles.container}>
       {writeReviewRoute || writeReviewDetailRoute ? (
-        <main>{children}</main>
+        <main className={styles.fullScreenLayout}>{children}</main>
       ) : (
         <>
           <header className={styles.header}>

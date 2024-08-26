@@ -29,7 +29,6 @@ export default function WriteReviewPage({ params }: any) {
   const { handleSubmit, control, setValue, getValues, watch } = useForm();
   const watchRating = watch('rating');
 
-  // 태그 버튼 클릭 시 활성 상태를 토글하는 함수
   const handleTagClick = (id: number) => {
     const currentTags = getValues('selectedTags') || [];
     if (currentTags.includes(id)) {
@@ -68,14 +67,13 @@ export default function WriteReviewPage({ params }: any) {
         />
         <h3>{watchRating ?? 0}/5</h3>
       </div>
-
-      <Controller
-        name="selectedTags"
-        control={control}
-        defaultValue={[]}
-        render={({ field }) => (
-          <>
-            <div className={styles.evaluationContainer}>
+      <div className={styles.evaluationContainer}>
+        <Controller
+          name="selectedTags"
+          control={control}
+          defaultValue={[]}
+          render={({ field }) => (
+            <>
               <div className={styles.sigleEvaluation}>
                 <h1>😁</h1>
                 <div className={styles.tagBox}>
@@ -106,10 +104,10 @@ export default function WriteReviewPage({ params }: any) {
                   })}
                 </div>
               </div>
-            </div>
-          </>
-        )}
-      />
+            </>
+          )}
+        />
+      </div>
 
       <div className={styles.buttons}>
         <button

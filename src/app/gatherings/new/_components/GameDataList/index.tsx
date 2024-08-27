@@ -66,8 +66,8 @@ export default function GameDataList({
     // console.log(currentPage);
     setIsLoading(true);
     try {
-      const data = await getGames(gameTitle, currentPage);
-      // console.log(data);
+      const data = await getGames(gameTitle, currentPage - 1);
+      console.log(data);
       setTotalPages(data.totalPages);
       setGameData(data.content);
     } catch (error) {

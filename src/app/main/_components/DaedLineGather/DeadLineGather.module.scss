@@ -1,18 +1,31 @@
-.title1 {
-  color: #9ca3af;
-  font-weight: 600;
-  font-size: 20px;
-}
+.newTitle {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  margin-bottom: 25px;
+  img {
+    max-width: 70px;
+    display: block;
+    max-height: 70px;
+    width: 100%;
+    height: 100%;
+  }
+  .titleTxt {
+    .title1 {
+      color: #9ca3af;
+      font-weight: 500;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
 
-.title2 {
-  color: #2d7dff;
-  font-weight: 800;
-  font-size: 22px;
-  display: block;
-  margin-top: 8px;
-  margin-bottom: 50px;
+    .title2 {
+      color: #333;
+      font-weight: 900;
+      font-size: 28px;
+      display: block;
+    }
+  }
 }
-
 .lineTitle {
   position: relative;
   display: block;
@@ -105,19 +118,30 @@
     display: block;
     width: 32%;
     margin-right: 3%;
-    // vertical-align: top;
+    min-width: 180px;
 
     a {
       display: block;
       width: 100%;
       position: relative;
+      overflow: hidden;
+      .famousIco {
+        background: #f8e049;
+        color: #007aff;
+        padding: 10px 30px;
+        position: absolute;
+        top: 12px;
+        left: -30px;
+        transform: rotate(-45deg);
+        font-size: 12px;
+      }
 
       .deadLineIco {
         position: absolute;
-        top: 0;
-        left: 0;
+        bottom: 0;
+        right: 0;
         z-index: 10;
-        background: #ea580c; /* 마감임박 강조색 */
+        background: #007aff; /* 마감임박 강조색 */
         color: #fff;
         display: flex;
         align-items: center;
@@ -125,7 +149,8 @@
         padding: 7px 10px;
         font-size: 14px;
         gap: 5px;
-        border-bottom-right-radius: 13px;
+        border-top-left-radius: 13px;
+        font-size: 12px;
       }
 
       .img {
@@ -164,6 +189,12 @@
         justify-content: normal;
         gap: 3px;
         color: #757575;
+        .loc2 {
+          display: flex;
+          align-items: center;
+          justify-content: normal;
+          gap: 3px;
+        }
 
         img {
           width: 14px;
@@ -173,22 +204,6 @@
 
       .heart {
         cursor: pointer;
-
-        input + label {
-          cursor: pointer;
-
-          img {
-            width: 22px;
-            height: 22px;
-          }
-        }
-
-        input:checked + label {
-          img {
-            width: 22px;
-            height: 22px;
-          }
-        }
       }
     }
 

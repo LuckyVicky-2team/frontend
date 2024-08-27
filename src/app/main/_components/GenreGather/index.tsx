@@ -1,314 +1,165 @@
-'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './GenreGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-interface DateData {
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+
+interface IMeetingProps {
   id: number;
   title: string;
-  tag: string[]; // Array of strings
+  city: string;
+  county: string;
+  thumbnail: string;
+  meetingDate: string;
   participantCount: number;
-  capacity: number;
-  registerDate: string;
-  gatheringDate: string;
-  location: string;
-  content: string;
-  image: string;
-  master: {
-    nickName: string;
-  };
-  type: string;
+  limitParticipant: number;
+  nickName: string;
+  likeStatus: string;
+  viewCount: number;
+  games: string[];
+  tags: string[];
 }
-export default function GenreGather() {
-  const [heart, setHeart] = useState<{ [key: number]: boolean }>({});
+
+interface DeadLineGatherProps {
+  meetingList: IMeetingProps[] | undefined;
+}
+
+export default function GenreGather({ meetingList }: DeadLineGatherProps) {
   const [slidePx, setSlidePx] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+  const listRef = useRef<HTMLUListElement>(null);
+  const screenWidth = 320; // 고정된 화면 너비 (예: 최소 320px)
+
+  const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
   useEffect(() => {
-    // 로컬 스토리지에서 heart 상태 불러오기
-    const savedHeart = localStorage.getItem('heart');
-    if (savedHeart) {
-      setHeart(JSON.parse(savedHeart));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (Object.keys(heart).length > 0) {
-      localStorage.setItem('heart', JSON.stringify(heart));
-    }
-  }, [heart]);
-
-  const toggleHeart = (id: number) => {
-    setHeart(prevHeart => {
-      const newHeart = { ...prevHeart, [id]: !prevHeart[id] };
-      const storedItems = JSON.parse(
-        localStorage.getItem('savedItems') || '[]'
-      );
-
-      if (newHeart[id]) {
-        // 찜 추가
-        const itemToSave = data.find(item => item.id === id);
-        if (
-          itemToSave &&
-          !storedItems.some((item: DateData) => item.id === id)
-        ) {
-          localStorage.setItem(
-            'savedItems',
-            JSON.stringify([...storedItems, itemToSave])
-          );
-        }
-      } else {
-        // 찜 제거
-        const updatedItems = storedItems.filter(
-          (item: DateData) => item.id !== id
-        );
-        localStorage.setItem('savedItems', JSON.stringify(updatedItems));
+    const calculateContainerWidth = () => {
+      if (listRef.current) {
+        const listWidth = listRef.current.scrollWidth;
+        setContainerWidth(listWidth);
       }
+    };
 
-      return newHeart;
-    });
+    // 컴포넌트 마운트 시 및 윈도우 리사이즈 시 컨테이너 너비 계산
+    calculateContainerWidth();
+    window.addEventListener('resize', calculateContainerWidth);
+
+    return () => {
+      window.removeEventListener('resize', calculateContainerWidth);
+    };
+  }, [meetingList]);
+
+  const formatMeetingDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+    const day = date.getDate();
+    const hours = date.getHours();
+
+    return `${year}년 ${month}월 ${day}일 ${hours}시`;
   };
 
   const prevSlideBtn = () => {
-    if (slidePx < 0) {
-      setSlidePx(slidePx + 200);
-    }
-  };
-  const nextSlideBtn = () => {
-    if (slidePx > -500) {
-      setSlidePx(slidePx - 200);
-    }
+    setSlidePx(prev => Math.min(prev + screenWidth, 0)); // 슬라이드가 0보다 커지지 않도록
   };
 
-  const data: DateData[] = [
-    {
-      master: {
-        nickName: 'CG보드게임카페',
-      },
-      id: 132,
-      tag: ['전략게임', '정정당당'],
-      registerDate: '2024.07.31 17:55',
-      gatheringDate: '2024.08.12 19:00',
-      title: '안녕하세요~ 2명 구합니다',
-      participantCount: 0,
-      capacity: 2,
-      location: '서울시 동작구',
-      content:
-        '같이 다빈치코드 하실분 2분 구합니다. 위치는 을지로 쪽이면 좋겠습니당',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: '레트라',
-      },
-      id: 2,
-      tag: ['컬렉터블 게임', '고수환영', '초보환영'],
-      registerDate: '2024.07.30 13:00',
-      gatheringDate: '2024.08.07 13:00',
-      title: '스플렌더 배우면서 하실분?',
-      location: '서울특별시 구로구',
-      content: '처음해보는 게임이라 초보,전문가 다 좋습니다. ',
-      participantCount: 5,
-      capacity: 7,
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'hun Jun',
-      },
-      id: 3,
-      tag: ['파티게임', '딕싯', '한밤의 늑대인간', '뱅', '블리츠'],
-      participantCount: 2,
-      capacity: 5,
-      registerDate: '2024.07.31 20:00',
-      gatheringDate: '2024.08.07 20:00',
-      title: '파티게임류 좋아하시는분만',
-      location: '서울특별시 관악구',
-      content: '딕싯,한밤의 늑대인간,뱅,블리츠..등등 할거에요!',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'Playte',
-      },
-      id: 4,
-      tag: ['가이아 프로젝트', '잃어버린 함대'],
-      participantCount: 0,
-      capacity: 1,
-      registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.07 21:00',
-      title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
-      location: '서울특별시 강서구',
-      content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'Playte',
-      },
-      id: 5,
-      tag: ['가이아 프로젝트', '잃어버린 함대'],
-      participantCount: 0,
-      capacity: 1,
-      registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.07 21:00',
-      title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
-      location: '서울특별시 강서구',
-      content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'Playte',
-      },
-      id: 6,
-      tag: ['가이아 프로젝트', '잃어버린 함대'],
-      participantCount: 0,
-      capacity: 1,
-      registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.07 21:00',
-      title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
-      location: '서울특별시 강서구',
-      content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'Playte',
-      },
-      id: 7,
-      tag: ['가이아 프로젝트', '잃어버린 함대'],
-      participantCount: 0,
-      capacity: 1,
-      registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.07 21:00',
-      title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
-      location: '서울특별시 강서구',
-      content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-    {
-      master: {
-        nickName: 'Playte',
-      },
-      id: 72,
-      tag: ['가이아 프로젝트', '잃어버린 함대'],
-      participantCount: 0,
-      capacity: 1,
-      registerDate: '2024.08.01 20:00',
-      gatheringDate: '2024.08.07 21:00',
-      title: '급하게 모아봅니다 9시에 가이아확장 하실분~',
-      location: '서울특별시 강서구',
-      content: '9시에 까치산에서 가이아확장 2판하려고 하는데 한분 구해요~',
-      image: '/assets/mainImages/game.png',
-      type: 'free',
-    },
-  ];
+  const nextSlideBtn = () => {
+    setSlidePx(prev =>
+      Math.max(prev - screenWidth, -(containerWidth - screenWidth))
+    );
+  };
 
   return (
     <div>
-      <h1 className={styles.title1}>장르에 따라 달라지는 인기모임!</h1>
-      <b className={styles.title2}>인기장르 모임!</b>
+      <div className={styles.newTitle}>
+        <Image
+          width={155}
+          height={155}
+          src={'/assets/mainImages/fire.png'}
+          alt="타이틀 왼쪽 이미지"
+        />
+        <div className={styles.titleTxt}>
+          <h1 className={styles.title1}>그 모임 지금 핫해요!</h1>
+          <b className={styles.title2}>인기모임</b>
+        </div>
+      </div>
       <div className={styles.lineTitle}>
         <p>추리게임</p>
       </div>
 
-      <ul className={styles.genreList}>
-        {slidePx != 0 && (
-          <button onClick={prevSlideBtn} className={styles.prevBtn}>
-            <Image
-              width={20}
-              height={20}
-              objectFit="cover"
-              src={'/assets/mainImages/backIcon.svg'}
-              alt="왼쪽 슬라이드 버튼"
-            />
-          </button>
-        )}
-        {slidePx != -600 && (
-          <button onClick={nextSlideBtn} className={styles.nextBtn}>
-            <Image
-              width={20}
-              height={20}
-              objectFit="cover"
-              src={'/assets/mainImages/backIcon.svg'}
-              alt="오른쪽 슬라이드 버튼"
-            />
-          </button>
-        )}
+      <div className={styles.sliderContainer}>
+        <ul ref={listRef} className={styles.genreList}>
+          {slidePx < 0 && (
+            <button onClick={prevSlideBtn} className={styles.prevBtn}>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/mainImages/backIcon.svg'}
+                alt="왼쪽 슬라이드 버튼"
+              />
+            </button>
+          )}
+          {slidePx > -(containerWidth - screenWidth) && (
+            <button onClick={nextSlideBtn} className={styles.nextBtn}>
+              <Image
+                width={20}
+                height={20}
+                objectFit="cover"
+                src={'/assets/mainImages/backIcon.svg'}
+                alt="오른쪽 슬라이드 버튼"
+              />
+            </button>
+          )}
 
-        {data.map(e => {
-          return (
-            <li
-              key={e.id}
-              style={{
-                transform: `translateX(${slidePx}%)`,
-                transition: '0.3s ease all',
-              }}>
-              <Link href="/">
-                <span className={styles.deadLineIco}>
-                  <Image
-                    src={'/assets/mainImages/award.svg'}
-                    width={32}
-                    height={32}
-                    alt={'인기 아이콘'}
-                  />
-                </span>
-                <span className={styles.people}>10/30</span>
-                <span className={styles.img}>
-                  <Image
-                    src={e.image}
-                    alt="게임이미지"
-                    width={224}
-                    height={224}
-                  />
-                </span>
-              </Link>
-              <span className={styles.mid}>
-                <span className={styles.loc}>
-                  <Image
-                    src={'/assets/mainImages/loc_ico.svg'}
-                    width={224}
-                    height={224}
-                    alt="지도 이미지"
-                  />
-                  {e.location}
-                </span>
-                <span className={styles.heart}>
-                  <input
-                    type="checkbox"
-                    id={`favorite${e.id}`}
-                    checked={!!heart[e.id]} // heart 상태가 true인 경우에만 체크됨
-                    onChange={() => toggleHeart(e.id)}
-                  />
-                  <label htmlFor={`favorite${e.id}`}>
+          {meetingList?.map(e => {
+            return (
+              <li
+                key={e.id}
+                style={{
+                  transform: `translateX(${slidePx}px)`,
+                  transition: '0.3s ease all',
+                }}>
+                <Link href={`/gatherings/${e?.id}`}>
+                  <span className={styles.famousIco}>★ 인기★</span>
+                  <span className={styles.img}>
                     <Image
-                      src={
-                        heart[e.id]
-                          ? '/assets/mainImages/heart_fill_ico.svg'
-                          : '/assets/mainImages/heart_ico.svg'
-                      }
+                      src={`https://${cloud}/${e?.thumbnail}`}
+                      alt="게임이미지"
+                      width={224}
+                      height={224}
+                      unoptimized={true}
+                    />
+                  </span>
+                </Link>
+                <span className={styles.mid}>
+                  <span className={styles.loc}>
+                    <Image
+                      src={'/assets/mainImages/loc_ico.svg'}
                       width={24}
                       height={24}
-                      alt="찜 하트"
+                      alt="지도 이미지"
                     />
-                  </label>
+                    <span className={styles.loc2}>
+                      <span>{e.city}</span>
+                      <span>{e.county}</span>
+                    </span>
+                  </span>
+                  <span className={styles.heart}>
+                    <SaveGatheringButton id={e?.id} size="small" type="blue" />
+                  </span>
                 </span>
-              </span>
-              <Link href="/">
-                <span className={styles.tag}>{e.title}</span>
-              </Link>
-              <span className={styles.date}>{e.gatheringDate}</span>
-            </li>
-          );
-        })}
-      </ul>
+                <Link href="/">
+                  <span className={styles.tag}>{e.title}</span>
+                </Link>
+                <span className={styles.date}>
+                  {formatMeetingDate(e.meetingDate)}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

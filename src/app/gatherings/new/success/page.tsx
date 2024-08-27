@@ -5,7 +5,6 @@ import styles from './Success.module.scss';
 import { useRouter } from 'next/navigation';
 
 export default function NewSuccess() {
-  console.log(process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN);
   const router = useRouter();
   const handleGoToGatherings = () => {
     router.push('/gatherings');

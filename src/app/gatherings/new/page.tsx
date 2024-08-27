@@ -141,14 +141,6 @@ export default function NewGatheringPage() {
         ...info2,
       })
     );
-    // formData.append(
-    //   'meetingCreateRequest',
-    //   JSON.stringify({
-    //     genreIdList: [1, 2, 3],
-    //     meetingDatetime: dateToString(meetingDatetime),
-    //     ...info2,
-    //   })
-    // );
 
     for (const x of formData) {
       console.log(x);

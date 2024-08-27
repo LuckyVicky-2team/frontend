@@ -118,19 +118,30 @@ async function convertAndCreateFormData(data: IGameInfo[]) {
           contentType: 'text/plain',
         });
 
-        formData.append(
-          `genres`,
-          Buffer.from(JSON.stringify(genres), 'utf-8'),
-          { contentType: 'application/json' }
-        );
+        for (let genre of genres) {
+          formData.append(
+            `genres`,
+            // Buffer.from(JSON.stringify(genres), 'utf-8'),
+            genre,
+            { contentType: 'application/json' }
+          );
+        }
 
+        // console.log({
+        //   title,
+        //   minPeople,
+        //   maxPeople,
+        //   minPlayTime,
+        //   maxPlayTime,
+        //   genres,
+        // });
         console.log({
           title,
-          minPeople,
-          maxPeople,
-          minPlayTime,
-          maxPlayTime,
-          genres,
+          // minPeople,
+          // maxPeople,
+          // minPlayTime,
+          // maxPlayTime,
+          // genres,
         });
         // 결과 배열에 추가
         results.push(formData);
@@ -240,9 +251,10 @@ export async function POST() {
       const page = await browser.newPage();
       let hrefList: string[] = [];
       try {
-        await page.goto('https://boardlife.co.kr/rank.php');
-        await page.setViewport({ width: 1080, height: 1024 });
-        for (let i = 0; i < 10; i++) {
+        for (let i = 1; i < 11; i++) {
+          await page.goto(`https://boardlife.co.kr/rank.php?pg=${i}`);
+          await page.setViewport({ width: 1080, height: 1024 });
+          // for (let i = 0; i < 10; i++) {
           const hrefs = await page.$$eval(
             '.game-rank-div .storage-title-div',
             elements => elements.map(el => el.getAttribute('href'))
@@ -253,15 +265,17 @@ export async function POST() {
               hrefList.push(href);
             }
           });
-          // "다음" 버튼이 존재하는지 확인하고 클릭
-          await page.waitForSelector('.paging-btn .next');
-          const nextButton = await page.$('.paging-btn .next');
-          if (nextButton) {
-            await nextButton.click();
-            await page.waitForNavigation(); // 페이지가 새로 로드될 때까지 기다림
-          } else {
-            break; // "다음" 버튼이 없으면 반복 종료
-          }
+          //다음 버튼을 누르면 11페이지로 이동해서 방법을 바꿈
+          // // "다음" 버튼이 존재하는지 확인하고 클릭
+          // await page.waitForSelector('.paging-btn .next');
+          // const nextButton = await page.$('.paging-btn .next');
+          // if (nextButton) {
+          //   await nextButton.click();
+          //   await page.waitForNavigation(); // 페이지가 새로 로드될 때까지 기다림
+          // } else {
+          //   break; // "다음" 버튼이 없으면 반복 종료
+          // }
+          // }
         }
       } finally {
         await page.close();
@@ -296,7 +310,7 @@ export async function POST() {
     //     }
     //     await delay(1000);
     //   }
-    const hrefList = (await crawlingList()).slice(582, 600);
+    const hrefList = (await crawlingList()).slice(0, 100);
     const cutting = sliceArray(hrefList, 4);
     // cutting 배열 만큼 반복문 돌리기
     let count = 0;
@@ -319,7 +333,7 @@ export async function POST() {
       for (const result of results) {
         try {
           const backendResponse = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_BASE_DEV_URL}/boardgame`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/boardgame`,
             result,
             {
               headers: {

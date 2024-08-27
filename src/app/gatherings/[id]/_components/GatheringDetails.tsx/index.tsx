@@ -222,6 +222,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               </div>
               <div className={styles.genres}>
                 {data.genres.map((genre, i) => {
+                  if (genre === '' || genre === '정보없음') return;
                   return (
                     <Tag key={i} enableDelete={false}>
                       {genre}

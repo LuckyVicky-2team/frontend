@@ -44,12 +44,12 @@
 
   .content {
     display: flex;
-    padding: 0 16px;
+    padding: 0 0 0 16px;
     width: 100%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     gap: 12px;
-    max-width: 317px;
+    min-width: 200px;
 
     .header {
       width: 100%;

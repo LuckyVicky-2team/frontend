@@ -1,6 +1,6 @@
 .searchTabHeader {
   width: 100%;
-  padding: 24px 24px 0;
+  padding: 100px 24px 0;
 
   .filter {
     width: 100%;
@@ -61,10 +61,10 @@
   justify-content: flex-end;
   gap: 13px;
   .resetBtn {
-    align-items: center;
     cursor: pointer;
     display: flex;
     margin-left: auto;
+    align-items: center;
     gap: 7px;
     h3 {
       color: #9ca3af;
@@ -81,7 +81,6 @@
     border: 2px solid #f3f4f6;
     background: #fff;
     width: 100%;
-
     max-width: 110px;
     padding: 8px 12px;
     display: flex;

@@ -2,25 +2,29 @@
 
 import React, { useEffect, Suspense } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useClientSearchParams } from '@/hooks/useClientSearchParams';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import styles from './GatheringsPageClient.module.scss';
-import { gatheringAPI } from '@/api/apis/gatheringsApis';
 import { QueryKey } from '@/utils/QueryKey';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
+import styles from './GatheringsPageClient.module.scss';
 import Card from './_components/Card';
 import Skeleton from './_components/Skeleton';
 import FilterContainer from './_components/FilterContainer';
-import { useClientSearchParams } from '@/hooks/useClientSearchParams';
+import useModal from '@/hooks/useModal';
+import dynamic from 'next/dynamic';
 
-function GatheringsPageContent() {
+const DynamicLoginModal = dynamic(
+  () => import('@/components/common/Modal/LoginModal'),
+  { ssr: false }
+);
+
+function GatheringsPageContent({ handleLoginModalOpen }: any) {
+  const router = useRouter();
   const searchParams = useClientSearchParams();
   const { ref, inView } = useInView();
   const params = searchParams.get();
-
-  // TODO @haewon
-  // verify logged in user
-  // 로그인한 유저 -> 유저정보 가져옴 , 로그인x, 비회원 -> localStorage 정보가져옴
 
   const { data, error, fetchNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
@@ -43,6 +47,15 @@ function GatheringsPageContent() {
 
   const gatherings = data?.pages.flat() || [];
 
+  const handleAddNewMeeting = () => {
+    const accesssToken = localStorage.getItem('accessToken');
+    if (!accesssToken) {
+      handleLoginModalOpen();
+      return;
+    }
+    router.push('/gatherings/new');
+  };
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -53,19 +66,17 @@ function GatheringsPageContent() {
     <>
       <div>
         <main>
-          <Link href={'/gatherings/new'}>
-            <button className={styles.addGatheringBtn}>
-              <Image
-                src={'/assets/icons/plusCircle.svg'}
-                alt={'addIcon'}
-                width={24}
-                height={24}
-              />
-            </button>
-          </Link>
-
+          <button
+            onClick={handleAddNewMeeting}
+            className={styles.addGatheringBtn}>
+            <Image
+              src={'/assets/icons/plusCircle.svg'}
+              alt={'addIcon'}
+              width={24}
+              height={24}
+            />
+          </button>
           <FilterContainer />
-
           <section className={`${styles.cardContainer} `}>
             {status === 'pending' ? (
               <Skeleton />
@@ -77,7 +88,6 @@ function GatheringsPageContent() {
               </div>
             ) : gatherings.length ? (
               <section className={styles.cardContainer}>
-                {/* 찜 버튼 - 사용자 식별 필요 && backend api 생성 대기중*/}
                 {gatherings.map(el => {
                   return <Card key={el.id} {...el} />;
                 })}
@@ -97,9 +107,19 @@ function GatheringsPageContent() {
   );
 }
 export default function GatheringsPageClient() {
+  const {
+    modalOpen: loginModalOpen,
+    handleModalOpen: handleLoginModalOpen,
+    handleModalClose: handleLoginModalClose,
+  } = useModal();
+
   return (
     <Suspense>
-      <GatheringsPageContent />
+      <GatheringsPageContent handleLoginModalOpen={handleLoginModalOpen} />
+      <DynamicLoginModal
+        modalOpen={loginModalOpen}
+        onClose={handleLoginModalClose}
+      />
     </Suspense>
   );
 }

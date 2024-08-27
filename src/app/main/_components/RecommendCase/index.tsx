@@ -53,7 +53,7 @@ export default function RecommendCase() {
           </Link>
         </li>
         <li>
-          <Link href="/recommendSearch">
+          <Link href="/recommendAll">
             <span className={styles.img}>
               <Image
                 width={122}

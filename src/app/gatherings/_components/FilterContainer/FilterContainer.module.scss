@@ -64,6 +64,7 @@
     cursor: pointer;
     display: flex;
     margin-left: auto;
+    align-items: center;
     gap: 7px;
     h3 {
       color: #9ca3af;
@@ -80,7 +81,6 @@
     border: 2px solid #f3f4f6;
     background: #fff;
     width: 100%;
-
     max-width: 110px;
     padding: 8px 12px;
     display: flex;

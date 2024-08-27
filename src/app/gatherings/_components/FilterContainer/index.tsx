@@ -47,11 +47,6 @@ export default function FilterContainer() {
       });
     }
     setSearchResult(`${data['search_word']} 검색결과 입니다.`);
-
-    // else {
-    //   searchParams.remove('REPLACE', 'searchWord');
-    //   searchParams.remove('REPLACE', 'searchType');
-    // }
   };
 
   const setParamsToUrl = (name: string, value: any) => {
@@ -61,7 +56,7 @@ export default function FilterContainer() {
       searchParams.append('REPLACE', { [name]: value });
     }
   };
-
+  const isSearchWord = searchParams.get('searchWord');
   const errorMessage = errors.search_word?.message;
   const selectedCity = searchParams.get('city');
 
@@ -174,6 +169,7 @@ export default function FilterContainer() {
           className={styles.resetBtn}
           onClick={() => {
             searchParams.clear('REPLACE');
+            setValue('search_word', '');
           }}>
           <h3>초기화</h3>
           <Image
@@ -201,9 +197,11 @@ export default function FilterContainer() {
           />
         </div>
       </div>
-      <div className={styles.info}>
-        <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>
-      </div>
+      {isSearchWord !== null && (
+        <div className={styles.info}>
+          <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>
+        </div>
+      )}
     </section>
   );
 }

@@ -10,7 +10,13 @@ import { IWishListItemProps } from '@/types/response/WishListRES';
 export const useGetWishList = () => {
   return useQuery({
     queryKey: QueryKey.USER.WISHLIST(),
-    queryFn: async () => await getWishList(),
+    queryFn: async () => {
+      try {
+        return await getWishList();
+      } catch {
+        return [];
+      }
+    },
   });
 };
 

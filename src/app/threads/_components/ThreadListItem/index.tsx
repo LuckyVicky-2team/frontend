@@ -4,7 +4,6 @@ import styles from './ThreadListItem.module.scss';
 interface IThreadsListItemProps {
   profileImage: string;
   name: string;
-  participantsCount: number;
   recentMessage: {
     contents: string;
     createdAt: string;
@@ -15,7 +14,6 @@ interface IThreadsListItemProps {
 export default function ThreadListItem({
   profileImage,
   name,
-  participantsCount,
   recentMessage,
   unreadCount,
 }: IThreadsListItemProps) {
@@ -25,19 +23,14 @@ export default function ThreadListItem({
         <Image
           src={profileImage}
           alt={name}
-          width={42}
-          height={42}
+          width={68}
+          height={68}
           className={styles.profileImage}
         />
       </div>
       <div className={styles.textArea}>
         <div className={styles.nameSection}>
-          <div className={styles.name}>
-            {name}
-            <span className={styles.participantsCount}>
-              {participantsCount}
-            </span>
-          </div>
+          <div className={styles.name}>{name}</div>
           <div className={styles.createdAt}>{recentMessage.createdAt}</div>
         </div>
         <div className={styles.contentSection}>

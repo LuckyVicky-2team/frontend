@@ -25,26 +25,27 @@ export default async function ThreadsPage() {
   const threads = await getThreads();
 
   return (
-    <main>
+    <main className={styles.container}>
       <h1 className={styles.title}>나의 채팅방</h1>
-      {threads.map(thread => {
-        return (
-          <Link
-            href={{
-              pathname: `/threads/${thread.gatheringId}`,
-              query: { name: thread.name },
-            }}
-            key={thread.gatheringId}>
-            <ThreadListItem
-              profileImage={thread.profileImage}
-              name={thread.name}
-              participantsCount={thread.participantsCount}
-              recentMessage={thread.recentMessage}
-              unreadCount={thread.unreadCount}
-            />
-          </Link>
-        );
-      })}
+      <div className={styles.threads}>
+        {threads.map(thread => {
+          return (
+            <Link
+              href={{
+                pathname: `/threads/${thread.gatheringId}`,
+                query: { name: thread.name },
+              }}
+              key={thread.gatheringId}>
+              <ThreadListItem
+                profileImage={thread.profileImage}
+                name={thread.name}
+                recentMessage={thread.recentMessage}
+                unreadCount={thread.unreadCount}
+              />
+            </Link>
+          );
+        })}
+      </div>
     </main>
   );
 }

@@ -1,6 +1,13 @@
-.title {
-  padding: 24px;
-  font-size: 24px;
-  font-family: 'LaundryGothicOTF';
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+.container {
+  padding: 65px 0 100px;
+
+  .title {
+    padding: 48px 24px 24px;
+    font-size: 24px;
+    font-family: 'LaundryGothicOTF';
+  }
+
+  .threads {
+    padding: 0 15px;
+  }
 }

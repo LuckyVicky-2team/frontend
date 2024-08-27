@@ -24,5 +24,4 @@ const nextConfig = {
     additionalData: `@import "@/styles/color.scss"; @import "@/styles/typography.scss";`,
   },
 };
-
 export default nextConfig;

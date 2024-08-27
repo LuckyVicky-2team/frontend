@@ -325,7 +325,6 @@ export async function POST() {
         await Promise.all(test);
       } catch (error) {
         // failed = [...failed, ...hrefs];
-        console.log(error);
         continue;
       }
       // 크롤링한 정보를 형식에 맞게 가공

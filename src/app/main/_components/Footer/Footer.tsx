@@ -14,6 +14,11 @@ export default function Footer() {
   useEffect(() => {
     if (currentPathName === 'main') {
       setOn(3);
+    } else if (
+      currentPathName === 'mypage' &&
+      currentPathName2 === 'myGatherings'
+    ) {
+      setOn(2);
     } else if (currentPathName === 'mypage') {
       setOn(5);
     } else if (currentPathName === '') {
@@ -51,56 +56,54 @@ export default function Footer() {
                   handleOn(1);
                 }}
                 className={on === 1 ? styles.on : ''}>
-                {/* <Link href="/"> */}
                 <span className={styles.a}>
                   <span className={styles.ico}>
                     {on === 1 ? (
                       <Image
                         width={24}
                         height={24}
-                        src={'/assets/mainImages/f1_fill.svg'}
+                        src={'/assets/icons/chat_on.svg'}
                         alt="푸터메뉴1"
                       />
                     ) : (
                       <Image
                         width={24}
                         height={24}
-                        src={'/assets/mainImages/f3.svg'}
+                        src={'/assets/icons/chat_off.svg'}
                         alt="푸터메뉴1"
                       />
                     )}
                   </span>
                   <span className={styles.tag}>채팅방</span>
                 </span>
-                {/* </Link> */}
               </li>
               <li
                 onClick={() => {
                   handleOn(2);
                 }}
                 className={on === 2 ? styles.on : ''}>
-                {/* <Link href="/"> */}
-                <span className={styles.a}>
-                  <span className={styles.ico}>
-                    {on === 2 ? (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f2_fill.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    ) : (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f2.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    )}
+                <Link href="/mypage/myGatherings/participant">
+                  <span className={styles.a}>
+                    <span className={styles.ico}>
+                      {on === 2 ? (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/mainImages/f2_fill.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      ) : (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/mainImages/f2.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      )}
+                    </span>
+                    <span className={styles.tag}>내모임</span>
                   </span>
-                  <span className={styles.tag}>내모임</span>
-                </span>
-                {/* </Link> */}
+                </Link>
               </li>
               <li
                 onClick={() => {

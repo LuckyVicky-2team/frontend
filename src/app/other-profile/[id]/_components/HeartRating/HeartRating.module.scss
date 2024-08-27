@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .hearts {
+    display: flex;
+    gap: 2px;
+  }
+
+  .rating {
+    color: #9ca3af;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}

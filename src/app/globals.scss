@@ -1,6 +1,4 @@
 @import '@/styles/reset.scss';
-@import '@/styles/color.scss';
-@import '@/styles/typography.scss';
 
 @font-face {
   font-family: 'LaundryGothicOTF';
@@ -48,6 +46,8 @@ body {
   width: 100%;
   margin: 0 auto;
   overflow-y: scroll;
+  // padding-top: 65px;
+  // padding-bottom: 120px;
 }
 .rootContainer {
   position: relative;

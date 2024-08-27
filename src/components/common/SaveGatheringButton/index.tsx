@@ -1,5 +1,14 @@
+'use client';
+
+import {
+  useDeleteWishList,
+  useGetWishList,
+  usePostWishList,
+} from '@/api/queryHooks/wishList';
 import IconButton from '@/components/common/IconButton';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
+import { IWishListItemProps } from '@/types/response/WishListRES';
+import { useEffect, useState } from 'react';
 
 interface ISaveGatheringButtonProps {
   id: number;
@@ -29,21 +38,50 @@ export default function SaveGatheringButton({
   size,
   className,
 }: ISaveGatheringButtonProps) {
+  // 비회원용 로컬 스토리지 찜 목록 리스트
   const [savedItem, setSaveItem] = useSaveItemState();
 
+  // 회원용 서버 찜 상태
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+
+  const { data: wishList } = useGetWishList();
+
+  const postMutate = usePostWishList();
+  const deleteMutate = useDeleteWishList();
+
   const handleButton = () => {
-    setSaveItem(id);
+    const hasToken = !!localStorage.getItem('accessToken');
+
+    if (hasToken) {
+      if (isSaved) {
+        deleteMutate.mutate(id);
+      } else {
+        postMutate.mutate([id]);
+      }
+    } else {
+      setSaveItem(id);
+    }
   };
 
-  const isSaved = savedItem?.includes(id);
-  const imgUrl = isSaved
-    ? iconPathsObj[type].saved
-    : iconPathsObj[type].unsaved;
+  useEffect(() => {
+    const hasToken = !!localStorage.getItem('accessToken');
+
+    if (hasToken) {
+      setIsSaved(
+        wishList
+          ? wishList.some((item: IWishListItemProps) => item.meetingId === id)
+          : false
+      );
+    } else {
+      setIsSaved(savedItem?.includes(id));
+    }
+  }, [savedItem, wishList]);
+
   return (
     <IconButton
       className={className}
       size={size}
-      imgUrl={imgUrl}
+      imgUrl={isSaved ? iconPathsObj[type].saved : iconPathsObj[type].unsaved}
       clickIconButtonHandler={handleButton}
     />
   );

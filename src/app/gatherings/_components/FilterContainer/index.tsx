@@ -169,22 +169,37 @@ export default function FilterContainer() {
         </div>
       </div>
 
-      <div className={styles.sortType}>
-        <Image
-          width={24}
-          height={24}
-          alt="upAndDownIcon"
-          src={'/assets/icons/upDownArrow.svg'}
-        />
+      <div className={styles.sortContainer}>
+        <div
+          className={styles.resetBtn}
+          onClick={() => {
+            searchParams.clear('REPLACE');
+          }}>
+          <h3>초기화</h3>
+          <Image
+            width={24}
+            height={24}
+            alt="upAndDownIcon"
+            src={'/assets/icons/reset.svg'}
+          />
+        </div>
+        <div className={styles.sortType}>
+          <Image
+            width={24}
+            height={24}
+            alt="upAndDownIcon"
+            src={'/assets/icons/upDownArrow.svg'}
+          />
 
-        <SelectBox
-          id="filter"
-          optionSet={[
-            { name: '마감임박 순', value: 'MEETING_DATE' },
-            { name: '참여인원 순', value: 'PARTICIPANT_COUNT' },
-          ]}
-          clickOptionHandler={e => setParamsToUrl('sortBy', e.target.value)}
-        />
+          <SelectBox
+            id="filter"
+            optionSet={[
+              { name: '마감임박 순', value: 'MEETING_DATE' },
+              { name: '참여인원 순', value: 'PARTICIPANT_COUNT' },
+            ]}
+            clickOptionHandler={e => setParamsToUrl('sortBy', e.target.value)}
+          />
+        </div>
       </div>
       <div className={styles.info}>
         <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>

@@ -8,6 +8,10 @@ export interface IGame {
   title: string;
   thumbnail: string;
   genres: IGenre[];
+  minPeople: number;
+  maxPeople: number;
+  minPlaytime: number;
+  maxPlaytime: number;
 }
 
 export interface IPageable {

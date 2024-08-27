@@ -21,6 +21,10 @@ interface IGame {
   title: string;
   thumbnail: string;
   genres: IGenre[];
+  minPeople: number;
+  maxPeople: number;
+  minPlaytime: number;
+  maxPlaytime: number;
 }
 
 interface IBoardGameIdTitle {
@@ -174,7 +178,10 @@ export default function GameDataList({
                                 width={16}
                                 height={16}
                               />
-                              2명
+                              {data.minPeople === data.maxPeople
+                                ? data.minPeople
+                                : `${data.minPeople}-${data.maxPeople}`}
+                              명
                             </div>
                             <Image
                               src={'/assets/icons/vector-vertical-gray.svg'}
@@ -194,7 +201,10 @@ export default function GameDataList({
                                 width={16}
                                 height={16}
                               />
-                              15분
+                              {data.minPlaytime === data.maxPlaytime
+                                ? data.minPlaytime
+                                : `${data.minPlaytime}-${data.maxPlaytime}`}
+                              분
                             </div>
                           </div>
                         </div>

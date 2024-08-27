@@ -57,6 +57,8 @@ export default function Main() {
     }
   };
 
+  console.log(meetingList);
+
   return (
     <main>
       <div className={styles.container}>

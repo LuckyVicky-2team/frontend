@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import Image from 'next/image';
@@ -18,8 +19,10 @@ export default function Header() {
   const [info, setInfo] = useState<IUserProfile | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [profileImageTimestamp, setProfileImageTimestamp] =
-    useState<string>('');
+  const [profileImageTimestamp, setProfileImageTimestamp] = useState<
+    string | undefined
+  >(undefined);
+  // const [error, setError] = useState<string | null>(null);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -28,84 +31,64 @@ export default function Header() {
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
   const profileImageUrl = info?.profileImage
-    ? `https://${cloud}/${info?.profileImage}?t=${profileImageTimestamp}`
+    ? `https://${cloud}/${info.profileImage}?t=${profileImageTimestamp}`
     : '/assets/myPageImages/profileImgEdit.png';
 
   const fetchPersonalInfo = async () => {
     try {
       const response = await getPersonalInfo();
       setInfo(response.data);
-      setProfileImageTimestamp(new Date().getTime().toString()); // 이미지 URL에 타임스탬프 추가
+      setProfileImageTimestamp(new Date().getTime().toString());
     } catch (err) {
-      console.error('err:', err);
+      console.error('Error fetching personal info:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    const getLocal = localStorage.getItem('accessToken');
-    setLoggedIn(getLocal !== null);
-    if (getLocal) {
+    const token = localStorage.getItem('accessToken');
+    setLoggedIn(token !== null);
+    if (token) {
       fetchPersonalInfo();
     }
   }, [pathName]);
 
   useEffect(() => {
-    // 로컬 스토리지 변경 감지 (다른 탭에서 발생할 때 감지)
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'accessToken' && event.newValue) {
         setLoggedIn(true);
-        fetchPersonalInfo(); // accessToken이 생기면 프로필 정보 다시 가져오기
+        fetchPersonalInfo();
       }
     };
 
     window.addEventListener('storage', handleStorageChange);
 
-    // 현재 탭에서의 accessToken 생성 감지
-    const originalSetItem = localStorage.setItem;
-    localStorage.setItem = function (key, value) {
-      originalSetItem.apply(this, arguments);
-      if (key === 'accessToken') {
-        window.dispatchEvent(
-          new StorageEvent('storage', { key, newValue: value })
-        );
-      }
-    };
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
-      localStorage.setItem = originalSetItem;
     };
   }, []);
 
   return (
     <header>
       <div
-        className={`${styles.headerContainer} ${
-          !loading ? styles.loaded : styles.loading
-        }`}>
+        className={`${styles.headerContainer} ${!loading ? styles.loaded : styles.loading}`}>
         {currentPathName === 'mypage' ? (
           <div className={styles.customHeader}>
             <div className={styles.space}></div>
             <div className={styles.headerContent}>
               <p>
-                <button
-                  type={'button'}
-                  onClick={() => {
-                    router.back();
-                  }}>
+                <button type="button" onClick={() => router.back()}>
                   <span>
                     <Image
                       width={16}
                       height={16}
-                      objectFit="cover"
-                      src={'/assets/mainImages/backIcon.svg'}
+                      src="/assets/mainImages/backIcon.svg"
                       alt="뒤로가기 아이콘"
                     />
                   </span>
                 </button>
-                마이페이지
+                {currentPathName === 'mypage' ? '마이페이지' : ''}
               </p>
               <div className={styles.right}>
                 <h2>
@@ -129,9 +112,8 @@ export default function Header() {
                     <Image
                       width={32}
                       height={32}
-                      objectFit="cover"
-                      src={'/assets/mainImages/blackHeart.svg'}
-                      alt=""
+                      src="/assets/mainImages/blackHeart.svg"
+                      alt="즐겨찾기 아이콘"
                     />
                     <span>12</span>
                   </a>
@@ -139,17 +121,17 @@ export default function Header() {
                     <Image
                       width={56}
                       height={56}
-                      src={'/assets/mainImages/alarm.svg'}
+                      src="/assets/mainImages/alarm.svg"
                       alt="알람 아이콘"
                     />
                     <span></span>
                   </button>
-                  <Link href={`/mypage`} className={styles.headerMyapgeButton}>
+                  <Link href="/mypage" className={styles.headerMyapgeButton}>
                     <Image
                       width={24}
                       height={24}
                       src={profileImageUrl}
-                      alt="프로필사진"
+                      alt="프로필 사진"
                       style={{ width: '100%', height: '100%' }}
                       unoptimized={true}
                     />

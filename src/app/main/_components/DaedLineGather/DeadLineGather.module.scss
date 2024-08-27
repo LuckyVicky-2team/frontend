@@ -204,22 +204,6 @@
 
       .heart {
         cursor: pointer;
-
-        input + label {
-          cursor: pointer;
-
-          img {
-            width: 22px;
-            height: 22px;
-          }
-        }
-
-        input:checked + label {
-          img {
-            width: 22px;
-            height: 22px;
-          }
-        }
       }
     }
 

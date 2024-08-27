@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './DeadLineGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface IMeetingProps {
   id: number;
@@ -39,7 +40,6 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
       }
     };
 
-    // 컴포넌트 마운트 시 및 윈도우 리사이즈 시 컨테이너 너비 계산
     calculateContainerWidth();
     window.addEventListener('resize', calculateContainerWidth);
 
@@ -51,7 +51,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
   const formatMeetingDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     const hours = date.getHours();
 
@@ -59,7 +59,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
   };
 
   const prevSlideBtn = () => {
-    setSlidePx(prev => Math.min(prev + screenWidth, 0)); // 슬라이드가 0보다 커지지 않도록
+    setSlidePx(prev => Math.min(prev + screenWidth, 0));
   };
 
   const nextSlideBtn = () => {
@@ -67,6 +67,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
       Math.max(prev - screenWidth, -(containerWidth - screenWidth))
     );
   };
+
   const formatTimeLeft = (endDate: Date) => {
     const now = new Date();
     const timeDiff = endDate.getTime() - now.getTime();
@@ -150,7 +151,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                   </span>
                   <span className={styles.img}>
                     <Image
-                      src={`https://${cloud}/${e?.thumbnail}`}
+                      src={`https://${cloud}/${e.thumbnail}`}
                       alt="게임이미지"
                       width={224}
                       height={224}
@@ -172,19 +173,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                     </span>
                   </span>
                   <span className={styles.heart}>
-                    <input type="checkbox" id={`favorite${e.id}`} />
-                    <label htmlFor={`favorite${e.id}`}>
-                      {/* <Image
-                        src={
-                          heart[e.id]
-                            ? '/assets/mainImages/heart_fill_ico.svg'
-                            : '/assets/mainImages/heart_ico.svg'
-                        }
-                        width={24}
-                        height={24}
-                        alt="찜 하트"
-                      /> */}
-                    </label>
+                    <SaveGatheringButton id={e?.id} size="small" type="blue" />
                   </span>
                 </span>
                 <Link href="/">

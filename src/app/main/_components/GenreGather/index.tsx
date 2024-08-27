@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './GenreGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface IMeetingProps {
   id: number;
@@ -145,19 +146,7 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
                     </span>
                   </span>
                   <span className={styles.heart}>
-                    <input type="checkbox" id={`favorite${e.id}`} />
-                    <label htmlFor={`favorite${e.id}`}>
-                      {/* <Image
-                        src={
-                          heart[e.id]
-                            ? '/assets/mainImages/heart_fill_ico.svg'
-                            : '/assets/mainImages/heart_ico.svg'
-                        }
-                        width={24}
-                        height={24}
-                        alt="찜 하트"
-                      /> */}
-                    </label>
+                    <SaveGatheringButton id={e?.id} size="small" type="blue" />
                   </span>
                 </span>
                 <Link href="/">

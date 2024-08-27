@@ -76,28 +76,28 @@ export default function MyFavoriteGatherings() {
                         styles.participant
                       }>{`${e.currentParticipant}/${e.limitParticipant}`}</div>
                   </div>
-                  <div className={styles.mid}>
-                    <Image
-                      src="/assets/icons/mapPin.svg"
-                      alt="place"
-                      width={18}
-                      height={18}
-                      className={styles.mapPin}
-                    />
-                    <p>{e.locationName}</p>
-                    <SaveGatheringButton
-                      id={e.meetingId}
-                      size="medium"
-                      type="blue"
-                      className={styles.heart}
-                    />
-                  </div>
-                  <div className={styles.title2}>{e.title}</div>
-                  <div className={styles.date}>
-                    <p>{processedGatheringDate.mondthAndDay}</p>
-                    <p>{processedGatheringDate.time}</p>
-                  </div>
                 </Link>
+                <div className={styles.mid}>
+                  <Image
+                    src="/assets/icons/mapPin.svg"
+                    alt="place"
+                    width={18}
+                    height={18}
+                    className={styles.mapPin}
+                  />
+                  <p>{e.locationName}</p>
+                  <SaveGatheringButton
+                    id={e.meetingId}
+                    size="medium"
+                    type="blue"
+                    className={styles.heart}
+                  />
+                </div>
+                <div className={styles.title2}>{e.title}</div>
+                <div className={styles.date}>
+                  <p>{processedGatheringDate.mondthAndDay}</p>
+                  <p>{processedGatheringDate.time}</p>
+                </div>
               </div>
             );
           })

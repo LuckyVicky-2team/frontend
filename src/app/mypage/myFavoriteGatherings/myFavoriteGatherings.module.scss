@@ -22,14 +22,14 @@
   .myFavoriteGatheringItem {
     width: 30%;
 
-    &:hover {
-      opacity: 0.8;
-    }
-
     .thumbnail {
       position: relative;
       width: 100%;
       aspect-ratio: 173.2/224;
+
+      &:hover {
+        opacity: 0.6;
+      }
 
       .deadLine {
         position: absolute;

@@ -2,7 +2,7 @@
 
 import { getRecommendInfo } from '@/api/apis/mypageApis';
 import { useEffect, useState, ChangeEvent } from 'react';
-import styles from './recommend.module.scss';
+import styles from './recommendMany.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -26,7 +26,7 @@ export default function Recommend() {
   useEffect(() => {
     const fetchRecommendInfo = async () => {
       try {
-        const res = await getRecommendInfo('TWO');
+        const res = await getRecommendInfo('MANY');
         setRecommendInfo(res.data);
       } catch (err) {
         console.log(err);
@@ -69,11 +69,11 @@ export default function Recommend() {
         </button>
       </div>
       <div className={styles.recoTabWrap}>
-        <Link href="/recommend" className={styles.on}>
-          2인 게임
-        </Link>
+        <Link href="/recommend">2인 게임</Link>
         <Link href="/recommendThree">3인 게임</Link>
-        <Link href="/recommendMany">다인용 게임</Link>
+        <Link href="/recommendMany" className={styles.on}>
+          다인용 게임
+        </Link>
       </div>
       <div className={styles.recoListWrap}>
         {recommendInfo.map((e, i) => (

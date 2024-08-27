@@ -57,14 +57,14 @@ export default function Footer() {
                       <Image
                         width={24}
                         height={24}
-                        src={'/assets/mainImages/f1_fill.svg'}
+                        src={'/assets/icons/chat_on.svg'}
                         alt="푸터메뉴1"
                       />
                     ) : (
                       <Image
                         width={24}
                         height={24}
-                        src={'/assets/mainImages/f3.svg'}
+                        src={'/assets/icons/chat_off.svg'}
                         alt="푸터메뉴1"
                       />
                     )}

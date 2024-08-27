@@ -5,10 +5,20 @@ export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
 // 상황별 추천 조회를 위한 API 요청
-export const getRecommendInfo = () => {
-  return axiosInstance.get('/home/situation', {
-    headers: {
-      'Content-Type': 'multipart/form-data',
+export const getRecommendInfo = (type: string) => {
+  return axiosInstance.get(`/home/situation?situationType=${type}`);
+};
+// 보드게임 검색 함수
+export const searchBoardGames = (
+  searchWord: string,
+  page: number = 1,
+  size: number = 10
+) => {
+  return axiosInstance.get('/boardgame', {
+    params: {
+      searchWord,
+      page,
+      size,
     },
   });
 };

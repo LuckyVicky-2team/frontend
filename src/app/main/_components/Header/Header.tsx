@@ -16,8 +16,8 @@ interface IUserProfile {
 
 export default function Header() {
   const [info, setInfo] = useState<IUserProfile | null>(null);
-  const [loggedIn, setLoggedIn] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [profileImageTimestamp, setProfileImageTimestamp] =
     useState<string>('');
 
@@ -44,13 +44,40 @@ export default function Header() {
   };
 
   useEffect(() => {
-    fetchPersonalInfo();
-  }, []);
-
-  useEffect(() => {
     const getLocal = localStorage.getItem('accessToken');
     setLoggedIn(getLocal !== null);
+    if (getLocal) {
+      fetchPersonalInfo();
+    }
   }, [pathName]);
+
+  useEffect(() => {
+    // 로컬 스토리지 변경 감지 (다른 탭에서 발생할 때 감지)
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'accessToken' && event.newValue) {
+        setLoggedIn(true);
+        fetchPersonalInfo(); // accessToken이 생기면 프로필 정보 다시 가져오기
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // 현재 탭에서의 accessToken 생성 감지
+    const originalSetItem = localStorage.setItem;
+    localStorage.setItem = function (key, value) {
+      originalSetItem.apply(this, arguments);
+      if (key === 'accessToken') {
+        window.dispatchEvent(
+          new StorageEvent('storage', { key, newValue: value })
+        );
+      }
+    };
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      localStorage.setItem = originalSetItem;
+    };
+  }, []);
 
   return (
     <header>

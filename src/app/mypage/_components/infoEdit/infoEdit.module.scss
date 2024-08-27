@@ -46,17 +46,6 @@
       font-weight: 600;
       margin-bottom: 15px;
     }
-    input {
-      padding: 15px;
-      box-sizing: border-box;
-      width: 100%;
-      border-radius: 12px;
-      background: #f9fafb;
-      border: 1px solid #f9fafb;
-      &:placeholder-shown {
-        font-size: 14px;
-      }
-    }
   }
   .editBtn {
     width: 100%;
@@ -130,4 +119,27 @@
   display: block;
   margin-top: 10px;
   font-weight: bold;
+}
+
+.passwordWrapper {
+  display: block;
+  width: 100%;
+  position: relative;
+  input {
+    padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 12px;
+    background: #f9fafb;
+    border: 1px solid #f9fafb;
+    &:placeholder-shown {
+      font-size: 14px;
+    }
+  }
+  button {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+  }
 }

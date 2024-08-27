@@ -1,6 +1,4 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
 import styles from './infoEdit.module.scss';
@@ -9,6 +7,7 @@ import {
   checkNicknameDuplication,
 } from '@/api/apis/mypageApis';
 import ProfileEdit from '../profileImageEdit/profileImageEdit';
+import Image from 'next/image';
 
 interface IInfoEditProps {
   handleEditOpen: () => void;
@@ -37,7 +36,7 @@ export default function InfoEdit({
     formState: { errors },
     setError,
     clearErrors,
-    watch,
+    // watch,
   } = useForm<IFormData>({
     mode: 'onChange',
   });
@@ -50,9 +49,13 @@ export default function InfoEdit({
   const [nameValue, setNameValue] = useState<string>('');
   const [passwordValue, setPasswordValue] = useState<string>('');
   const [confirmPasswordValue, setConfirmPasswordValue] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
-  const password = watch('password', '');
-  const confirmPassword = watch('confirmPassword', '');
+  const togglePasswordVisibility = () => setShowPassword(prev => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(prev => !prev);
 
   const handleUploadSuccess = () => {
     updateInfo(); // 부모 컴포넌트의 정보를 업데이트
@@ -63,28 +66,31 @@ export default function InfoEdit({
   };
 
   // 비밀번호와 비밀번호 확인 검사 함수
-  const validatePasswords = () => {
-    if (confirmPassword.trim() === '') {
-      return;
-    }
+  // const validatePasswords = () => {
+  //   if (confirmPasswordValue.trim() === '') {
+  //     return;
+  //   }
 
-    if (password !== confirmPassword) {
-      setError('confirmPassword', {
-        type: 'manual',
-        message: '비밀번호가 일치하지 않습니다.',
-      });
-      addToast(
-        '비밀번호가 일치하지 않습니다. 다시 한번 확인 해주세요.',
-        'error'
-      );
-    } else {
-      clearErrors('confirmPassword');
-    }
-  };
+  //   if (passwordValue !== confirmPasswordValue) {
+  //     setError('confirmPassword', {
+  //       type: 'manual',
+  //       message: '비밀번호가 일치하지 않습니다.',
+  //     });
+  //   } else {
+  //     clearErrors('confirmPassword');
+  //   }
+  // };
 
-  useEffect(() => {
-    validatePasswords();
-  }, [password, confirmPassword]);
+  // 비밀번호 입력 필드에서 onChange 이벤트에 validatePasswords 추가
+  // const handlePasswordChange = (value: string) => {
+  //   setPasswordValue(value);
+  //   validatePasswords();
+  // };
+
+  // const handleConfirmPasswordChange = (value: string) => {
+  //   setConfirmPasswordValue(value);
+  //   validatePasswords();
+  // };
 
   // 닉네임 유효성 검사 함수
   const validateNickname = (nickName: string): boolean => {
@@ -132,8 +138,11 @@ export default function InfoEdit({
 
   // 개인정보 수정 제출 함수
   const onSubmit: SubmitHandler<IFormData> = async data => {
-    if (password !== confirmPassword) {
-      addToast('비밀번호가 서로 다릅니다. 확인해주세요.', 'error');
+    if (passwordValue !== confirmPasswordValue) {
+      addToast(
+        '비밀번호가 일치하지 않습니다. 다시 한번 확인 해주세요.',
+        'error'
+      );
       return;
     }
 
@@ -212,23 +221,67 @@ export default function InfoEdit({
         </div>
         <div className={styles.passwordInput}>
           <b>비밀번호 (선택)</b>
-          <input
-            type="password"
-            placeholder="변경하고 싶은 비밀번호를 입력해주세요."
-            {...register('password')}
-            value={passwordValue}
-            onChange={e => setPasswordValue(e.currentTarget.value)}
-          />
+          <div className={styles.passwordWrapper}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="변경하고 싶은 비밀번호를 입력해주세요."
+              {...register('password')}
+              value={passwordValue}
+              onChange={e => setPasswordValue(e.currentTarget.value)}
+            />
+            <button
+              type="button"
+              className={styles.eyeIcon}
+              onClick={togglePasswordVisibility}>
+              {showPassword ? (
+                <Image
+                  width={24}
+                  height={24}
+                  src={'/assets/icons/openEye.svg'}
+                  alt="비밀번호 눈뜬 아이콘"
+                />
+              ) : (
+                <Image
+                  width={24}
+                  height={24}
+                  src={'/assets/icons/closedEye.svg'}
+                  alt="비밀번호 눈감은 아이콘"
+                />
+              )}
+            </button>
+          </div>
         </div>
         <div className={styles.passwordInput}>
           <b>비밀번호 확인 (선택)</b>
-          <input
-            type="password"
-            placeholder="비밀번호를 다시 입력해주세요."
-            {...register('confirmPassword')}
-            value={confirmPasswordValue}
-            onChange={e => setConfirmPasswordValue(e.currentTarget.value)}
-          />
+          <div className={styles.passwordWrapper}>
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="비밀번호를 다시 입력해주세요."
+              {...register('confirmPassword')}
+              value={confirmPasswordValue}
+              onChange={e => setConfirmPasswordValue(e.currentTarget.value)}
+            />
+            <button
+              type="button"
+              className={styles.eyeIcon}
+              onClick={toggleConfirmPasswordVisibility}>
+              {showConfirmPassword ? (
+                <Image
+                  width={24}
+                  height={24}
+                  src={'/assets/icons/openEye.svg'}
+                  alt="비밀번호 눈뜬 아이콘"
+                />
+              ) : (
+                <Image
+                  width={24}
+                  height={24}
+                  src={'/assets/icons/closedEye.svg'}
+                  alt="비밀번호 눈감은 아이콘"
+                />
+              )}
+            </button>
+          </div>
         </div>
         <button
           type="submit"

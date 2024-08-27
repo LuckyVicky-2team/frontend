@@ -48,6 +48,16 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
     };
   }, [meetingList]);
 
+  const formatMeetingDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
+    const day = date.getDate();
+    const hours = date.getHours();
+
+    return `${year}년 ${month}월 ${day}일 ${hours}시`;
+  };
+
   const prevSlideBtn = () => {
     setSlidePx(prev => Math.min(prev + screenWidth, 0)); // 슬라이드가 0보다 커지지 않도록
   };
@@ -129,7 +139,10 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
                       height={24}
                       alt="지도 이미지"
                     />
-                    {e.city}
+                    <span className={styles.loc2}>
+                      <span>{e.city}</span>
+                      <span>{e.county}</span>
+                    </span>
                   </span>
                   <span className={styles.heart}>
                     <input type="checkbox" id={`favorite${e.id}`} />
@@ -150,7 +163,9 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
                 <Link href="/">
                   <span className={styles.tag}>{e.title}</span>
                 </Link>
-                <span className={styles.date}>{e.meetingDate}</span>
+                <span className={styles.date}>
+                  {formatMeetingDate(e.meetingDate)}
+                </span>
               </li>
             );
           })}

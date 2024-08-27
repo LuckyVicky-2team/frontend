@@ -23,16 +23,12 @@ export default function GameRank() {
         const response = await getGameRank();
         setGame(response.data);
       } catch (err) {
-        console.log('err :', err);
-      } finally {
-        console.log('final');
+        // console.log('err :', err);
       }
     };
 
     fetchGatherings();
   }, []);
-
-  console.log('게임랭킹', game);
 
   return (
     <div>

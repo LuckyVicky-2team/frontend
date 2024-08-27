@@ -55,7 +55,7 @@ export default function MyPage() {
 
       setInfo(response.data);
     } catch (err) {
-      console.error('Failed to fetch personal info:', err);
+      // console.error('Failed to fetch personal info:', err);
     }
   };
 

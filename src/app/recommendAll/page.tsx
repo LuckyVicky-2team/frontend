@@ -29,7 +29,7 @@ export default function Recommend() {
         const res = await getRecommendInfo('ALL');
         setRecommendInfo(res.data);
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     fetchRecommendInfo();

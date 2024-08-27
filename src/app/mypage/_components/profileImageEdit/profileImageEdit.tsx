@@ -61,7 +61,7 @@ const ProfileImageEdit: React.FC<IProfileImageEditProps> = ({
       addToast('프로필 이미지가 수정되었습니다.', 'success');
       onUploadSuccess();
     } catch (error) {
-      console.error('Upload error:', error);
+      // console.error('Upload error:', error);
       addToast('프로필 이미지 업로드 중 오류가 발생했습니다.', 'error');
     }
   };

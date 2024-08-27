@@ -16,7 +16,7 @@ export default function PrEdit() {
       // setInfo(response.data);
       setPrTags(response.data.prTags);
     } catch (err) {
-      console.error('err:', err);
+      // console.error('err:', err);
     }
   };
 
@@ -31,7 +31,7 @@ export default function PrEdit() {
       await updatePRTags(uniqueTags);
       setPrTags(uniqueTags);
     } catch (error) {
-      console.error('PR 태그를 업데이트하는 중 오류가 발생했습니다.', error);
+      // console.error('PR 태그를 업데이트하는 중 오류가 발생했습니다.', error);
     }
   };
 

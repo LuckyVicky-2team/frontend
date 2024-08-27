@@ -8,6 +8,8 @@ import GameRank from './_components/gameRank';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
 import { useEffect, useRef, useState } from 'react';
+import { getTokenFromCookie } from '@/actions/AuthActions';
+import { usePostWishList } from '@/api/queryHooks/wishList';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -34,14 +36,38 @@ export default function Main() {
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
 
+  const { mutate: likeMutate } = usePostWishList();
+
+  useEffect(() => {
+    const transferToken = async () => {
+      const token = await getTokenFromCookie();
+      if (token) {
+        localStorage.setItem('accessToken', `Bearer ${token}`);
+      }
+    };
+    transferToken();
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('savedGatherings')) {
+      const likeList = JSON.parse(
+        localStorage.getItem('savedGatherings')!
+      ).value;
+
+      likeMutate([...likeList], {
+        onSettled: () => {
+          localStorage.removeItem('savedGatherings');
+        },
+      });
+    }
+  }, []);
+
   useEffect(() => {
     const fetchMeetingList = async () => {
       try {
         const res = await getMeetingList();
         setMeetingList(res.data.content);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
 
     fetchMeetingList();
@@ -56,8 +82,6 @@ export default function Main() {
       window.scrollTo({ top: topPosition, behavior: 'smooth' });
     }
   };
-
-  console.log(meetingList);
 
   return (
     <main>

@@ -40,7 +40,7 @@ export default function Header() {
       setInfo(response.data);
       setProfileImageTimestamp(new Date().getTime().toString());
     } catch (err) {
-      console.error('Error fetching personal info:', err);
+      // console.error('Error fetching personal info:', err);
       // setError('Failed to fetch personal information');
     } finally {
       setLoading(false);

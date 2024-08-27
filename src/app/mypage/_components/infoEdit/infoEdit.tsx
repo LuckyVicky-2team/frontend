@@ -155,20 +155,19 @@ export default function InfoEdit({
         updateData.password = data.password;
       }
 
-      console.log('전송할 데이터:', updateData);
+      // console.log('전송할 데이터:', updateData);
 
-      const res = await updatePersonalInfo(
+      const _res = await updatePersonalInfo(
         updateData.nickName,
         updateData.password
       );
 
-      console.log('수정 완료:', res.data);
       updateInfo();
       reset();
       handleEditOpen();
       addToast('개인정보가 수정되었습니다.', 'success');
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error);
       addToast('정보 수정 중 오류가 발생했습니다.', 'error');
     }
   };

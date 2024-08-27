@@ -23,7 +23,7 @@ export default function Signin() {
         </Link>
         <div className={styles.socialLogin}>
           <Link
-            href="https://dev.board-go.net/oauth2/authorization/google"
+            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`}
             className={`${styles.roundButton} ${styles.google}`}>
             <Image
               src="/assets/icons/google_logo.svg"
@@ -33,7 +33,7 @@ export default function Signin() {
             />
           </Link>
           <Link
-            href="https://dev.board-go.net/oauth2/authorization/kakao"
+            href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/kakao`}
             className={`${styles.roundButton} ${styles.kakao}`}>
             <Image
               src="/assets/icons/kakao_logo.svg"

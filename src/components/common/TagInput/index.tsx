@@ -30,8 +30,6 @@ export default function TagInput({ fieldName, ...props }: ITagInputProps) {
       const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/;
 
       if (!targetValue) {
-        setErrorMessage('태그를 입력해주세요');
-        e.currentTarget.value = '';
         return;
       }
       if (tags.includes(targetValue)) {

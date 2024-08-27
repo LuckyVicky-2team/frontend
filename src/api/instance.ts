@@ -13,7 +13,6 @@ axiosInstance.interceptors.request.use(
   config => {
     if (typeof window !== 'undefined') {
       const accesssToken = localStorage.getItem('accessToken');
-
       if (accesssToken) {
         const token = accesssToken.split(' ')[1];
         const tokenPayload = JSON.parse(atob(token.split('.')[1]));
@@ -32,7 +31,6 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-
   error => {
     return Promise.reject(error);
   }

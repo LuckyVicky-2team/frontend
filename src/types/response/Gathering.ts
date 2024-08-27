@@ -1,8 +1,57 @@
+export interface IGenre {
+  id: number;
+  title: string;
+}
+
+export interface IGame {
+  id: number;
+  title: string;
+  thumbnail: string;
+  genres: IGenre[];
+  minPeople: number;
+  maxPeople: number;
+  minPlaytime: number;
+  maxPlaytime: number;
+}
+
+export interface IPageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  paged: number;
+  unpaged: number;
+}
+
+export interface ISort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export interface IGameData {
+  content: IGame[];
+  pageable: IPageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  first: boolean;
+  size: number;
+  number: number;
+  sort: ISort;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 export interface IParticipant {
   userId: number;
   profileImage: string;
   nickname: string;
-  type: string;
+  type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
 }
 
 export interface IBoardGame {
@@ -12,9 +61,9 @@ export interface IBoardGame {
 }
 
 export interface IGatheringDetailsResponseProps {
-  mettingId: number;
+  meetingId: number;
   userNickName: string;
-  meetingDateTime: Date;
+  meetingDatetime: string;
   title: string;
   content: string;
   longitude: number;
@@ -22,14 +71,16 @@ export interface IGatheringDetailsResponseProps {
   city: string;
   county: string;
   limitParticipant: 9;
-  state: string;
+  state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   genres: string[];
   totalParticipantCount: number;
   userParticipantResponseList: IParticipant[];
   boardGameListResponseList: IBoardGame[];
-
-  // image: string;
-  // addressDetail: string;
-  // place: string;
-  // isZzimed: boolean;
+  thumbnail: string;
+  detailAddress: string;
+  locationName: string;
+  shareCount: number;
+  createMeetingCount: string;
+  likeStatus: 'N' | 'Y';
+  viewCount: number;
 }

@@ -1,0 +1,107 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 41px 29px 29px 24px;
+}
+
+.title {
+  color: var(--lukyviky-Blue-Normal, #007aff);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.profiles {
+  overflow-y: auto;
+  padding: 0 19px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    // border: 30px solid white;
+    // background-clip: padding-box;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $blue-light;
+    border-radius: 10px;
+    height: 200px;
+    // width: 8px;
+    // margin-right: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #007aff;
+    border-radius: 6px;
+  }
+}
+
+.profile {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 19px 30px 19px 25px;
+  border-bottom: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
+}
+
+.profilePart1 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-grow: 1;
+  max-width: 100%;
+  width: 70%;
+
+  .crown {
+    width: 34px;
+    flex-shrink: 0;
+  }
+
+  .nickname {
+    color: var(--lukyviky-gray-Darker, #37393d);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px; /* 83.333% */
+    flex-grow: 1;
+    text-align: left;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 1;
+    display: block;
+  }
+  @media screen and (max-width: 400px) {
+    flex-shrink: 0;
+    gap: 4px;
+    .nickname {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}
+
+.kick {
+  display: flex;
+  width: 100%;
+  max-width: 103px;
+  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid var(--lukyviky-Blue-Normal, #007aff);
+  color: var(--lukyviky-Blue-Normal, #007aff);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+  flex-shrink: 1;
+  margin: 0 0 0 4px;
+  min-width: 60px;
+}

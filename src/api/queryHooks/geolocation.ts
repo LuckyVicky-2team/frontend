@@ -33,6 +33,9 @@ const useGetCurrentCoordinate = () => {
         return await getCurrentCoordinate();
       } catch (error: any) {
         addToast(error.message, 'error');
+        // 오류 발생 시 기본 좌표 반환 또는 오류 throw
+        // return { x: 0, y: 0 }; // 기본 좌표 반환 옵션
+        throw error; // 오류 throw 옵션
       }
     },
     staleTime: 60000,

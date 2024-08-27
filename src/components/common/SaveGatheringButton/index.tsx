@@ -14,6 +14,8 @@ interface ISaveGatheringButtonProps {
   id: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   type?: 'blue' | 'red' | 'default';
+  rectangle?: boolean; //네모 테두리
+  isInitialSaved?: 'Y' | 'N';
   className?: string;
 }
 const path = '/assets/icons';
@@ -36,6 +38,8 @@ export default function SaveGatheringButton({
   type = 'default',
   id,
   size,
+  // rectangle = false,
+  // isInitialSaved = 'N',
   className,
 }: ISaveGatheringButtonProps) {
   // 비회원용 로컬 스토리지 찜 목록 리스트

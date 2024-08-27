@@ -33,4 +33,5 @@ export interface IGatheringDetailsResponseProps {
   shareCount: number;
   createMeetingCount: string;
   likeStatus: 'N' | 'Y';
+  viewCount: number;
 }

@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
-import { IParticipant } from '@/types/response/Gathering';
+// import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
   id: number;
@@ -83,188 +83,26 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
 
   // console.log(String(data.latitude), String(data.longitude));
   //참여자 mockdata
-  const participants: IParticipant[] = [
-    {
-      userId: 1,
-      profileImage: '',
-      nickname: '알러뷰ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ',
-      type: 'LEADER',
-    },
-    {
-      userId: 2,
-      profileImage: '',
-      nickname: 'ㅇㅇㅇㅇㅇㅇㅇ',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 3,
-      profileImage: '',
-      nickname: 'd',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 4,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 5,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 6,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 7,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 8,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 9,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 10,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 22,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 12,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 21,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 13,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 14,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 15,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 16,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 17,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 18,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 19,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 30,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 31,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 32,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 33,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 34,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 35,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 36,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 37,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 38,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-    {
-      userId: 39,
-      profileImage: '',
-      nickname: '',
-      type: 'PARTICIPANT',
-    },
-  ];
+  // const participants: IParticipant[] = Array.from(
+  //   { length: 12 },
+  //   (_, i) => i + 1
+  // ).map(i => {
+  //   if (i === 1) {
+  //     return {
+  //       userId: i,
+  //       profileImage: '',
+  //       nickname: '알러뷰',
+  //       type: 'LEADER',
+  //     };
+  //   }
+  //   return {
+  //     userId: i,
+  //     profileImage: '',
+  //     nickname: '알러뷰ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ',
+  //     type: 'PARTICIPANT',
+  //   };
+  // });
+
   return (
     <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>
@@ -357,6 +195,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   />
                   {data.totalParticipantCount}/{data.limitParticipant}
                 </div>
+                조회수 {data.viewCount}
               </div>
               <div className={styles.games}>
                 <Image
@@ -436,15 +275,10 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               className={styles.memberListButton}>
               참여자 리스트 보기 ({participantCount}/{data.limitParticipant})
             </button>
-            {/* <Members
-              modalOpen={profileModalOpen}
-              onClose={handleProfileModalClose}
-              data={data.userParticipantResponseList}
-            /> */}
             <Members
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
-              data={participants}
+              data={data.userParticipantResponseList}
               isMobile={isMobile}
             />
           </div>

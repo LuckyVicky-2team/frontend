@@ -36,3 +36,10 @@ export const usePatchShareGathering = () => {
     },
   });
 };
+
+export const useGetIsUserTypeQuit = (id: number) => {
+  return useQuery({
+    queryKey: [QueryKey.USER.QUIT(id)],
+    queryFn: () => gatheringAPI.isUserTypeQuit(id),
+  });
+};

@@ -30,4 +30,8 @@ export const gatheringAPI = {
       id: id,
     });
   },
+
+  isUserTypeQuit: async (id: number) => {
+    return axiosInstance.get(`/meeting-participant/out/${id}`);
+  },
 };

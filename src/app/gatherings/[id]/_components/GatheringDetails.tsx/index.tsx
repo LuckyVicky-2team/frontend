@@ -3,7 +3,10 @@ import parse from 'html-react-parser';
 import ProfileImages from '../ProfileImages';
 import useModal from '@/hooks/useModal';
 import Members from '../Members';
-import { useGatheringDetails } from '@/api/queryHooks/gathering';
+import {
+  useGatheringDetails,
+  useGetIsUserTypeQuit,
+} from '@/api/queryHooks/gathering';
 import styles from './GatheringDetails.module.scss';
 import { dateTime } from '@/utils/dateTime';
 import Tag from '@/components/common/Tag';
@@ -28,6 +31,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   // const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
   const { data, isError } = useGatheringDetails(Number(id));
+  const { data: isUserTypeQuitData } = useGetIsUserTypeQuit(
+    data?.meetingId || 0
+  );
   const { data: dataMe, isError: isErrorMe } = useMe();
   const [participantCount, setParticipantCount] = useState<number>(
     data?.totalParticipantCount || 0
@@ -79,6 +85,10 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
 
   if (!dataMe) {
     myType = 'NONE';
+  }
+
+  if (dataMe && isUserTypeQuitData?.data.outState === 'OUT') {
+    myType = 'QUIT';
   }
 
   // console.log(String(data.latitude), String(data.longitude));

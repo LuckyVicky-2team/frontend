@@ -2,19 +2,27 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // 요청의 hostname 가져오기
+  const currentUrl = request.nextUrl;
   const hostname = request.nextUrl.hostname;
 
-  // hostname이 'localhost'가 아닌 경우 리다이렉트
-  if (hostname !== 'localhost') {
+  // 개발 환경에서만 crawling 페이지 접근 허용
+  if (currentUrl.pathname === '/crawling' && hostname !== 'localhost') {
     return new NextResponse('Access Denied', { status: 403 });
   }
 
-  // hostname이 'localhost'인 경우 요청을 계속 진행
+  // main 입장 시 referer 쿠키 있으면 쿠키 값의 경로로 이동
+  if (currentUrl.pathname === '/main') {
+    const referer = request.cookies.get('referer')?.value;
+
+    if (referer) {
+      const redirectUrl = new URL(referer, request.url);
+      const response = NextResponse.redirect(redirectUrl);
+
+      response.cookies.delete('referer');
+
+      return response;
+    }
+  }
+
   return NextResponse.next();
 }
-
-// 미들웨어가 적용될 경로 설정
-export const config = {
-  matcher: '/crawling', // 특정 경로에만 미들웨어 적용
-};

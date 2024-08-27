@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
 
 export interface StepProps {
   name: string;
@@ -15,6 +15,7 @@ export const useFunnel = (defaultStep: string) => {
   const Step = (props: StepProps): ReactElement => {
     return <>{props.children}</>;
   };
+  Step.displayName = 'Step';
 
   const Funnel = ({ children }: FunnelProps) => {
     const targetStep = children.find(
@@ -23,6 +24,15 @@ export const useFunnel = (defaultStep: string) => {
 
     return <>{targetStep}</>;
   };
+  Funnel.displayName = 'Funnel';
 
-  return { Funnel, Step, setStep, currentStep: step } as const;
+  const MemoizedStep = useMemo(() => Step, []);
+  const MemoizedFunnel = useMemo(() => Funnel, [step]);
+
+  return {
+    Funnel: MemoizedFunnel,
+    Step: MemoizedStep,
+    setStep,
+    currentStep: step,
+  } as const;
 };

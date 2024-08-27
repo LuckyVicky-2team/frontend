@@ -46,8 +46,6 @@ body {
   width: 100%;
   margin: 0 auto;
   overflow-y: scroll;
-  // padding-top: 65px;
-  // padding-bottom: 120px;
 }
 .rootContainer {
   position: relative;
@@ -87,4 +85,10 @@ body {
 .ql-toolbar {
   border-top-left-radius: 1.5em;
   border-top-right-radius: 1.5em;
+}
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor em {
+  font-style: italic;
 }

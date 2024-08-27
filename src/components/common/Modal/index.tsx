@@ -62,8 +62,16 @@ export default function Modal({
               width: '100%',
             }}>
             {full && (
-              <button type="button" onClick={onClose}>
-                x
+              <button
+                onClick={onClose}
+                type="button"
+                className={styles.fullXButton}>
+                <Image
+                  src={'/assets/icons/x-button-blue.svg'}
+                  alt="닫기 버튼"
+                  width={46}
+                  height={46}
+                />
               </button>
             )}
             {children}

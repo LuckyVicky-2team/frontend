@@ -1,6 +1,8 @@
 .searchBar {
   position: relative;
-  margin: 0 20px;
+  // margin: 0 20px;
+  padding: 0 20px;
+  width: 100%;
 }
 
 .input {
@@ -24,6 +26,6 @@
 
 .zoom {
   position: absolute;
-  top: 15px;
-  right: 18px;
+  top: 30%;
+  right: 4%;
 }

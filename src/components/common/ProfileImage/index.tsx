@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './index.module.scss';
+import styles from './ProfileImage.module.scss';
 import Image from 'next/image';
 
 interface IProfileImageProps {
-  url: string;
+  url: string | undefined;
   width: number;
   height: number;
 }
@@ -15,7 +15,21 @@ export default function ProfileImage({
 }: IProfileImageProps) {
   return (
     <div className={styles.profileImg}>
-      <Image src={url} alt="Profile" width={width} height={height} />
+      {url ? (
+        <Image
+          src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${url}`}
+          alt="Profile"
+          width={width}
+          height={height}
+        />
+      ) : (
+        <Image
+          src={'/assets/icons/default-profile.svg'}
+          alt="Profile"
+          width={width}
+          height={height}
+        />
+      )}
     </div>
   );
 }

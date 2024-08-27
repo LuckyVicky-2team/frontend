@@ -4,12 +4,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'd248qe8akqy587.cloudfront.net',
+        hostname:
+          `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}` ||
+          'd248qe8akqy587.cloudfront.net',
+        pathname: '**',
       },
     ],
   },
   async rewrites() {
-     return [
+    return [
       {
         source: '/api/:path*',
         destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/:path*`,

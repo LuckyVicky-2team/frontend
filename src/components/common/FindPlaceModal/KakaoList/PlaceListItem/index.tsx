@@ -23,7 +23,9 @@ export default function PlaceListItem({
   return (
     <div className={`${styles.item} ${className}`}>
       <div className={styles.nameArea}>
-        {index !== undefined && <span className={styles.order}>{index}</span>}
+        {index !== undefined && (
+          <span className={styles.order}>{index + 1}</span>
+        )}
         {placeURL ? (
           <Link
             href={placeURL}

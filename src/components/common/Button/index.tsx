@@ -15,7 +15,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`${styles.submitButton} ${styles[color]} ${className}`}
+      className={`${styles.button} ${styles[color]} ${className}`}
       {...props}>
       {children}
     </button>

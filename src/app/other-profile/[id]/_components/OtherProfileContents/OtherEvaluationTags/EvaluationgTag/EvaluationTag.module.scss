@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  .tagCount {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    .count {
+      color: #37393d;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 20px;
+    }
+  }
+
+  .text {
+    padding: 10px 20px;
+    border-radius: 0px 20px 20px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    flex-shrink: 0;
+
+    &.POSITIVE {
+      color: #007aff;
+      background: #e6f2ff;
+    }
+
+    &.NEGATIVE {
+      color: #f85d1b;
+      background: #fff2d3;
+    }
+  }
+}

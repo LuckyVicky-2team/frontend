@@ -62,8 +62,8 @@ export default function GameDataList({
   // });
 
   const fetchGames = useCallback(async () => {
-    console.log(gameTitle);
-    console.log(currentPage);
+    // console.log(gameTitle);
+    // console.log(currentPage);
     setIsLoading(true);
     try {
       const data = await getGames(gameTitle, currentPage);

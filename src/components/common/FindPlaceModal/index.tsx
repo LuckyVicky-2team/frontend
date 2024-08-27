@@ -11,6 +11,7 @@ import useGetCurrentCoordinate from '@/api/queryHooks/geolocation';
 import kakaoSearch from '@/utils/kakaoSearch';
 import PlaceSearchBar from './PlaceSearchBar';
 import { useToast } from '@/contexts/toastContext';
+import Spinner from '../Spinner';
 import styles from './FindPlaceModal.module.scss';
 import { UseFormSetValue } from 'react-hook-form';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
@@ -54,7 +55,7 @@ export default function FindPlaceModal({
     }
   };
 
-  const handlePressEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
+  const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const targetValue = e.currentTarget.value;
 
@@ -67,6 +68,15 @@ export default function FindPlaceModal({
 
       setPlaceList(keyword);
     }
+  };
+
+  const handleClickZoom = (keyword: string) => {
+    if (!keyword) {
+      setList([]);
+      return;
+    }
+
+    setPlaceList(keyword);
   };
 
   useEffect(() => {
@@ -110,10 +120,13 @@ export default function FindPlaceModal({
             <div className={styles.list}>
               <PlaceSearchBar
                 onKeyUp={handlePressEnter}
+                onClickZoom={handleClickZoom}
                 disabled={isLoading || searchLoading}
               />
               {isLoading || searchLoading ? (
-                <div className={styles.exception}>로딩중입니다</div>
+                <div className={styles.exception}>
+                  <Spinner />
+                </div>
               ) : list.length ? (
                 <KakaoList
                   list={list}

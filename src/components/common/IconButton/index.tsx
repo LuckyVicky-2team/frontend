@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import styles from './IconButton.module.scss';
 import Image from 'next/image';
 
@@ -24,18 +24,21 @@ import Image from 'next/image';
 interface IIconButtonProps {
   imgUrl: string;
   size?: 'xsmall' | 'small' | 'medium' | 'mediumLarge' | 'large';
-  // clickIconButtonHandler: MouseEventHandler<HTMLDivElement>;
+  clickIconButtonHandler: MouseEventHandler<HTMLDivElement>;
   className?: string;
 }
 
 export default function IconButton({
-  // clickIconButtonHandler,
+  clickIconButtonHandler,
   className,
   imgUrl,
   size,
 }: IIconButtonProps) {
   return (
-    <div data-size={size} className={`${styles.icon} ${className}`}>
+    <div
+      data-size={size}
+      className={`${styles.icon} ${className}`}
+      onClick={clickIconButtonHandler}>
       <Image alt="icon" src={imgUrl} fill />
     </div>
   );

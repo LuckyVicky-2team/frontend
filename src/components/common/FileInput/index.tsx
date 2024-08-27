@@ -50,6 +50,7 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 //   <p>상세 페이지에서 제일 먼저 보이는 이미지 입니다.</p>
 // </FileInput>
 
+//
 // react hook form 을 안 쓸 경우
 // export default function ExamplePage() {
 //   const [image, setImage] = useState<File | ''>('');

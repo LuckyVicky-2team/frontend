@@ -1,7 +1,6 @@
 .container {
-  width: 100%;
   min-height: 100vh;
-  padding: 0 24px;
+  padding: 30px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +16,7 @@
       font-family: LaundryGothicOTF;
       font-size: 26px;
       font-weight: 700;
-      line-height: normal;
+      line-height: 32px;
       letter-spacing: 1.2px;
       margin-bottom: 20px;
     }

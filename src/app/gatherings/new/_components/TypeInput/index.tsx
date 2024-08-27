@@ -1,11 +1,10 @@
-import { UseFormRegister } from 'react-hook-form';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import styles from './TypeInput.module.scss';
-import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 
 interface ITypeInputProps {
-  register: UseFormRegister<INewGatheringFormValuesRequest>;
+  register: UseFormRegisterReturn<'type'>;
   freeButtonClick: boolean;
   setFreeButtonClick: Dispatch<SetStateAction<boolean>>;
 }
@@ -34,7 +33,7 @@ export default function TypeInput({
           />
           <p>수락 기능</p>
         </label>
-        <input id="ACCEPT" type="radio" value="ACCEPT" {...register('type')} />
+        <input id="ACCEPT" type="radio" value="ACCEPT" {...register} />
       </button>
       <button
         type="button"
@@ -58,7 +57,7 @@ export default function TypeInput({
           type="radio"
           value="FREE"
           defaultChecked
-          {...register('type')}
+          {...register}
         />
       </button>
     </div>

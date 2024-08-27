@@ -41,6 +41,8 @@
   transform: translateX(-50%);
   overflow: hidden;
   height: '100vh';
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .slideUp {
@@ -63,4 +65,10 @@
   width: 72px;
   height: 72px;
   z-index: 9000;
+}
+
+.fullXButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }

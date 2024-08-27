@@ -11,7 +11,7 @@ interface IGameInfo {
   title: string;
   people: string;
   time: string;
-  genres: string[] | null;
+  genres: string[];
 }
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -35,11 +35,11 @@ const sliceArray = (arr: string[], size: number) => {
 };
 
 //크롤링한 정보를 형식에 맞게 가공해 주는 함수
-async function convertAndCreateFormData(query: IGameInfo[]) {
+async function convertAndCreateFormData(data: IGameInfo[]) {
   const results = [];
   const baseUrl = 'https://boardlife.co.kr/';
 
-  for (const item of query) {
+  for (const item of data) {
     const formData = new FormData();
     const { image, title, people, time, genres } = item;
 
@@ -102,30 +102,47 @@ async function convertAndCreateFormData(query: IGameInfo[]) {
         const jpgBuffer = await sharp(imageBuffer).jpeg().toBuffer();
 
         // jpg 이미지를 FormData에 추가
-        formData.append('imageFileList', jpgBuffer, {
+        formData.append('imageFile', jpgBuffer, {
           filename: `${title}.jpg`,
           contentType: 'image/jpeg',
         });
 
         // 나머지 데이터를 FormData에 추가
-        formData.append(
-          'boardGameCreateListRequest',
-          Buffer.from(
-            JSON.stringify([
-              {
-                title,
-                minPeople,
-                maxPeople,
-                minPlayTime,
-                maxPlayTime,
-                genres,
-              },
-            ]),
-            'utf-8'
-          ),
-          { filename: 'request.json', contentType: 'application/json' }
-        );
+        formData.append('title', title, { contentType: 'text/plain' });
+        formData.append('minPeople', minPeople, { contentType: 'text/plain' });
+        formData.append('maxPeople', maxPeople, { contentType: 'text/plain' });
+        formData.append('minPlaytime', minPlayTime, {
+          contentType: 'text/plain',
+        });
+        formData.append('maxPlaytime', maxPlayTime, {
+          contentType: 'text/plain',
+        });
 
+        for (let genre of genres) {
+          formData.append(
+            `genres`,
+            // Buffer.from(JSON.stringify(genres), 'utf-8'),
+            genre,
+            { contentType: 'application/json' }
+          );
+        }
+
+        // console.log({
+        //   title,
+        //   minPeople,
+        //   maxPeople,
+        //   minPlayTime,
+        //   maxPlayTime,
+        //   genres,
+        // });
+        console.log({
+          title,
+          minPeople,
+          maxPeople,
+          minPlayTime,
+          maxPlayTime,
+          genres,
+        });
         // 결과 배열에 추가
         results.push(formData);
       }
@@ -141,6 +158,7 @@ export async function POST() {
   try {
     const browser = await puppeteer.launch();
     let data: IGameInfo[] = [];
+    let backendResponses: any = [];
 
     const crawling = async (url: string) => {
       const page = await browser.newPage();
@@ -153,42 +171,53 @@ export async function POST() {
 
         const image = await page.$eval('a.game-thumb-link', el => el.href);
         const title = await page.$eval('.info h1', el => el.innerText);
-        const [_, people, time] = await page.$$eval(
+        const [_, people, age, time] = await page.$$eval(
           '.game-sub-title .info-row',
           elements => elements.map(el => (el as HTMLElement).innerText)
         );
         void _;
+        void age;
 
-        await page.waitForSelector('#game-top-btn-credits');
-        const creditsButton = await page.$('#game-top-btn-credits');
-        // console.log(creditsButton);
-        if (creditsButton) {
-          await creditsButton.click();
-          await page.waitForSelector('.title-wrapper', { timeout: 5000 });
-          // 마지막 '.credits-row .title' 요소가 나타날 때까지 기다림
-          // await page.waitForSelector('.credits-row .title');
-        }
+        await page.goto(`https://boardlife.co.kr/${url}&page=credits`, {
+          waitUntil: 'networkidle2', // 네트워크 요청이 거의 없는 상태까지 대기
+          timeout: 60000, // 타임아웃 설정 (60초)
+        });
+        await page.setViewport({ width: 1080, height: 1024 });
 
+        // const creditsButton = await page.$('#game-top-btn-credits');
+        // if (creditsButton) {
+        //   await creditsButton.click();
+        // }
+
+        // await page.waitForSelector('.title-wrapper.credit');
+        // await page.waitForSelector('.title-wrapper', { timeout: 5000 });
+        // // 클릭 후 필요한 작업 수행
+        // await page.waitForSelector('.credits-row .title', { timeout: 5000 });
         // const genres = await page.$$eval('.credits-row .title', elements =>
         //   elements.map(el => (el as HTMLElement).innerText)
         // );
         // console.log(genres);
+        // const [response] = await Promise.all([
+        //   page.waitForNavigation(), // The promise resolves after navigation has finished
+        //   page.click('#game-top-btn-credits'), // Clicking the link will indirectly cause a navigation
+        // ]);
+        // console.log('response==>>>>>', response);
 
         const genres = await page.evaluate(() => {
+          // const creditButton = document
+          //   .getElementById('game-top-btn-credits')
+          //   ?.click();
+          // return [document.getElementById('game-top-btn-credits')?.outerHTML];
+          const wrapper = document.querySelectorAll('.title-wrapper') ?? [];
           // '카테고리'라는 텍스트를 포함하는 요소를 찾기
-          const wrapper = document.querySelectorAll('.title-wrapper');
 
-          if (!wrapper) {
-            return ['n'];
-          }
+          // return Array.from(wrapper).map(w => w.innerHTML);
 
           const wrapperElements = Array.from(wrapper).find(el =>
-            el.textContent?.includes(' 카테고리 ')
+            el.textContent?.includes('카테고리')
           );
 
-          if (!wrapperElements) {
-            return [JSON.stringify(wrapper)]; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
-          }
+          if (!wrapperElements) return ['']; // '카테고리' 텍스트를 포함하는 요소가 없으면 null 반환
 
           const childrenElements =
             wrapperElements && Array.from(wrapperElements.children);
@@ -198,7 +227,7 @@ export async function POST() {
           )[0].children;
 
           if (!targets) {
-            return ['nono'];
+            return [''];
           }
 
           return Array.from(targets).map(
@@ -222,9 +251,10 @@ export async function POST() {
       const page = await browser.newPage();
       let hrefList: string[] = [];
       try {
-        await page.goto('https://boardlife.co.kr/rank.php');
-        await page.setViewport({ width: 1080, height: 1024 });
-        for (let i = 0; i < 10; i++) {
+        for (let i = 1; i < 11; i++) {
+          await page.goto(`https://boardlife.co.kr/rank.php?pg=${i}`);
+          await page.setViewport({ width: 1080, height: 1024 });
+          // for (let i = 0; i < 10; i++) {
           const hrefs = await page.$$eval(
             '.game-rank-div .storage-title-div',
             elements => elements.map(el => el.getAttribute('href'))
@@ -235,15 +265,17 @@ export async function POST() {
               hrefList.push(href);
             }
           });
-          // "다음" 버튼이 존재하는지 확인하고 클릭
-          await page.waitForSelector('.paging-btn .next');
-          const nextButton = await page.$('.paging-btn .next');
-          if (nextButton) {
-            await nextButton.click();
-            await page.waitForNavigation(); // 페이지가 새로 로드될 때까지 기다림
-          } else {
-            break; // "다음" 버튼이 없으면 반복 종료
-          }
+          //다음 버튼을 누르면 11페이지로 이동해서 방법을 바꿈
+          // // "다음" 버튼이 존재하는지 확인하고 클릭
+          // await page.waitForSelector('.paging-btn .next');
+          // const nextButton = await page.$('.paging-btn .next');
+          // if (nextButton) {
+          //   await nextButton.click();
+          //   await page.waitForNavigation(); // 페이지가 새로 로드될 때까지 기다림
+          // } else {
+          //   break; // "다음" 버튼이 없으면 반복 종료
+          // }
+          // }
         }
       } finally {
         await page.close();
@@ -251,18 +283,43 @@ export async function POST() {
       return hrefList;
     };
 
-    const hrefList = (await crawlingList()).slice(0, 1);
-    console.log(hrefList.length);
+    // TODO: hrefList api에서 가져오게 되돌리기
+    // const hrefList = sliceArray(await crawlingList(), 20).slice(0, 2);
+    // console.log('href:', hrefList);
+    // const hrefList = ['bbs_detail.php?bbs_num=5625&tb=boardgame_strategy'];
     // let failed: string[] = [];
     //href들을 4개씩 묶기. (병렬 처리를 위함)
-    const cutting = sliceArray(hrefList, 4);
+    // console.log(hrefList);
 
+    // for (const hrefList20 of hrefList) {
+    //   const cutting = sliceArray(hrefList20, 4);
+
+    //   // cutting 배열 만큼 반복문 돌리기
+    //   for (const hrefs of cutting) {
+    //     try {
+    //       // 사이즈 만큼 나눠진 url 페이지 열어서 작동
+    //       const test = hrefs.map(async href => {
+    //         await delay(1000);
+    //         return await crawling(href);
+    //       });
+    //       await Promise.all(test);
+    //     } catch (error) {
+    //       // failed = [...failed, ...hrefs];
+    //       console.log(error);
+    //       continue;
+    //     }
+    //     await delay(1000);
+    //   }
+    const hrefList = (await crawlingList()).slice(100, 200);
+    const cutting = sliceArray(hrefList, 4);
     // cutting 배열 만큼 반복문 돌리기
+    let count = 0;
     for (const hrefs of cutting) {
+      console.log(count);
       try {
         // 사이즈 만큼 나눠진 url 페이지 열어서 작동
         const test = hrefs.map(async href => {
-          await delay(1000);
+          await delay(500);
           return await crawling(href);
         });
         await Promise.all(test);
@@ -271,36 +328,43 @@ export async function POST() {
         console.log(error);
         continue;
       }
+      // 크롤링한 정보를 형식에 맞게 가공
+      const results = await convertAndCreateFormData(data);
+      for (const result of results) {
+        try {
+          const backendResponse = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/boardgame`,
+            result,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                // 'Content-Type': 'application/json',
+                'X-API-Version': 1,
+              },
+            }
+          );
+          backendResponses.push(backendResponse.data);
+          console.log(backendResponse.data);
+          count++;
+        } catch (error) {
+          console.log('보내기 실패: ', error);
+          return;
+        }
+      }
+      data = [];
       await delay(1000);
     }
+    // console.log('==> data :');
+    // console.log(data);
 
     await browser.close();
 
     // console.log('==> failed: ', failed.length);
-    // console.log('==> data length:', data.length);
-    console.log(data);
-    // 크롤링한 정보를 형식에 맞게 가공
-    const results = await convertAndCreateFormData(data);
-    void results;
-
-    // console.log('FormData results:', results);
-    // [formdata, formdata,...]
-    // 크롤링한 데이터를 백엔드 API로 전송
-    // const backendResponse = await axios.post(
-    //   `${process.env.NEXT_PUBLIC_API_BASE_URL}boardgame`,
-    //   results,
-    //   {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //       'X-API-Version': 1,
-    //     },
-    //   }
-    // );
 
     return NextResponse.json({
       message: 'Crawling and data transfer successful',
       // backendResponse: backendResponse.data,
-      backendResponse: null,
+      backendResponse: backendResponses,
     });
   } catch (error) {
     console.error('Error during crawling or data transfer:', error);

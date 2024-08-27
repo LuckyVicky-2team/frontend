@@ -2,25 +2,25 @@
 
 import { forwardRef, InputHTMLAttributes, useState } from 'react';
 import Image from 'next/image';
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import Input from '@/components/common/Input';
 import styles from './AuthInput.module.scss';
 
 interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
-  isPasswordInput?: boolean;
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  fieldName: string;
+  hasEye?: boolean;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  { className, type, isPasswordInput, labelName, disabled, error, ...props },
+  { className, type, labelName, disabled, fieldName, hasEye = false, ...props },
   ref
 ) {
-  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const {
+    formState: { errors },
+  } = useFormContext();
 
-  const handleEyeToggle = () => {
-    setPasswordVisible(prev => !prev);
-  };
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
     <div className={`${styles.container} ${className}`}>
@@ -32,15 +32,15 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
           type={passwordVisible ? 'text' : type}
           ref={ref}
           id={labelName}
-          isError={Boolean(error)}
+          isError={!!errors[fieldName]}
           disabled={disabled}
-          className={isPasswordInput ? styles.passwordInput : ''}
+          className={hasEye ? styles.passwordInput : ''}
           {...props}
         />
-        {isPasswordInput && (
+        {hasEye && (
           <button
             className={styles.eyeButton}
-            onClick={handleEyeToggle}
+            onClick={() => setPasswordVisible(prev => !prev)}
             type="button">
             <Image
               src={
@@ -55,8 +55,10 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
           </button>
         )}
       </div>
-      {error?.message && (
-        <span className={styles.errorMessage}>{String(error.message)}</span>
+      {errors[fieldName]?.message && (
+        <span className={styles.errorMessage}>
+          {String(errors[fieldName]?.message)}
+        </span>
       )}
       {disabled && (
         <span className={styles.successMessage}>중복확인이 완료되었습니다</span>

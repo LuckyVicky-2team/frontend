@@ -9,6 +9,7 @@ export default function Footer() {
   const [on, setOn] = useState(3);
   const pathName = usePathname();
   const currentPathName = pathName.split('/')[1];
+  const currentPathName2 = pathName.split('/')[2];
 
   useEffect(() => {
     if (currentPathName === 'main') {
@@ -30,7 +31,7 @@ export default function Footer() {
 
   return (
     <footer>
-      {currentPathName === 'dd' ? (
+      {currentPathName === 'gatherings' && currentPathName2 ? (
         <div className={styles.customFooter}>
           <div className={styles.space}></div>
           <div className={styles.footerContent}>

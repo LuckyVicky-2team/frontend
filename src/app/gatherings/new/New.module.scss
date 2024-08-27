@@ -1,5 +1,5 @@
 .body {
-  padding: 48px 24px 128px;
+  padding: 108px 24px 128px;
 }
 
 .header {
@@ -52,11 +52,38 @@
   border-radius: 10px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
   padding: 0 16px;
-  margin: 0 0 28px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .textEditor {
   margin: 0 0 28px;
+}
+
+.boardGameTitles {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 12px 0 0;
+
+  .boardGameTitle {
+    border-radius: 20px;
+    border: 2px solid var(--lukyviky-Blue-Normal, #007aff);
+    background: #fff;
+    display: flex;
+    height: 42px;
+    padding: 9px 21px;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    color: var(--lukyviky-Blue-Normal, #007aff);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 83.333% */
+  }
 }
 
 .fileInput {
@@ -83,9 +110,20 @@
   line-height: normal;
 }
 
+.placeInput {
+  width: min(600px, 100%);
+  height: 66px;
+  border-radius: 10px;
+  background: var(--lukyviky-gray-Light, #f5f6f7);
+  padding: 34px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .inputContainer .datePicker {
   width: 100%;
-  margin: 0 0 28px;
   height: 66px;
 }
 
@@ -122,4 +160,31 @@
   &:disabled {
     background: #9ca3af;
   }
+}
+
+.error {
+  border-radius: 10px;
+  border: 1px solid #dd111e;
+  background: #fff;
+}
+
+.errorMessage {
+  color: var(--error, #dd111e);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+  letter-spacing: 0.64px;
+  margin: 8px 0 0;
+}
+
+.successMessage {
+  color: var(--lukyviky-Blue-Normal, #007aff);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 112.5% */
+  letter-spacing: 0.64px;
+  margin: 8px 0 0;
 }

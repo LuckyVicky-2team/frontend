@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 15px;
 }
 
 .label {
@@ -16,21 +16,20 @@
   color: #9ca3af;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 30px;
+  gap: 15px;
 
   .title {
-    font-size: 18px;
-    font-family: LaundryGothicOTF;
+    font-size: 13px;
   }
 
   .contents {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
   }
 
   .content {
-    font-family: LaundryGothicOTF;
+    font-size: 12px;
+    line-height: normal;
   }
 }

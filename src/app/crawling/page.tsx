@@ -13,7 +13,7 @@ export default function CrawlingPage() {
   };
 
   return (
-    <div>
+    <div style={{ margin: '150px' }}>
       <button onClick={handleCrawl}>크롤링 실행</button>
     </div>
   );

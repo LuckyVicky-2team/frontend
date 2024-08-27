@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: 'LaundryGothicOTF';
-  src: url('/assets/fonts/런드리고딕OTF Regular.otf') format('opentype');
+  src: url('/assets/fonts/laundry-gothic.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'LaundryGothicOTF-Bold';
-  src: url('/assets/fonts/런드리고딕OTF Bold.otf') format('opentype');
+  src: url('/assets/fonts/laundry-gothic-bold.otf') format('opentype');
 }
 
 @font-face {
@@ -46,8 +46,6 @@ body {
   width: 100%;
   margin: 0 auto;
   overflow-y: scroll;
-  // padding-top: 65px;
-  // padding-bottom: 120px;
 }
 .rootContainer {
   position: relative;
@@ -87,4 +85,10 @@ body {
 .ql-toolbar {
   border-top-left-radius: 1.5em;
   border-top-right-radius: 1.5em;
+}
+.ql-editor strong {
+  font-weight: bold;
+}
+.ql-editor em {
+  font-style: italic;
 }

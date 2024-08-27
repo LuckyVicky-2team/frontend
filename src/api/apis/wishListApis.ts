@@ -15,9 +15,11 @@ export const postWishList = (gatheringsList: number[]) => {
 };
 
 export const deleteWishList = (gatheringId: number) => {
-  return axiosInstance.post(`/meeting/like/${gatheringId}`);
+  return axiosInstance.delete(`/meeting/like/${gatheringId}`);
 };
 
-export const getWishList = () => {
-  return axiosInstance.get('/my/meeting/like');
+export const getWishList = async () => {
+  const { data } = await axiosInstance.get('/my/meeting/like');
+
+  return data;
 };

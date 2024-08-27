@@ -11,6 +11,7 @@ interface IShareModalProps {
   pathname: string;
   shareCount: number;
   isMobile: boolean;
+  meetingId: number;
 }
 
 export default function ShareModal({
@@ -18,6 +19,7 @@ export default function ShareModal({
   onClose,
   pathname,
   shareCount,
+  meetingId,
   isMobile,
 }: IShareModalProps) {
   const { addToast } = useToast();
@@ -54,7 +56,11 @@ export default function ShareModal({
               클립보드
             </button>
             {/* <KakaoShare path={pathname} likeCount={12} sharedCount={shareCount} /> */}
-            <KakaoShare path={pathname} sharedCount={shareCount} />
+            <KakaoShare
+              path={pathname}
+              meetingId={meetingId}
+              sharedCount={shareCount}
+            />
           </div>
         </div>
         <button className={styles.closeButton} type="button" onClick={onClose}>

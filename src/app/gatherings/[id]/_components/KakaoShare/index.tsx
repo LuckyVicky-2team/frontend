@@ -1,18 +1,25 @@
 import { useEffect, useMemo } from 'react';
 import styles from './KakaoShare.module.scss';
 import Image from 'next/image';
+import { usePatchShareGathering } from '@/api/queryHooks/gathering';
+import { useToast } from '@/contexts/toastContext';
 
 interface IKakaoShareProps {
   path: string;
+  meetingId: number;
   // likeCount: number;
   sharedCount: number;
 }
 
 export default function KakaoShare({
   path,
+  meetingId,
   // likeCount,
   sharedCount,
 }: IKakaoShareProps) {
+  const { mutate: shareMutate } = usePatchShareGathering();
+  const { addToast } = useToast();
+
   const realUrl = `${process.env.NEXT_PUBLIC_DEPLOY_URL}${path}`;
 
   const Kakao = useMemo(() => window?.Kakao, []);
@@ -64,10 +71,22 @@ export default function KakaoShare({
       ],
     });
   };
+
+  const handleShareButtonClick = () => {
+    shareMutate(meetingId, {
+      onError: error => {
+        // console.log(error);
+        void error;
+        addToast('모임 공유하기에 실패했습니다.', 'error');
+      },
+    });
+  };
+
   return (
     <button
       onClick={() => {
         shareKakao();
+        handleShareButtonClick();
       }}
       className={styles.kakaoButton}>
       <div className={styles.kakaoLogo}>

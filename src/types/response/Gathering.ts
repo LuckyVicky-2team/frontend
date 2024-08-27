@@ -12,7 +12,7 @@ export interface IBoardGame {
 }
 
 export interface IGatheringDetailsResponseProps {
-  mettingId: number;
+  meetingId: number;
   userNickName: string;
   meetingDatetime: string;
   title: string;

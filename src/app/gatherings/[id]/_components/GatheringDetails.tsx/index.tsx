@@ -244,6 +244,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                 pathname={pathname}
                 shareCount={data.shareCount}
                 isMobile={isMobile}
+                meetingId={data.meetingId}
               />
             </div>
           </div>

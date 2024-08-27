@@ -24,4 +24,10 @@ export const gatheringAPI = {
       meetingId: id,
     });
   },
+
+  shareGathering: async (id: number) => {
+    return axiosInstance.patch(`/meeting/share/${id}`, {
+      id: id,
+    });
+  },
 };

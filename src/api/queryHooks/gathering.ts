@@ -28,3 +28,11 @@ export const usePostJoinGathering = () => {
     },
   });
 };
+
+export const usePatchShareGathering = () => {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      return await gatheringAPI.shareGathering(id);
+    },
+  });
+};

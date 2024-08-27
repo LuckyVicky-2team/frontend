@@ -63,7 +63,7 @@ export default function MyFavoriteGatherings() {
                       processedGatheringDate.mondthAndDay && (
                       <div className={styles.deadLine}>
                         <Image
-                          src="/assets/icons/clock.svg"
+                          src="/assets/icons/clockIcon.svg"
                           alt="dead-line"
                           width={15}
                           height={15}

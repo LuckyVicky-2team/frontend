@@ -41,6 +41,7 @@ export default function Header() {
       setProfileImageTimestamp(new Date().getTime().toString());
     } catch (err) {
       console.error('Error fetching personal info:', err);
+      // setError('Failed to fetch personal information');
     } finally {
       setLoading(false);
     }
@@ -68,11 +69,12 @@ export default function Header() {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
-
   return (
     <header>
       <div
-        className={`${styles.headerContainer} ${!loading ? styles.loaded : styles.loading}`}>
+        className={`${styles.headerContainer} ${
+          !loading ? styles.loaded : styles.loading
+        }`}>
         {currentPathName === 'mypage' ? (
           <div className={styles.customHeader}>
             <div className={styles.space}></div>
@@ -88,7 +90,55 @@ export default function Header() {
                     />
                   </span>
                 </button>
-                {currentPathName === 'mypage' ? '마이페이지' : ''}
+                마이페이지
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/gatherings/new') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                모임 등록
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/gatherings/new/success') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                모임 등록 완료
               </p>
               <div className={styles.right}>
                 <h2>

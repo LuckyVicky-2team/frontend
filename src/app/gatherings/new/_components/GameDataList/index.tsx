@@ -152,7 +152,7 @@ export default function GameDataList({
                                   `https://${
                                     process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
                                   }/${data.thumbnail}`
-                                : 'assets/images/boardgame.png'
+                                : '/assets/images/boardgame.png'
                             }
                             alt={data.title}
                             width={40}

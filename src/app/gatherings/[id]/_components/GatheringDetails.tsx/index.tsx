@@ -117,7 +117,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>
         <div className={styles.thumbnailBackground}>
-          {/* 나중에 기본이미지 넣기 */}
           <Image
             src={
               data.thumbnail
@@ -125,7 +124,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
                   `https://${
                     process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
                   }/${data.thumbnail}`
-                : 'assets/'
+                : '/assets/images/detail-image-default.png'
             }
             alt="썸네일 이미지"
             priority

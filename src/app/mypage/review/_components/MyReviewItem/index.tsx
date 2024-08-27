@@ -12,12 +12,14 @@ export default function MyReviewItem({ item }: IMeetingReviewProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
   /*
     1.myReivewItem modal 연결 ok
-    //api 생성 후 연결
+    4. review ui ok
+    5. review api 연동 (api 생성 후 연결)
+    
     2. 초기화 버튼
-    새로만들기 버튼 클릭시 회원/비회원 구별
+    ** 새로만들기 버튼 클릭시 회원/비회원 구별
     3. selectbox ui upate
-    4. review ui
-    5. review api 연동
+    
+    
 */
   return (
     <>

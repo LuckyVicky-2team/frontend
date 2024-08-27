@@ -16,7 +16,7 @@ import Image from 'next/image';
   [별점 매기기]
   <Rating
     changeRatingHandler={(rating:number) => {
-      console.log(rating);
+      rating 사용~
     }}
     />
  */

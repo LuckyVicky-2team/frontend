@@ -74,6 +74,7 @@ export default function Recommend() {
         </Link>
         <Link href="/recommendThree">3인 게임</Link>
         <Link href="/recommendMany">다인용 게임</Link>
+        <Link href="/recommendAll">전체</Link>
       </div>
       <div className={styles.recoListWrap}>
         {recommendInfo.map((e, i) => (

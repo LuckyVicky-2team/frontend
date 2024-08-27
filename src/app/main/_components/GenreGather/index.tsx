@@ -120,7 +120,7 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
                   transform: `translateX(${slidePx}px)`,
                   transition: '0.3s ease all',
                 }}>
-                <Link href="/">
+                <Link href={`/gatherings/${e?.id}`}>
                   <span className={styles.famousIco}>★ 인기★</span>
                   <span className={styles.img}>
                     <Image

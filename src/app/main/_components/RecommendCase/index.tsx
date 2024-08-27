@@ -24,7 +24,7 @@ export default function RecommendCase() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/recommendThree">
             <span className={styles.img}>
               <Image
                 width={122}
@@ -40,7 +40,7 @@ export default function RecommendCase() {
           <span className={styles.bubble}>
             <span className={styles.font}>인기</span>
           </span>
-          <Link href="/">
+          <Link href="/recommendMany">
             <span className={styles.img}>
               <Image
                 width={122}
@@ -53,7 +53,7 @@ export default function RecommendCase() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/recommendSearch">
             <span className={styles.img}>
               <Image
                 width={122}
@@ -62,7 +62,7 @@ export default function RecommendCase() {
                 alt="1"
               />
             </span>
-            <span className={styles.tag}>장르별</span>
+            <span className={styles.tag}>전체게임</span>
           </Link>
         </li>
       </ul>

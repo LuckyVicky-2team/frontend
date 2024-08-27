@@ -157,24 +157,27 @@ export default function GatheringFooter({
             type !== 'PARTICIPANT' &&
             '종료된 모집입니다. '}
         </button>
-        {type !== 'LEADER' ? (
-          <SaveGatheringButton
-            id={id}
-            type="red"
-            className={`${styles.zzimButton}`}
-            rectangle
-            isInitialSaved={isInitialSaved}
-          />
-        ) : (
-          <button className={styles.editButton} type="button">
-            <Image
-              src={'/assets/icons/pen.svg'}
-              alt="수정 이미지"
-              width={36}
-              height={36}
+        {
+          type !== 'LEADER' && (
+            <SaveGatheringButton
+              id={id}
+              type="red"
+              className={`${styles.zzimButton}`}
+              rectangle
+              isInitialSaved={isInitialSaved}
             />
-          </button>
-        )}
+          )
+          // ) : (
+          //   <button className={styles.editButton} type="button">
+          //     <Image
+          //       src={'/assets/icons/pen.svg'}
+          //       alt="수정 이미지"
+          //       width={36}
+          //       height={36}
+          //     />
+          //   </button>
+          // )}
+        }
       </div>
       <Modal
         modalOpen={successModalOpen}

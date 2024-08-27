@@ -1,0 +1,33 @@
+.notRectangle {
+  &[data-size='xsmall'] {
+    width: 16px;
+    height: 16px;
+  }
+
+  &[data-size='small'] {
+    width: 24px;
+    height: 24px;
+  }
+
+  &[data-size='medium'] {
+    width: 32px;
+    height: 32px;
+  }
+
+  &[data-size='large'] {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.rectangle {
+  display: flex;
+  height: 88px;
+  width: 80px;
+  padding: 10px 22px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--lukyviky-gray-Normal, #9ca3af);
+}

@@ -13,12 +13,15 @@ import PlaceSearchBar from './PlaceSearchBar';
 import { useToast } from '@/contexts/toastContext';
 import Spinner from '../Spinner';
 import styles from './FindPlaceModal.module.scss';
+import { UseFormSetValue } from 'react-hook-form';
+import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 interface IFindPlaceModalProps {
   modalOpen: boolean;
   onClose: () => void;
   setLatitude: (_y: string) => void;
   setLongitude: (_x: string) => void;
+  setValue?: UseFormSetValue<INewGatheringFormValuesRequest>; //react-hook-form 연결
 }
 
 export default function FindPlaceModal({
@@ -26,6 +29,7 @@ export default function FindPlaceModal({
   onClose,
   setLatitude,
   setLongitude,
+  setValue,
 }: IFindPlaceModalProps) {
   const { Funnel, Step, setStep } = useFunnel('list');
   const [list, setList] = useState<IPlaceInfoResponse[]>([]);
@@ -86,8 +90,30 @@ export default function FindPlaceModal({
     });
   }, [myPosition, isLoading]);
 
+  useEffect(() => {
+    if (setValue) {
+      // selectedItem?.x && setValue('latitude', selectedItem?.x);
+      // selectedItem?.y && setValue('longitude', selectedItem?.y);
+      if (selectedItem?.road_address_name || selectedItem?.address_name) {
+        if (selectedItem?.road_address_name) {
+          setValue('city', selectedItem?.road_address_name.split(' ')[0]);
+          setValue('county', selectedItem?.road_address_name.split(' ')[1]);
+        } else {
+          setValue('city', selectedItem?.address_name.split(' ')[0]);
+          setValue('county', selectedItem?.address_name.split(' ')[1]);
+        }
+        setValue(
+          'detailAddress',
+          selectedItem?.road_address_name || selectedItem?.address_name
+        );
+      }
+      selectedItem?.place_name &&
+        setValue('locationName', selectedItem.place_name);
+    }
+  }, [selectedItem]);
+
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose} xButton maxWidth={600}>
+    <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552} xButton>
       <div className={styles.container}>
         <Funnel>
           <Step name="list">
@@ -138,6 +164,7 @@ export default function FindPlaceModal({
                   distance={selectedItem.distance}
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
+                  mapLatio={'3/2'}
                 />
                 <button
                   className={styles.selectButton}

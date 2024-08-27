@@ -56,7 +56,7 @@ export default function WriteReviewPage({ params }: any) {
             setValue('rating', rating);
           }}
         />
-        <h3>{watchRating ?? 0}/5</h3>
+        <h3>{watchRating ?? 1}/5</h3>
       </div>
       <div className={styles.evaluationContainer}>
         <Controller

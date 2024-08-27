@@ -29,7 +29,7 @@ interface IRatingProps {
 }
 
 export default function Rating({
-  rating = 0,
+  rating = 1,
   size = 'small',
   readable = false,
   changeRatingHandler,
@@ -40,6 +40,7 @@ export default function Rating({
     let updatedRating = newRating;
 
     if (newRating === currentRating) {
+      if (newRating === 1) return;
       updatedRating = newRating - 1;
     }
 

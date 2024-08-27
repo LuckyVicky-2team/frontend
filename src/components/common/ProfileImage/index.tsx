@@ -16,7 +16,12 @@ export default function ProfileImage({
   return (
     <div className={styles.profileImg}>
       {url ? (
-        <Image src={url} alt="Profile" width={width} height={height} />
+        <Image
+          src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${url}`}
+          alt="Profile"
+          width={width}
+          height={height}
+        />
       ) : (
         <Image
           src={'/assets/icons/default-profile.svg'}

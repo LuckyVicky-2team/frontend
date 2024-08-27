@@ -1,92 +1,107 @@
 'use client';
 
-import styles from './myFavoriteGatherings.module.scss';
+import { useGetWishList } from '@/api/queryHooks/wishList';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-interface DateData {
-  id: number;
-  title: string;
-  tag: string[]; // Array of strings
-  participantCount: number;
-  capacity: number;
-  registerDate: string;
-  gatheringDate: string;
-  location: string;
-  content: string;
-  image: string;
-  master: {
-    nickName: string;
-  };
-  type: string;
-}
+import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+import { IWishListItemProps } from '@/types/response/WishListRES';
+import { dateToISOString, transDate } from '@/utils/common';
+import Link from 'next/link';
+import styles from './myFavoriteGatherings.module.scss';
 
 export default function MyFavoriteGatherings() {
-  const [favoriteGatherings, setFavoriteGatherings] = useState<DateData[]>([]);
-  const [heart, setHeart] = useState<{ [key: number]: boolean }>({});
+  const [favoriteGatherings, setFavoriteGatherings] = useState<
+    IWishListItemProps[]
+  >([]);
+
+  const { data: wishList, isLoading } = useGetWishList();
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(
-      localStorage.getItem('savedItems') || '[]'
-    );
-    setFavoriteGatherings(savedFavorites);
-
-    const savedHeart = localStorage.getItem('heart');
-    if (savedHeart) {
-      setHeart(JSON.parse(savedHeart));
+    if (wishList) {
+      setFavoriteGatherings(wishList);
+    } else {
+      setFavoriteGatherings([]);
     }
-  }, []);
-  const handleRemoveFavorite = (id: number) => {
-    const userConfirmed = confirm(
-      '정말로 이 모임을 찜 목록에서 제거하시겠습니까?'
-    );
-    if (userConfirmed) {
-      const updatedFavorites = favoriteGatherings.filter(
-        item => item.id !== id
-      );
-      setFavoriteGatherings(updatedFavorites);
-      localStorage.setItem('savedItems', JSON.stringify(updatedFavorites));
-
-      const updatedHeart = { ...heart, [id]: false };
-      setHeart(updatedHeart);
-      localStorage.setItem('heart', JSON.stringify(updatedHeart));
-    }
-  };
+  }, [wishList]);
 
   return (
     <div className={styles.relative}>
-      <div className={styles.title}>나의 찜한 모임</div>
+      <div className={styles.title}>찜한 모임</div>
       <div className={styles.myFavoriteGathering}>
-        {favoriteGatherings?.map((e, i) => {
-          return (
-            <div className={styles.myFavoriteGatheringItem} key={i}>
-              <div className={styles.img}>
-                <Image
-                  width={182}
-                  height={200}
-                  src={'/assets/mainImages/game.png'}
-                  alt="찜목록 리스트"
-                  style={{ width: '100%', height: 'auto' }}
-                />
-              </div>
-              <div className={styles.mid}>
-                <p>{e.location}</p>
-                <button
-                  type={'button'}
-                  onClick={() => handleRemoveFavorite(e.id)}>
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <div className={styles.skeleton} key={index}></div>
+          ))
+        ) : favoriteGatherings.length === 0 ? (
+          <div>찜한 모임이 없습니다.</div>
+        ) : (
+          favoriteGatherings?.map(e => {
+            const processedGatheringDate = transDate(e.meetingDatetime);
+            const processedCurrentDate = transDate(
+              dateToISOString(new Date())!
+            );
+
+            return (
+              <div className={styles.myFavoriteGatheringItem} key={e.meetingId}>
+                <Link href={`/gatherings/${e.meetingId}`}>
+                  <div className={styles.thumbnail}>
+                    <Image
+                      fill
+                      src={
+                        e.thumbnail
+                          ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${e.thumbnail}`
+                          : '/assets/mainImages/game.png'
+                      }
+                      alt="찜목록 리스트"
+                      style={{ objectFit: 'cover' }}
+                      unoptimized
+                      onError={e =>
+                        (e.currentTarget.src = '/assets/mainImages/game.png')
+                      }
+                    />
+                    {processedCurrentDate.mondthAndDay ===
+                      processedGatheringDate.mondthAndDay && (
+                      <div className={styles.deadLine}>
+                        <Image
+                          src="/assets/icons/clockIcon.svg"
+                          alt="dead-line"
+                          width={15}
+                          height={15}
+                        />
+                        {`오늘 ${processedGatheringDate.time.split(':')[0]}시 마감`}
+                      </div>
+                    )}
+                    <div
+                      className={
+                        styles.participant
+                      }>{`${e.currentParticipant}/${e.limitParticipant}`}</div>
+                  </div>
+                </Link>
+                <div className={styles.mid}>
                   <Image
-                    width={22}
-                    height={22}
-                    objectFit="cover"
-                    src={'/assets/mainImages/heart_fill_ico.svg'}
-                    alt="heart"
+                    src="/assets/icons/mapPin.svg"
+                    alt="place"
+                    width={18}
+                    height={18}
+                    className={styles.mapPin}
                   />
-                </button>
+                  <p>{e.locationName}</p>
+                  <SaveGatheringButton
+                    id={e.meetingId}
+                    size="medium"
+                    type="blue"
+                    className={styles.heart}
+                  />
+                </div>
+                <div className={styles.title2}>{e.title}</div>
+                <div className={styles.date}>
+                  <p>{processedGatheringDate.mondthAndDay}</p>
+                  <p>{processedGatheringDate.time}</p>
+                </div>
               </div>
-              <div className={styles.title2}>{e.title}</div>
-              <div className={styles.date}>{e.gatheringDate}</div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );

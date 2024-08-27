@@ -22,6 +22,10 @@
   .myFavoriteGatheringItem {
     width: 30%;
 
+    &:hover {
+      opacity: 0.8;
+    }
+
     .thumbnail {
       position: relative;
       width: 100%;
@@ -39,7 +43,7 @@
         padding: 6px 4px;
         border-radius: 0px 0px 0px 12px;
         background: #007aff;
-        color: var(--white, #fff);
+        color: #fff;
         font-size: 10px;
         font-weight: 500;
         line-height: 16px;
@@ -50,6 +54,7 @@
 
       .participant {
         display: flex;
+        color: black;
         width: 34%;
         height: 23px;
         padding: 3px 10px;
@@ -96,6 +101,7 @@
     }
     .title2 {
       display: block;
+      color: black;
       font-size: 18px;
       text-overflow: ellipsis;
       line-clamp: 2;

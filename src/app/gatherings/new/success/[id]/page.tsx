@@ -4,10 +4,11 @@ import Image from 'next/image';
 import styles from './Success.module.scss';
 import { useRouter } from 'next/navigation';
 
-export default function NewSuccess() {
+export default function NewSuccess({ params }: { params: any }) {
+  const { id } = params;
   const router = useRouter();
   const handleGoToGatherings = () => {
-    router.push('/gatherings');
+    router.push(`/gatherings/${id}`);
   };
 
   const handleCreateNewGathering = () => {

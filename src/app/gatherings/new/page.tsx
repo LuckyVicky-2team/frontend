@@ -123,12 +123,13 @@ export default function NewGatheringPage() {
     );
 
     try {
-      await axiosInstance.post('/meeting', formData, {
+      const response = await axiosInstance.post('/meeting', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      router.push('/gatherings/new/success');
+      const path = response.headers.location.split('/');
+      router.push(`/gatherings/new/success/${path[2]}`);
     } catch (error) {
       void error;
       addToast('모임 생성에 실패했어요.', 'error');

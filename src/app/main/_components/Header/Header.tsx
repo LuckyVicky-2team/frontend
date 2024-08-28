@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { getPersonalInfo } from '@/api/apis/mypageApis';
+import { getLikeList, getPersonalInfo } from '@/api/apis/mypageApis';
 
 interface IUserProfile {
   email: string;
@@ -23,11 +23,12 @@ export default function Header() {
     string | undefined
   >(undefined);
   // const [error, setError] = useState<string | null>(null);
+  const [likeCount, setLikeCount] = useState(0);
 
   const pathName = usePathname();
   const router = useRouter();
 
-  const currentPathName = pathName.split('/')[1];
+  // const currentPathName = pathName.split('/')[1];
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
   const profileImageUrl = info?.profileImage
@@ -46,6 +47,19 @@ export default function Header() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchGetLikeList = async () => {
+      try {
+        const response = await getLikeList();
+        setLikeCount(response.data.length);
+      } catch (err) {
+        // Handle error
+      }
+    };
+
+    fetchGetLikeList();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -75,7 +89,31 @@ export default function Header() {
         className={`${styles.headerContainer} ${
           !loading ? styles.loaded : styles.loading
         }`}>
-        {currentPathName === 'mypage' ? (
+        {pathName.startsWith('/mypage/myGathering') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.push('/mypage')}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                내 모임
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/mypage/asd') ? (
           <div className={styles.customHeader}>
             <div className={styles.space}></div>
             <div className={styles.headerContent}>
@@ -99,32 +137,8 @@ export default function Header() {
               </div>
             </div>
           </div>
-        ) : pathName.startsWith('/gatherings/new') ? (
-          <div className={styles.customHeader}>
-            <div className={styles.space}></div>
-            <div className={styles.headerContent}>
-              <p>
-                <button type="button" onClick={() => router.back()}>
-                  <span>
-                    <Image
-                      width={16}
-                      height={16}
-                      src="/assets/mainImages/backIcon.svg"
-                      alt="뒤로가기 아이콘"
-                    />
-                  </span>
-                </button>
-                모임 등록
-              </p>
-              <div className={styles.right}>
-                <h2>
-                  <Link href="/">BOGO</Link>
-                </h2>
-              </div>
-            </div>
-          </div>
         ) : pathName.startsWith('/gatherings/new/success') ? (
-          <div className={styles.customHeader}>
+          <div className={styles.customHeader} style={{ display: 'none' }}>
             <div className={styles.space}></div>
             <div className={styles.headerContent}>
               <p>
@@ -147,6 +161,126 @@ export default function Header() {
               </div>
             </div>
           </div>
+        ) : pathName.startsWith('/gatherings/new/') ? (
+          <div className={styles.customHeader} style={{ display: 'none' }}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                모임 등록
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/gatherings/new') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                {/* 모임 등록 */}
+              </p>
+              {/* <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div> */}
+            </div>
+          </div>
+        ) : pathName.startsWith('/mypage/prEdit') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                PR태그 수정
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/signin') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                {/* 모임 등록 */}
+              </p>
+              {/* <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div> */}
+            </div>
+          </div>
+        ) : pathName.startsWith('/signup') ? (
+          <div className={styles.customHeader} style={{ display: 'none' }}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent} style={{ display: 'none' }}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                {/* 모임 등록 */}
+              </p>
+              {/* <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div> */}
+            </div>
+          </div>
         ) : (
           <div>
             <div className={styles.space}></div>
@@ -165,9 +299,9 @@ export default function Header() {
                       src="/assets/mainImages/blackHeart.svg"
                       alt="즐겨찾기 아이콘"
                     />
-                    <span>12</span>
+                    <span>{likeCount}</span>
                   </a>
-                  <button>
+                  {/* <button className={styles.headerAlarmIcon}>
                     <Image
                       width={56}
                       height={56}
@@ -175,7 +309,7 @@ export default function Header() {
                       alt="알람 아이콘"
                     />
                     <span></span>
-                  </button>
+                  </button> */}
                   <Link href="/mypage" className={styles.headerMyapgeButton}>
                     <Image
                       width={24}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './GenreGather.module.scss';
+import styles from './newGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
@@ -24,7 +24,7 @@ interface DeadLineGatherProps {
   meetingList: IMeetingProps[] | undefined;
 }
 
-export default function GenreGather({ meetingList }: DeadLineGatherProps) {
+export default function NewGather({ meetingList }: DeadLineGatherProps) {
   const [slidePx, setSlidePx] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
@@ -69,11 +69,14 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
     );
   };
 
-  // 현재 시간 이후의 모임만 필터링
+  // 현재 시간 이후의 모임만 필터링하고 최신순으로 정렬
   const now = new Date();
   const filteredMeetingList = meetingList
     ?.filter(meeting => new Date(meeting.meetingDate) > now)
-    .sort((a, b) => b.viewCount - a.viewCount);
+    .sort(
+      (a, b) =>
+        new Date(b.meetingDate).getTime() - new Date(a.meetingDate).getTime()
+    ); // 최신순 정렬
 
   return (
     <div>
@@ -85,12 +88,21 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
           alt="타이틀 왼쪽 이미지"
         />
         <div className={styles.titleTxt}>
-          <h1 className={styles.title1}>그 모임 지금 핫해요!</h1>
-          <b className={styles.title2}>인기모임</b>
+          <h1 className={styles.title1}>새로 생긴 모임들이에요!</h1>
+          <b className={styles.title2}>신규모임</b>
         </div>
+        <Link href={'/gatherings'}>
+          더보기
+          <Image
+            width={12}
+            height={12}
+            src={'/assets/icons/backArrow.svg'}
+            alt=""
+          />
+        </Link>
       </div>
       <div className={styles.lineTitle}>
-        <p>추리게임</p>
+        <p>모임 목록</p>
       </div>
 
       <div className={styles.sliderContainer}>
@@ -127,7 +139,6 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
                   transition: '0.3s ease all',
                 }}>
                 <Link href={`/gatherings/${e?.id}`}>
-                  <span className={styles.famousIco}>★ 인기★</span>
                   <span className={styles.img}>
                     <Image
                       src={`https://${cloud}/${e?.thumbnail}`}

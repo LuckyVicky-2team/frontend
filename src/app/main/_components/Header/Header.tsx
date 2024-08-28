@@ -209,6 +209,30 @@ export default function Header() {
               </div> */}
             </div>
           </div>
+        ) : pathName.startsWith('/mypage/prEdit') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                PR태그 수정
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
         ) : pathName.startsWith('/signin') ? (
           <div className={styles.customHeader}>
             <div className={styles.space}></div>
@@ -277,7 +301,7 @@ export default function Header() {
                     />
                     <span>{likeCount}</span>
                   </a>
-                  <button>
+                  {/* <button className={styles.headerAlarmIcon}>
                     <Image
                       width={56}
                       height={56}
@@ -285,7 +309,7 @@ export default function Header() {
                       alt="알람 아이콘"
                     />
                     <span></span>
-                  </button>
+                  </button> */}
                   <Link href="/mypage" className={styles.headerMyapgeButton}>
                     <Image
                       width={24}

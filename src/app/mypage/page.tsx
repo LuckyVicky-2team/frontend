@@ -22,12 +22,12 @@ export default function MyPage() {
   const [prOpen, setPrOpen] = useState(false);
   const [animatedRating, setAnimatedRating] = useState<number>(0); // Initial rating state
   const [checkedLogin, setCheckedLogin] = useState<string | null>(null); // state to hold checkedLogin
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  // const [loading, setLoading] = useState(true); // 로딩 상태 추가
   // 클라이언트 사이드에서만 localStorage를 접근
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     setCheckedLogin(token);
-    setLoading(false); // 로딩 완료
+    // setLoading(false); // 로딩 완료
   }, []);
   // 정보 수정 모달 열기/닫기 핸들러
   const handleEditOpen = () => {
@@ -72,9 +72,9 @@ export default function MyPage() {
     fetchPersonalInfo();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 중 상태를 표시합니다.
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>; // 로딩 중 상태를 표시합니다.
+  // }
 
   const ratingPercentage = (animatedRating / 5) * 100;
 

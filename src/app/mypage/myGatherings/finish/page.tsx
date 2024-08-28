@@ -24,7 +24,19 @@ export default function Finish() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
 
+    // 연도, 월, 일, 시, 분 추출
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    // 포맷된 문자열 반환
+    return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+  };
   useEffect(() => {
     const fetchGatherings = async () => {
       try {
@@ -51,11 +63,11 @@ export default function Finish() {
   return (
     <div className={styles.myGatheringsListWrap}>
       <div className={styles.tabBtn2}>
-        <Link href="participant">참여중모임</Link>
+        <Link href="participant">참여중 모임</Link>
         <Link href="finish" className={styles.on}>
-          종료된모임
+          종료된 모임
         </Link>
-        <Link href="create">내가만든모임</Link>
+        <Link href="create">내가만든 모임</Link>
       </div>
 
       {gatherings.length === 0 ? (
@@ -103,7 +115,9 @@ export default function Finish() {
               </h1>
               <b>{gathering.detailAddress}</b>
               <p>
-                <span className={styles.time}>{gathering.meetingDatetime}</span>
+                <span className={styles.time}>
+                  {formatDate(gathering.meetingDatetime)}
+                </span>
                 <span className={styles.person}>
                   <Image
                     src="/assets/myPageImages/person.svg"

@@ -11,6 +11,7 @@ import {
   IEvaluationTagsResponseProps,
   ISingleMeetingResponseProps,
   ISingleMyReviewResponseProps,
+  IReceivedReviewResponseProps,
 } from '@/types/response/ReviewRES';
 import {
   IRevieweeListRequestProps,
@@ -74,5 +75,13 @@ export const useReviewCreate = () => {
         },
       });
     },
+  });
+};
+
+export const useReceivedReview = () => {
+  return useQuery<IReceivedReviewResponseProps>({
+    queryKey: QueryKey.REVIEW.RECEIVED_REVIEW(),
+    queryFn: () => reviewAPI.receivedReview(),
+    staleTime: 60 * 1000 * 30,
   });
 };

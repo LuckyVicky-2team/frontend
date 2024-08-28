@@ -40,6 +40,7 @@ export const QueryKey = {
       id,
     ],
     TAG_LIST: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'tags'],
+    RECEIVED_REVIEW: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'received'],
     REVIEWEE_LIST: (id: number) => [QueryKey.REVIEW.KEY, id, QueryKey.LIST],
     DETAIL: (id: number) => [QueryKey.REVIEW.KEY, id],
   },

@@ -60,7 +60,6 @@ export default function WriteReviewPage({ params, searchParams }: any) {
         const errorMsg = error.response.data.messages;
         if (errorCode <= 404 || errorCode === 4041 || errorCode === 4040)
           addToast(`${errorMsg}`, 'error');
-        console.error(error);
       },
     });
   };

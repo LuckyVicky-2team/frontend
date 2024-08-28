@@ -25,3 +25,15 @@ export interface ISingleMyReviewResponseProps {
   positiveTags: string[];
   negativeTags: string[];
 }
+
+//내가 받은 리뷰
+interface IEvaluationProps {
+  count: number;
+  tagPhrase: string;
+}
+
+export interface IReceivedReviewResponseProps {
+  averageRating: number;
+  positiveTags: IEvaluationProps[];
+  negativeTags: IEvaluationProps[];
+}

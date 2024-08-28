@@ -321,6 +321,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               placeName={data.locationName}
               address={data.detailAddress}
               mapLatio={'2.8'}
+              isMobile={isMobile}
             />
           </div>
         </div>
@@ -347,7 +348,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           </div>
           <div className={styles.leaderDescription}>
             <div className={styles.userNickname}>{data.userNickName}</div>
-            <div className={styles.rating}>평점 4.5점</div>
+            {/* <div className={styles.rating}>평점 4.5점</div> */}
             <div className={styles.gatheringCount}>
               운영 모임 {data.createMeetingCount}회
             </div>

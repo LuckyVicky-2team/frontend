@@ -28,7 +28,9 @@ export default function PlaceListItem({
     <div className={`${styles.item} ${className}`}>
       <div
         className={styles.nameArea}
-        style={{ flexDirection: isMobile ? 'column' : 'row' }}>
+        style={{
+          flexDirection: isMobile ? 'column' : 'row',
+        }}>
         {index !== undefined && (
           <span className={styles.order}>{index + 1}</span>
         )}
@@ -48,7 +50,9 @@ export default function PlaceListItem({
       </div>
       <div
         className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}
-        style={{ padding: isMobile ? '0' : '0 0 0 42px' }}>
+        style={{
+          padding: isMobile ? '0' : index === undefined ? '0' : '0 0 0 42px',
+        }}>
         {isMobile ? (
           <div
             style={{

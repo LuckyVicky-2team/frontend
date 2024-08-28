@@ -20,7 +20,7 @@ export const handleCopyClipBoard = async (
     await navigator.clipboard.writeText(text);
     addToast('클립보드에 링크가 복사되었어요.', 'success');
   } catch (err) {
-    console.log(err);
+    void err;
     addToast('복사에 실패했어요', 'error');
   }
 };

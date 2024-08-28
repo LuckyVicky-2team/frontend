@@ -69,9 +69,7 @@ export const useDeleteWishList = () => {
       const previousWishlist = queryClient.getQueryData(queryKey);
 
       queryClient.setQueryData(queryKey, (prev: IWishListItemProps[]) =>
-        prev.filter(item => {
-          item.meetingId !== gatheringId;
-        })
+        prev.filter(item => item.meetingId !== gatheringId)
       );
 
       return { previousWishlist };

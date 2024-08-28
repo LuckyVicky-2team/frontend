@@ -30,7 +30,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   // const [savedItem, setSaveItem] = useSaveItemState();
   // const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
-  const { data, isError } = useGatheringDetails(Number(id));
+  const { data, isError, refetch } = useGatheringDetails(Number(id));
   const { data: isUserTypeQuitData } = useGetIsUserTypeQuit(
     data?.meetingId || 0
   );
@@ -39,7 +39,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     data?.totalParticipantCount || 0
   );
   const [isMobile, setIsMobile] = useState(false);
-  console.log(data);
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,
@@ -91,7 +90,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     myType = 'QUIT';
   }
 
-  // console.log(String(data.latitude), String(data.longitude));
   //참여자 mockdata
   // const participants: IParticipant[] = Array.from(
   //   { length: 12 },
@@ -291,6 +289,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               onClose={handleProfileModalClose}
               data={data.userParticipantResponseList}
               isMobile={isMobile}
+              myType={myType}
             />
           </div>
         </div>
@@ -320,6 +319,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               placeName={data.locationName}
               address={data.detailAddress}
               mapLatio={'2.8'}
+              isMobile={isMobile}
             />
           </div>
         </div>
@@ -346,7 +346,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           </div>
           <div className={styles.leaderDescription}>
             <div className={styles.userNickname}>{data.userNickName}</div>
-            <div className={styles.rating}>평점 4.5점</div>
+            {/* <div className={styles.rating}>평점 4.5점</div> */}
             <div className={styles.gatheringCount}>
               운영 모임 {data.createMeetingCount}회
             </div>
@@ -369,6 +369,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         isInitialSaved={data.likeStatus}
         isMobile={isMobile}
         state={data.state}
+        refetch={refetch}
       />
     </div>
   );

@@ -17,12 +17,18 @@
   font-weight: 500;
   line-height: 30px; /* 115.385% */
   letter-spacing: 1.04px;
+  @media only screen and (max-width: 520px) {
+    font-size: 20px;
+  }
 }
 
 .buttons {
   display: flex;
   gap: 20px;
   align-items: center;
+  @media only screen and (max-width: 520px) {
+    font-size: 14px;
+  }
 }
 
 .button {
@@ -60,4 +66,7 @@
   line-height: 18px; /* 75% */
   letter-spacing: 0.96px;
   background: var(--lukyviky-Blue-Normal, #007aff);
+  @media only screen and (max-width: 520px) {
+    font-size: 20px;
+  }
 }

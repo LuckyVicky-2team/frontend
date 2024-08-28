@@ -1,0 +1,125 @@
+.outerLayer {
+  position: relative;
+  width: 100%;
+  max-width: 534px;
+  height: 226px;
+  display: flex;
+  padding: 32px 28px;
+  border-radius: 20px;
+  background: #fff;
+  align-items: flex-start;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  .innerLayer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transform: translateY(-1%);
+
+    .thumbnail {
+      border-radius: 10px;
+      border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      width: 142px;
+      height: 164px;
+    }
+
+    .content {
+      display: flex;
+      max-width: 324px;
+      width: 324px;
+      max-height: 179px;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 4px 16px;
+
+      .detail {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        align-self: stretch;
+
+        overflow: hidden;
+        word-break: keep-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        .title {
+          color: #1f2937;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 600;
+        }
+        .location {
+          color: #374151;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 500;
+          span {
+            color: $black-b400;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 600;
+          }
+        }
+        .time {
+          display: flex;
+          gap: 8px;
+          align-items: flex-start;
+          p {
+            padding: 2px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            background-color: #007aff;
+            color: white;
+            font-style: normal;
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+      }
+    }
+    h3 {
+      margin: 0 0 6px 0;
+      font-size: 18px;
+    }
+    p {
+      margin: 4px 0;
+      color: #555;
+    }
+    .button {
+      width: 100%;
+      min-height: 39px;
+      max-height: fit-content;
+      display: flex;
+      justify-content: center;
+
+      .writeBtn {
+        width: 100%;
+        border-radius: 12px;
+        padding: 8px 16px;
+        border: 2px solid $blue-normal;
+        color: $blue-normal;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -66,3 +66,45 @@ export interface UserData {
   reviews: ReviewList; // 리뷰 정보
   favoriteMeetings: Meeting[]; // 찜한 모임 목록
 }
+
+//@haewon review type
+interface ReviewedUser {
+  reviewId: number; // 리뷰를 받은 사용자의 ID
+  revieweeName: string; // 리뷰를 받은 사용자의 이름
+  rating: number; // 별점
+  positiveTags: string[]; // 긍정 리뷰 태그 목록
+  negativeTags: string[]; // 부정 리뷰 태그 목록
+}
+
+// 모임 정보와 그 모임에서 작성된 리뷰 타입 정의
+export interface IMeetingReviewProps {
+  item: {
+    id: number; // 모임의 고유 ID
+    title: string; // 모임의 제목
+    thumbnail: string; // 모임 썸네일 이미지 URL
+    city: string;
+    county: string;
+    gatheringDate: string;
+    reviewee: ReviewedUser[]; // 모임에서 리뷰를 받은 사용자 목록
+  };
+}
+
+interface Manner {
+  count: number;
+  tagPhrase: string;
+}
+
+export interface IReceivedReviewItemProps {
+  positiveTags: Manner[];
+  negativeTags: Manner[];
+}
+
+export interface IAttendGatheringItemProps {
+  id: number;
+  title: string;
+  thumbnail: string;
+  city: string;
+  county: string;
+  gatheringDate: string;
+  participants: any[];
+}

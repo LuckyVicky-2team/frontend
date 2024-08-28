@@ -9,7 +9,7 @@ import { useEffect, useState, useMemo } from 'react';
 import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
-import TypeInput from './_components/TypeInput';
+// import TypeInput from './_components/TypeInput';
 import Image from 'next/image';
 import { dateToString } from '@/utils/dateTostring';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
@@ -36,6 +36,7 @@ export default function NewGatheringPage() {
       image: '',
       meetingDatetime: undefined,
       genreIdList: [],
+      limitParticipant: 2,
     },
   });
   const {
@@ -47,7 +48,8 @@ export default function NewGatheringPage() {
     watch,
     formState: { errors, dirtyFields, isValid },
   } = methods;
-  const [freeButtonClick, setFreeButtonClick] = useState(true);
+  //free/accept
+  // const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
   const [genreIdList, setGenreIdList] = useState<number[]>([]);
   const [boardGameIdTitleList, setBoardGameIdTitleList] = useState<
@@ -98,13 +100,6 @@ export default function NewGatheringPage() {
   // 'limitParticipant' 필드의 값 변화를 감지
   const watchedParticipant = watch('limitParticipant');
 
-  // const gameData = [
-  //   { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
-  //   { id: 2, title: '장기', image: '/assets/images/rectangle.png' },
-  //   { id: 3, title: '바둑', image: '/assets/images/rectangle.png' },
-  //   { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
-  // ];
-
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
     const { contentWithoutHtml, image, meetingDatetime, ...info } =
       gatheringInfo;
@@ -112,21 +107,13 @@ export default function NewGatheringPage() {
     const formData = new FormData();
     formData.append('image', image);
 
-    //임시 코드
-    const { genreIdList, ...info2 } = info;
-    void genreIdList;
-    // void latitude;
-    // void longitude;
-    // console.log(dateToString(meetingDatetime));
-    console.log(info2);
     formData.append(
       'meetingCreateRequest',
       new Blob(
         [
           JSON.stringify({
-            genreIdList: [1, 2, 3],
             meetingDatetime: dateToString(meetingDatetime),
-            ...info2,
+            ...info,
           }),
         ],
         {
@@ -134,24 +121,13 @@ export default function NewGatheringPage() {
         }
       )
     );
-    console.log(
-      JSON.stringify({
-        genreIdList: [1, 2, 3],
-        meetingDatetime: dateToString(meetingDatetime),
-        ...info2,
-      })
-    );
 
-    for (const x of formData) {
-      console.log(x);
-    }
     try {
-      const response = await axiosInstance.post('/meeting', formData, {
+      await axiosInstance.post('/meeting', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data);
       router.push('/gatherings/new/success');
     } catch (error) {
       void error;
@@ -248,7 +224,7 @@ export default function NewGatheringPage() {
                 </div>
                 <div className={styles.successMessage}>
                   {dirtyFields.content &&
-                    !errors.content &&
+                    !errors.contentWithoutHtml &&
                     '이해가 쏙쏙 되네요!'}
                 </div>
               </div>
@@ -462,14 +438,14 @@ export default function NewGatheringPage() {
                 </div>
               </div>
             </div>
-            <div className={styles.inputContainer}>
+            {/* <div className={styles.inputContainer}>
               <div className={styles.title}>참여 유형</div>
               <TypeInput
                 register={register('type')}
                 freeButtonClick={freeButtonClick}
                 setFreeButtonClick={setFreeButtonClick}
               />
-            </div>
+            </div> */}
           </div>
           <button
             type="submit"

@@ -114,21 +114,14 @@ export default function NewGatheringPage() {
     const formData = new FormData();
     formData.append('image', image);
 
-    //임시 코드
-    const { genreIdList, ...info2 } = info;
-    void genreIdList;
-    // void latitude;
-    // void longitude;
     // console.log(dateToString(meetingDatetime));
-    console.log(info2);
     formData.append(
       'meetingCreateRequest',
       new Blob(
         [
           JSON.stringify({
-            genreIdList: [1, 2, 3],
             meetingDatetime: dateToString(meetingDatetime),
-            ...info2,
+            ...info,
           }),
         ],
         {
@@ -136,17 +129,17 @@ export default function NewGatheringPage() {
         }
       )
     );
-    console.log(
-      JSON.stringify({
-        genreIdList: [1, 2, 3],
-        meetingDatetime: dateToString(meetingDatetime),
-        ...info2,
-      })
-    );
+    // console.log(
+    //   JSON.stringify({
+    //     genreIdList: [1, 2, 3],
+    //     meetingDatetime: dateToString(meetingDatetime),
+    //     ...info2,
+    //   })
+    // );
 
-    for (const x of formData) {
-      console.log(x);
-    }
+    // for (const x of formData) {
+    //   console.log(x);
+    // }
     try {
       const response = await axiosInstance.post('/meeting', formData, {
         headers: {

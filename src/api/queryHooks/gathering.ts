@@ -6,10 +6,12 @@ import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
 import { IErrorProps } from '@/types/CommonInterface';
 
 export const useGatheringDetails = (id: number) => {
-  return useQuery({
+  const query = useQuery({
     queryKey: [QueryKey.GATHERING.DETAIL(id)],
     queryFn: () => gatheringAPI.getGatheringsInfo(id),
   });
+
+  return { ...query, refetch: query.refetch };
 };
 
 export const useGatheringList = (req: IGatheringListRequestProps) => {

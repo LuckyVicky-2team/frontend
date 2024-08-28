@@ -42,9 +42,12 @@ export default function Modal({
   return (
     <>
       <div
-        onClick={onClose}
+        onMouseDown={onClose}
         className={full ? '' : modalOpen ? styles.modalBackground : ''}>
         <div
+          onMouseDown={e => {
+            e.stopPropagation();
+          }}
           onClick={e => {
             e.stopPropagation();
           }}

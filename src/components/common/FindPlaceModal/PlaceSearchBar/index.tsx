@@ -2,19 +2,25 @@
 
 import Input from '@/components/common/Input';
 import Image from 'next/image';
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, useEffect, useState } from 'react';
 import styles from './PlaceSearchBar.module.scss';
 
 interface IPlaceSearchBarProps extends InputHTMLAttributes<HTMLInputElement> {
   onClickZoom: (_keyword: string) => void;
+  myPosition: boolean;
 }
 
 export default function PlaceSearchBar({
   className,
   onClickZoom,
+  myPosition,
   ...props
 }: IPlaceSearchBarProps) {
-  const [value, setValue] = useState('내 주변 보드카페');
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(myPosition ? '내 주변 보드 게임 카페' : '');
+  }, [myPosition]);
 
   return (
     <div className={`${styles.searchBar} ${className}`}>
@@ -22,6 +28,7 @@ export default function PlaceSearchBar({
         className={styles.input}
         placeholder="장소를 검색해주세요!"
         onChange={e => setValue(e.target.value)}
+        value={value}
         {...props}
       />
       <button

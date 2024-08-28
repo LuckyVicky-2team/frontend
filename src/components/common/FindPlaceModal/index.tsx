@@ -88,7 +88,7 @@ export default function FindPlaceModal({
       lat: myPosition.y,
       lon: myPosition.x,
     });
-  }, [myPosition, isLoading]);
+  }, [myPosition, isLoading, modalOpen]);
 
   useEffect(() => {
     if (setValue) {
@@ -113,7 +113,13 @@ export default function FindPlaceModal({
   }, [selectedItem]);
 
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552} xButton>
+    <Modal
+      modalOpen={modalOpen}
+      onClose={() => {
+        onClose();
+      }}
+      maxWidth={552}
+      xButton>
       <div className={styles.container}>
         <Funnel>
           <Step name="list">
@@ -122,6 +128,7 @@ export default function FindPlaceModal({
                 onKeyUp={handlePressEnter}
                 onClickZoom={handleClickZoom}
                 disabled={isLoading || searchLoading}
+                myPosition={!!myPosition}
               />
               {isLoading || searchLoading ? (
                 <div className={styles.exception}>

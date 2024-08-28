@@ -188,6 +188,7 @@ export default function FindPlaceModal({
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
                   mapLatio={'3/2'}
+                  isMobile={isMobile}
                 />
                 <button
                   type="button"

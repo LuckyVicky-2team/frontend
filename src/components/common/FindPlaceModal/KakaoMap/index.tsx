@@ -13,6 +13,7 @@ interface IKakaoMapProps {
   placeURL?: string;
   categoryName?: string;
   className?: string;
+  isMobile: boolean;
   mapLatio?: string;
 }
 
@@ -36,6 +37,7 @@ export default function KakaoMap({
   placeURL,
   categoryName,
   className,
+  isMobile,
   mapLatio = '1/1',
 }: IKakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -125,6 +127,7 @@ export default function KakaoMap({
         placeURL={placeURL}
         categoryName={categoryName}
         className={styles.item}
+        isMobile={isMobile}
       />
     </div>
   );

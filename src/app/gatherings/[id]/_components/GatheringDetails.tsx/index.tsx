@@ -19,13 +19,15 @@ import { useEffect, useState } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
+import Link from 'next/link';
 // import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
   id: number;
+  open: string;
 }
 
-export default function GatheringDetails({ id }: IGatheringDetailsProps) {
+export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const { addToast } = useToast();
   // const [savedItem, setSaveItem] = useSaveItemState();
   // const isSaved = savedItem?.includes(id);
@@ -110,6 +112,10 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   //     type: 'PARTICIPANT',
   //   };
   // });
+
+  const LeaderID = data.userParticipantResponseList.find(p => {
+    return p.type === 'LEADER';
+  })?.userId;
 
   return (
     <div style={{ margin: '60px 0 120px' }}>
@@ -285,11 +291,14 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               참여자 리스트 보기 ({participantCount}/{data.limitParticipant})
             </button>
             <Members
+              meetingId={data.meetingId}
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
+              onOpen={handleProfileModalOpen}
               data={data.userParticipantResponseList}
               isMobile={isMobile}
               myType={myType}
+              bottomSheetOpen={open}
             />
           </div>
         </div>
@@ -327,7 +336,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
       <div className={styles.section4}>
         <h2 className={styles.h2}>모임장 정보</h2>
         <p className={styles.h2Description}>모임장님은 이런 분이세요!</p>
-        <div className={styles.leaderProfile}>
+        <Link
+          href={`/other-profile/${LeaderID}?id=${data.meetingId}&open=zero`}
+          className={styles.leaderProfile}>
           <div
             style={{
               display: 'flex',
@@ -346,9 +357,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           </div>
           <div className={styles.leaderDescription}>
             <div className={styles.userNickname}>{data.userNickName}</div>
-            {/* <div className={styles.rating}>평점 4.5점</div> */}
+            <div className={styles.rating}>평점 {data.rating}점</div>
             <div className={styles.gatheringCount}>
-              운영 모임 {data.createMeetingCount}회
+              운영 모임 {data.userWritingCount}회
             </div>
           </div>
           <Image
@@ -357,7 +368,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
             width={36}
             height={90}
           />
-        </div>
+        </Link>
       </div>
       <GatheringFooter
         id={id}

@@ -5,20 +5,27 @@ import styles from './Members.module.scss';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useToast } from '@/contexts/toastContext';
+import { useRouter } from 'next/navigation';
 
 interface IMembersProps {
   modalOpen: boolean;
   onClose: () => void;
+  onOpen: () => void;
   data: IParticipant[];
   isMobile: boolean;
+  meetingId: number;
+  bottomSheetOpen: string;
   myType: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
 }
 
 export default function Members({
   modalOpen,
   onClose,
+  onOpen,
   data,
   isMobile,
+  meetingId,
+  bottomSheetOpen,
   myType,
 }: IMembersProps) {
   // const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -26,9 +33,17 @@ export default function Members({
   const [isOverflowing, setIsOverflowing] = useState(false);
   const { addToast } = useToast();
   const [kickButtonOn, setKickButtonOn] = useState(false);
+  const [isFull, setIsFull] = useState(!!bottomSheetOpen);
+  const router = useRouter();
 
   const handleKickButtonClick = () => {
     addToast('아직 구현되지 않은 기능입니다', 'error');
+  };
+
+  const handleGoToOtherProfile = (id: number) => {
+    router.push(
+      `/other-profile/${id}?id=${meetingId}&open=${isFull ? 'full' : 'half'}`
+    );
   };
 
   useEffect(() => {
@@ -53,7 +68,13 @@ export default function Members({
   }, [myType, setKickButtonOn]);
 
   return (
-    <BottomSheet isOpen={modalOpen} onClose={onClose} full>
+    <BottomSheet
+      isOpen={modalOpen}
+      onOpen={onOpen}
+      onClose={onClose}
+      full
+      setIsFull={setIsFull}
+      initialBottomSheetOpen={bottomSheetOpen}>
       <div className={styles.header}>
         <h2 className={styles.title}>
           <Image
@@ -88,7 +109,11 @@ export default function Members({
           {data.map(participant => {
             return (
               <div key={participant.userId} className={styles.profile}>
-                <button className={styles.profilePart1}>
+                <button
+                  className={styles.profilePart1}
+                  onClick={() => {
+                    handleGoToOtherProfile(participant.userId);
+                  }}>
                   <div className={styles.crown}>
                     {participant.type === 'LEADER' && (
                       <Image

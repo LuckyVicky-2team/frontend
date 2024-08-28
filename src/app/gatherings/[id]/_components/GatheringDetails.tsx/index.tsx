@@ -23,9 +23,10 @@ import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
 
 interface IGatheringDetailsProps {
   id: number;
+  open: string;
 }
 
-export default function GatheringDetails({ id }: IGatheringDetailsProps) {
+export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const { addToast } = useToast();
   // const [savedItem, setSaveItem] = useSaveItemState();
   // const isSaved = savedItem?.includes(id);
@@ -285,11 +286,14 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               참여자 리스트 보기 ({participantCount}/{data.limitParticipant})
             </button>
             <Members
+              meetingId={data.meetingId}
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
+              onOpen={handleProfileModalOpen}
               data={data.userParticipantResponseList}
               isMobile={isMobile}
               myType={myType}
+              bottomSheetOpen={open}
             />
           </div>
         </div>

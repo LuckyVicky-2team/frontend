@@ -1,4 +1,11 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { motion } from 'framer-motion';
 import styles from './BottomSheet.module.scss';
 
@@ -32,15 +39,21 @@ import styles from './BottomSheet.module.scss';
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpen: () => void;
   children: ReactNode;
   full?: boolean;
+  setIsFull?: Dispatch<SetStateAction<boolean>>;
+  initialBottomSheetOpen: string;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
   isOpen,
   onClose,
+  onOpen,
   children,
   full = false,
+  setIsFull,
+  initialBottomSheetOpen,
 }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -60,6 +73,23 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       setIsFullScreen(false);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (initialBottomSheetOpen === 'full') {
+      onOpen();
+      setIsFullScreen(true);
+    }
+    if (initialBottomSheetOpen === 'half') {
+      onOpen();
+      setIsFullScreen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (setIsFull) {
+      setIsFull(isFullScreen);
+    }
+  }, [isFullScreen]);
 
   // dragElastic을 0으로 설정하지 않고, spring options로 컨트롤
   //

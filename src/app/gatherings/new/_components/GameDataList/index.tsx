@@ -137,9 +137,7 @@ export default function GameDataList({
               height={24}
             />
           </div>
-          {isLoading && !showGameData && (
-            <p className={styles.loading}>로딩 중...</p>
-          )}
+          {isLoading && <p className={styles.loading}>로딩 중...</p>}
           {showGameData && (
             <div className={styles.gameDataList}>
               {gameData.map((data, i) => {
@@ -220,7 +218,9 @@ export default function GameDataList({
                   </div>
                 );
               })}
-
+              {!isLoading && gameData.length === 0 && (
+                <div className={styles.noResults}>검색결과 없음</div>
+              )}
               {gameData.length !== 0 && (
                 <div className={styles.buttons}>
                   {/* {Array.from({ length: totalPages }, (_, i) => i + 1).map(

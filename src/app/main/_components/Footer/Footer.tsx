@@ -45,6 +45,24 @@ export default function Footer() {
             </button>
           </div>
         </div>
+      ) : pathName.startsWith('/signup') ? (
+        <div className={styles.customFooter} style={{ display: 'none' }}>
+          <div className={styles.space}></div>
+          <div className={styles.footerContent}>
+            <button type={'button'} className={styles.joinBtn}>
+              모임 참여하기
+            </button>
+          </div>
+        </div>
+      ) : pathName.startsWith('/threads') ? (
+        <div className={styles.customFooter} style={{ display: 'none' }}>
+          <div className={styles.space}></div>
+          <div className={styles.footerContent}>
+            <button type={'button'} className={styles.joinBtn}>
+              모임 참여하기
+            </button>
+          </div>
+        </div>
       ) : (
         //기본 푸터
         <div>

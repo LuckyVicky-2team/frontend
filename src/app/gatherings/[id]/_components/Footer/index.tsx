@@ -21,6 +21,7 @@ interface IGatheringFooterProps {
   isMobile: boolean;
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
+  refetch: () => void;
 }
 
 export default function GatheringFooter({
@@ -32,6 +33,7 @@ export default function GatheringFooter({
   isMobile,
   isInitialSaved,
   state,
+  refetch,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
@@ -72,7 +74,7 @@ export default function GatheringFooter({
       return;
     }
     joinMutate(id, {
-      onSuccess: () => {
+      onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
         handleSuccessModalOpen();
       },
@@ -135,7 +137,10 @@ export default function GatheringFooter({
           type="button"
           onClick={handleButtonClick}
           disabled={
-            type === 'QUIT' || state === 'COMPLETE' || state === 'FINISH'
+            type === 'QUIT' ||
+            state === 'COMPLETE' ||
+            state === 'FINISH' ||
+            isPending
           }>
           {state === 'PROGRESS' &&
             (!type || type === 'NONE') &&
@@ -183,7 +188,10 @@ export default function GatheringFooter({
       </div>
       <Modal
         modalOpen={successModalOpen}
-        onClose={handleSuccessModalClose}
+        onClose={() => {
+          handleSuccessModalClose();
+          refetch();
+        }}
         maxWidth={552}
         xButton>
         <div className={styles.modalBackground}>

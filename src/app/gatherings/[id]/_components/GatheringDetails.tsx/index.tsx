@@ -30,7 +30,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
   // const [savedItem, setSaveItem] = useSaveItemState();
   // const isSaved = savedItem?.includes(id);
   const pathname = `/gatherings/${id}`;
-  const { data, isError } = useGatheringDetails(Number(id));
+  const { data, isError, refetch } = useGatheringDetails(Number(id));
   const { data: isUserTypeQuitData } = useGetIsUserTypeQuit(
     data?.meetingId || 0
   );
@@ -370,6 +370,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
         isInitialSaved={data.likeStatus}
         isMobile={isMobile}
         state={data.state}
+        refetch={refetch}
       />
     </div>
   );

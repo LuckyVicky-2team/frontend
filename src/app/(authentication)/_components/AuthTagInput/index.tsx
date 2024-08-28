@@ -26,7 +26,7 @@ export default function AuthTagInput() {
       </div>
       <TagInput
         id="prTags"
-        placeholder="나를 소개하는 문구를 적어보세요!"
+        placeholder="나를 소개하는 문구를 적고 엔터를 눌러주세요!"
         fieldName="prTags"
       />
     </div>

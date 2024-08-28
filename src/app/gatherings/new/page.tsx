@@ -248,7 +248,7 @@ export default function NewGatheringPage() {
                 </div>
                 <div className={styles.successMessage}>
                   {dirtyFields.content &&
-                    !errors.content &&
+                    !errors.contentWithoutHtml &&
                     '이해가 쏙쏙 되네요!'}
                 </div>
               </div>

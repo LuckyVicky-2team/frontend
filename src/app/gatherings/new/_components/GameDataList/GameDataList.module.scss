@@ -144,6 +144,8 @@
   font-style: normal;
   font-weight: 700;
   line-height: 20px; /* 100% */
+  text-align: center;
+  margin-top: 40px;
 }
 
 .buttons {
@@ -167,4 +169,14 @@
 
 .blue {
   color: $blue-normal;
+}
+
+.noResults {
+  width: min(100%, 600px);
+  color: var(--lukyviky-gray-Dark, #757a83);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 100% */
+  text-align: center;
 }

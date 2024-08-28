@@ -39,6 +39,8 @@ export default function FindPlaceModal({
   const { addToast } = useToast();
   const { data: myPosition, isLoading } = useGetCurrentCoordinate();
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const setPlaceList = async (
     keyword: string,
     size?: number,
@@ -88,7 +90,7 @@ export default function FindPlaceModal({
       lat: myPosition.y,
       lon: myPosition.x,
     });
-  }, [myPosition, isLoading]);
+  }, [myPosition, isLoading, modalOpen]);
 
   useEffect(() => {
     if (setValue) {
@@ -112,8 +114,25 @@ export default function FindPlaceModal({
     }
   }, [selectedItem]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 439);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552} xButton>
+    <Modal
+      modalOpen={modalOpen}
+      onClose={() => {
+        onClose();
+      }}
+      maxWidth={552}
+      xButton>
       <div className={styles.container}>
         <Funnel>
           <Step name="list">
@@ -122,6 +141,8 @@ export default function FindPlaceModal({
                 onKeyUp={handlePressEnter}
                 onClickZoom={handleClickZoom}
                 disabled={isLoading || searchLoading}
+                myPosition={!!myPosition}
+                isMobile={isMobile}
               />
               {isLoading || searchLoading ? (
                 <div className={styles.exception}>
@@ -133,6 +154,7 @@ export default function FindPlaceModal({
                   setItem={setSelectedItem}
                   setStep={setStep}
                   myPosition={myPosition}
+                  isMobile={isMobile}
                 />
               ) : (
                 <div className={styles.exception}>검색 결과가 없습니다</div>
@@ -142,6 +164,7 @@ export default function FindPlaceModal({
 
           <Step name="map">
             <button
+              type="button"
               onClick={() => setStep('list')}
               className={styles.backButton}>
               <Image
@@ -165,8 +188,10 @@ export default function FindPlaceModal({
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
                   mapLatio={'3/2'}
+                  isMobile={isMobile}
                 />
                 <button
+                  type="button"
                   className={styles.selectButton}
                   onClick={() => {
                     setLatitude(selectedItem.y);

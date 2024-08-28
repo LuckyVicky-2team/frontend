@@ -8,6 +8,7 @@ interface IKakaoListProps {
   list: IPlaceInfoResponse[];
   setItem: Dispatch<SetStateAction<IPlaceInfoResponse | undefined>>;
   setStep: Dispatch<SetStateAction<string>>;
+  isMobile: boolean;
   myPosition: { x: number; y: number } | undefined;
 }
 
@@ -15,6 +16,7 @@ export default function KakaoList({
   list,
   setItem,
   setStep,
+  isMobile,
   myPosition,
 }: IKakaoListProps) {
   return (
@@ -34,6 +36,7 @@ export default function KakaoList({
           return (
             <Fragment key={item.id}>
               <button
+                type="button"
                 onClick={() => {
                   setItem(item);
                   setStep('map');
@@ -45,6 +48,7 @@ export default function KakaoList({
                   address={item.road_address_name || item.address_name}
                   distance={item.distance}
                   placeURL={item.place_url}
+                  isMobile={isMobile}
                   categoryName={item.category_name}
                 />
               </button>

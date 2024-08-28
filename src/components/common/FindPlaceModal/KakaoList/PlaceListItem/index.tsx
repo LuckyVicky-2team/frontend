@@ -8,6 +8,7 @@ interface IPlaceListItemProps {
   placeURL?: string;
   categoryName?: string;
   index?: number;
+  isMobile: boolean;
   className?: string;
 }
 
@@ -18,11 +19,18 @@ export default function PlaceListItem({
   placeURL,
   categoryName,
   index,
+  isMobile,
   className,
 }: IPlaceListItemProps) {
+  const addressParts = address.split(' ');
+
   return (
     <div className={`${styles.item} ${className}`}>
-      <div className={styles.nameArea}>
+      <div
+        className={styles.nameArea}
+        style={{
+          flexDirection: isMobile ? 'column' : 'row',
+        }}>
         {index !== undefined && (
           <span className={styles.order}>{index + 1}</span>
         )}
@@ -41,9 +49,35 @@ export default function PlaceListItem({
         </span>
       </div>
       <div
-        className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}>
-        <div className={styles.address}>{address}</div>
-        {distance && <div className={styles.distance}>{`${distance}km`}</div>}
+        className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}
+        style={{
+          padding: isMobile ? '0' : index === undefined ? '0' : '0 0 0 42px',
+        }}>
+        {isMobile ? (
+          <div
+            style={{
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+            }}>
+            <div className={styles.address}>
+              {addressParts[0]} {addressParts[1]}
+            </div>
+            <div className={styles.address}>
+              {addressParts[2]} {addressParts[3]}
+            </div>
+          </div>
+        ) : (
+          <div className={styles.address}>{address}</div>
+        )}
+        {distance && (
+          <div
+            className={styles.distance}
+            style={{
+              justifyContent: isMobile ? 'center' : undefined,
+            }}>{`${distance}km`}</div>
+        )}
       </div>
     </div>
   );

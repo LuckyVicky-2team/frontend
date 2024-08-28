@@ -96,7 +96,7 @@ async function convertAndCreateFormData(data: IGameInfo[]) {
           responseType: 'arraybuffer',
           maxRedirects: 5,
         });
-        // console.log(response.data);
+
         const imageBuffer = Buffer.from(response.data, 'binary');
 
         const jpgBuffer = await sharp(imageBuffer).jpeg().toBuffer();
@@ -127,22 +127,6 @@ async function convertAndCreateFormData(data: IGameInfo[]) {
           );
         }
 
-        // console.log({
-        //   title,
-        //   minPeople,
-        //   maxPeople,
-        //   minPlayTime,
-        //   maxPlayTime,
-        //   genres,
-        // });
-        console.log({
-          title,
-          minPeople,
-          maxPeople,
-          minPlayTime,
-          maxPlayTime,
-          genres,
-        });
         // 결과 배열에 추가
         results.push(formData);
       }

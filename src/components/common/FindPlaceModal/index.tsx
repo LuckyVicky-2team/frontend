@@ -39,6 +39,8 @@ export default function FindPlaceModal({
   const { addToast } = useToast();
   const { data: myPosition, isLoading } = useGetCurrentCoordinate();
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const setPlaceList = async (
     keyword: string,
     size?: number,
@@ -112,6 +114,17 @@ export default function FindPlaceModal({
     }
   }, [selectedItem]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 439);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <Modal
       modalOpen={modalOpen}
@@ -129,6 +142,7 @@ export default function FindPlaceModal({
                 onClickZoom={handleClickZoom}
                 disabled={isLoading || searchLoading}
                 myPosition={!!myPosition}
+                isMobile={isMobile}
               />
               {isLoading || searchLoading ? (
                 <div className={styles.exception}>
@@ -140,6 +154,7 @@ export default function FindPlaceModal({
                   setItem={setSelectedItem}
                   setStep={setStep}
                   myPosition={myPosition}
+                  isMobile={isMobile}
                 />
               ) : (
                 <div className={styles.exception}>검색 결과가 없습니다</div>

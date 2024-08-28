@@ -1,17 +1,15 @@
 import Image from 'next/image';
 import styles from './MannerList.module.scss';
 
-interface ITag {
-  tagPhrase: string;
+interface ITagProps {
   count: number;
+  tagPhrase: string;
 }
-
 interface IMannerListProps {
-  type: 'positive' | 'negative';
-  evaluationTags: ITag[];
+  evaluationTags: ITagProps[];
   emptyMessage: string;
+  type: string;
 }
-
 export function MannerList({
   evaluationTags,
   emptyMessage,

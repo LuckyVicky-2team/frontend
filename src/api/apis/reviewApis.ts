@@ -17,6 +17,11 @@ export const reviewAPI = {
     return data;
   },
 
+  receivedReview: async () => {
+    const { data } = await axiosInstance.get('/my/review');
+    return data;
+  },
+
   meetingList: async (req: IReviewMeetingListRequestProps) => {
     const { data } = await axiosInstance.get('/my/review/meetings', {
       params: req,

@@ -9,7 +9,7 @@ import { useEffect, useState, useMemo } from 'react';
 import GameDataList from './_components/GameDataList';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import NumberInput from './_components/NumberInput';
-import TypeInput from './_components/TypeInput';
+// import TypeInput from './_components/TypeInput';
 import Image from 'next/image';
 import { dateToString } from '@/utils/dateTostring';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
@@ -48,7 +48,8 @@ export default function NewGatheringPage() {
     watch,
     formState: { errors, dirtyFields, isValid },
   } = methods;
-  const [freeButtonClick, setFreeButtonClick] = useState(true);
+  //free/accept
+  // const [freeButtonClick, setFreeButtonClick] = useState(true);
   const [showGameData, setShowGameData] = useState(false);
   const [genreIdList, setGenreIdList] = useState<number[]>([]);
   const [boardGameIdTitleList, setBoardGameIdTitleList] = useState<
@@ -463,14 +464,14 @@ export default function NewGatheringPage() {
                 </div>
               </div>
             </div>
-            <div className={styles.inputContainer}>
+            {/* <div className={styles.inputContainer}>
               <div className={styles.title}>참여 유형</div>
               <TypeInput
                 register={register('type')}
                 freeButtonClick={freeButtonClick}
                 setFreeButtonClick={setFreeButtonClick}
               />
-            </div>
+            </div> */}
           </div>
           <button
             type="submit"

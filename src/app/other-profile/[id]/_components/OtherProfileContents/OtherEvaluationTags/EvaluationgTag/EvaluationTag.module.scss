@@ -35,3 +35,22 @@
     }
   }
 }
+
+@media only screen and (max-width: 430px) {
+  .container {
+    .tagCount {
+      img {
+        width: 20px;
+      }
+
+      .count {
+        font-size: 14px;
+      }
+    }
+
+    .text {
+      font-size: 16px;
+      padding: 8px 15px;
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import PlaceListItem from '../KakaoList/PlaceListItem';
+import isPC from '@/utils/isPC';
 import styles from './KakaoMap.module.scss';
 
 interface IKakaoMapProps {
@@ -47,7 +48,7 @@ export default function KakaoMap({
       const mapOptions = {
         center: new window.kakao.maps.LatLng(coordinate.lat, coordinate.lon),
         level: 3,
-        scrollwheel: false,
+        scrollwheel: isPC(),
       };
 
       const map = new window.kakao.maps.Map(mapRef.current, mapOptions);

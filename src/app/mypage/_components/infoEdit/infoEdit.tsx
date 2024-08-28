@@ -84,7 +84,9 @@ export default function InfoEdit({
 
   // 닉네임 유효성 검사 함수
   const validateNickname = (nickName: string): boolean => {
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,8}$/;
+    // 한글 자음, 한글 음절, 영어 대소문자, 숫자만 허용
+    // 길이는 2자에서 8자까지 허용
+    const nicknameRegex = /^[가-힣a-zA-Z0-9ㄱ-ㅎ]{2,8}$/;
     return nicknameRegex.test(nickName);
   };
 

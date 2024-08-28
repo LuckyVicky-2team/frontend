@@ -94,7 +94,7 @@ export default function Info({
               <ul className={styles.list}>
                 <li>
                   <b>company.</b>
-                  <p>코드잇</p>
+                  <p>BoardGo</p>
                 </li>
                 <li>
                   <b>E-mail.</b>

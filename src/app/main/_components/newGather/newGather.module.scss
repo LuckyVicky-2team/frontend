@@ -26,6 +26,7 @@
     }
   }
 }
+
 .lineTitle {
   position: relative;
   display: block;
@@ -155,6 +156,8 @@
 
       .img {
         width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
         img {
           display: block;
           width: 100%;
@@ -205,6 +208,22 @@
 
       .heart {
         cursor: pointer;
+
+        input + label {
+          cursor: pointer;
+
+          img {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        input:checked + label {
+          img {
+            width: 22px;
+            height: 22px;
+          }
+        }
       }
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './DeadLineGather.module.scss';
+import styles from './newGather.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
@@ -24,7 +24,7 @@ interface DeadLineGatherProps {
   meetingList: IMeetingProps[] | undefined;
 }
 
-export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
+export default function NewGather({ meetingList }: DeadLineGatherProps) {
   const [slidePx, setSlidePx] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
@@ -40,6 +40,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
       }
     };
 
+    // 컴포넌트 마운트 시 및 윈도우 리사이즈 시 컨테이너 너비 계산
     calculateContainerWidth();
     window.addEventListener('resize', calculateContainerWidth);
 
@@ -51,7 +52,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
   const formatMeetingDate = (dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
+    const month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1
     const day = date.getDate();
     const hours = date.getHours();
 
@@ -59,7 +60,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
   };
 
   const prevSlideBtn = () => {
-    setSlidePx(prev => Math.min(prev + screenWidth, 0));
+    setSlidePx(prev => Math.min(prev + screenWidth, 0)); // 슬라이드가 0보다 커지지 않도록
   };
 
   const nextSlideBtn = () => {
@@ -68,32 +69,14 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
     );
   };
 
-  const formatTimeLeft = (endDate: Date) => {
-    const now = new Date();
-    const timeDiff = endDate.getTime() - now.getTime();
-    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hoursLeft = Math.floor(
-      (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-
-    const parts = [];
-    if (daysLeft > 0) parts.push(`${daysLeft}일`);
-    if (hoursLeft > 0 || daysLeft > 0) parts.push(`${hoursLeft}시간`);
-    if (minutesLeft > 0 || hoursLeft > 0 || daysLeft > 0)
-      parts.push(`${minutesLeft}분`);
-
-    return parts.join(' ');
-  };
-
-  // 현재 시간 기준으로 필터링: 오늘 이전의 모임 제외, 3일 이내 마감인 모임만 포함
-  const filteredMeetingList = meetingList?.filter(meeting => {
-    const now = new Date();
-    const meetingDate = new Date(meeting.meetingDate);
-    const timeDiff = meetingDate.getTime() - now.getTime();
-    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    return meetingDate > now && daysLeft <= 3;
-  });
+  // 현재 시간 이후의 모임만 필터링하고 최신순으로 정렬
+  const now = new Date();
+  const filteredMeetingList = meetingList
+    ?.filter(meeting => new Date(meeting.meetingDate) > now)
+    .sort(
+      (a, b) =>
+        new Date(b.meetingDate).getTime() - new Date(a.meetingDate).getTime()
+    ); // 최신순 정렬
 
   return (
     <div>
@@ -101,16 +84,16 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
         <Image
           width={155}
           height={155}
-          src={'/assets/mainImages/time.png'}
+          src={'/assets/mainImages/fire.png'}
           alt="타이틀 왼쪽 이미지"
         />
         <div className={styles.titleTxt}>
-          <h1 className={styles.title1}>곧! 모집이 마감됩니다!</h1>
-          <b className={styles.title2}>마감임박</b>
+          <h1 className={styles.title1}>새로 생긴 모임들이에요!</h1>
+          <b className={styles.title2}>신규모임</b>
         </div>
       </div>
       <div className={styles.lineTitle}>
-        <p>추리게임</p>
+        <p>모임 목록</p>
       </div>
 
       <div className={styles.sliderContainer}>
@@ -139,7 +122,6 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
           )}
 
           {filteredMeetingList?.map(e => {
-            const gatheringDate = new Date(e.meetingDate);
             return (
               <li
                 key={e.id}
@@ -148,19 +130,9 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                   transition: '0.3s ease all',
                 }}>
                 <Link href={`/gatherings/${e?.id}`}>
-                  {/* <span className={styles.famousIco}>★ 인기★</span> */}
-                  <span className={styles.deadLineIco}>
-                    <Image
-                      src={'/assets/icons/alarmIcon.svg'}
-                      width={16}
-                      height={16}
-                      alt={'마감임박 이미지'}
-                    />
-                    {formatTimeLeft(gatheringDate)} 후 마감
-                  </span>
                   <span className={styles.img}>
                     <Image
-                      src={`https://${cloud}/${e.thumbnail}`}
+                      src={`https://${cloud}/${e?.thumbnail}`}
                       alt="게임이미지"
                       width={224}
                       height={224}

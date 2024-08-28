@@ -56,26 +56,28 @@ export default function Footer() {
                   handleOn(1);
                 }}
                 className={on === 1 ? styles.on : ''}>
-                <span className={styles.a}>
-                  <span className={styles.ico}>
-                    {on === 1 ? (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/icons/chat_on.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    ) : (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/icons/chat_off.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    )}
+                <Link href="/threads">
+                  <span className={styles.a}>
+                    <span className={styles.ico}>
+                      {on === 1 ? (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/icons/chat_on.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      ) : (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/icons/chat_off.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      )}
+                    </span>
+                    <span className={styles.tag}>채팅방</span>
                   </span>
-                  <span className={styles.tag}>채팅방</span>
-                </span>
+                </Link>
               </li>
               <li
                 onClick={() => {

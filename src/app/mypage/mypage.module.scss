@@ -54,6 +54,13 @@
       border-bottom: 1px solid #ddd;
       font-size: 18px;
       color: #757a83;
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        transform: translateY(-50%) rotate(180deg);
+      }
     }
   }
 }

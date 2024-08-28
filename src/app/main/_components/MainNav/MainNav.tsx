@@ -40,11 +40,11 @@ export default function MainNav({
         className={styles.mainNavContent}
         onClick={() => scrollToSection(popularRef, 100)}>
         <div>
-          <h2>인기모임</h2>
+          <h2>신규모임</h2>
           <p>
-            그 모임
+            따끈따근한
             <br />
-            지금 핫해요!
+            신규 모임들 !
           </p>
         </div>
         <Image

@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
+import Link from 'next/link';
 // import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
@@ -111,6 +112,10 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   //     type: 'PARTICIPANT',
   //   };
   // });
+
+  const LeaderID = data.userParticipantResponseList.find(p => {
+    return p.type === 'LEADER';
+  })?.userId;
 
   return (
     <div style={{ margin: '60px 0 120px' }}>
@@ -331,7 +336,9 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
       <div className={styles.section4}>
         <h2 className={styles.h2}>모임장 정보</h2>
         <p className={styles.h2Description}>모임장님은 이런 분이세요!</p>
-        <div className={styles.leaderProfile}>
+        <Link
+          href={`/other-profile/${LeaderID}?id=${data.meetingId}&open=zero`}
+          className={styles.leaderProfile}>
           <div
             style={{
               display: 'flex',
@@ -361,7 +368,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
             width={36}
             height={90}
           />
-        </div>
+        </Link>
       </div>
       <GatheringFooter
         id={id}

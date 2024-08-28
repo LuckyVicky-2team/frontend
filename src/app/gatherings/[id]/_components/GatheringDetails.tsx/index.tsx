@@ -291,6 +291,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
               onClose={handleProfileModalClose}
               data={data.userParticipantResponseList}
               isMobile={isMobile}
+              myType={myType}
             />
           </div>
         </div>

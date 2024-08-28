@@ -71,6 +71,7 @@ export default function GameDataList({
   const debouncedSearch = useCallback(
     debounce((value: string) => {
       setDebouncedGameTitle(value);
+      setCurrentPage(1);
     }, 300),
     []
   );
@@ -91,6 +92,13 @@ export default function GameDataList({
   // useEffect(() => {
   //   fetchGames();
   // }, [gameTitle, currentPage]);
+
+  // useEffect(() => {
+  //   if (debouncedGameTitle !== '') {
+  //     setCurrentPage(1); // 검색어가 변경될 때만 페이지를 1로 리셋
+  //     fetchGames();
+  //   }
+  // }, [debouncedGameTitle])
 
   // debouncedGameTitle이 변경될 때만 검색 실행
   useEffect(() => {

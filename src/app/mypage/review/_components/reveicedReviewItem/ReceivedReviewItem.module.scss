@@ -8,3 +8,9 @@
   border-radius: 10px;
   background: #fff;
 }
+
+@media screen and (max-width: 430px) {
+  .reviewItem {
+    padding: 20px 20px;
+  }
+}

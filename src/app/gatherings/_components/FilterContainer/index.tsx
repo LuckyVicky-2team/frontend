@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import styles from './FilterContainer.module.scss';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
@@ -17,12 +18,29 @@ export default function FilterContainer() {
   };
   const endDate = getDateFromUrl('endDate');
   const arrangedEndDate = new Date(endDate.setDate(endDate.getDate() - 1));
-
+  // const [selectedGenre, setSelectedGenre] = useState<string>(
+  //   searchParams.get('tag') || ''
+  // );
+  // const [selectedCity, setSelectedCity] = useState<string>(
+  //   searchParams.get('city') || ''
+  // );
+  // const [selectedCounty, setSelectedArea] = useState<string>(
+  //   searchParams.get('county') || ''
+  // );
   const [searchResult, setSearchResult] = useState<string>('');
   const [showingStartDate, setShowingStartDate] = useState<Date | null>(
     new Date(searchParams.get('startDate')) < new Date()
       ? null
       : getDateFromUrl('startDate')
+  );
+  const [selectedGenre, setSelectedGenre] = useState<string>(
+    searchParams.get('tag') || ''
+  );
+  const [selectedCity, setSelectedCity] = useState<string>(
+    searchParams.get('city') || ''
+  );
+  const [selectedCounty, setSelectedCounty] = useState<string>(
+    searchParams.get('county') || ''
   );
   const [showingEndDate, setShowingEndDate] = useState<Date | null>(
     getDateFromUrl('endDate') < new Date() ? null : arrangedEndDate
@@ -58,8 +76,30 @@ export default function FilterContainer() {
   };
   const isSearchWord = searchParams.get('searchWord');
   const errorMessage = errors.search_word?.message;
-  const selectedCity = searchParams.get('city');
+  // const selectedCity = searchParams.get('city');
 
+  const handleResetFilters = () => {
+    // 모든 검색 매개변수를 제거하여 초기화
+    searchParams.clear('REPLACE');
+
+    // 폼의 기본값 설정
+    setValue('search_word', '');
+    setValue('search_type', 'TITLE');
+
+    // 상태 초기화
+    setSearchResult('');
+    setShowingStartDate(null);
+    setShowingEndDate(null);
+    setSelectedGenre('');
+    setSelectedCity('');
+    setSelectedCounty('');
+  };
+
+  useEffect(() => {
+    setSelectedGenre(searchParams.get('tag') || '');
+    setSelectedCity(searchParams.get('city') || '');
+    setSelectedCounty(searchParams.get('county') || '');
+  }, [JSON.stringify(searchParams.get())]);
   return (
     <section className={styles.searchTabHeader}>
       <SearchBar
@@ -86,15 +126,17 @@ export default function FilterContainer() {
       <div className={styles.filter}>
         <SelectBox
           id="genre"
-          optionTitle="선택"
+          optionTitle="장르"
           clickOptionHandler={e => setParamsToUrl('tag', e.target.value)}
           optionSet={genre}
+          value={selectedGenre}
         />
         <SelectBox
           id="city"
           optionTitle="시/도"
           optionSet={city}
           clickOptionHandler={e => setParamsToUrl('city', e.target.value)}
+          value={selectedCity}
         />
         <SelectBox
           id="area"
@@ -102,7 +144,7 @@ export default function FilterContainer() {
           optionSet={selectedCity ? areas[selectedCity] : []}
           clickOptionHandler={e => setParamsToUrl('county', e.target.value)}
           isDisabled={!selectedCity}
-          // value={selectCounty}
+          value={selectedCounty}
         />
 
         <div className={styles.aaa}>
@@ -167,10 +209,11 @@ export default function FilterContainer() {
       <div className={styles.sortContainer}>
         <div
           className={styles.resetBtn}
-          onClick={() => {
-            searchParams.clear('REPLACE');
-            setValue('search_word', '');
-          }}>
+          // onClick={() => {
+          //   searchParams.clear('REPLACE');
+          //   setValue('search_word', '');
+          // }}
+          onClick={handleResetFilters}>
           <h3>초기화</h3>
           <Image
             width={24}

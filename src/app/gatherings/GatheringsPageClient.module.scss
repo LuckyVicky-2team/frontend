@@ -24,6 +24,10 @@
       height: calc(100vh - 500px);
     }
   }
+  @media screen and (max-width: 430px) {
+    gap: 25px;
+    padding: 20px 0 30px 0;
+  }
 }
 .addGatheringBtn {
   height: 40px;

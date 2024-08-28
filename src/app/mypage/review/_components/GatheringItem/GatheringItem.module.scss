@@ -48,19 +48,18 @@
         align-items: flex-start;
         justify-content: center;
         align-self: stretch;
-
-        overflow: hidden;
-        word-break: keep-all;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        // display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
         .title {
+          display: inline-block;
           color: #1f2937;
           font-size: 18px;
           font-style: normal;
           font-weight: 600;
+          word-break: keep-all;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
         .location {
           color: #374151;
@@ -119,6 +118,47 @@
         font-weight: 600;
         line-height: 20px;
         text-align: center;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .outerLayer {
+    padding: 22px 18px;
+    .innerLayer {
+      .content {
+        gap: 10px;
+        padding: 4px 10px;
+
+        .detail {
+          .title {
+            color: #1f2937;
+            font-size: 17px;
+            font-style: normal;
+            font-weight: 600;
+          }
+        }
+      }
+      .button {
+        width: 100%;
+        min-height: 39px;
+        max-height: fit-content;
+        display: flex;
+        justify-content: center;
+
+        .writeBtn {
+          width: 100%;
+          border-radius: 12px;
+          padding: 8px 16px;
+          border: 2px solid $blue-normal;
+          color: $blue-normal;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 20px;
+          text-align: center;
+        }
       }
     }
   }

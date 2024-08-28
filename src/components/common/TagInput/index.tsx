@@ -27,7 +27,7 @@ export default function TagInput({ fieldName, ...props }: ITagInputProps) {
     if (e.key === 'Enter') {
       const targetValue = e.currentTarget.value;
       // 한글과 영어, 숫자, 띄어쓰기만 허용
-      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣\s]+(?<!\s)$/;
+      const tagPattern = /^(?!.*\s{2})(?!\s)[a-zA-Z0-9가-힣ㄱ-ㅎ\s]+(?<!\s)$/;
 
       if (!targetValue) {
         return;

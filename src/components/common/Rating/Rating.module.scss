@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+
+  .heart {
+    position: relative;
+    cursor: pointer;
+    cursor: default;
+    .filledHeart {
+      clip-path: inset(0 100% 0 0); /* 기본값은 보이지 않음 */
+    }
+
+    &[data-size='xsmall'] {
+      width: 16px;
+      height: 16px;
+    }
+
+    &[data-size='small'] {
+      width: 24px;
+      height: 24px;
+    }
+
+    &[data-size='medium'] {
+      width: 32px;
+      height: 32px;
+    }
+
+    &[data-size='large'] {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}

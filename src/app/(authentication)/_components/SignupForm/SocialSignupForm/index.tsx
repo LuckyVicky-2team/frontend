@@ -112,8 +112,12 @@ export default function SocialSignupForm() {
                   rules={{
                     required: '닉네임을 입력해주세요',
                     pattern: {
-                      value: /^[a-zA-Z0-9가-힣]+$/,
+                      value: /^[가-힣a-zA-Z0-9ㄱ-ㅎ]+$/,
                       message: '닉네임은 한글과 영어, 숫자만 사용 가능합니다',
+                    },
+                    minLength: {
+                      value: 2,
+                      message: '닉네임은 최소 2자부터 등록 가능합니다',
                     },
                     maxLength: {
                       value: 8,

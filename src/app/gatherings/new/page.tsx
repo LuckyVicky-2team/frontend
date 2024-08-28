@@ -100,13 +100,6 @@ export default function NewGatheringPage() {
   // 'limitParticipant' 필드의 값 변화를 감지
   const watchedParticipant = watch('limitParticipant');
 
-  // const gameData = [
-  //   { id: 1, title: '체스', image: '/assets/images/rectangle.png' },
-  //   { id: 2, title: '장기', image: '/assets/images/rectangle.png' },
-  //   { id: 3, title: '바둑', image: '/assets/images/rectangle.png' },
-  //   { id: 4, title: '오목', image: '/assets/images/rectangle.png' },
-  // ];
-
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
     const { contentWithoutHtml, image, meetingDatetime, ...info } =
       gatheringInfo;
@@ -131,9 +124,8 @@ export default function NewGatheringPage() {
     );
     // console.log(
     //   JSON.stringify({
-    //     genreIdList: [1, 2, 3],
     //     meetingDatetime: dateToString(meetingDatetime),
-    //     ...info2,
+    //     ...info,
     //   })
     // );
 

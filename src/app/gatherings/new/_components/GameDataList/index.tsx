@@ -10,6 +10,7 @@ import styles from './GameDataList.module.scss';
 import Modal from '@/components/common/Modal';
 import { getGames } from '@/api/apis/gameApi';
 import { useToast } from '@/contexts/toastContext';
+import { debounce } from '@/utils/debounce';
 
 interface IGenre {
   id: number;
@@ -51,6 +52,7 @@ export default function GameDataList({
 }: IGameDataListProps) {
   const { addToast } = useToast();
   const [gameTitle, setGameTitle] = useState('');
+  const [debouncedGameTitle, setDebouncedGameTitle] = useState('');
   const [totalPages, setTotalPages] = useState(24);
   const [currentPage, setCurrentPage] = useState(1);
   const [gameData, setGameData] = useState<IGame[]>([]);
@@ -65,13 +67,20 @@ export default function GameDataList({
   //   };
   // });
 
+  // 디바운스된 검색 함수
+  const debouncedSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedGameTitle(value);
+    }, 300),
+    []
+  );
+
   const fetchGames = useCallback(async () => {
     // console.log(gameTitle);
     // console.log(currentPage);
     setIsLoading(true);
     try {
-      const data = await getGames(gameTitle, currentPage - 1);
-      console.log(data);
+      const data = await getGames(debouncedGameTitle, currentPage - 1);
       setTotalPages(data.totalPages);
       setGameData(data.content);
     } catch (error) {
@@ -79,11 +88,18 @@ export default function GameDataList({
     } finally {
       setIsLoading(false);
     }
-  }, [gameTitle, currentPage]);
+  }, [debouncedGameTitle, currentPage]);
 
+  // useEffect(() => {
+  //   fetchGames();
+  // }, [gameTitle, currentPage]);
+
+  // debouncedGameTitle이 변경될 때만 검색 실행
   useEffect(() => {
-    fetchGames();
-  }, [gameTitle, currentPage]);
+    if (debouncedGameTitle !== '') {
+      fetchGames();
+    }
+  }, [debouncedGameTitle, currentPage]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -127,6 +143,7 @@ export default function GameDataList({
               onChange={e => {
                 const isEmpty = e.target.value === '';
                 setGameTitle(e.target.value);
+                debouncedSearch(e.target.value);
                 setShowGameData(!isEmpty);
               }}
             />

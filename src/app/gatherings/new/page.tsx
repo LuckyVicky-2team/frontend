@@ -36,6 +36,7 @@ export default function NewGatheringPage() {
       image: '',
       meetingDatetime: undefined,
       genreIdList: [],
+      limitParticipant: 2,
     },
   });
   const {

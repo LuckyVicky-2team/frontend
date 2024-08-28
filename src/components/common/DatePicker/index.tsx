@@ -94,6 +94,7 @@ function DatePicker<F extends FieldValues>({
                 placeholderText={placeholder}
                 selected={value}
                 required={true}
+                minDate={minDate || undefined}
                 showTimeSelect={time}
                 // popperContainer={CalendarContainer}
               />

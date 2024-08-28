@@ -365,6 +365,7 @@ export default function NewGatheringPage() {
               <div style={{ margin: '0 0 28px' }}>
                 <input
                   readOnly
+                  style={{ paddingLeft: '16px' }}
                   placeholder={'장소를 입력해 주세요.'}
                   value={getValues('locationName')}
                   onClick={() => {
@@ -406,6 +407,7 @@ export default function NewGatheringPage() {
               </label>
               <div style={{ margin: '0 0 28px' }}>
                 <DatePicker
+                  minDate={new Date()}
                   control={control}
                   name="meetingDatetime"
                   id="meetingDatetime"

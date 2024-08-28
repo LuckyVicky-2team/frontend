@@ -41,7 +41,7 @@ export default function KakaoMap({
   const mapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    window.kakao.maps.load(() => {
+    window.kakao?.maps.load(() => {
       const mapOptions = {
         center: new window.kakao.maps.LatLng(coordinate.lat, coordinate.lon),
         level: 3,

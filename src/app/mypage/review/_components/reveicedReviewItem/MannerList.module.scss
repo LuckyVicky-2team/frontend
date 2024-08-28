@@ -1,24 +1,8 @@
-// .container {
-//   height: 50%;
-// }
-// .meetingName {
-//   display: flex;
-//   align-items: flex-start;
-
-//   font-size: 18px;
-//   color: #333;
-//   margin-bottom: 10px;
-
-//   .icon {
-//     margin-right: 8px;
-//   }
-// }
-
 .tags {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
   align-self: stretch;
 }
 

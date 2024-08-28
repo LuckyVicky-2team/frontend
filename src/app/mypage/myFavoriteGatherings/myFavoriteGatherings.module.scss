@@ -1,5 +1,5 @@
 .relative {
-  padding: 100px 25px 200px;
+  padding: 100px 5px 200px 25px;
 }
 
 .title {
@@ -36,11 +36,10 @@
         top: 0;
         right: 0;
         display: flex;
-        width: 60%;
         gap: 8px;
         align-items: center;
         justify-content: center;
-        padding: 6px 4px;
+        padding: 6px 8px;
         border-radius: 0px 0px 0px 12px;
         background: #007aff;
         color: #fff;
@@ -155,5 +154,31 @@
   100% {
     background-color: #ddd;
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .myFavoriteGathering {
+    gap: 10px;
+
+    .myFavoriteGatheringItem {
+      .thumbnail {
+        .deadLine {
+          gap: 4px;
+          font-size: 8px;
+          padding: 4px 4px;
+
+          img {
+            width: 10px;
+            height: 10px;
+          }
+        }
+      }
+    }
+
+    .heart {
+      width: 20px;
+      height: 20px;
+    }
   }
 }

@@ -28,7 +28,7 @@ export default function OtherProfileContents({ userId }: { userId: number }) {
             }
             alt="profile-image"
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', borderRadius: '100%' }}
             unoptimized
             onError={e =>
               (e.currentTarget.src = '/assets/images/defaultProfile.png')

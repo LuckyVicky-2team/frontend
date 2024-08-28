@@ -34,7 +34,6 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        flex-wrap: wrap;
 
         .manner {
           color: #757a83;
@@ -75,6 +74,21 @@
           font-size: 16px;
           line-height: 20px;
           flex-shrink: 0;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .contents {
+    .profile {
+      .textArea {
+        .subText {
+          padding-top: 10px;
+          margin-left: -80px;
+          gap: 20px 10px;
+          flex-wrap: wrap;
         }
       }
     }

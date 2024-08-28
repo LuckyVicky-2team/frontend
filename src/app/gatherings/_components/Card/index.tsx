@@ -59,8 +59,11 @@ export default function Card({
         </div>
         <div className={styles.content}>
           <div className={styles.header}>
-            <div className={styles.info}>
+            <div className={styles.topHeader}>
               <h1>{title} </h1>
+              <SaveGatheringButton id={id} size={'medium'} />
+            </div>
+            <div className={styles.info}>
               <h3>
                 <span>|</span>&nbsp;
                 {city} &nbsp; {county}
@@ -70,7 +73,6 @@ export default function Card({
                 <h3 className={styles.timeDetail}>{time}</h3>
               </div>
             </div>
-            <SaveGatheringButton id={id} size={'medium'} />
           </div>
 
           <div className={styles.tagContainer}>

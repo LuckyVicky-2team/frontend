@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import InfoEdit from './_components/infoEdit/infoEdit';
+import Image from 'next/image';
 
 // UserProfile 인터페이스의 이름을 I로 시작하도록 수정
 interface IUserProfile {
@@ -20,7 +21,14 @@ export default function MyPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [prOpen, setPrOpen] = useState(false);
   const [animatedRating, setAnimatedRating] = useState<number>(0); // Initial rating state
-
+  const [checkedLogin, setCheckedLogin] = useState<string | null>(null); // state to hold checkedLogin
+  // const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  // 클라이언트 사이드에서만 localStorage를 접근
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setCheckedLogin(token);
+    // setLoading(false); // 로딩 완료
+  }, []);
   // 정보 수정 모달 열기/닫기 핸들러
   const handleEditOpen = () => {
     setEditOpen(prev => !prev);
@@ -64,6 +72,10 @@ export default function MyPage() {
     fetchPersonalInfo();
   }, []);
 
+  // if (loading) {
+  //   return <div>Loading...</div>; // 로딩 중 상태를 표시합니다.
+  // }
+
   const ratingPercentage = (animatedRating / 5) * 100;
 
   return (
@@ -86,6 +98,7 @@ export default function MyPage() {
           mypageInfo={info}
           handleEditOpen={handleEditOpen}
           updateInfo={fetchPersonalInfo}
+          checkedLogin={checkedLogin}
         />
       </div>
       <div className={styles.averageGrade}>
@@ -95,8 +108,7 @@ export default function MyPage() {
             className={styles.averageLine}
             style={{ width: `${ratingPercentage}%` }} // Animate width based on animatedRating
           >
-            <p className={styles.average}>{animatedRating.toFixed(1)}</p>{' '}
-            {/* Display animated rating */}
+            <p className={styles.average}>{animatedRating.toFixed(1)}</p>
           </div>
         </div>
       </div>
@@ -116,24 +128,60 @@ export default function MyPage() {
       </div>
       <ul className={styles.menuWrap}>
         <li>
-          <Link href="/mypage/prEdit">PR 태그 수정</Link>
+          <Link href="/mypage/prEdit">
+            PR 태그 수정{' '}
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
         </li>
         <li>
-          <Link href="/mypage/friendsList">친구 목록</Link>
+          <Link href="/mypage/myGatherings/participant">
+            내 모임
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
         </li>
         <li>
-          <Link href="/mypage/myGatherings/participant">내 모임</Link>
+          <Link href="/mypage/myFavoriteGatherings">
+            찜한 모임
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
         </li>
         <li>
-          <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>
-        </li>
-        <li>
-          <Link href="/mypage/settingAlarm">알림 설정</Link>
-        </li>
-        <li>
-          <Link href="/mypage/review">리뷰</Link>
+          <Link href="/mypage/review">
+            리뷰
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
         </li>
       </ul>
     </div>
   );
+}
+{
+  /* <li>
+          <Link href="/mypage/settingAlarm">알림 설정</Link>
+        </li> */
+}
+{
+  /* <li>
+          <Link href="/mypage/friendsList">친구 목록</Link>
+        </li> */
 }

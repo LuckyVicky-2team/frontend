@@ -1,5 +1,5 @@
 .container {
-  padding-bottom: 300px;
+  padding-bottom: 150px;
   position: relative;
   padding-top: 60px;
 }
@@ -65,5 +65,69 @@
   padding: 0 15px;
   .contentContainer {
     margin-top: 100px;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding-top: 45px;
+    padding-bottom: 130px;
+    /* 여기에 반응형 스타일 추가 */
+    &:-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+
+  .banner {
+    background: url('/assets/mainImages/bannerV2.png') no-repeat center/cover;
+    padding: 30px 15px;
+    img {
+      width: 16px;
+      height: 16px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    p {
+      font-size: 16px;
+      /* 여기에 반응형 스타일 추가 */
+    }
+  }
+
+  .searchBarWrap {
+    /* 여기에 반응형 스타일 추가 */
+    .searchBar {
+      padding: 10px;
+      width: 90%;
+      margin: 0 auto;
+      position: static;
+      transform: none;
+      margin-top: 15px;
+      input {
+        font-size: 12px;
+        /* 여기에 반응형 스타일 추가 */
+      }
+      button {
+        display: block;
+        /* 여기에 반응형 스타일 추가 */
+      }
+    }
+  }
+
+  .contentContainerWrap {
+    /* 여기에 반응형 스타일 추가 */
+    &:-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    .contentContainer {
+      margin-top: 80px;
+      /* 여기에 반응형 스타일 추가 */
+      &:-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none;
+    }
   }
 }

@@ -6,6 +6,11 @@
     margin-top: 30px;
     color: #007aff;
   }
+  .modalClose {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+  }
   .title {
     display: block;
     margin-top: 15px;
@@ -30,6 +35,7 @@
       border-radius: 12px;
       background: #f9fafb;
       border: 1px solid #f9fafb;
+      outline: none;
       &:placeholder-shown {
         font-size: 14px;
       }
@@ -86,6 +92,7 @@
   border-radius: 5px;
   input {
     width: 80%;
+    outline: none;
   }
   button {
     position: absolute;
@@ -132,6 +139,7 @@
     border-radius: 12px;
     background: #f9fafb;
     border: 1px solid #f9fafb;
+    outline: none;
     &:placeholder-shown {
       font-size: 14px;
     }

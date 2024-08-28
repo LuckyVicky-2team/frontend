@@ -72,7 +72,9 @@ export default function SaveGatheringButton({
 
     if (hasToken) {
       setIsSaved(
-        wishList?.some((item: IWishListItemProps) => item.meetingId === id)
+        wishList
+          ? wishList.some((item: IWishListItemProps) => item.meetingId === id)
+          : false
       );
     } else {
       setIsSaved(savedItem?.includes(id));

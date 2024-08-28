@@ -39,11 +39,11 @@ import styles from './BottomSheet.module.scss';
 interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  onOpen: () => void;
+  onOpen?: () => void;
   children: ReactNode;
   full?: boolean;
   setIsFull?: Dispatch<SetStateAction<boolean>>;
-  initialBottomSheetOpen: string;
+  initialBottomSheetOpen?: string;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -75,11 +75,11 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    if (initialBottomSheetOpen === 'full') {
+    if (initialBottomSheetOpen === 'full' && onOpen) {
       onOpen();
       setIsFullScreen(true);
     }
-    if (initialBottomSheetOpen === 'half') {
+    if (initialBottomSheetOpen === 'half' && onOpen) {
       onOpen();
       setIsFullScreen(false);
     }

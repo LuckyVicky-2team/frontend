@@ -7,3 +7,21 @@ export interface IEvaluationTagsResponseProps {
   positiveTags: ITagProps[];
   negativeTags: ITagProps[];
 }
+
+export interface ISingleMeetingResponseProps {
+  meetingId: number;
+  meetingDate: string;
+  title: string;
+  thumbnail: string;
+  city: string;
+  county: string;
+}
+
+//내가 쓴 리뷰
+export interface ISingleMyReviewResponseProps {
+  reviewId: number;
+  revieweeName: string;
+  rating: number;
+  positiveTags: string[];
+  negativeTags: string[];
+}

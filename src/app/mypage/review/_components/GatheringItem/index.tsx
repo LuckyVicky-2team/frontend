@@ -2,6 +2,7 @@ import styles from './GatheringItem.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
+
 interface IGatheringProps {
   buttonName: string;
   href?: string;
@@ -11,9 +12,8 @@ interface IGatheringProps {
     title: string;
     city: string;
     county: string;
-    gatheringDate: string;
-    id: number;
-    participants?: any[];
+    meetingDate: string;
+    meetingId: number;
   };
 }
 
@@ -23,9 +23,9 @@ export default function GatheringItem({
   buttonName,
   modalOpen,
 }: IGatheringProps) {
-  const { title, thumbnail, city, county, gatheringDate } = data;
+  const { title, thumbnail, city, county, meetingDate } = data;
 
-  const { mondthAndDay, time } = transDate(gatheringDate);
+  const { mondthAndDay, time } = transDate(meetingDate);
   const imageURL = thumbnail
     ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
     : '/assets/images/emptyThumbnail.png';
@@ -34,14 +34,7 @@ export default function GatheringItem({
     <div className={styles.outerLayer}>
       <div className={styles.innerLayer}>
         <div className={styles.thumbnail}>
-          <Image
-            src={imageURL}
-            alt="thumbnail"
-            width={142}
-            height={194}
-            layout={'responsive'}
-            priority
-          />
+          <Image src={imageURL} alt="thumbnail" fill priority />
         </div>
         <div className={styles.content}>
           <div className={styles.detail}>

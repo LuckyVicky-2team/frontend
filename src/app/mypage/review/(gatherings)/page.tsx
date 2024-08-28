@@ -1,26 +1,29 @@
+'use client';
+
+import React from 'react';
 import styles from './ReviewPage.module.scss';
 import GatheringItem from '../_components/GatheringItem';
-import { gatheringList } from '../../mockData/mockData';
-import React from 'react';
+import { useMeetingList } from '@/api/queryHooks/review';
 
 export default function ReviewPage() {
+  const { data } = useMeetingList({ reviewType: 'PRE_PROGRESS' });
+
   return (
     <div className={styles.container}>
-      {gatheringList?.map(item => {
-        return (
-          <GatheringItem
-            key={item.id}
-            data={item}
-            buttonName="리뷰 남기기"
-            href={`review/${item.id}`}
-          />
-        );
-      })}
-      {gatheringList.length === 0 && (
+      {data ? (
+        data.map(meeting => {
+          return (
+            <GatheringItem
+              key={meeting.meetingId}
+              data={meeting}
+              buttonName="리뷰 남기기"
+              href={`review/${meeting.meetingId}`}
+            />
+          );
+        })
+      ) : (
         <div className={styles.emptyReview}>
-          <span className={styles.boxInfo}>
-            아직 리뷰작성 가능한 모임이 없어요
-          </span>
+          <span className={styles.boxInfo}>리뷰작성 가능한 모임이 없어요</span>
         </div>
       )}
     </div>

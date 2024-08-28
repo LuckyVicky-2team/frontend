@@ -4,6 +4,14 @@ export interface IReviewMutationReqeustProps {
   rating: number;
   evaluationTagList: number[];
 }
-export interface IReviewMeetingList {
+export interface IReviewMeetingListRequestProps {
   reviewType: 'PRE_PROGRESS' | 'FINISH';
+}
+
+export interface IRevieweeListRequestProps {
+  meetingId: number;
+}
+
+export interface IMyReviewListRequestProps {
+  meetingId: number;
 }

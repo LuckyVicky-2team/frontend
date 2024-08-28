@@ -1,6 +1,7 @@
 .container {
   position: relative;
   max-height: calc(100vh - 145px);
+  margin-top: 65px;
   overflow: hidden;
   .fullScreenLayout {
     overflow: auto;
@@ -73,7 +74,7 @@
   box-sizing: border-box;
 
   .boxInfo {
-    height: calc(100vh - 250px);
+    height: calc(100vh - 400px);
     display: table-cell;
     width: 100%;
     vertical-align: middle;

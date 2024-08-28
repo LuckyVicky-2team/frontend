@@ -4,16 +4,27 @@ import { useForm, Controller } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
 import Rating from '@/components/common/Rating';
 import { useRouter } from 'next/navigation';
-import { useEvaluationTagList } from '@/api/queryHooks/review';
+import { useEvaluationTagList, useReviewCreate } from '@/api/queryHooks/review';
+type FormValues = {
+  rating: number;
+  evaluationTagList: number[]; // 이 배열이 숫자의 배열임을 명시적으로 지정
+};
 
-export default function WriteReviewPage({ params }: any) {
+export default function WriteReviewPage({ params, searchParams }: any) {
   const router = useRouter();
-  const revieweeName = decodeURIComponent(params.revieweeId.split('-')[1]);
+  const revieweeName = searchParams?.revieweeName;
+  const revieweeId = params?.revieweeId;
   const { addToast } = useToast();
-  const { handleSubmit, control, setValue, getValues, watch } = useForm();
+  const { handleSubmit, control, setValue, getValues, watch } =
+    useForm<FormValues>({
+      defaultValues: {
+        rating: 1,
+        evaluationTagList: [],
+      },
+    });
   const watchRating = watch('rating');
   const { data } = useEvaluationTagList();
-
+  const { mutate } = useReviewCreate();
   const handleTagClick = (id: number) => {
     const currentTags = getValues('evaluationTagList') || [];
     if (currentTags.includes(id)) {
@@ -27,19 +38,31 @@ export default function WriteReviewPage({ params }: any) {
   };
 
   const onSubmit = (data: any) => {
-    addToast('리뷰를 성공적으로 작성하였습니다.', 'success');
     if (!data) {
       addToast('리뷰를 제출하는데 문제가 있습니다', 'error');
       return;
     }
-    //@haewon create api 날리기
-    //apifetch req :
-    //{data.rating,data.evaluationTags,revieweeID,meetingId}
-    //
-    //revieweeID : number
-    //meetingId:number
+    const { evaluationTagList, rating } = data;
+    const requestParams = {
+      evaluationTagList,
+      rating,
+      meetingId: Number(params.gatheringId),
+      revieweeId: Number(revieweeId),
+    };
 
-    router.back();
+    mutate(requestParams, {
+      onSuccess: () => {
+        addToast('리뷰를 성공적으로 작성하였습니다.', 'success');
+        router.back();
+      },
+      onError: (error: any) => {
+        const errorCode = error.response.data.errorCode;
+        const errorMsg = error.response.data.messages;
+        if (errorCode <= 404 || errorCode === 4041 || errorCode === 4040)
+          addToast(`${errorMsg}`, 'error');
+        console.error(error);
+      },
+    });
   };
 
   return (

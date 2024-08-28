@@ -1,5 +1,3 @@
-import { IReviewMeetingList } from '@/types/request/ReviewREQ';
-
 export const QueryKey = {
   LIST: 'list',
   DETAIL: 'detail',
@@ -30,12 +28,19 @@ export const QueryKey = {
   },
   REVIEW: {
     KEY: 'review',
-    LIST: (filters: IReviewMeetingList) => [
+    MEETING_LIST: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'pre-progress'],
+    WRITTEN_MEETING_LIST: () => [
       QueryKey.REVIEW.KEY,
       QueryKey.LIST,
-      filters,
+      'finished',
     ],
-    TAGLIST: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'tags'],
+    WRITTEN_MEETING_LIST_REVIEWEE_LIST: (id: number) => [
+      QueryKey.REVIEW.KEY,
+      QueryKey.LIST,
+      id,
+    ],
+    TAG_LIST: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'tags'],
+    REVIEWEE_LIST: (id: number) => [QueryKey.REVIEW.KEY, id, QueryKey.LIST],
     DETAIL: (id: number) => [QueryKey.REVIEW.KEY, id],
   },
 };

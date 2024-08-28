@@ -40,6 +40,11 @@
       align-self: stretch;
 
       .thumbnail {
+        border-radius: 10px;
+        border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
+        background: #fff;
+        overflow: hidden;
+        position: relative;
         justify-content: center;
         display: flex;
         align-items: center;

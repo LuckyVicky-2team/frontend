@@ -21,8 +21,7 @@ export default function ReviewLayout({
 }) {
   const pathname = usePathname();
 
-  // pathname에 number 혹은 'reviewee' 문자열이 포함된 경우 확인
-  const writeReviewRoute = /^\/mypage\/review\/\d+\/reviewee-/.test(pathname);
+  const writeReviewRoute = /^\/mypage\/review\/\d+\/\d+$/.test(pathname);
   const writeReviewDetailRoute = /^\/mypage\/review\/\d+$/.test(pathname);
 
   return (

@@ -24,7 +24,7 @@ import Image from 'next/image';
 interface IIconButtonProps {
   imgUrl: string;
   size?: 'xsmall' | 'small' | 'medium' | 'mediumLarge' | 'large';
-  clickIconButtonHandler: MouseEventHandler<HTMLDivElement>;
+  clickIconButtonHandler?: MouseEventHandler<HTMLDivElement>;
   className?: string;
 }
 

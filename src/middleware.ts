@@ -5,14 +5,6 @@ export function middleware(request: NextRequest) {
   const currentUrl = request.nextUrl;
   const hostname = request.nextUrl.hostname;
 
-  // '/' 경로 이동 시 '/main' 으로 이동
-  if (currentUrl.pathname === '/') {
-    const redirectUrl = new URL('/main', request.url);
-    const response = NextResponse.redirect(redirectUrl);
-
-    return response;
-  }
-
   // 개발 환경에서만 crawling 페이지 접근 허용
   if (currentUrl.pathname === '/crawling' && hostname !== 'localhost') {
     return new NextResponse('Access Denied', { status: 403 });

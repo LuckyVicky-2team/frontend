@@ -80,7 +80,8 @@ export interface IGatheringDetailsResponseProps {
   detailAddress: string;
   locationName: string;
   shareCount: number;
-  createMeetingCount: string;
+  userWritingCount: string;
   likeStatus: 'N' | 'Y';
   viewCount: number;
+  rating: number;
 }

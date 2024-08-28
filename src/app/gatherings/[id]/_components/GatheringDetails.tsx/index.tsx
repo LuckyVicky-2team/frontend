@@ -346,9 +346,9 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
           </div>
           <div className={styles.leaderDescription}>
             <div className={styles.userNickname}>{data.userNickName}</div>
-            {/* <div className={styles.rating}>평점 4.5점</div> */}
+            <div className={styles.rating}>평점 {data.rating}점</div>
             <div className={styles.gatheringCount}>
-              운영 모임 {data.createMeetingCount}회
+              운영 모임 {data.userWritingCount}회
             </div>
           </div>
           <Image

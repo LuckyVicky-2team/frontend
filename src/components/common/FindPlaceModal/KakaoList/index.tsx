@@ -34,6 +34,7 @@ export default function KakaoList({
           return (
             <Fragment key={item.id}>
               <button
+                type="button"
                 onClick={() => {
                   setItem(item);
                   setStep('map');

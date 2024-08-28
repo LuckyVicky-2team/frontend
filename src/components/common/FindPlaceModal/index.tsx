@@ -142,6 +142,7 @@ export default function FindPlaceModal({
 
           <Step name="map">
             <button
+              type="button"
               onClick={() => setStep('list')}
               className={styles.backButton}>
               <Image
@@ -167,6 +168,7 @@ export default function FindPlaceModal({
                   mapLatio={'3/2'}
                 />
                 <button
+                  type="button"
                   className={styles.selectButton}
                   onClick={() => {
                     setLatitude(selectedItem.y);

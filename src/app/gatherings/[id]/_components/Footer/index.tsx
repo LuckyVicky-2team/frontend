@@ -159,13 +159,15 @@ export default function GatheringFooter({
         </button>
         {
           type !== 'LEADER' && (
-            <SaveGatheringButton
-              id={id}
-              type="red"
-              className={`${styles.zzimButton}`}
-              rectangle
-              isInitialSaved={isInitialSaved}
-            />
+            <button className={styles.editButton} type="button">
+              <SaveGatheringButton
+                id={id}
+                type="red"
+                className={`${styles.zzimButton}`}
+                rectangle
+                isInitialSaved={isInitialSaved}
+              />
+            </button>
           )
           // ) : (
           //   <button className={styles.editButton} type="button">

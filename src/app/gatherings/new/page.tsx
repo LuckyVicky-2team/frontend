@@ -107,7 +107,6 @@ export default function NewGatheringPage() {
     const formData = new FormData();
     formData.append('image', image);
 
-    // console.log(dateToString(meetingDatetime));
     formData.append(
       'meetingCreateRequest',
       new Blob(
@@ -122,23 +121,13 @@ export default function NewGatheringPage() {
         }
       )
     );
-    // console.log(
-    //   JSON.stringify({
-    //     meetingDatetime: dateToString(meetingDatetime),
-    //     ...info,
-    //   })
-    // );
 
-    // for (const x of formData) {
-    //   console.log(x);
-    // }
     try {
-      const response = await axiosInstance.post('/meeting', formData, {
+      await axiosInstance.post('/meeting', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response.data);
       router.push('/gatherings/new/success');
     } catch (error) {
       void error;

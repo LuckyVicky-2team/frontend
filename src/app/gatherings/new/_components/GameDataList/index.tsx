@@ -76,8 +76,6 @@ export default function GameDataList({
   );
 
   const fetchGames = useCallback(async () => {
-    // console.log(gameTitle);
-    // console.log(currentPage);
     setIsLoading(true);
     try {
       const data = await getGames(debouncedGameTitle, currentPage - 1);
@@ -106,7 +104,6 @@ export default function GameDataList({
   };
 
   const handleGameClick = (data: IGame) => {
-    // console.log(data.id);
     setBoardGameIdTitleList(prev => {
       for (let game of prev) {
         if (game.id === data.id) return prev;

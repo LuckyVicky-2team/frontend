@@ -23,7 +23,7 @@ export default function GameRank() {
         const response = await getGameRank();
         setGame(response.data);
       } catch (err) {
-        // console.log('err :', err);
+        void err;
       }
     };
 

@@ -50,8 +50,6 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const [prevOffsetY, setPrevOffsetY] = useState(0);
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
-    // console.log(backgroundRef.current);
-    // console.log(e.target);
     if (backgroundRef.current === e.target && !isDragging) {
       onClose();
     }

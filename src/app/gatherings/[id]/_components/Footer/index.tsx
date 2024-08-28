@@ -79,7 +79,6 @@ export default function GatheringFooter({
         handleSuccessModalOpen();
       },
       onError: error => {
-        // console.log(error);
         if (axios.isAxiosError(error)) {
           if (
             error.response?.status === 4004 ||

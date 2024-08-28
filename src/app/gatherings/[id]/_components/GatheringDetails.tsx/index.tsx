@@ -39,7 +39,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     data?.totalParticipantCount || 0
   );
   const [isMobile, setIsMobile] = useState(false);
-  // console.log(data);
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,
@@ -91,7 +90,6 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     myType = 'QUIT';
   }
 
-  // console.log(String(data.latitude), String(data.longitude));
   //참여자 mockdata
   // const participants: IParticipant[] = Array.from(
   //   { length: 12 },

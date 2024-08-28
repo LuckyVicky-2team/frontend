@@ -42,18 +42,20 @@ export default function Card({
     <>
       <div className={styles.card} onClick={onClick}>
         <div className={styles.thumbnail}>
-          <Image
-            src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
-            alt="thumbnail"
-            fill
-            sizes="100%"
-            priority
-          />
-          {isFullParticipant || isDateOver ? (
-            <div className={styles.fullUser}>
-              <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
-            </div>
-          ) : null}
+          <Link href={`/gatherings/${id}`}>
+            <Image
+              src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
+              alt="thumbnail"
+              fill
+              sizes="100%"
+              priority
+            />
+            {isFullParticipant || isDateOver ? (
+              <div className={styles.fullUser}>
+                <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
+              </div>
+            ) : null}
+          </Link>
         </div>
         <div className={styles.content}>
           <div className={styles.header}>

@@ -91,6 +91,15 @@ export default function NewGather({ meetingList }: DeadLineGatherProps) {
           <h1 className={styles.title1}>새로 생긴 모임들이에요!</h1>
           <b className={styles.title2}>신규모임</b>
         </div>
+        <Link href={'/gatherings'}>
+          더보기
+          <Image
+            width={12}
+            height={12}
+            src={'/assets/icons/backArrow.svg'}
+            alt=""
+          />
+        </Link>
       </div>
       <div className={styles.lineTitle}>
         <p>모임 목록</p>

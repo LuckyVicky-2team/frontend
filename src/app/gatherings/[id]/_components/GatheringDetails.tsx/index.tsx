@@ -39,7 +39,7 @@ export default function GatheringDetails({ id }: IGatheringDetailsProps) {
     data?.totalParticipantCount || 0
   );
   const [isMobile, setIsMobile] = useState(false);
-  console.log(data);
+  // console.log(data);
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,

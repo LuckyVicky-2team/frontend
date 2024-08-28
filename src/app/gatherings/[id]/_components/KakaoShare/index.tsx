@@ -28,10 +28,10 @@ export default function KakaoShare({
     // init 해주기 전에 clean up 을 해준다.
     if (window.Kakao) {
       Kakao?.cleanup();
-      console.log('app key', process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
+      // console.log('app key', process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
       Kakao.init(process.env.NEXT_PUBLIC_KAKAO_APP_KEY);
       // 잘 적용되면 true 를 뱉는다.
-      console.log(Kakao.isInitialized());
+      // console.log(Kakao.isInitialized());
     }
   }, [Kakao]);
 

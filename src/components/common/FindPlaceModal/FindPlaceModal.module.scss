@@ -63,9 +63,11 @@
 }
 
 .exception {
-  text-align: center;
   font-size: 18px;
   color: var(--gray-400, #9ca3af);
   font-style: normal;
   font-weight: 500;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

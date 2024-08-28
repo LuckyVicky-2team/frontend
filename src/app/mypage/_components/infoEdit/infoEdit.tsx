@@ -155,8 +155,6 @@ export default function InfoEdit({
         updateData.password = data.password;
       }
 
-      // console.log('전송할 데이터:', updateData);
-
       const _res = await updatePersonalInfo(
         updateData.nickName,
         updateData.password
@@ -167,7 +165,7 @@ export default function InfoEdit({
       handleEditOpen();
       addToast('개인정보가 수정되었습니다.', 'success');
     } catch (error) {
-      // console.log('error', error);
+      void error;
       addToast('정보 수정 중 오류가 발생했습니다.', 'error');
     }
   };

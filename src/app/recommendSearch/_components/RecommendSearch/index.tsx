@@ -37,7 +37,7 @@ export default function RecommendSearchClient() {
         const res = await getRecommendInfo('MANY');
         setRecommendInfo(res.data);
       } catch (err) {
-        // console.log(err);
+        void err;
       }
     };
     fetchRecommendInfo();

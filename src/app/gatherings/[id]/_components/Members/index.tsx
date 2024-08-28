@@ -4,12 +4,14 @@ import { IParticipant } from '@/types/response/Gathering';
 import styles from './Members.module.scss';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { useToast } from '@/contexts/toastContext';
 
 interface IMembersProps {
   modalOpen: boolean;
   onClose: () => void;
   data: IParticipant[];
   isMobile: boolean;
+  myType: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
 }
 
 export default function Members({
@@ -17,10 +19,17 @@ export default function Members({
   onClose,
   data,
   isMobile,
+  myType,
 }: IMembersProps) {
   // const buttonRef = useRef<HTMLButtonElement | null>(null);
   const h2Ref = useRef<HTMLUListElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const { addToast } = useToast();
+  const [kickButtonOn, setKickButtonOn] = useState(false);
+
+  const handleKickButtonClick = () => {
+    addToast('아직 구현되지 않은 기능입니다', 'error');
+  };
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -38,6 +47,10 @@ export default function Members({
       window.removeEventListener('resize', checkOverflow);
     };
   }, []);
+
+  useEffect(() => {
+    setKickButtonOn(myType === 'LEADER');
+  }, [myType, setKickButtonOn]);
 
   return (
     <BottomSheet isOpen={modalOpen} onClose={onClose} full>
@@ -95,9 +108,14 @@ export default function Members({
                   </div>
                   <p className={styles.nickname}>{participant.nickname}</p>
                 </button>
-                <button type="button" className={styles.kick}>
-                  내보내기
-                </button>
+                {kickButtonOn && participant.type !== 'LEADER' && (
+                  <button
+                    type="button"
+                    className={styles.kick}
+                    onClick={handleKickButtonClick}>
+                    내보내기
+                  </button>
+                )}
               </div>
             );
           })}

@@ -31,3 +31,18 @@
     position: relative;
   }
 }
+
+@media screen and (max-width: 430px) {
+  .linkBtn {
+    p {
+      font-size: 16px;
+      line-height: 20px;
+      &.active {
+        color: $blue-normal;
+        font-size: 16px;
+        font-style: normal;
+        line-height: 16px;
+      }
+    }
+  }
+}

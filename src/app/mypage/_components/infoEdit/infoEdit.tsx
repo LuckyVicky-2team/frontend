@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
 import styles from './infoEdit.module.scss';
@@ -36,7 +36,6 @@ export default function InfoEdit({
     formState: { errors },
     setError,
     clearErrors,
-    // watch,
   } = useForm<IFormData>({
     mode: 'onChange',
   });
@@ -52,49 +51,40 @@ export default function InfoEdit({
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
+  const [isPasswordMatched, setIsPasswordMatched] = useState<boolean>(true);
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev);
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword(prev => !prev);
 
   const handleUploadSuccess = () => {
-    updateInfo(); // 부모 컴포넌트의 정보를 업데이트
-    handleEditOpen(); // 프로필 이미지 수정 모달 닫기
+    updateInfo();
     setTimeout(() => {
-      window.location.reload(); // 페이지 새로고침
-    }, 1500);
+      window.location.reload();
+    }, 1000);
   };
 
-  // 비밀번호와 비밀번호 확인 검사 함수
-  // const validatePasswords = () => {
-  //   if (confirmPasswordValue.trim() === '') {
-  //     return;
-  //   }
+  // 비밀번호와 비밀번호 확인 비교 함수
+  const validatePasswords = () => {
+    if (passwordValue !== confirmPasswordValue) {
+      setIsPasswordMatched(false);
+      setError('confirmPassword', {
+        type: 'manual',
+        message: '비밀번호가 일치하지 않습니다.',
+      });
+    } else {
+      setIsPasswordMatched(true);
+      clearErrors('confirmPassword');
+    }
+  };
 
-  //   if (passwordValue !== confirmPasswordValue) {
-  //     setError('confirmPassword', {
-  //       type: 'manual',
-  //       message: '비밀번호가 일치하지 않습니다.',
-  //     });
-  //   } else {
-  //     clearErrors('confirmPassword');
-  //   }
-  // };
-
-  // 비밀번호 입력 필드에서 onChange 이벤트에 validatePasswords 추가
-  // const handlePasswordChange = (value: string) => {
-  //   setPasswordValue(value);
-  //   validatePasswords();
-  // };
-
-  // const handleConfirmPasswordChange = (value: string) => {
-  //   setConfirmPasswordValue(value);
-  //   validatePasswords();
-  // };
+  useEffect(() => {
+    validatePasswords();
+  }, [passwordValue, confirmPasswordValue]);
 
   // 닉네임 유효성 검사 함수
   const validateNickname = (nickName: string): boolean => {
-    const nicknameRegex = /^[가-힣a-zA-Z0-9]{1,8}$/;
+    const nicknameRegex = /^[가-힣a-zA-Z0-9]{2,8}$/;
     return nicknameRegex.test(nickName);
   };
 
@@ -104,7 +94,7 @@ export default function InfoEdit({
       setError('nickName', {
         type: 'manual',
         message:
-          '닉네임은 한글, 영어, 숫자만 사용 가능하며 8자 이하로 입력해주세요.',
+          '닉네임은 공백없이 한글, 영어, 숫자만 사용 가능하며 2자이상 8자 이하로 입력해주세요.',
       });
       setIsNameChecked(false);
       setIsNameDuplicate(false);
@@ -137,8 +127,8 @@ export default function InfoEdit({
   };
 
   // 개인정보 수정 제출 함수
-  const onSubmit: SubmitHandler<IFormData> = async data => {
-    if (passwordValue !== confirmPasswordValue) {
+  const onSubmit: SubmitHandler<IFormData> = async _data => {
+    if (!isPasswordMatched) {
       addToast(
         '비밀번호가 일치하지 않습니다. 다시 한번 확인 해주세요.',
         'error'
@@ -147,19 +137,25 @@ export default function InfoEdit({
     }
 
     try {
-      const updateData: { nickName: string; password?: string } = {
-        nickName: data.nickName,
-      };
+      const updateData: { nickName?: string; password?: string } = {};
 
-      if (data.password.trim()) {
-        updateData.password = data.password;
+      if (nameValue && isNameChecked && !isNameDuplicate) {
+        updateData.nickName = nameValue;
       }
 
-      // console.log('전송할 데이터:', updateData);
+      if (passwordValue.trim()) {
+        updateData.password = passwordValue;
+      }
 
-      const _res = await updatePersonalInfo(
-        updateData.nickName,
-        updateData.password
+      if (Object.keys(updateData).length === 0) {
+        addToast('수정할 항목이 없습니다.', 'error');
+        return;
+      }
+
+      // `updatePersonalInfo` 호출 시, `undefined`인 매개변수를 처리
+      await updatePersonalInfo(
+        updateData.nickName || '', // `nickName`이 `undefined`일 경우 빈 문자열로 처리
+        updateData.password || '' // `password`가 `undefined`일 경우 빈 문자열로 처리
       );
 
       updateInfo();
@@ -167,18 +163,32 @@ export default function InfoEdit({
       handleEditOpen();
       addToast('개인정보가 수정되었습니다.', 'success');
     } catch (error) {
-      // console.log('error', error);
       addToast('정보 수정 중 오류가 발생했습니다.', 'error');
     }
   };
 
+  const isFormValid = isPasswordMatched && (isNameChecked || !!passwordValue);
+
   return (
     <div className={styles.infoEditModal}>
+      <button
+        type={'button'}
+        className={styles.modalClose}
+        onClick={() => {
+          handleEditOpen();
+        }}>
+        <Image
+          width={32}
+          height={32}
+          src={'/assets/icons/x-circle.svg'}
+          alt="모달닫기버튼"
+        />
+      </button>
       <div className={styles.logoTitle}>BOGO</div>
       <div className={styles.title}>프로필 수정하기</div>
       <ProfileEdit
         onUploadSuccess={handleUploadSuccess}
-        initialImage={mypageInfo?.profileImage} // `initialImage` 속성을 추가
+        initialImage={mypageInfo?.profileImage}
         mypageInfo={mypageInfo}
       />
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -281,15 +291,19 @@ export default function InfoEdit({
               )}
             </button>
           </div>
+          {!isPasswordMatched && (
+            <div className={styles.errorMessage}>
+              비밀번호가 일치하지 않습니다.
+            </div>
+          )}
         </div>
         <button
           type="submit"
-          className={
-            isNameChecked && !isNameDuplicate
-              ? styles.editBtn
-              : styles.disabledBtn
-          }
-          disabled={!isNameChecked || isNameDuplicate}>
+          className={isFormValid ? styles.editBtn : styles.disabledBtn}
+          disabled={!isFormValid}
+          onClick={() => {
+            handleUploadSuccess();
+          }}>
           수정하기
         </button>
         <button

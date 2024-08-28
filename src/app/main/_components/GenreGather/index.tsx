@@ -69,6 +69,12 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
     );
   };
 
+  // 현재 시간 이후의 모임만 필터링
+  const now = new Date();
+  const filteredMeetingList = meetingList
+    ?.filter(meeting => new Date(meeting.meetingDate) > now)
+    .sort((a, b) => b.viewCount - a.viewCount);
+
   return (
     <div>
       <div className={styles.newTitle}>
@@ -112,7 +118,7 @@ export default function GenreGather({ meetingList }: DeadLineGatherProps) {
             </button>
           )}
 
-          {meetingList?.map(e => {
+          {filteredMeetingList?.map(e => {
             return (
               <li
                 key={e.id}

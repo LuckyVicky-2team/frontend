@@ -86,6 +86,15 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
     return parts.join(' ');
   };
 
+  // 현재 시간 기준으로 필터링: 오늘 이전의 모임 제외, 3일 이내 마감인 모임만 포함
+  const filteredMeetingList = meetingList?.filter(meeting => {
+    const now = new Date();
+    const meetingDate = new Date(meeting.meetingDate);
+    const timeDiff = meetingDate.getTime() - now.getTime();
+    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    return meetingDate > now && daysLeft <= 3;
+  });
+
   return (
     <div>
       <div className={styles.newTitle}>
@@ -129,7 +138,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
             </button>
           )}
 
-          {meetingList?.map(e => {
+          {filteredMeetingList?.map(e => {
             const gatheringDate = new Date(e.meetingDate);
             return (
               <li

@@ -20,6 +20,7 @@ export default function MyPage() {
   const [editOpen, setEditOpen] = useState(false);
   const [prOpen, setPrOpen] = useState(false);
   const [animatedRating, setAnimatedRating] = useState<number>(0); // Initial rating state
+  const checkedLogin = localStorage.getItem('accessToken');
 
   // 정보 수정 모달 열기/닫기 핸들러
   const handleEditOpen = () => {
@@ -86,6 +87,7 @@ export default function MyPage() {
           mypageInfo={info}
           handleEditOpen={handleEditOpen}
           updateInfo={fetchPersonalInfo}
+          checkedLogin={checkedLogin}
         />
       </div>
       <div className={styles.averageGrade}>
@@ -95,8 +97,7 @@ export default function MyPage() {
             className={styles.averageLine}
             style={{ width: `${ratingPercentage}%` }} // Animate width based on animatedRating
           >
-            <p className={styles.average}>{animatedRating.toFixed(1)}</p>{' '}
-            {/* Display animated rating */}
+            <p className={styles.average}>{animatedRating.toFixed(1)}</p>
           </div>
         </div>
       </div>
@@ -114,26 +115,38 @@ export default function MyPage() {
           {info?.prTags.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
       </div>
-      <ul className={styles.menuWrap}>
-        <li>
-          <Link href="/mypage/prEdit">PR 태그 수정</Link>
-        </li>
-        <li>
-          <Link href="/mypage/friendsList">친구 목록</Link>
-        </li>
-        <li>
-          <Link href="/mypage/myGatherings/participant">내 모임</Link>
-        </li>
-        <li>
-          <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>
-        </li>
-        <li>
-          <Link href="/mypage/settingAlarm">알림 설정</Link>
-        </li>
-        <li>
-          <Link href="/mypage/review">리뷰</Link>
-        </li>
-      </ul>
+      {checkedLogin ? (
+        <ul className={styles.menuWrap}>
+          <li>
+            <Link href="/mypage/prEdit">PR 태그 수정</Link>
+          </li>
+          <li>
+            <Link href="/mypage/myGatherings/participant">내 모임</Link>
+          </li>
+          <li>
+            <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>
+          </li>
+          <li>
+            <Link href="/mypage/review">리뷰</Link>
+          </li>
+        </ul>
+      ) : (
+        <ul className={styles.menuWrap}>
+          <li>
+            <Link href="/mypage/myFavoriteGatherings">찜한 모임</Link>
+          </li>
+        </ul>
+      )}
     </div>
   );
+}
+{
+  /* <li>
+          <Link href="/mypage/settingAlarm">알림 설정</Link>
+        </li> */
+}
+{
+  /* <li>
+          <Link href="/mypage/friendsList">친구 목록</Link>
+        </li> */
 }

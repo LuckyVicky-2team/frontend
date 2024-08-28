@@ -31,6 +31,10 @@ export const getPersonalGatherings = (filter: string) => {
 export const getMeetingList = () => {
   return axiosInstance.get(`/meeting`);
 };
+//나의 찜한모임 목록 조회 함수
+export const getLikeList = () => {
+  return axiosInstance.get(`/my/meeting/like`);
+};
 
 // 게임 랭크 조회 함수
 export const getGameRank = () => {
@@ -52,7 +56,7 @@ export const updatePersonalInfo = (nickName: string, password?: string) => {
   return axiosInstance.patch('/personal-info', payload);
 };
 
-// 프로필 이미지 수정을 위한 API 요청
+// API 호출 코드
 export const updateProfileImage = async (file: File) => {
   const formData = new FormData();
   formData.append('profileImage', file);

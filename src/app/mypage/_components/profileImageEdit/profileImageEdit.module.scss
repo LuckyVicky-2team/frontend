@@ -52,13 +52,27 @@
     }
   }
 }
-.uploadButton {
-  display: block;
-  text-align: center;
-  width: 100%;
-  color: #999;
-  text-decoration: underline;
-  margin-top: 20px;
+.proBtnWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  .uploadButton {
+    display: block;
+    width: 100%;
+    color: #999;
+    text-decoration: underline;
+    margin-top: 20px;
+    text-align: right;
+  }
+  .resetButton {
+    display: block;
+    width: 100%;
+    color: #999;
+    text-decoration: underline;
+    margin-top: 20px;
+    text-align: left;
+  }
 }
 
 .cancleBtn {

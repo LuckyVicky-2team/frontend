@@ -5,7 +5,7 @@ import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { getPersonalInfo } from '@/api/apis/mypageApis';
+import { getLikeList, getPersonalInfo } from '@/api/apis/mypageApis';
 
 interface IUserProfile {
   email: string;
@@ -23,6 +23,7 @@ export default function Header() {
     string | undefined
   >(undefined);
   // const [error, setError] = useState<string | null>(null);
+  const [likeCount, setLikeCount] = useState(0);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -46,6 +47,19 @@ export default function Header() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchGetLikeList = async () => {
+      try {
+        const response = await getLikeList();
+        setLikeCount(response.data.length);
+      } catch (err) {
+        // Handle error
+      }
+    };
+
+    fetchGetLikeList();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -165,7 +179,7 @@ export default function Header() {
                       src="/assets/mainImages/blackHeart.svg"
                       alt="즐겨찾기 아이콘"
                     />
-                    <span>12</span>
+                    <span>{likeCount}</span>
                   </a>
                   <button>
                     <Image

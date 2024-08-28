@@ -4,6 +4,7 @@ import { getPersonalGatherings } from '@/api/apis/mypageApis';
 import styles from '../myGatherings.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // 인터페이스 이름을 I로 시작하도록 수정
 interface IGathering {
@@ -14,12 +15,13 @@ interface IGathering {
   currentParticipant: number;
   limitParticipant: number;
   imageUrl: string;
+  thumbnail: string;
 }
 
 export default function Finish() {
   const [gatherings, setGatherings] = useState<IGathering[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
+  const router = useRouter();
 
   useEffect(() => {
     const fetchGatherings = async () => {
@@ -31,18 +33,15 @@ export default function Finish() {
           setGatherings([]); // 빈 배열로 설정
         }
       } catch (err) {
-        setError('모임을 불러오는 중 오류가 발생했습니다.');
+        // setError('모임을 불러오는 중 오류가 발생했습니다.');
         // console.error('Error fetching gatherings:', err);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
     fetchGatherings();
   }, []);
-
-  if (loading) return <p>로딩 중...</p>;
-  if (error) return <p>{error}</p>;
 
   return (
     <div className={styles.myGatheringsListWrap}>
@@ -70,21 +69,33 @@ export default function Finish() {
             모임을 둘러보면서 <br />
             다양한 게임들을 경험해보세요!
           </p>
-          <Link href="/">다양한 모임 둘러보기</Link>
+          <Link href="/gatherings">다양한 모임 둘러보기</Link>
         </div>
       ) : (
         gatherings.map(gathering => (
           <div className={styles.myGathdringsItem} key={gathering.meetingId}>
-            <div className={styles.img}>
+            <div
+              className={styles.img}
+              onClick={() => {
+                router.push(`/gatherings/${gathering?.meetingId}`);
+              }}>
               <Image
-                src={gathering.imageUrl || '/assets/mainImages/game.png'} // Use imageUrl if available
+                src={
+                  `https://${cloud}/${gathering?.thumbnail}` ||
+                  '/assets/mainImages/game.png'
+                } // Use imageUrl if available
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
               />
             </div>
             <div className={styles.info}>
-              <h1>{gathering.title}</h1>
+              <h1
+                onClick={() => {
+                  router.push(`/gatherings/${gathering?.meetingId}`);
+                }}>
+                {gathering.title}
+              </h1>
               <b>{gathering.detailAddress}</b>
               <p>
                 <span className={styles.time}>{gathering.meetingDatetime}</span>

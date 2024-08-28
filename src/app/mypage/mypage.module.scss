@@ -73,11 +73,18 @@
   z-index: 500;
   transition: 0.3s ease all;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #007aff;
+    width: 3px;
+  }
   &.off {
-    top: -100%;
+    bottom: -100%;
   }
   &.on {
-    top: 0%;
+    bottom: 0%;
   }
 }
 

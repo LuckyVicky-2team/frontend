@@ -33,6 +33,8 @@ export default function Main() {
     undefined
   );
 
+  console.log(meetingList);
+
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
 

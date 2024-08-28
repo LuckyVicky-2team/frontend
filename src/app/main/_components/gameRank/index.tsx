@@ -41,7 +41,7 @@ export default function GameRank() {
         />
         <div className={styles.titleTxt}>
           <h1 className={styles.title1}>이번 주 핫한 보드게임 랭킹</h1>
-          <b className={styles.title2}>인기순위</b>
+          <b className={styles.title2}>보드게임 인기순위</b>
         </div>
       </div>
 

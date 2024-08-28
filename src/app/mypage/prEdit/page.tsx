@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import styles from './prEdit.module.scss';
 import { useEffect, useState, KeyboardEvent } from 'react';
 import { getPersonalInfo, updatePRTags } from '@/api/apis/mypageApis';
@@ -9,11 +9,11 @@ export default function PrEdit() {
   const [prTags, setPrTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
+  const [inputLengthError, setInputLengthError] = useState<string | null>(null); // 태그 길이 에러 상태
 
   const fetchPersonalInfo = async () => {
     try {
       const response = await getPersonalInfo();
-      // setInfo(response.data);
       setPrTags(response.data.prTags);
     } catch (err) {
       // console.error('err:', err);
@@ -35,6 +35,22 @@ export default function PrEdit() {
     }
   };
 
+  // 태그 길이 유효성 검사
+  const validateTagLength = (tag: string) => {
+    if (tag.length > 10) {
+      setInputLengthError('태그는 최대 10자까지 입력할 수 있습니다.');
+    } else {
+      setInputLengthError(null);
+    }
+  };
+
+  // 태그 입력값 처리 함수
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNewTag(value);
+    validateTagLength(value); // 실시간 길이 검사
+  };
+
   // 유효성 검사 및 엔터 키를 눌렀을 때 태그 추가하는 함수
   const handleKeyUp = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -48,8 +64,6 @@ export default function PrEdit() {
         errorMessage = '이미 존재하는 태그입니다.';
       } else if (prTags.length >= 10) {
         errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
-      } else if (trimmedTag.length > 10) {
-        errorMessage = '태그는 최대 10자까지 입력할 수 있습니다.';
       } else if (!tagPattern.test(trimmedTag)) {
         errorMessage = '띄어쓰기 없이 한글, 영어, 숫자만 허용됩니다.';
       } else if (!trimmedTag) {
@@ -64,15 +78,29 @@ export default function PrEdit() {
 
       setError(null);
       const updatedTags = [...prTags, trimmedTag];
-      await updateTagsOnServer(updatedTags);
+      setPrTags(updatedTags); // UI 먼저 업데이트
       setNewTag('');
+
+      try {
+        await updateTagsOnServer(updatedTags); // 서버 업데이트
+      } catch (error) {
+        setPrTags(prTags); // 실패 시 롤백
+        setError('태그를 추가하는 데 실패했습니다.');
+      }
     }
   };
 
   // 태그 삭제 함수
   const handleTagRemove = async (tagToRemove: string) => {
     const updatedTags = prTags.filter(tag => tag !== tagToRemove);
-    await updateTagsOnServer(updatedTags);
+    setPrTags(updatedTags); // UI 먼저 업데이트
+
+    try {
+      await updateTagsOnServer(updatedTags); // 서버 업데이트
+    } catch (error) {
+      setPrTags(prTags); // 실패 시 롤백
+      setError('태그를 삭제하는 데 실패했습니다.');
+    }
   };
 
   return (
@@ -101,11 +129,16 @@ export default function PrEdit() {
       <input
         type="text"
         value={newTag}
-        onChange={e => setNewTag(e.target.value)}
+        onChange={handleChange}
         onKeyUp={handleKeyUp}
-        placeholder="PR태그를 입력해주세요. 10개 까지 추가 할수있습니다!"
+        placeholder={
+          prTags.length >= 10
+            ? '최대 10개의 PR 태그를 추가할 수 있습니다. 추가하려면 기존 태그를 삭제해주세요.'
+            : 'PR태그를 입력해주세요. 10개 까지 추가 할 수 있습니다!'
+        }
         disabled={prTags.length >= 10} // 10개 이상일 때 입력 비활성화
       />
+      {inputLengthError && <p className={styles.error}>{inputLengthError}</p>}
       {error && <p className={styles.error}>{error}</p>}
     </div>
   );

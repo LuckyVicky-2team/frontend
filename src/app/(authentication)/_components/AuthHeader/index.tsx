@@ -16,10 +16,10 @@ export default function AuthHeader({ onClick }: IAuthHeaderProps) {
     <header className={styles.header}>
       <button type="button" onClick={onClick || (() => router.back())}>
         <Image
-          src="/assets/icons/backArrow.svg"
+          src="/assets/mainImages/backIcon.svg"
           alt="돌아가기"
-          width={36}
-          height={36}
+          width={16}
+          height={16}
         />
       </button>
     </header>

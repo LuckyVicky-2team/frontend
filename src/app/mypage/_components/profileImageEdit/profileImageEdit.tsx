@@ -24,10 +24,10 @@ const ProfileImageEdit: React.FC<IProfileImageEditProps> = ({
   const cloudFrontDomain = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN || '';
 
   useEffect(() => {
-    const defaultImage = '/assets/mypage/defaultProfileImage.png';
+    const defaultImage = '/assets/myPageImages/defaultProfile.png'; // 기본 이미지 경로
 
     const getImageUrl = (url: string | null) => {
-      if (!url) return defaultImage;
+      if (!url || url === 'default') return defaultImage;
       return url.startsWith('http://') || url.startsWith('https://')
         ? url
         : `https://${cloudFrontDomain}/${url}`;
@@ -54,15 +54,31 @@ const ProfileImageEdit: React.FC<IProfileImageEditProps> = ({
   };
 
   const handleUpload = async () => {
-    if (!file) return;
+    if (!file) {
+      addToast('프로필 사진을 추가해주세요!', 'error'); // 파일이 없을 때 경고 메시지
+      return;
+    }
 
     try {
       await updateProfileImage(file);
       addToast('프로필 이미지가 수정되었습니다.', 'success');
       onUploadSuccess();
     } catch (error) {
-      // console.error('Upload error:', error);
       addToast('프로필 이미지 업로드 중 오류가 발생했습니다.', 'error');
+    }
+  };
+
+  const handleResetToDefault = async () => {
+    try {
+      // 기본 이미지를 설정하기 위해 빈 FormData 객체를 사용
+      const formData = new FormData();
+      formData.append('profileImage', '');
+
+      await updateProfileImage(formData as unknown as File); // FormData를 File로 변환하여 전달
+      addToast('프로필 이미지가 기본 이미지로 변경되었습니다.', 'success');
+      onUploadSuccess();
+    } catch (error) {
+      addToast('기본 이미지로 변경 중 오류가 발생했습니다.', 'error');
     }
   };
 
@@ -71,7 +87,11 @@ const ProfileImageEdit: React.FC<IProfileImageEditProps> = ({
       <div className={styles.preview}>
         <div className={styles.previewImgWrap}>
           <img
-            src={preview as string}
+            src={
+              typeof preview === 'string'
+                ? preview
+                : '/assets/myPageImages/defaultProfile.png'
+            }
             alt="Profile Preview"
             className={styles.image}
           />
@@ -95,12 +115,15 @@ const ProfileImageEdit: React.FC<IProfileImageEditProps> = ({
         </div>
       </div>
 
-      <button
-        onClick={handleUpload}
-        disabled={!file}
-        className={styles.uploadButton}>
-        프로필 이미지 수정하기
-      </button>
+      <div className={styles.proBtnWrap}>
+        <button onClick={handleUpload} className={styles.uploadButton}>
+          프로필 이미지 적용하기
+        </button>
+
+        <button onClick={handleResetToDefault} className={styles.resetButton}>
+          기본 이미지로 변경하기
+        </button>
+      </div>
     </div>
   );
 };

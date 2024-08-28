@@ -3,6 +3,7 @@
   color: #9ca3af;
   font-weight: 500;
 }
+
 .title2 {
   font-size: 28px;
   color: #2d7dff;
@@ -40,6 +41,7 @@
         font-size: 18px;
         font-weight: 600;
         margin-top: 10px;
+        color: #333;
       }
     }
   }
@@ -97,5 +99,41 @@
   }
   100% {
     transform: translate(-50%, 0);
+  }
+}
+
+/* 430px 이하 화면에 대한 반응형 스타일 추가 */
+@media (max-width: 430px) {
+  .title {
+    font-size: 16px;
+  }
+
+  .title2 {
+    font-size: 20px;
+  }
+
+  .recommendList {
+    // flex-direction: column;
+    // align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+    li {
+      width: 48%;
+      margin-bottom: 20px;
+      a {
+        .tag {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  .bubble {
+    display: none;
+    .font {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
   }
 }

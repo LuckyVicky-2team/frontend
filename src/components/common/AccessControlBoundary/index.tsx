@@ -29,7 +29,6 @@ export default function AccessControlBoundary({
     // 비회원인 경우 접근 제어
     if (!hasToken) {
       const forbiddenPath = new Set([
-        '/gatherings/new',
         '/mypage/prEdit',
         '/mypage/friendsList',
         '/mypage/myGatherings/participant',
@@ -45,6 +44,12 @@ export default function AccessControlBoundary({
 
       // '/threads' 하위 경로에 대해서도 접근 제어
       if (path.startsWith('/threads')) {
+        router.push('/signin');
+        return;
+      }
+
+      // '/gatherings/new' 하위 경로에 대해서도 접근 제어
+      if (path.startsWith('/gatherings/new')) {
         router.push('/signin');
         return;
       }

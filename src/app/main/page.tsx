@@ -1,15 +1,15 @@
 'use client';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import RecommendCase from './_components/RecommendCase';
-import GenreGather from './_components/GenreGather';
 import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
 import GameRank from './_components/gameRank';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
-import { useEffect, useRef, useState } from 'react';
 import { getTokenFromCookie } from '@/actions/AuthActions';
 import { usePostWishList } from '@/api/queryHooks/wishList';
+import NewGather from './_components/newGather/page';
+import MainSearch from './_components/mainSearch';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -94,12 +94,7 @@ export default function Main() {
           <p>보드게임, 같이 할래요?</p>
         </div>
         <div className={styles.searchBarWrap}>
-          <div className={styles.searchBar}>
-            <input
-              type="text"
-              placeholder={'나에게 딱! 맞는 모임을 추천해주세요'}
-            />
-          </div>
+          <MainSearch />
         </div>
         <div className={styles.contentContainer}>
           <MainNav
@@ -113,7 +108,8 @@ export default function Main() {
             <RecommendCase />
           </div>
           <div className={styles.contentContainer} ref={popularRef}>
-            <GenreGather meetingList={meetingList} />
+            {/* <GenreGather meetingList={meetingList} /> */}
+            <NewGather meetingList={meetingList} />
           </div>
           <div className={styles.contentContainer} ref={deadlineRef}>
             <DeadLineGather meetingList={meetingList} />

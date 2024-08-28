@@ -86,6 +86,15 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
     return parts.join(' ');
   };
 
+  // 현재 시간 기준으로 필터링: 오늘 이전의 모임 제외, 3일 이내 마감인 모임만 포함
+  const filteredMeetingList = meetingList?.filter(meeting => {
+    const now = new Date();
+    const meetingDate = new Date(meeting.meetingDate);
+    const timeDiff = meetingDate.getTime() - now.getTime();
+    const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    return meetingDate > now && daysLeft <= 3;
+  });
+
   return (
     <div>
       <div className={styles.newTitle}>
@@ -99,6 +108,15 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
           <h1 className={styles.title1}>곧! 모집이 마감됩니다!</h1>
           <b className={styles.title2}>마감임박</b>
         </div>
+        <Link href={'/gatherings'}>
+          더보기
+          <Image
+            width={12}
+            height={12}
+            src={'/assets/icons/backArrow.svg'}
+            alt=""
+          />
+        </Link>
       </div>
       <div className={styles.lineTitle}>
         <p>추리게임</p>
@@ -129,7 +147,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
             </button>
           )}
 
-          {meetingList?.map(e => {
+          {filteredMeetingList?.map(e => {
             const gatheringDate = new Date(e.meetingDate);
             return (
               <li
@@ -139,7 +157,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                   transition: '0.3s ease all',
                 }}>
                 <Link href={`/gatherings/${e?.id}`}>
-                  <span className={styles.famousIco}>★ 인기★</span>
+                  {/* <span className={styles.famousIco}>★ 인기★</span> */}
                   <span className={styles.deadLineIco}>
                     <Image
                       src={'/assets/icons/alarmIcon.svg'}

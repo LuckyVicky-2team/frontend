@@ -1,16 +1,46 @@
-.title1 {
-  color: #9ca3af;
-  font-weight: 600;
-  font-size: 20px;
-}
+.newTitle {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  margin-bottom: 25px;
+  position: relative;
+  width: 100%;
+  img {
+    max-width: 70px;
+    display: block;
+    max-height: 70px;
+    width: 100%;
+    height: 100%;
+  }
+  .titleTxt {
+    .title1 {
+      color: #9ca3af;
+      font-weight: 500;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
 
-.title2 {
-  color: #2d7dff;
-  font-weight: 800;
-  font-size: 22px;
-  display: block;
-  margin-top: 8px;
-  margin-bottom: 50px;
+    .title2 {
+      color: #333;
+      font-weight: 900;
+      font-size: 28px;
+      display: block;
+    }
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    img {
+      width: 24px;
+      height: 24px;
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .lineTitle {
@@ -46,7 +76,7 @@
   display: flex;
   align-items: center;
   justify-content: normal;
-  margin-top: 80px;
+  margin-top: 50px;
   width: 100%;
   white-space: nowrap;
   overflow-x: auto;
@@ -105,19 +135,30 @@
     display: block;
     width: 32%;
     margin-right: 3%;
-    // vertical-align: top;
+    min-width: 180px;
 
     a {
       display: block;
       width: 100%;
       position: relative;
+      overflow: hidden;
+      .famousIco {
+        background: #f8e049;
+        color: #007aff;
+        padding: 10px 30px;
+        position: absolute;
+        top: 12px;
+        left: -30px;
+        transform: rotate(-45deg);
+        font-size: 12px;
+      }
 
       .deadLineIco {
         position: absolute;
-        top: 0;
-        left: 0;
+        bottom: 0;
+        right: 0;
         z-index: 10;
-        background: #ea580c; /* 마감임박 강조색 */
+        background: #007aff; /* 마감임박 강조색 */
         color: #fff;
         display: flex;
         align-items: center;
@@ -125,14 +166,18 @@
         padding: 7px 10px;
         font-size: 14px;
         gap: 5px;
-        border-bottom-right-radius: 13px;
+        border-top-left-radius: 13px;
+        font-size: 12px;
       }
 
       .img {
         width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
         img {
           display: block;
           width: 100%;
+          border-radius: 10px;
         }
       }
 
@@ -142,11 +187,9 @@
         text-overflow: ellipsis;
         overflow: hidden;
         width: 100%;
-        // display: -webkit-box;
-        // -webkit-line-clamp: 2;
-        // -webkit-box-orient: vertical;
         line-height: 120%;
         display: block;
+        color: #333;
       }
     }
 
@@ -164,6 +207,12 @@
         justify-content: normal;
         gap: 3px;
         color: #757575;
+        .loc2 {
+          display: flex;
+          align-items: center;
+          justify-content: normal;
+          gap: 3px;
+        }
 
         img {
           width: 14px;
@@ -198,5 +247,65 @@
       display: block;
       color: #999;
     }
+  }
+}
+
+/* 430px 이하 화면에 대한 반응형 스타일 추가 */
+@media (max-width: 430px) {
+  .newTitle {
+    // flex-direction: column;
+    // align-items: flex-start;
+    img {
+      max-width: 50px;
+      max-height: 50px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .titleTxt {
+      .title1 {
+        font-size: 16px;
+      }
+      .title2 {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .lineTitle p {
+    font-size: 14px;
+    width: 50%;
+  }
+
+  .genreList {
+    li {
+      min-width: 100%;
+      width: 100%;
+      margin-bottom: 15px;
+      // margin-right: 10%;
+    }
+    .prevBtn,
+    .nextBtn {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .loc {
+    font-size: 12px;
+  }
+
+  .date {
+    font-size: 10px;
+  }
+
+  .heart input + label img,
+  .heart input:checked + label img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .deadLineIco {
+    padding: 5px 8px;
+    font-size: 10px;
   }
 }

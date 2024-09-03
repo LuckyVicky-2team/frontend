@@ -2,10 +2,25 @@ import React from 'react';
 import styles from './MainNav.module.scss';
 import Image from 'next/image';
 
-export default function MainNav() {
+interface IMainNavProps {
+  scrollToSection: (
+    _ref: React.RefObject<HTMLDivElement>,
+    _offset: number
+  ) => void;
+  deadlineRef: React.RefObject<HTMLDivElement>;
+  popularRef: React.RefObject<HTMLDivElement>;
+}
+
+export default function MainNav({
+  scrollToSection,
+  deadlineRef,
+  popularRef,
+}: IMainNavProps) {
   return (
     <div className={styles.mainNav}>
-      <div className={styles.mainNavContent}>
+      <div
+        className={styles.mainNavContent}
+        onClick={() => scrollToSection(deadlineRef, 100)}>
         <div>
           <h2>마감임박</h2>
           <p>
@@ -21,13 +36,15 @@ export default function MainNav() {
           alt="마감임박 네비메뉴 이미지"
         />
       </div>
-      <div className={styles.mainNavContent}>
+      <div
+        className={styles.mainNavContent}
+        onClick={() => scrollToSection(popularRef, 100)}>
         <div>
-          <h2>인기모임</h2>
+          <h2>신규모임</h2>
           <p>
-            그 모임
+            따끈따근한
             <br />
-            지금 핫해요!
+            신규 모임들 !
           </p>
         </div>
         <Image

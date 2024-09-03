@@ -29,7 +29,6 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 //       'Content-Type': 'multipart/form-data',
 //     },
 //   });
-//   console.log(response.data);
 // } catch (error) {
 //   console.error('There was an error uploading the file!', error);
 // }
@@ -50,6 +49,7 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 //   <p>상세 페이지에서 제일 먼저 보이는 이미지 입니다.</p>
 // </FileInput>
 
+//
 // react hook form 을 안 쓸 경우
 // export default function ExamplePage() {
 //   const [image, setImage] = useState<File | ''>('');
@@ -70,7 +70,6 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 //         },
 //       });
 
-//       console.log(response.data);
 //     } catch (error) {
 //       console.error('파일 업로드 중 오류가 발생했습니다.', error);
 //     }

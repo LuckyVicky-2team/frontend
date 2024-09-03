@@ -1,4 +1,4 @@
-import React, { EventHandler, MouseEvent } from 'react';
+import React, { MouseEventHandler } from 'react';
 import styles from './IconButton.module.scss';
 import Image from 'next/image';
 
@@ -20,10 +20,10 @@ import Image from 'next/image';
     }
 */
 
-type MouseEventHandler<T = Element> = EventHandler<MouseEvent<T>>;
+// type MouseEventHandler<T = Element> = EventHandler<MouseEvent<T>>;
 interface IIconButtonProps {
   imgUrl: string;
-  size?: 'xsmall' | 'small' | 'medium' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'mediumLarge' | 'large';
   clickIconButtonHandler?: MouseEventHandler<HTMLDivElement>;
   className?: string;
 }

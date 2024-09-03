@@ -91,6 +91,7 @@
 }
 
 .customFooter {
+  display: none;
   .footerContent {
     .joinBtn {
       position: absolute;
@@ -102,6 +103,96 @@
       border-radius: 10px;
       width: 70%;
       padding: 15px;
+    }
+  }
+}
+@media (max-width: 430px) {
+  .footerContent {
+    box-shadow: 0 -4px 10px rgb(0, 122, 255, 0.12);
+    padding: 15px 0;
+    z-index: 15;
+    background: #fff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 100%;
+    min-height: 80px;
+
+    z-index: 20;
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      li {
+        width: 23%;
+        display: block;
+        z-index: 1;
+        position: relative;
+        .a {
+          display: block;
+          width: 100%;
+          cursor: pointer;
+          z-index: 1;
+          .ico {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+          }
+          .tag {
+            width: 100%;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #999;
+            z-index: 1;
+            font-size: 14px;
+          }
+        }
+        &.on {
+          z-index: 1;
+          .a {
+            z-index: 1;
+            .ico {
+              transform: translateY(-50%);
+              position: relative;
+              transition: 0.3s ease all;
+              z-index: 1;
+              &::before {
+                content: '';
+                display: block;
+                width: 70px;
+                height: 70px;
+                border-radius: 100%;
+                background: #fff;
+                position: absolute;
+                top: 80%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+                z-index: -1;
+                box-shadow: -1px -1px 9px 0px rgba(0, 122, 255, 0.12);
+                clip-path: inset(-5% 44% 44% -5%);
+                -webkit-clip-path: inset(-5% 44% 44% -5%);
+              }
+              img {
+                z-index: 2;
+              }
+            }
+            .tag {
+              z-index: 1;
+              position: relative;
+            }
+          }
+        }
+      }
     }
   }
 }

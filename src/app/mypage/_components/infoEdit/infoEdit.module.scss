@@ -1,16 +1,16 @@
 .infoEditModal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  z-index: 100;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 600px;
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  padding: 15px;
+  .logoTitle {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 30px;
+    color: #007aff;
+  }
+  .modalClose {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+  }
   .title {
     display: block;
     margin-top: 15px;
@@ -21,7 +21,7 @@
     padding: 10px 0;
     display: block;
     gap: 15px;
-    margin-top: 100px;
+    margin-top: 30px;
     b {
       display: block;
       font-size: 18px;
@@ -35,6 +35,7 @@
       border-radius: 12px;
       background: #f9fafb;
       border: 1px solid #f9fafb;
+      outline: none;
       &:placeholder-shown {
         font-size: 14px;
       }
@@ -50,17 +51,6 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 15px;
-    }
-    input {
-      padding: 15px;
-      box-sizing: border-box;
-      width: 100%;
-      border-radius: 12px;
-      background: #f9fafb;
-      border: 1px solid #f9fafb;
-      &:placeholder-shown {
-        font-size: 14px;
-      }
     }
   }
   .editBtn {
@@ -89,5 +79,75 @@
     padding: 15px;
     box-sizing: border-box;
     border-radius: 12px;
+  }
+}
+
+.prFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafb;
+  position: relative;
+  width: 100%;
+  border-radius: 5px;
+  input {
+    width: 80%;
+    outline: none;
+  }
+  button {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+
+    border-radius: 10px;
+    padding: 10px 15px;
+    &.on {
+      background: #007aff;
+      color: #fff;
+    }
+    &.off {
+      background: #9ca3af;
+      color: #fff;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.successMessage {
+  color: #3e82f1;
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.errorMessage {
+  color: #e74133;
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.passwordWrapper {
+  display: block;
+  width: 100%;
+  position: relative;
+  input {
+    padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 12px;
+    background: #f9fafb;
+    border: 1px solid #f9fafb;
+    outline: none;
+    &:placeholder-shown {
+      font-size: 14px;
+    }
+  }
+  button {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
   }
 }

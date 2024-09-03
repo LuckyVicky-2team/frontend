@@ -1,6 +1,7 @@
 .space {
   width: 100%;
 }
+
 .headerContent {
   padding: 15px 0;
   z-index: 15;
@@ -24,7 +25,7 @@
   }
 }
 
-//커스텀 헤더
+// 커스텀 헤더
 .customHeader {
   .headerContent {
     padding: 15px 0;
@@ -40,7 +41,7 @@
     transform: translateX(-50%);
     max-width: 600px;
     width: 100%;
-    border-bottom: 1px solid #007aff;
+    border-bottom: 2px solid #f5f5f5;
     h1 {
       font-size: 30px;
       color: #007aff;
@@ -72,8 +73,38 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 20%;
-  gap: 15%;
+  width: 40%;
+  gap: 5%;
+  .headerMyapgeButton {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #666;
+    border-radius: 100%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .headerFavorite {
+    display: block;
+    width: 12%;
+    position: relative;
+    color: #333;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+    }
+  }
   &.noneLogin {
     a {
       color: #007aff;
@@ -96,6 +127,62 @@
       position: absolute;
       top: 0;
       right: 0;
+    }
+  }
+}
+
+// 430px 이하 화면에 대한 반응형 스타일 추가
+@media (max-width: 430px) {
+  .space {
+    width: 100%;
+  }
+
+  .headerContent {
+    padding: 10px 15px;
+    min-height: 50px;
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+  .customHeader .headerContent {
+    padding: 10px 15px;
+    min-height: 50px;
+
+    h1 {
+      font-size: 24px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    p {
+      font-size: 16px;
+      gap: 10px;
+    }
+  }
+
+  .right {
+    justify-content: end;
+    .headerMyapgeButton {
+      width: 28px;
+      height: 28px;
+    }
+    .headerFavorite {
+      width: 10%;
+      display: none;
+    }
+    .headerAlarmIcon {
+      display: none;
+    }
+    button {
+      img {
+        width: 20px;
+        height: 20px;
+      }
+      span {
+        width: 8px;
+        height: 8px;
+      }
     }
   }
 }

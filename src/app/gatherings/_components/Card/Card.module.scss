@@ -44,37 +44,44 @@
 
   .content {
     display: flex;
-    padding: 0 16px;
+    padding: 0 0 0 16px;
     width: 100%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     gap: 12px;
-    max-width: 317px;
+    min-width: 200px;
 
     .header {
       width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
-
+      .topHeader {
+        justify-content: space-between;
+        display: flex;
+        width: 100%;
+        h1 {
+          max-width: 83%;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 28px;
+          color: #1f2937;
+          display: inline-block;
+          word-break: keep-all;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+      }
       .info {
         max-width: 70%;
         display: flex;
         flex-direction: column;
         gap: 8px;
-      }
-      h1 {
-        min-width: 0;
-        width: 100%;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 28px;
-        color: #1f2937;
-        word-break: keep-all;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
       }
       h3 {
         span {
@@ -92,6 +99,7 @@
         color: #374151;
       }
       .time {
+        width: 100%;
         display: flex;
         align-items: flex-start;
         gap: 8px;
@@ -225,6 +233,87 @@
       font-style: normal;
       font-weight: 600;
       line-height: 20px;
+    }
+  }
+}
+@media screen and (max-width: 430px) {
+  .card {
+    padding-bottom: 25px;
+    .content {
+      gap: 10px;
+      flex-direction: column;
+      min-width: 150px;
+      .header {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        .topHeader {
+          justify-content: space-between;
+          h1 {
+            max-width: 80%;
+            font-size: 18px;
+            line-height: 20px;
+            display: inline-block;
+            word-break: keep-all;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+        .info {
+          max-width: 70%;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        h3 {
+          span {
+            font-size: 16px;
+            line-height: 20px;
+          }
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 18px;
+          color: #374151;
+        }
+        .time {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          width: max-content;
+        }
+      }
+      .tagContainer {
+        gap: 6px;
+        .tags {
+          padding: 0 10px;
+          gap: 76px;
+          min-width: fit-content;
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 20px;
+        }
+      }
+      .gameContainer {
+        .games {
+          display: flex;
+          width: fit-content;
+          color: #007aff;
+          font-size: 12px;
+          font-style: normal;
+          line-height: 20px;
+        }
+      }
+      .seeDetail {
+        padding: 10px 18px;
+        gap: 10px;
+        font-size: 14px;
+      }
     }
   }
 }

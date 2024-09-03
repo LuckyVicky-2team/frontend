@@ -42,9 +42,12 @@ export default function Modal({
   return (
     <>
       <div
-        onClick={onClose}
+        onMouseDown={onClose}
         className={full ? '' : modalOpen ? styles.modalBackground : ''}>
         <div
+          onMouseDown={e => {
+            e.stopPropagation();
+          }}
           onClick={e => {
             e.stopPropagation();
           }}
@@ -62,8 +65,16 @@ export default function Modal({
               width: '100%',
             }}>
             {full && (
-              <button type="button" onClick={onClose}>
-                x
+              <button
+                onClick={onClose}
+                type="button"
+                className={styles.fullXButton}>
+                <Image
+                  src={'/assets/icons/x-button-blue.svg'}
+                  alt="닫기 버튼"
+                  width={46}
+                  height={46}
+                />
               </button>
             )}
             {children}

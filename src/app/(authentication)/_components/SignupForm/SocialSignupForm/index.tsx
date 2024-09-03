@@ -6,38 +6,48 @@ import { getNickNameDupCheck } from '@/api/apis/authApis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
-import { useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import AuthTagInput from '../../AuthTagInput';
 import { usePostSocialSignupForm } from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
 import { getTokenFromCookie } from '@/actions/AuthActions';
+import { useFunnel } from '@/hooks/useFunnel';
+import AuthTitle from '../../AuthTitle';
+import AuthHeader from '../../AuthHeader';
 import styles from './SocialSignupForm.module.scss';
 
 export default function SocialSignupForm() {
   const router = useRouter();
+  const { Funnel, Step, setStep, currentStep } = useFunnel('first');
+
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
+  const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
+
   const [token, setToken] = useState('');
   const { addToast } = useToast();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-    setError,
-  } = useForm({
-    mode: 'onBlur',
+  const props = useForm({
+    mode: 'onChange',
     defaultValues: {
       nickName: '',
       prTags: [],
     } as SocialSignupFormType,
   });
 
+  const {
+    handleSubmit,
+    formState: { errors, isValid },
+    getValues,
+    setError,
+    control,
+    watch,
+  } = props;
+
   const { mutate: signupMutate, isPending } = usePostSocialSignupForm();
 
   const nickNameDupCheck = async (nickName: string) => {
     try {
+      setNickNameDupLoading(true);
       await getNickNameDupCheck(nickName);
       setIsNickNameDupOk(true);
     } catch (error: any) {
@@ -50,6 +60,8 @@ export default function SocialSignupForm() {
       } else {
         addToast('중복확인 중 오류가 발생했습니다.', 'error');
       }
+    } finally {
+      setNickNameDupLoading(false);
     }
   };
 
@@ -59,7 +71,7 @@ export default function SocialSignupForm() {
       {
         onSuccess: () => {
           localStorage.setItem('accessToken', token);
-          router.push('/signup/result');
+          router.push('/signup/result?type=social');
         },
         onError: () => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -81,48 +93,109 @@ export default function SocialSignupForm() {
   }, []);
 
   return (
-    <form
-      className={styles.form}
-      onSubmit={handleSubmit(formData => submitSocialSignupForm(formData))}>
-      <div className={styles.buttonInput}>
-        <AuthInput
-          labelName="닉네임"
-          placeholder="닉네임을 입력해주세요"
-          error={errors.nickName}
-          disabled={isNickNameDupOk}
-          {...register('nickName', {
-            required: '닉네임을 입력해주세요',
-            pattern: {
-              value: /^[a-zA-Z0-9가-힣]+$/,
-              message: '닉네임은 한글과 영어, 숫자만 사용 가능합니다',
-            },
-            maxLength: {
-              value: 8,
-              message: '닉네임은 최대 8자까지 입력 가능합니다',
-            },
-          })}
-        />
-        <Button
-          onClick={() => {
-            if (!errors.nickName && getValues('nickName')) {
-              nickNameDupCheck(getValues('nickName'));
-            }
-          }}
-          disabled={isNickNameDupOk}
-          className={styles.checkButton}>
-          중복확인
-        </Button>
-      </div>
-      <AuthTagInput setValue={setValue} />
-      <Button
-        disabled={
-          isPending ||
-          !getValues('nickName') ||
-          Boolean(Object.keys(errors).length)
-        }
-        type="submit">
-        확인
-      </Button>
-    </form>
+    <FormProvider {...props}>
+      <AuthHeader
+        onClick={currentStep === 'second' ? () => setStep('first') : undefined}
+      />
+      <form>
+        <Funnel>
+          <Step name="first">
+            <div className={styles.formArea}>
+              <AuthTitle
+                text="보고에 회원가입 해주셔서 감사합니다."
+                title="회원가입하기"
+              />
+              <div className={styles.buttonInput}>
+                <Controller
+                  name="nickName"
+                  control={control}
+                  rules={{
+                    required: '닉네임을 입력해주세요',
+                    pattern: {
+                      value: /^[가-힣a-zA-Z0-9ㄱ-ㅎ]+$/,
+                      message: '닉네임은 한글과 영어, 숫자만 사용 가능합니다',
+                    },
+                    minLength: {
+                      value: 2,
+                      message: '닉네임은 최소 2자부터 등록 가능합니다',
+                    },
+                    maxLength: {
+                      value: 8,
+                      message: '닉네임은 최대 8자까지 입력 가능합니다',
+                    },
+                  }}
+                  render={({ field }) => (
+                    <AuthInput
+                      labelName="닉네임"
+                      placeholder="닉네임을 입력해주세요"
+                      disabled={isNickNameDupOk}
+                      autoComplete="nickname"
+                      fieldName="nickName"
+                      {...field}
+                    />
+                  )}
+                />
+                <Button
+                  onClick={() => nickNameDupCheck(getValues('nickName'))}
+                  disabled={
+                    isNickNameDupOk ||
+                    nickNameDupLoading ||
+                    !!errors.nickName ||
+                    !watch('nickName')
+                  }
+                  className={styles.checkButton}>
+                  중복확인
+                </Button>
+              </div>
+              <Button
+                onClick={() => {
+                  setStep('second');
+                }}
+                className={styles.button}
+                disabled={
+                  isPending ||
+                  !watch('nickName') ||
+                  !isValid ||
+                  !isNickNameDupOk
+                }>
+                확인
+              </Button>
+            </div>
+          </Step>
+
+          <Step name="second">
+            <div className={styles.formArea}>
+              <AuthTitle
+                text="나를 소개하는 PR 태그를 등록해보세요!"
+                title="나를 소개하기"
+              />
+              <AuthTagInput />
+              <Button
+                onClick={() => {
+                  handleSubmit(formData => {
+                    submitSocialSignupForm(formData);
+                  })();
+                }}
+                disabled={isPending}
+                className={styles.button}>
+                PR 태그 등록하기
+              </Button>
+              <Button
+                onClick={() => {
+                  handleSubmit(formData => {
+                    formData.prTags = [];
+                    submitSocialSignupForm(formData);
+                  })();
+                }}
+                disabled={isPending}
+                color="white"
+                className={styles.button}>
+                건너뛰기
+              </Button>
+            </div>
+          </Step>
+        </Funnel>
+      </form>
+    </FormProvider>
   );
 }

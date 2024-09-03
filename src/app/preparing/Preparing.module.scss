@@ -1,0 +1,33 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 24px;
+  gap: 220px;
+}
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: normal;
+  gap: 20px;
+}
+
+.image {
+  position: relative;
+  width: 80%;
+  aspect-ratio: 3/2;
+}
+
+.title {
+  color: #002b59;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.subTitle {
+  color: #002b59;
+  font-size: 18px;
+}

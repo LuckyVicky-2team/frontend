@@ -2,11 +2,8 @@ import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
-  QueryState,
   QueryKey,
 } from '@tanstack/react-query';
-import { cache } from 'react';
-import { isEqual } from '@/utils/isEqual';
 
 //사용 예시
 // import { Hydrate, getDehydratedQuery } from '@/utils/react-query';
@@ -24,9 +21,9 @@ import { isEqual } from '@/utils/isEqual';
 //   )
 // }
 
-export const getQueryClient = cache(() => new QueryClient());
+// export const getQueryClient = cache(() => new QueryClient());
 
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+// type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 interface QueryProps<ResponseType = unknown> {
   queryKey: QueryKey;
@@ -34,27 +31,28 @@ interface QueryProps<ResponseType = unknown> {
   queryFn: () => Promise<ResponseType>;
 }
 
-interface DehydratedQueryExtended<TData = unknown, TError = unknown> {
-  state: QueryState<TData, TError>;
-}
+// interface DehydratedQueryExtended<TData = unknown, TError = unknown> {
+//   state: QueryState<TData, TError>;
+// }
 
 export async function getDehydratedQuery<Q extends QueryProps>({
   queryKey,
   queryFn,
 }: Q) {
-  const queryClient = getQueryClient();
+  const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({ queryKey, queryFn });
 
-  const { queries } = dehydrate(queryClient);
+  return dehydrate(queryClient);
+  // const { queries } = dehydrate(queryClient);
 
-  const [dehydratedQuery] = queries.filter(query =>
-    isEqual(query.queryKey, queryKey)
-  );
+  // const [dehydratedQuery] = queries.filter(query =>
+  //   isEqual(query.queryKey, queryKey)
+  // );
 
-  return dehydratedQuery as DehydratedQueryExtended<
-    UnwrapPromise<ReturnType<Q['queryFn']>>
-  >;
+  // return dehydratedQuery as DehydratedQueryExtended<
+  //   UnwrapPromise<ReturnType<Q['queryFn']>>
+  // >;
 }
 
 export const Hydrate = HydrationBoundary;

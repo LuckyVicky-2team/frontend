@@ -9,10 +9,16 @@ export default function Footer() {
   const [on, setOn] = useState(3);
   const pathName = usePathname();
   const currentPathName = pathName.split('/')[1];
+  const currentPathName2 = pathName.split('/')[2];
 
   useEffect(() => {
     if (currentPathName === 'main') {
       setOn(3);
+    } else if (
+      currentPathName === 'mypage' &&
+      currentPathName2 === 'myGatherings'
+    ) {
+      setOn(2);
     } else if (currentPathName === 'mypage') {
       setOn(5);
     } else if (currentPathName === '') {
@@ -30,8 +36,26 @@ export default function Footer() {
 
   return (
     <footer>
-      {currentPathName === 'dd' ? (
+      {currentPathName === 'gatherings' && currentPathName2 ? (
         <div className={styles.customFooter}>
+          <div className={styles.space}></div>
+          <div className={styles.footerContent}>
+            <button type={'button'} className={styles.joinBtn}>
+              모임 참여하기
+            </button>
+          </div>
+        </div>
+      ) : pathName.startsWith('/signup') ? (
+        <div className={styles.customFooter} style={{ display: 'none' }}>
+          <div className={styles.space}></div>
+          <div className={styles.footerContent}>
+            <button type={'button'} className={styles.joinBtn}>
+              모임 참여하기
+            </button>
+          </div>
+        </div>
+      ) : pathName.startsWith('/threads') ? (
+        <div className={styles.customFooter} style={{ display: 'none' }}>
           <div className={styles.space}></div>
           <div className={styles.footerContent}>
             <button type={'button'} className={styles.joinBtn}>
@@ -50,56 +74,56 @@ export default function Footer() {
                   handleOn(1);
                 }}
                 className={on === 1 ? styles.on : ''}>
-                {/* <Link href="/"> */}
-                <span className={styles.a}>
-                  <span className={styles.ico}>
-                    {on === 1 ? (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f1_fill.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    ) : (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f3.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    )}
+                <Link href="/threads">
+                  <span className={styles.a}>
+                    <span className={styles.ico}>
+                      {on === 1 ? (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/icons/chat_on.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      ) : (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/icons/chat_off.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      )}
+                    </span>
+                    <span className={styles.tag}>채팅방</span>
                   </span>
-                  <span className={styles.tag}>채팅방</span>
-                </span>
-                {/* </Link> */}
+                </Link>
               </li>
               <li
                 onClick={() => {
                   handleOn(2);
                 }}
                 className={on === 2 ? styles.on : ''}>
-                {/* <Link href="/"> */}
-                <span className={styles.a}>
-                  <span className={styles.ico}>
-                    {on === 2 ? (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f2_fill.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    ) : (
-                      <Image
-                        width={24}
-                        height={24}
-                        src={'/assets/mainImages/f2.svg'}
-                        alt="푸터메뉴1"
-                      />
-                    )}
+                <Link href="/mypage/myGatherings/participant">
+                  <span className={styles.a}>
+                    <span className={styles.ico}>
+                      {on === 2 ? (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/mainImages/f2_fill.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      ) : (
+                        <Image
+                          width={24}
+                          height={24}
+                          src={'/assets/mainImages/f2.svg'}
+                          alt="푸터메뉴1"
+                        />
+                      )}
+                    </span>
+                    <span className={styles.tag}>내모임</span>
                   </span>
-                  <span className={styles.tag}>내모임</span>
-                </span>
-                {/* </Link> */}
+                </Link>
               </li>
               <li
                 onClick={() => {

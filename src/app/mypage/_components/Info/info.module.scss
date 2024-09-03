@@ -1,17 +1,19 @@
 .relative {
   position: relative;
 }
+
 .card {
   display: block;
   width: 100%;
   border-radius: 30px;
   border: 1px solid #ddd;
   overflow: hidden;
+
   .top {
     display: flex;
     align-items: normal;
     justify-content: space-between;
-    padding: 25px 25px 40px 25px;
+    padding: 25px;
     box-sizing: border-box;
     background: url('/assets/myPageImages/profileBg.png') no-repeat center/cover;
     width: 100%;
@@ -21,57 +23,76 @@
       font-size: 20px;
       font-weight: 600;
     }
+
     button {
       color: #fff;
     }
   }
+
   .bottom {
     display: flex;
     align-items: center;
     justify-content: normal;
     padding: 25px;
     position: relative;
+
     .profileImg {
-      width: 30%;
+      width: 25%;
+
       .proImgSpace {
-        border: 1px solid #ddd;
+        border: 1px solid #666;
         border-radius: 100%;
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         position: absolute;
         top: -12%;
         left: 5%;
-        input {
-          position: fixed;
-          left: -9999px;
+        overflow: hidden;
+        background: #fff;
+
+        button {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          background: rgba(0, 0, 0, 0.5);
+          top: 0;
+          left: 0;
+          color: #fff;
+          align-items: center;
+          justify-content: center;
+
+          &.on {
+            display: flex;
+          }
+
+          &.off {
+            display: none;
+          }
         }
-        input + label {
-          cursor: pointer;
-        }
+
         img {
           display: block;
           width: 100%;
         }
       }
     }
+
     .rightInfo {
-      width: 60%;
+      width: 80%;
+
       .topInfo {
         display: flex;
         align-items: center;
         justify-content: normal;
         margin-bottom: 15px;
+
         b {
           font-weight: 700;
           font-size: 20px;
           margin-right: 15px;
         }
-        button {
-          padding: 10px 15px;
-          border-radius: 15px;
-          background: #eee;
-          color: #999;
-        }
+
+        button,
         a {
           padding: 10px 15px;
           border-radius: 15px;
@@ -79,6 +100,7 @@
           color: #999;
         }
       }
+
       .list {
         li {
           display: flex;
@@ -86,10 +108,12 @@
           justify-content: normal;
           gap: 10px;
           margin-bottom: 10px;
+
           b {
-            font-weight: 7 00;
+            font-weight: 700;
             font-size: 18px;
           }
+
           p {
             font-weight: 400;
             font-size: 18px;
@@ -115,17 +139,20 @@
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   display: none;
+
   h1 {
     display: block;
     margin-top: 15px;
     font-size: 26px;
     font-weight: bold;
   }
+
   .profileImgInput {
     input {
       position: fixed;
       left: -9999px;
     }
+
     input + label {
       display: flex;
       align-items: center;
@@ -138,8 +165,8 @@
       border-radius: 100%;
       overflow: hidden;
       object-fit: cover;
-      // padding: 30px;
       cursor: pointer;
+
       img {
         display: block;
         width: 100%;
@@ -147,31 +174,131 @@
       }
     }
   }
-  .profileImgEditBtn {
-    width: 100%;
-    margin-top: 50px;
-    background: #3e82f1;
-    color: #fff;
-    padding: 15px;
-    box-sizing: border-box;
-    border-radius: 12px;
-  }
-  .disabledBtn {
-    width: 100%;
-    margin-top: 50px;
-    background: #ddd;
-    color: #fff;
-    padding: 15px;
-    box-sizing: border-box;
-    border-radius: 12px;
-  }
+
+  .profileImgEditBtn,
+  .disabledBtn,
   .cancleBtn {
     width: 100%;
-    margin-top: 25px;
-    background: #333;
-    color: #fff;
+    margin-top: 50px;
     padding: 15px;
     box-sizing: border-box;
     border-radius: 12px;
+  }
+
+  .profileImgEditBtn {
+    background: #3e82f1;
+    color: #fff;
+  }
+
+  .disabledBtn {
+    background: #ddd;
+    color: #fff;
+  }
+
+  .cancleBtn {
+    background: #333;
+    color: #fff;
+    margin-top: 25px;
+  }
+}
+
+// 반응형 스타일 추가
+@media (max-width: 430px) {
+  .card {
+    .top {
+      padding: 15px;
+      h2 {
+        font-size: 18px;
+      }
+    }
+
+    .bottom {
+      // flex-direction: column;
+      // align-items: center;
+      display: block;
+      padding: 15px;
+
+      .profileImg {
+        width: 100%;
+
+        .proImgSpace {
+          // width: 60px;
+          // height: 60px;
+          // top: -10%;
+          // left: 10%;
+          position: static;
+          transform: none;
+          margin: 0 auto;
+          button {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+
+      .rightInfo {
+        width: 100%;
+
+        .topInfo {
+          // flex-direction: column;
+          // align-items: center;
+          // justify-content: center;
+          display: block;
+          b {
+            font-size: 18px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 15px;
+          }
+
+          button {
+            padding: 8px 12px;
+            margin: 0 auto;
+            display: block;
+            margin-top: 10px;
+          }
+        }
+
+        .list {
+          li {
+            // flex-direction: column;
+            // align-items: flex-start;
+            display: block;
+            gap: 5px;
+            b,
+            p {
+              display: block;
+              font-size: 16px;
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .editProfileImgModal {
+    width: 100%;
+    padding: 20px;
+    max-width: 100%;
+    h1 {
+      font-size: 20px;
+    }
+
+    .profileImgInput {
+      input + label {
+        width: 150px;
+        height: 150px;
+        margin-top: 50px;
+      }
+    }
+
+    .profileImgEditBtn,
+    .disabledBtn,
+    .cancleBtn {
+      margin-top: 30px;
+      padding: 12px;
+    }
   }
 }

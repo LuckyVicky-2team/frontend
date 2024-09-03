@@ -19,6 +19,10 @@ type PreserveFunction = (
   pathname: string | UrlObject
 ) => void;
 
+// 사용법
+// Const searchparams = useClient~~()
+// searchParams.append(“REPLACE”, {‘bottomSheet’,value})
+
 export const useClientSearchParams = () => {
   const router = useRouter();
   const pathname = usePathname();

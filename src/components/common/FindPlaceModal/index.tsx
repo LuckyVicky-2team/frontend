@@ -11,13 +11,17 @@ import useGetCurrentCoordinate from '@/api/queryHooks/geolocation';
 import kakaoSearch from '@/utils/kakaoSearch';
 import PlaceSearchBar from './PlaceSearchBar';
 import { useToast } from '@/contexts/toastContext';
+import Spinner from '../Spinner';
 import styles from './FindPlaceModal.module.scss';
+import { UseFormSetValue } from 'react-hook-form';
+import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 interface IFindPlaceModalProps {
   modalOpen: boolean;
   onClose: () => void;
   setLatitude: (_y: string) => void;
   setLongitude: (_x: string) => void;
+  setValue?: UseFormSetValue<INewGatheringFormValuesRequest>; //react-hook-form 연결
 }
 
 export default function FindPlaceModal({
@@ -25,6 +29,7 @@ export default function FindPlaceModal({
   onClose,
   setLatitude,
   setLongitude,
+  setValue,
 }: IFindPlaceModalProps) {
   const { Funnel, Step, setStep } = useFunnel('list');
   const [list, setList] = useState<IPlaceInfoResponse[]>([]);
@@ -33,6 +38,8 @@ export default function FindPlaceModal({
 
   const { addToast } = useToast();
   const { data: myPosition, isLoading } = useGetCurrentCoordinate();
+
+  const [isMobile, setIsMobile] = useState(false);
 
   const setPlaceList = async (
     keyword: string,
@@ -50,7 +57,7 @@ export default function FindPlaceModal({
     }
   };
 
-  const handlePressEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
+  const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const targetValue = e.currentTarget.value;
 
@@ -65,6 +72,15 @@ export default function FindPlaceModal({
     }
   };
 
+  const handleClickZoom = (keyword: string) => {
+    if (!keyword) {
+      setList([]);
+      return;
+    }
+
+    setPlaceList(keyword);
+  };
+
   useEffect(() => {
     if (!myPosition || isLoading) return;
 
@@ -74,26 +90,71 @@ export default function FindPlaceModal({
       lat: myPosition.y,
       lon: myPosition.x,
     });
-  }, [myPosition, isLoading]);
+  }, [myPosition, isLoading, modalOpen]);
+
+  useEffect(() => {
+    if (setValue) {
+      // selectedItem?.x && setValue('latitude', selectedItem?.x);
+      // selectedItem?.y && setValue('longitude', selectedItem?.y);
+      if (selectedItem?.road_address_name || selectedItem?.address_name) {
+        if (selectedItem?.road_address_name) {
+          setValue('city', selectedItem?.road_address_name.split(' ')[0]);
+          setValue('county', selectedItem?.road_address_name.split(' ')[1]);
+        } else {
+          setValue('city', selectedItem?.address_name.split(' ')[0]);
+          setValue('county', selectedItem?.address_name.split(' ')[1]);
+        }
+        setValue(
+          'detailAddress',
+          selectedItem?.road_address_name || selectedItem?.address_name
+        );
+      }
+      selectedItem?.place_name &&
+        setValue('locationName', selectedItem.place_name);
+    }
+  }, [selectedItem]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 439);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose} xButton maxWidth={600}>
+    <Modal
+      modalOpen={modalOpen}
+      onClose={() => {
+        onClose();
+      }}
+      maxWidth={552}
+      xButton>
       <div className={styles.container}>
         <Funnel>
           <Step name="list">
             <div className={styles.list}>
               <PlaceSearchBar
                 onKeyUp={handlePressEnter}
+                onClickZoom={handleClickZoom}
                 disabled={isLoading || searchLoading}
+                myPosition={!!myPosition}
+                isMobile={isMobile}
               />
               {isLoading || searchLoading ? (
-                <div className={styles.exception}>로딩중입니다</div>
+                <div className={styles.exception}>
+                  <Spinner />
+                </div>
               ) : list.length ? (
                 <KakaoList
                   list={list}
                   setItem={setSelectedItem}
                   setStep={setStep}
                   myPosition={myPosition}
+                  isMobile={isMobile}
                 />
               ) : (
                 <div className={styles.exception}>검색 결과가 없습니다</div>
@@ -103,6 +164,7 @@ export default function FindPlaceModal({
 
           <Step name="map">
             <button
+              type="button"
               onClick={() => setStep('list')}
               className={styles.backButton}>
               <Image
@@ -125,8 +187,11 @@ export default function FindPlaceModal({
                   distance={selectedItem.distance}
                   placeURL={selectedItem.place_url}
                   categoryName={selectedItem.category_name}
+                  mapLatio={'3/2'}
+                  isMobile={isMobile}
                 />
                 <button
+                  type="button"
                   className={styles.selectButton}
                   onClick={() => {
                     setLatitude(selectedItem.y);

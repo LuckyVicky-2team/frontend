@@ -12,11 +12,15 @@
 // }>
 // ></div>
 
-export const handleCopyClipBoard = async (text: string) => {
+export const handleCopyClipBoard = async (
+  text: string,
+  addToast: (_message: string, _type: 'success' | 'error') => void
+) => {
   try {
     await navigator.clipboard.writeText(text);
-    alert('클립보드에 링크가 복사되었어요.');
+    addToast('클립보드에 링크가 복사되었어요.', 'success');
   } catch (err) {
-    console.log(err);
+    void err;
+    addToast('복사에 실패했어요', 'error');
   }
 };

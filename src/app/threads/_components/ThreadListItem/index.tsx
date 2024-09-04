@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import styles from './ThreadListItem.module.scss';
+import formatTimeDiff from '@/utils/formatTimeDiff';
 
 interface IThreadsListItemProps {
   profileImage: string;
@@ -17,6 +18,9 @@ export default function ThreadListItem({
   recentMessage,
   unreadCount,
 }: IThreadsListItemProps) {
+  const recentMessageTime =
+    recentMessage && formatTimeDiff(recentMessage.createdAt);
+
   return (
     <div className={styles.item}>
       <div className={styles.imageArea}>
@@ -31,7 +35,7 @@ export default function ThreadListItem({
       <div className={styles.textArea}>
         <div className={styles.nameSection}>
           <div className={styles.name}>{name}</div>
-          <div className={styles.createdAt}>{recentMessage.createdAt}</div>
+          <div className={styles.createdAt}>{recentMessageTime}</div>
         </div>
         <div className={styles.contentSection}>
           {recentMessage.contents}

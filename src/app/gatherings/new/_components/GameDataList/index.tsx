@@ -160,7 +160,7 @@ export default function GameDataList({
             />
           </div>
           {isLoading && <p className={styles.loading}>로딩 중...</p>}
-          {showGameData && (
+          {showGameData && !isLoading && (
             <div className={styles.gameDataList}>
               {gameData.map((data, i) => {
                 return (

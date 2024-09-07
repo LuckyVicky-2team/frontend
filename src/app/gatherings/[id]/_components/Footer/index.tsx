@@ -5,7 +5,10 @@ import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
-import { usePostJoinGathering } from '@/api/queryHooks/gathering';
+import {
+  usePatchCompleteGathering,
+  usePostJoinGathering,
+} from '@/api/queryHooks/gathering';
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
@@ -17,7 +20,9 @@ interface IGatheringFooterProps {
   title: string;
   type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
   gatheringType?: 'FREE' | 'ACCEPT';
+  participantCount: number;
   setParticipantCount: Dispatch<SetStateAction<number>>;
+  limitParticipant: number;
   isMobile: boolean;
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
@@ -29,7 +34,9 @@ export default function GatheringFooter({
   title,
   type,
   gatheringType = 'FREE',
+  participantCount,
   setParticipantCount,
+  limitParticipant,
   isMobile,
   isInitialSaved,
   state,
@@ -39,6 +46,7 @@ export default function GatheringFooter({
   const { addToast } = useToast();
 
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
+  const { mutate: completeMutate } = usePatchCompleteGathering();
 
   const {
     modalOpen: successModalOpen,
@@ -68,8 +76,8 @@ export default function GatheringFooter({
   };
 
   const handleJoinButtonClick = () => {
-    const accesssToken = localStorage.getItem('accessToken');
-    if (!accesssToken) {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
       handleLoginModalOpen();
       return;
     }
@@ -77,6 +85,13 @@ export default function GatheringFooter({
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
         handleSuccessModalOpen();
+        if (participantCount + 1 === limitParticipant) {
+          completeMutate(id, {
+            onError: _ => {
+              addToast('모집 완료 요청에 실패했습니다.', 'error');
+            },
+          });
+        }
       },
       onError: error => {
         if (axios.isAxiosError(error)) {
@@ -137,8 +152,12 @@ export default function GatheringFooter({
           onClick={handleButtonClick}
           disabled={
             type === 'QUIT' ||
-            state === 'COMPLETE' ||
-            state === 'FINISH' ||
+            (state === 'COMPLETE' &&
+              type !== 'LEADER' &&
+              type !== 'PARTICIPANT') ||
+            (state === 'FINISH' &&
+              type !== 'LEADER' &&
+              type !== 'PARTICIPANT') ||
             isPending
           }>
           {state === 'PROGRESS' &&

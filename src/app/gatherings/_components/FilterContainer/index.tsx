@@ -213,6 +213,7 @@ export default function FilterContainer() {
           </div>
           <div className={styles.aaa}>
             <DatePicker
+              readOnly
               selectedDate={showingEndDate}
               setSelectedDate={(date: Date | null) => {
                 if (!date) return;

@@ -8,11 +8,11 @@ export default function NewSuccess({ params }: { params: any }) {
   const { id } = params;
   const router = useRouter();
   const handleGoToGatherings = () => {
-    router.push(`/gatherings/${id}`);
+    router.replace(`/gatherings/${id}`);
   };
 
   const handleCreateNewGathering = () => {
-    router.push('/gatherings/new');
+    router.replace('/gatherings/new');
   };
 
   return (

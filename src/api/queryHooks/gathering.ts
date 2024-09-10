@@ -1,7 +1,15 @@
-import { useQuery, keepPreviousData, useMutation } from '@tanstack/react-query';
+import {
+  useQuery,
+  keepPreviousData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { gatheringAPI } from '../apis/gatheringsApis';
 import { QueryKey } from '@/utils/QueryKey';
-import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
+import {
+  IGatheringListRequestProps,
+  IKickInfoProps,
+} from '@/types/request/GatheringREQ';
 import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
 import { IErrorProps } from '@/types/CommonInterface';
 
@@ -43,5 +51,18 @@ export const useGetIsUserTypeQuit = (id: number) => {
   return useQuery({
     queryKey: [QueryKey.USER.QUIT(id)],
     queryFn: () => gatheringAPI.isUserTypeQuit(id),
+  });
+};
+export const useKickParticipant = (meetingId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (req: IKickInfoProps) => {
+      return await gatheringAPI.kickParticipant(req);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKey.GATHERING.DETAIL(meetingId)],
+      });
+    },
   });
 };

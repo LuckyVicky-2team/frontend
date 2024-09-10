@@ -100,16 +100,12 @@ export default function SelectBox({
               typeof item === 'object' ? (item?.value ?? item.name) : item;
             const optionName = typeof item === 'object' ? item.name : item;
             return (
-              <>
-                <li
-                  key={`${optionName}_${idx}`}
-                  onClick={() => handleOptionClick(optionValue, optionName)}
-                  className={
-                    selectedName === optionName ? styles.selected : ''
-                  }>
-                  {optionName}
-                </li>
-              </>
+              <li
+                key={`${optionName}_${idx}`}
+                onClick={() => handleOptionClick(optionValue, optionName)}
+                className={selectedName === optionName ? styles.selected : ''}>
+                {optionName}
+              </li>
             );
           })}
         </ul>

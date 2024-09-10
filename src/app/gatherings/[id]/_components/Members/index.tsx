@@ -6,12 +6,13 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useToast } from '@/contexts/toastContext';
 import { useRouter } from 'next/navigation';
+import { useKickParticipant } from '@/api/queryHooks/gathering';
 
 interface IMembersProps {
   modalOpen: boolean;
   onClose: () => void;
   onOpen: () => void;
-  data: IParticipant[];
+  data: { userParticipantResponseList: IParticipant[]; meetingState: string };
   isMobile: boolean;
   meetingId: number;
   bottomSheetOpen: string;
@@ -29,15 +30,36 @@ export default function Members({
   myType,
 }: IMembersProps) {
   // const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   const h2Ref = useRef<HTMLUListElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const { addToast } = useToast();
   const [kickButtonOn, setKickButtonOn] = useState(false);
   const [isFull, setIsFull] = useState(!!bottomSheetOpen);
   const router = useRouter();
+  const kickParticipant = useKickParticipant(meetingId);
 
-  const handleKickButtonClick = () => {
-    addToast('아직 구현되지 않은 기능입니다', 'error');
+  const handleKickButtonClick = (userId: number, userName: string) => {
+    kickParticipant.mutate(
+      {
+        userId,
+        meetingId,
+        meetingState: data.meetingState,
+      },
+
+      {
+        onSuccess: () => {
+          addToast(`${userName}님을 모임에서 내보냈습니다`, 'success');
+        },
+        onError: (error: any) => {
+          if (error.response.data.errorCode === 400) {
+            addToast('내보내기에 실패했습니다', 'error');
+          } else {
+            addToast(error.response.data.message, 'error');
+          }
+        },
+      }
+    );
   };
 
   const handleGoToOtherProfile = (id: number) => {
@@ -106,7 +128,7 @@ export default function Members({
             padding: isOverflowing ? '0 33px 0 19px' : '0 19px',
           }}
           ref={h2Ref}>
-          {data.map(participant => {
+          {data.userParticipantResponseList.map(participant => {
             return (
               <div key={participant.userId} className={styles.profile}>
                 <button
@@ -137,7 +159,12 @@ export default function Members({
                   <button
                     type="button"
                     className={styles.kick}
-                    onClick={handleKickButtonClick}>
+                    onClick={() =>
+                      handleKickButtonClick(
+                        participant.userId,
+                        participant.nickname
+                      )
+                    }>
                     내보내기
                   </button>
                 )}

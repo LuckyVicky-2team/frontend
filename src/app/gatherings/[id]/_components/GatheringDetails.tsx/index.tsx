@@ -379,7 +379,9 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         type={myType}
         // FREE or ACCEPT
         // gatheringType={data.type}
+        participantCount={data.totalParticipantCount}
         setParticipantCount={setParticipantCount}
+        limitParticipant={data.limitParticipant}
         isInitialSaved={data.likeStatus}
         isMobile={isMobile}
         state={data.state}

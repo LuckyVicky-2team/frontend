@@ -28,6 +28,12 @@ export const gatheringAPI = {
     });
   },
 
+  completeGathering: async (id: number) => {
+    return axiosInstance.patch(`meeting/complete/${id}`, {
+      id: id,
+    });
+  },
+
   shareGathering: async (id: number) => {
     return axiosInstance.patch(`/meeting/share/${id}`, {
       id: id,

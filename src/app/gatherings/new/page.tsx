@@ -129,7 +129,7 @@ export default function NewGatheringPage() {
         },
       });
       const path = response.headers.location.split('/');
-      router.push(`/gatherings/new/success/${path[2]}`);
+      router.replace(`/gatherings/new/success/${path[2]}`);
     } catch (error) {
       void error;
       addToast('모임 생성에 실패했어요.', 'error');

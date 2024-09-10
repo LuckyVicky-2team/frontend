@@ -125,7 +125,7 @@ export default function Finish() {
               </p>
 
               <div className={styles.outBtn}>
-                <button>모임 나가기</button>
+                <button>모임 삭제하기</button>
               </div>
             </div>
           </div>

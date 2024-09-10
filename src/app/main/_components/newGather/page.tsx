@@ -166,7 +166,7 @@ export default function NewGather({ meetingList }: DeadLineGatherProps) {
                     <SaveGatheringButton id={e?.id} size="small" type="blue" />
                   </span>
                 </span>
-                <Link href="/">
+                <Link href={`/gatherings/${e?.id}`}>
                   <span className={styles.tag}>{e.title}</span>
                 </Link>
                 <span className={styles.date}>

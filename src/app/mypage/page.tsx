@@ -122,6 +122,7 @@ export default function MyPage() {
             height={24}
           /> */}
         </button>
+        <p className={styles.myPrTag}>나의 PR 태그</p>
         <ul className={prOpen ? styles.prOpen : undefined}>
           {info?.prTags.map((item, i) => <li key={i}>{item}</li>)}
         </ul>
@@ -129,7 +130,7 @@ export default function MyPage() {
       <ul className={styles.menuWrap}>
         <li>
           <Link href="/mypage/prEdit">
-            PR 태그 수정{' '}
+            PR 태그 수정
             <Image
               width={32}
               height={32}

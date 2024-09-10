@@ -137,6 +137,13 @@
   }
 }
 
+.myPrTag {
+  color: #757a83;
+  font-size: 18px;
+  display: block;
+  margin-bottom: 15px;
+}
+
 // 반응형 스타일 추가
 @media (max-width: 430px) {
   .title {
@@ -208,5 +215,11 @@
         }
       }
     }
+  }
+  .myPrTag {
+    color: #757a83;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 15px;
   }
 }

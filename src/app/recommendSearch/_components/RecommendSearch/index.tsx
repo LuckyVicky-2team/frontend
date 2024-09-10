@@ -95,45 +95,52 @@ export default function RecommendSearchClient() {
         <Link href="/recommendAll">전체</Link>
       </div>
       <div className={styles.recoListWrap}>
-        {filteredInfo.map((e, i) => (
-          <div className={styles.recoItem} key={i}>
-            <div className={styles.img}>
-              <Image
-                width={555}
-                height={555}
-                src={`https://${cloud}/${e.thumbnail}`}
-                alt="상황별 추천 게임 이미지"
-                unoptimized={true}
-              />
-            </div>
-            <h1 className={styles.title}>{e.title}</h1>
-            <div className={styles.info}>
-              <span className={styles.person}>
+        {filteredInfo.length > 0 ? (
+          filteredInfo.map((e, i) => (
+            <div className={styles.recoItem} key={i}>
+              <div className={styles.img}>
                 <Image
-                  width={20}
-                  height={20}
-                  src={'/assets/icons/user.svg'}
-                  alt=""
+                  width={555}
+                  height={555}
+                  src={`https://${cloud}/${e.thumbnail}`}
+                  alt="상황별 추천 게임 이미지"
+                  unoptimized={true}
                 />
-                2명
-              </span>
-              <span className={styles.time}>
-                <Image
-                  width={12}
-                  height={12}
-                  src={'/assets/icons/situ_clock.svg'}
-                  alt=""
-                />
-                {e.minPlaytime}분~{e.maxPlaytime}분
-              </span>
+              </div>
+              <h1 className={styles.title}>{e.title}</h1>
+              <div className={styles.info}>
+                <span className={styles.person}>
+                  <Image
+                    width={20}
+                    height={20}
+                    src={'/assets/icons/user.svg'}
+                    alt=""
+                  />
+                  2명
+                </span>
+                <span className={styles.time}>
+                  <Image
+                    width={12}
+                    height={12}
+                    src={'/assets/icons/situ_clock.svg'}
+                    alt=""
+                  />
+                  {e.minPlaytime}분~{e.maxPlaytime}분
+                </span>
+              </div>
+              <div className={styles.category}>
+                {e.genres.map((genre, genreI) => (
+                  <span key={genreI}>{genre}</span>
+                ))}
+              </div>
             </div>
-            <div className={styles.category}>
-              {e.genres.map((genre, genreI) => (
-                <span key={genreI}>{genre}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className={styles.noResults}>
+            {`"${query}"`}에 맞는 게임 검색 결과가 없습니다. <br />
+            게임 이름을 다시 확인해주세요!
+          </p>
+        )}
       </div>
     </div>
   );

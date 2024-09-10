@@ -18,7 +18,7 @@
     button {
       position: absolute;
       top: 50%;
-      right: 0;
+      right: 15px;
       transform: translateY(-50%);
     }
   }
@@ -119,6 +119,16 @@
       }
     }
   }
+}
+
+.noResults {
+  display: block;
+  padding: 70px 15px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 160%;
+  word-break: keep-all;
 }
 
 @media (max-width: 430px) {

@@ -13,10 +13,6 @@
 - `lint-staged ^15.2.7`
 - `husky ^9.1.1`
 
-## Testing
-
-- `@testing-library/react ^16.0.0`
-
 ## Structure
 
 ```

@@ -5,6 +5,7 @@ import styles from '../myGatherings.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import OutModal from '../_components/outModal';
 
 // 인터페이스 이름을 I로 시작하도록 수정
 interface IGathering {
@@ -22,6 +23,13 @@ export default function Finish() {
   const [gatherings, setGatherings] = useState<IGathering[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [modal, setModal] = useState<boolean>(false);
+  const [selectedMeetingId, setSelectedMeetingId] = useState<string | null>(
+    null
+  );
+  const [selectedMeetingTitle, setSelectedMeetingTitle] = useState<
+    string | null
+  >(null);
   const router = useRouter();
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
@@ -59,13 +67,31 @@ export default function Finish() {
     fetchGatherings();
   }, []);
 
-  console.log(gatherings);
+  const openModal = (id: string, title: string) => {
+    setSelectedMeetingId(id);
+    setSelectedMeetingTitle(title);
+    setModal(true);
+  };
+
+  const handleModalClose = () => {
+    setModal(false);
+    setSelectedMeetingId(null);
+    setSelectedMeetingTitle(null);
+  };
 
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className={styles.myGatheringsListWrap}>
+      {modal === true && selectedMeetingId && selectedMeetingTitle ? (
+        <OutModal
+          meetingId={selectedMeetingId}
+          meetingTitle={selectedMeetingTitle}
+          handleModalClose={handleModalClose}
+        />
+      ) : null}
+
       <div className={styles.tabBtn2}>
         <Link href="participant" className={styles.on}>
           참여중 모임
@@ -135,7 +161,13 @@ export default function Finish() {
               </p>
 
               <div className={styles.outBtn}>
-                <button>모임 나가기</button>
+                <button
+                  onClick={() => {
+                    // HandleOutMeeting(gathering?.meetingId);
+                    openModal(gathering.meetingId, gathering.title);
+                  }}>
+                  모임 나가기
+                </button>
               </div>
             </div>
           </div>

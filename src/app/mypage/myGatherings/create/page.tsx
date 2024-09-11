@@ -5,6 +5,7 @@ import styles from '../myGatherings.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import DeleteModal from '../_components/deleteModal';
 
 // 인터페이스 이름을 I로 시작하도록 수정
 interface IGathering {
@@ -21,6 +22,13 @@ interface IGathering {
 export default function Finish() {
   const [gatherings, setGatherings] = useState<IGathering[]>([]);
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
+  const [modal, setModal] = useState<boolean>(false);
+  const [selectedMeetingId, setSelectedMeetingId] = useState<string | null>(
+    null
+  );
+  const [selectedMeetingTitle, setSelectedMeetingTitle] = useState<
+    string | null
+  >(null);
   const router = useRouter();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -55,8 +63,27 @@ export default function Finish() {
     fetchGatherings();
   }, []);
 
+  const openModal = (id: string, title: string) => {
+    setSelectedMeetingId(id);
+    setSelectedMeetingTitle(title);
+    setModal(true);
+  };
+
+  const handleModalClose = () => {
+    setModal(false);
+    setSelectedMeetingId(null);
+    setSelectedMeetingTitle(null);
+  };
+
   return (
     <div className={styles.myGatheringsListWrap}>
+      {modal === true && selectedMeetingId && selectedMeetingTitle ? (
+        <DeleteModal
+          meetingId={selectedMeetingId}
+          meetingTitle={selectedMeetingTitle}
+          handleModalClose={handleModalClose}
+        />
+      ) : null}
       <div className={styles.tabBtn2}>
         <Link href="participant">참여중 모임</Link>
         <Link href="finish">종료된 모임</Link>
@@ -125,7 +152,12 @@ export default function Finish() {
               </p>
 
               <div className={styles.outBtn}>
-                <button>모임 삭제하기</button>
+                <button
+                  onClick={() => {
+                    openModal(gathering.meetingId, gathering.title);
+                  }}>
+                  모임 삭제하기
+                </button>
               </div>
             </div>
           </div>

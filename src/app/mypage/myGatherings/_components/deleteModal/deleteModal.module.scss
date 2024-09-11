@@ -1,0 +1,59 @@
+.modalWrap {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  max-width: 600px;
+  width: 100%;
+  .modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    overflow: hidden;
+    h1 {
+      display: block;
+      padding: 60px 15px;
+      box-sizing: border-box;
+      font-size: 18px;
+      span {
+        color: #007aff;
+        font-weight: bold;
+      }
+    }
+    .btnWrap {
+      display: flex;
+      align-items: center;
+      justify-content: normal;
+      width: 100%;
+      border-top: 1px solid #007aff;
+      button {
+        display: block;
+        width: 50%;
+        padding: 25px 15px;
+        box-sizing: border-box;
+        font-size: 18px;
+        &.ok {
+          background: #fff;
+          color: #333;
+        }
+        &.no {
+          background: #007aff;
+          color: #fff;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

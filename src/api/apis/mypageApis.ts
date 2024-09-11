@@ -4,6 +4,20 @@ import { axiosInstance } from '../instance';
 export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
+
+// 모임 나가기를 위한 API 요청
+export const outMeeting = (id: string) => {
+  return axiosInstance.patch('/meeting-participant/out', {
+    meetingId: id,
+    meetingState: 'PROGRESS',
+  });
+};
+
+// 모임 삭제를 위한 API 요청
+export const deleteMeeting = (id: string) => {
+  return axiosInstance.delete(`/meeting/${id}`);
+};
+
 // 상황별 추천 조회를 위한 API 요청
 export const getRecommendInfo = (type: string) => {
   return axiosInstance.get(`/home/situation?situationType=${type}`);

@@ -71,7 +71,9 @@
     transform: translate(-50%, -50%);
   }
 }
-
+.sliderContainer {
+  position: relative;
+}
 .genreList {
   display: flex;
   align-items: center;
@@ -80,7 +82,6 @@
   width: 100%;
   white-space: nowrap;
   overflow-x: auto;
-  position: relative;
 
   /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
   ::-webkit-scrollbar {

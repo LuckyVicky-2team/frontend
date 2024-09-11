@@ -31,6 +31,14 @@ export const usePostJoinGathering = () => {
   });
 };
 
+export const usePatchCompleteGathering = () => {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      return await gatheringAPI.completeGathering(id);
+    },
+  });
+};
+
 export const usePatchShareGathering = () => {
   return useMutation({
     mutationFn: async (id: number) => {

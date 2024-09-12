@@ -56,4 +56,7 @@ export const gatheringAPI = {
 
     return data;
   },
+  deleteGathering: async (gatheringId: number) => {
+    return axiosInstance.delete(`/meeting/${gatheringId}`);
+  },
 };

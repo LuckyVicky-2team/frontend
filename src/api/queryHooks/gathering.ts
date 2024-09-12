@@ -74,3 +74,17 @@ export const useKickParticipant = (meetingId: number) => {
     },
   });
 };
+
+export const useDeleteGathering = (gatheringId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (gatheringId: number) => {
+      return await gatheringAPI.deleteGathering(gatheringId);
+    },
+    onSettled: () => {
+      queryClient.removeQueries({
+        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+      });
+    },
+  });
+};

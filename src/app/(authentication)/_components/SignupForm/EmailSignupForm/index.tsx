@@ -107,7 +107,9 @@ export default function EmailSignupForm() {
   };
 
   useEffect(() => {
-    trigger('passwordCheck');
+    if (watch('password') === watch('passwordCheck')) {
+      trigger('passwordCheck');
+    }
   }, [watch('password'), trigger]);
 
   return (

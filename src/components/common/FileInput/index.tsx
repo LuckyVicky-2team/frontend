@@ -4,6 +4,7 @@ import {
   ReactNode,
   SetStateAction,
   useRef,
+  useEffect,
 } from 'react';
 import styles from './FileInput.module.scss';
 import { UseFormSetValue } from 'react-hook-form';
@@ -135,6 +136,12 @@ function FileInput({
     //formData.append('file','');을 할 경우 null이 저장됨.
     setValue && setValue(id, '');
   };
+  useEffect(() => {
+    if (selectedImageUrl) {
+      setFilePreview(selectedImageUrl);
+    }
+  }, [selectedImageUrl]);
+
   return (
     <>
       <div className={styles.imageUploadBox}>

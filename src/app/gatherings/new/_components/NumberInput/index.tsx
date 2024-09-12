@@ -6,13 +6,18 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 interface INumberInputProps {
   setValue: UseFormSetValue<INewGatheringFormValuesRequest>;
+  minNum?: number;
 }
 
-export default function NumberInput({ setValue }: INumberInputProps) {
+export default function NumberInput({ setValue, minNum }: INumberInputProps) {
   const [count, setCount] = useState(2);
 
   const handleDecrement = () => {
-    if (count !== 2) {
+    if (count > 2) {
+      if (minNum && minNum > 2 && count > minNum) {
+        setCount(prev => prev - 1);
+        setValue('limitParticipant', count - 1);
+      }
       setCount(prev => prev - 1);
       setValue('limitParticipant', count - 1);
     }

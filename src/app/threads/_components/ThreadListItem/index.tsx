@@ -38,7 +38,7 @@ export default function ThreadListItem({
           <div className={styles.createdAt}>{recentMessageTime}</div>
         </div>
         <div className={styles.contentSection}>
-          {recentMessage.contents}
+          <p className={styles.recentMessage}>{recentMessage.contents}</p>
           {unreadCount !== 0 && (
             <div className={styles.unreadCount}>{unreadCount}</div>
           )}

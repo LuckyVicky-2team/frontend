@@ -13,7 +13,7 @@
       color: #242424;
     }
 
-    .textArea .contentSection {
+    .textArea .contentSection .recentMessage {
       color: #242424;
     }
   }
@@ -37,10 +37,16 @@
       font-weight: 400;
       line-height: 24px;
       letter-spacing: -0.6px;
+      gap: 10px;
 
       .name {
         color: #9e9e9e;
-        flex-shrink: 0;
+        text-overflow: ellipsis;
+        line-clamp: 1;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
       }
 
       .createdAt {
@@ -54,11 +60,21 @@
       justify-content: space-between;
       align-items: center;
       flex-grow: 1;
-      color: #9e9e9e;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 28px;
-      letter-spacing: -0.6px;
+      gap: 10px;
+
+      .recentMessage {
+        color: #9e9e9e;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: -0.6px;
+        text-overflow: ellipsis;
+        line-clamp: 1;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+      }
 
       .unreadCount {
         width: 26px;

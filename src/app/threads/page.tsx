@@ -1,51 +1,50 @@
-import Link from 'next/link';
-import ThreadListItem from './_components/ThreadListItem';
-import styles from './ThreadsPage.module.scss';
+// import Link from 'next/link';
+// import ThreadListItem from './_components/ThreadListItem';
+// import styles from './ThreadsPage.module.scss';
+import Preparing from '../preparing/page';
 
-const getThreads = async () => {
-  const thread = {
-    profileImage: '/assets/images/default_profile.png',
-    name: '코드잇',
-    participantsCount: 4,
-    recentMessage: {
-      createdAt: '2024-08-05T12:38:42',
-      contents: '배고파.. 오늘 점심 뭐 먹을래?',
-    },
-    unreadCount: 3,
-  };
+// const getThreads = async () => {
+//   const thread = {
+//     profileImage: '/assets/images/default_profile.png',
+//     name: '코드잇',
+//     recentMessage: {
+//       createdAt: '2024-08-05T12:38:42',
+//       contents: '배고파.. 오늘 점심 뭐 먹을래?',
+//     },
+//     unreadCount: 3,
+//   };
 
-  const threads = Array.from({ length: 5 }, (_, i) => {
-    return { ...thread, gatheringId: i };
-  });
+//   const threads = Array.from({ length: 12 }, (_, i) => {
+//     return { ...thread, gatheringId: i };
+//   });
 
-  return threads;
-};
+//   return threads;
+// };
 
 export default async function ThreadsPage() {
-  const threads = await getThreads();
+  // const threads = await getThreads();
 
-  return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>나의 채팅방</h1>
-      <div className={styles.threads}>
-        {threads.map(thread => {
-          return (
-            <Link
-              href={{
-                pathname: `/threads/${thread.gatheringId}`,
-                query: { name: thread.name },
-              }}
-              key={thread.gatheringId}>
-              <ThreadListItem
-                profileImage={thread.profileImage}
-                name={thread.name}
-                recentMessage={thread.recentMessage}
-                unreadCount={thread.unreadCount}
-              />
-            </Link>
-          );
-        })}
-      </div>
-    </main>
-  );
+  // return (
+  //   <main className={styles.container}>
+  //     <h1 className={styles.title}>채팅방</h1>
+  //     <div className={styles.threads}>
+  //       {threads.map(thread => {
+  //         return (
+  //           <Link
+  //             href={`/threads/${thread.gatheringId}`}
+  //             key={thread.gatheringId}>
+  //             <ThreadListItem
+  //               profileImage={thread.profileImage}
+  //               name={thread.name}
+  //               recentMessage={thread.recentMessage}
+  //               unreadCount={thread.unreadCount}
+  //             />
+  //           </Link>
+  //         );
+  //       })}
+  //     </div>
+  //   </main>
+  // );
+
+  return <Preparing />;
 }

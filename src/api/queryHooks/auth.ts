@@ -5,6 +5,7 @@ import {
 } from '@/types/request/authRequestTypes';
 import {
   postEmailSignupForm,
+  postReissueAccessToken,
   postSigninForm,
   postSocialSignupForm,
 } from '../apis/authApis';
@@ -35,5 +36,11 @@ export const usePostSocialSignupForm = () => {
     }) => {
       await postSocialSignupForm(data, token);
     },
+  });
+};
+
+export const usePostReissueAccessToken = () => {
+  return useMutation({
+    mutationFn: async () => await postReissueAccessToken(),
   });
 };

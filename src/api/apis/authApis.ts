@@ -35,8 +35,6 @@ export const postSocialSignupForm = (
   });
 };
 
-export const getSocialToken = () => {
-  return axiosInstance.get(`/token`, {
-    withCredentials: true,
-  });
+export const postReissueAccessToken = () => {
+  return axiosInstance.post(`/reissue`);
 };

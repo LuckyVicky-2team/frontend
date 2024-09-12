@@ -6,7 +6,6 @@ import MainNav from './_components/MainNav/MainNav';
 import GameRank from './_components/gameRank';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
-import { getTokenFromCookie } from '@/actions/AuthActions';
 import { usePostWishList } from '@/api/queryHooks/wishList';
 import NewGather from './_components/newGather/page';
 import MainSearch from './_components/mainSearch';
@@ -38,15 +37,15 @@ export default function Main() {
 
   const { mutate: likeMutate } = usePostWishList();
 
-  useEffect(() => {
-    const transferToken = async () => {
-      const token = await getTokenFromCookie();
-      if (token) {
-        localStorage.setItem('accessToken', `Bearer ${token}`);
-      }
-    };
-    transferToken();
-  }, []);
+  // useEffect(() => {
+  //   const transferToken = async () => {
+  //     const token = await getTokenFromCookie();
+  //     if (token) {
+  //       localStorage.setItem('accessToken', `Bearer ${token}`);
+  //     }
+  //   };
+  //   transferToken();
+  // }, []);
 
   useEffect(() => {
     if (localStorage.getItem('savedGatherings')) {

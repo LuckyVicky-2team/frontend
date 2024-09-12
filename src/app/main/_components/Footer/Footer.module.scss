@@ -140,6 +140,7 @@
           width: 100%;
           cursor: pointer;
           z-index: 1;
+          font-size: 12px;
           .ico {
             width: 100%;
             display: flex;
@@ -154,7 +155,7 @@
             margin-top: 10px;
             color: #999;
             z-index: 1;
-            font-size: 14px;
+            font-size: 12px;
           }
         }
         &.on {

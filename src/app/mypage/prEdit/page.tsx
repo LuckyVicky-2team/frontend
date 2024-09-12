@@ -126,6 +126,9 @@ export default function PrEdit() {
           </li>
         ))}
       </ul>
+      <span className={styles.mobilePlace}>
+        PR태그는 입력해주세요. <br /> 10개 까지 추가 할 수 있습니다!
+      </span>
       <input
         type="text"
         value={newTag}

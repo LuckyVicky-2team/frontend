@@ -31,6 +31,7 @@
     width: 100%;
     overflow: hidden;
     transition: 0.3s ease all;
+    margin-top: 20px;
     // &.prOpen {
     //   height: auto;
     //   overflow: hidden;
@@ -138,10 +139,19 @@
 }
 
 .myPrTag {
-  color: #757a83;
   font-size: 18px;
-  display: block;
-  margin-bottom: 15px;
+  a {
+    color: #757a83;
+
+    display: block;
+    width: 100%;
+  }
+  img {
+    position: absolute;
+    top: 0%;
+    right: 0px;
+    transform: rotate(180deg);
+  }
 }
 
 // 반응형 스타일 추가
@@ -165,6 +175,7 @@
     }
     ul {
       gap: 5px;
+      margin-top: 20px;
       li {
         padding: 8px 10px;
         font-size: 14px;
@@ -220,6 +231,5 @@
     color: #757a83;
     font-size: 16px;
     display: block;
-    margin-bottom: 15px;
   }
 }

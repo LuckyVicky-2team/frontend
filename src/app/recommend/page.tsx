@@ -15,6 +15,8 @@ interface IRecommendInfo {
   minPlaytime: number;
   maxPlaytime: number;
   genres: string[];
+  minPeople: number;
+  maxPeople: number;
 }
 
 export default function Recommend() {
@@ -44,6 +46,8 @@ export default function Recommend() {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+
+  console.log(recommendInfo);
 
   return (
     <div className={styles.recoWrap}>
@@ -97,7 +101,7 @@ export default function Recommend() {
                   src={'/assets/icons/user.svg'}
                   alt=""
                 />
-                2명
+                {e?.minPeople}명 ~ {e?.maxPeople}명
               </span>
               <span className={styles.time}>
                 <Image

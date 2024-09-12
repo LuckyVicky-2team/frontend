@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './DeadLineGather.module.scss';
 import Link from 'next/link';
@@ -92,7 +93,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
     const meetingDate = new Date(meeting.meetingDate);
     const timeDiff = meetingDate.getTime() - now.getTime();
     const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    return meetingDate > now && daysLeft <= 3;
+    return meetingDate > now && daysLeft <= 2;
   });
 
   return (
@@ -124,85 +125,102 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
 
       <div className={styles.sliderContainer}>
         <ul ref={listRef} className={styles.genreList}>
-          {slidePx < 0 && (
-            <button onClick={prevSlideBtn} className={styles.prevBtn}>
-              <Image
-                width={20}
-                height={20}
-                objectFit="cover"
-                src={'/assets/mainImages/backIcon.svg'}
-                alt="왼쪽 슬라이드 버튼"
-              />
-            </button>
-          )}
-          {slidePx > -(containerWidth - screenWidth) && (
-            <button onClick={nextSlideBtn} className={styles.nextBtn}>
-              <Image
-                width={20}
-                height={20}
-                objectFit="cover"
-                src={'/assets/mainImages/backIcon.svg'}
-                alt="오른쪽 슬라이드 버튼"
-              />
-            </button>
-          )}
+          {Array.isArray(filteredMeetingList) &&
+            filteredMeetingList.length > 0 &&
+            slidePx < 0 && (
+              <button onClick={prevSlideBtn} className={styles.prevBtn}>
+                <Image
+                  width={20}
+                  height={20}
+                  objectFit="cover"
+                  src={'/assets/mainImages/backIcon.svg'}
+                  alt="왼쪽 슬라이드 버튼"
+                />
+              </button>
+            )}
+          {Array.isArray(filteredMeetingList) &&
+            filteredMeetingList.length > 0 &&
+            typeof containerWidth === 'number' &&
+            typeof screenWidth === 'number' &&
+            slidePx > -(containerWidth - screenWidth) && (
+              <button onClick={nextSlideBtn} className={styles.nextBtn}>
+                <Image
+                  width={20}
+                  height={20}
+                  objectFit="cover"
+                  src={'/assets/mainImages/backIcon.svg'}
+                  alt="오른쪽 슬라이드 버튼"
+                />
+              </button>
+            )}
 
-          {filteredMeetingList?.map(e => {
-            const gatheringDate = new Date(e.meetingDate);
-            return (
-              <li
-                key={e.id}
-                style={{
-                  transform: `translateX(${slidePx}px)`,
-                  transition: '0.3s ease all',
-                }}>
-                <Link href={`/gatherings/${e?.id}`}>
-                  {/* <span className={styles.famousIco}>★ 인기★</span> */}
-                  <span className={styles.deadLineIco}>
-                    <Image
-                      src={'/assets/icons/alarmIcon.svg'}
-                      width={16}
-                      height={16}
-                      alt={'마감임박 이미지'}
-                    />
-                    {formatTimeLeft(gatheringDate)} 후 마감
-                  </span>
-                  <span className={styles.img}>
-                    <Image
-                      src={`https://${cloud}/${e.thumbnail}`}
-                      alt="게임이미지"
-                      width={224}
-                      height={224}
-                      unoptimized={true}
-                    />
-                  </span>
-                </Link>
-                <span className={styles.mid}>
-                  <span className={styles.loc}>
-                    <Image
-                      src={'/assets/mainImages/loc_ico.svg'}
-                      width={24}
-                      height={24}
-                      alt="지도 이미지"
-                    />
-                    <span className={styles.loc2}>
-                      <span>{e.city}</span>
-                      <span>{e.county}</span>
+          {Array.isArray(filteredMeetingList) &&
+          filteredMeetingList.length > 0 ? (
+            filteredMeetingList?.map(e => {
+              const gatheringDate = new Date(e.meetingDate);
+              return (
+                <li
+                  key={e.id}
+                  style={{
+                    transform: `translateX(${slidePx}px)`,
+                    transition: '0.3s ease all',
+                  }}>
+                  <Link href={`/gatherings/${e?.id}`}>
+                    {/* <span className={styles.famousIco}>★ 인기★</span> */}
+                    <span className={styles.deadLineIco}>
+                      <Image
+                        src={'/assets/icons/alarmIcon.svg'}
+                        width={16}
+                        height={16}
+                        alt={'마감임박 이미지'}
+                      />
+                      {formatTimeLeft(gatheringDate)} 후 마감
+                    </span>
+                    <span className={styles.img}>
+                      <Image
+                        src={`https://${cloud}/${e.thumbnail}`}
+                        alt="게임이미지"
+                        width={224}
+                        height={224}
+                        unoptimized={true}
+                      />
+                    </span>
+                  </Link>
+                  <span className={styles.mid}>
+                    <span className={styles.loc}>
+                      <Image
+                        src={'/assets/mainImages/loc_ico.svg'}
+                        width={24}
+                        height={24}
+                        alt="지도 이미지"
+                      />
+                      <span className={styles.loc2}>
+                        <span>{e.city}</span>
+                        <span>{e.county}</span>
+                      </span>
+                    </span>
+                    <span className={styles.heart}>
+                      <SaveGatheringButton
+                        id={e?.id}
+                        size="small"
+                        type="blue"
+                      />
                     </span>
                   </span>
-                  <span className={styles.heart}>
-                    <SaveGatheringButton id={e?.id} size="small" type="blue" />
+                  <Link href={`/gatherings/${e?.id}`}>
+                    <span className={styles.tag}>{e.title}</span>
+                  </Link>
+                  <span className={styles.date}>
+                    {formatMeetingDate(e.meetingDate)}
                   </span>
-                </span>
-                <Link href={`/gatherings/${e?.id}`}>
-                  <span className={styles.tag}>{e.title}</span>
-                </Link>
-                <span className={styles.date}>
-                  {formatMeetingDate(e.meetingDate)}
-                </span>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })
+          ) : (
+            <p className={styles.noDeadList}>
+              지금은 마감임박한 모임이 없어요!
+            </p>
+          )}
         </ul>
       </div>
     </div>

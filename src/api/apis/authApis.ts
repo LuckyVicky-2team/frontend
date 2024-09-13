@@ -36,9 +36,20 @@ export const postSocialSignupForm = (
   });
 };
 
-export const postReissueAccessToken = () => {
-  return axiosInstance.post(`/reissue`);
+export const postReissueAccessToken = (refreshToken: string) => {
+  return axiosInstance.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
+    {},
+    {
+      headers: {
+        Cookie: `Authorization=${refreshToken}`,
+      },
+    }
+  );
 };
+// export const postReissueAccessToken = () => {
+//   return axiosInstance.post(`/reissue`);
+// };
 
 export const getTermsAgreement = (required: boolean | 'all') => {
   const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';

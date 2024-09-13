@@ -42,11 +42,12 @@ export default function Info({
     setLoggedIn(!!token);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (name: string) => {
     localStorage.removeItem('accessToken');
     setLoggedIn(false);
     alert('로그아웃 되었습니다.');
     router.push('/');
+    document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
   };
 
   return (
@@ -82,7 +83,11 @@ export default function Info({
               {loggedIn ? (
                 <>
                   <b>{mypageInfo?.nickName}</b>
-                  <button type="button" onClick={handleLogout}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleLogout('Authorization');
+                    }}>
                     로그아웃
                   </button>
                 </>

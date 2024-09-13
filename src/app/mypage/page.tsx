@@ -174,14 +174,20 @@ export default function MyPage() {
             />
           </Link>
         </li>
+        <li>
+          <Link href="/mypage/settingAlarm">
+            설정
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
+        </li>
       </ul>
     </div>
   );
-}
-{
-  /* <li>
-          <Link href="/mypage/settingAlarm">알림 설정</Link>
-        </li> */
 }
 {
   /* <li>

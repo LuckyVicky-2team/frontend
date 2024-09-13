@@ -4,6 +4,7 @@ import styles from './info.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { logout } from '@/api/apis/logOutApis';
 
 // 환경 변수에서 도메인 가져오기
 const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -42,12 +43,12 @@ export default function Info({
     setLoggedIn(!!token);
   }, []);
 
-  const handleLogout = (name: string) => {
+  const handleLogout = async () => {
+    await logout();
     localStorage.removeItem('accessToken');
     setLoggedIn(false);
     alert('로그아웃 되었습니다.');
     router.push('/');
-    document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
   };
 
   return (
@@ -86,7 +87,7 @@ export default function Info({
                   <button
                     type="button"
                     onClick={() => {
-                      handleLogout('Authorization');
+                      handleLogout();
                     }}>
                     로그아웃
                   </button>

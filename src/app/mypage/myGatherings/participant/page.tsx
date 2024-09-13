@@ -163,7 +163,6 @@ export default function Finish() {
               <div className={styles.outBtn}>
                 <button
                   onClick={() => {
-                    // HandleOutMeeting(gathering?.meetingId);
                     openModal(gathering.meetingId, gathering.title);
                   }}>
                   모임 나가기

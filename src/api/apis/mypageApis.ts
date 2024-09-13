@@ -4,6 +4,10 @@ import { axiosInstance } from '../instance';
 export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
+// 내모임에서 개인 정보 조회를 위한 API 요청
+export const getPersonalInfoMyGatherings = () => {
+  return axiosInstance.get('/me');
+};
 
 // 모임 나가기를 위한 API 요청
 export const outMeeting = (id: string) => {

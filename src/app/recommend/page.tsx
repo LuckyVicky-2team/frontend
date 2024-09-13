@@ -47,8 +47,6 @@ export default function Recommend() {
     setSearchQuery(e.target.value);
   };
 
-  console.log(recommendInfo);
-
   return (
     <div className={styles.recoWrap}>
       <div className={styles.searchBar}>

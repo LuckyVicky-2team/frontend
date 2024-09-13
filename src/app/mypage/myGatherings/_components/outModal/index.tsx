@@ -3,6 +3,7 @@
 import React from 'react';
 import styles from './outModal.module.scss';
 import { outMeeting } from '@/api/apis/mypageApis';
+import { useToast } from '@/contexts/toastContext';
 
 interface IOutModalProps {
   meetingId: string;
@@ -15,11 +16,15 @@ export default function OutModal({
   meetingId,
   meetingTitle,
 }: IOutModalProps) {
+  const { addToast } = useToast();
+
   const HandleOutMeeting = async (id: string) => {
     try {
       const _response = await outMeeting(id); // API 호출
-      alert('성공적으로 모임을 나갔습니다.');
-      window.location.reload();
+      addToast('성공적으로 모임을 나갔습니다.', 'success');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } finally {
     }
   };
@@ -35,6 +40,7 @@ export default function OutModal({
             className={styles.ok}
             onClick={() => {
               HandleOutMeeting(meetingId);
+              handleModalClose();
             }}>
             나갈래요
           </button>

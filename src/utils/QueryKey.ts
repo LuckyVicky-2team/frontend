@@ -3,6 +3,7 @@ export const QueryKey = {
   DETAIL: 'detail',
   INFO: 'info',
   GAME: 'game',
+  TERMS_CONDITION: 'terms-condition',
   USER: {
     ME: 'me',
     KEY: 'user',

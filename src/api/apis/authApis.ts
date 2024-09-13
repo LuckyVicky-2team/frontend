@@ -1,5 +1,6 @@
 import { axiosInstance } from '../instance';
 import {
+  ConsentFormType,
   EmailSignupFormType,
   SocialSignupFormType,
 } from '@/types/request/authRequestTypes';
@@ -37,4 +38,14 @@ export const postSocialSignupForm = (
 
 export const postReissueAccessToken = () => {
   return axiosInstance.post(`/reissue`);
+};
+
+export const getTermsAgreement = (required: boolean | 'all') => {
+  const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';
+
+  return axiosInstance.get(`/terms-conditions?required=${query}`);
+};
+
+export const postTermsAgreement = (data: ConsentFormType) => {
+  return axiosInstance.post('/terms-conditions/user', data);
 };

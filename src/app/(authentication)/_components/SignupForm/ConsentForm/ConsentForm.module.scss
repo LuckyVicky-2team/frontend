@@ -1,0 +1,25 @@
+.except {
+  display: flex;
+  justify-content: center;
+}
+
+.terms {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .title {
+    flex-grow: 1;
+    word-break: keep-all;
+  }
+
+  .detail {
+    width: 32px;
+    height: 32px;
+    justify-self: flex-end;
+  }
+}
+
+.button {
+  margin-top: 16px;
+}

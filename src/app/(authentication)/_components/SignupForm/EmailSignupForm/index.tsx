@@ -8,18 +8,48 @@ import AuthInput from '../../AuthInput';
 import Button from '@/components/common/Button';
 import AuthTagInput from '../../AuthTagInput';
 import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
-import { EmailSignupFormType } from '@/types/request/authRequestTypes';
+import {
+  ConsentFormType,
+  EmailSignupFormType,
+} from '@/types/request/authRequestTypes';
 import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import AuthHeader from '../../AuthHeader';
 import AuthTitle from '../../AuthTitle';
+import ConsentForm from '../ConsentForm';
 import styles from './EmailSignupForm.module.scss';
+
+const initialConsentForm = [
+  {
+    termsConditionsType: 'TERMS',
+    agreement: false,
+  },
+  {
+    termsConditionsType: 'PRIVACY',
+    agreement: false,
+  },
+  {
+    termsConditionsType: 'LOCATION',
+    agreement: false,
+  },
+  {
+    termsConditionsType: 'AGE14',
+    agreement: false,
+  },
+  {
+    termsConditionsType: 'PUSH',
+    agreement: false,
+  },
+];
 
 export default function EmailSignupForm() {
   const router = useRouter();
   const { Funnel, Step, setStep, currentStep } = useFunnel('first');
   const { addToast } = useToast();
+
+  const [consentForm, setConsentForm] =
+    useState<ConsentFormType>(initialConsentForm);
 
   const [isEmailDupOk, setIsEmailDupOk] = useState(false);
   const [emailDupLoading, setEmailDupLoading] = useState(false);
@@ -115,11 +145,31 @@ export default function EmailSignupForm() {
   return (
     <FormProvider {...props}>
       <AuthHeader
-        onClick={currentStep === 'second' ? () => setStep('first') : undefined}
+        onClick={
+          currentStep === 'second'
+            ? () => setStep('first')
+            : currentStep === 'third'
+              ? () => setStep('second')
+              : undefined
+        }
       />
       <form>
         <Funnel>
           <Step name="first">
+            <div className={styles.formArea}>
+              <AuthTitle
+                text="서비스 이용을 위해 약관을 확인하고 동의해주세요."
+                title="약관 동의"
+              />
+              <ConsentForm
+                setValue={setConsentForm}
+                value={consentForm}
+                setStep={setStep}
+              />
+            </div>
+          </Step>
+
+          <Step name="second">
             <div className={styles.formArea}>
               <AuthTitle
                 text="보고에 회원가입 해주셔서 감사합니다."
@@ -259,7 +309,7 @@ export default function EmailSignupForm() {
 
               <Button
                 onClick={() => {
-                  setStep('second');
+                  setStep('third');
                 }}
                 disabled={
                   !isValid ||
@@ -281,7 +331,7 @@ export default function EmailSignupForm() {
             </div>
           </Step>
 
-          <Step name="second">
+          <Step name="third">
             <div className={styles.formArea}>
               <AuthTitle
                 text="나를 소개하는 PR 태그를 등록해보세요!"

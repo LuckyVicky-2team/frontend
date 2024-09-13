@@ -15,3 +15,8 @@ export type SigninFormType = {
   username: string;
   password: string;
 };
+
+export type ConsentFormType = {
+  termsConditionsType: string;
+  agreement: boolean;
+}[];

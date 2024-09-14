@@ -1,24 +1,25 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 import { axiosInstance } from '@/api/instance';
+import { IGatheringDetailsResponseProps } from '@/types/response/Gathering';
+import { useDeleteGathering } from '@/api/queryHooks/gathering';
 import { useToast } from '@/contexts/toastContext';
+import { dateToString } from '@/utils/dateTostring';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { dateToString } from '@/utils/dateTostring';
 import NumberInput from '@/app/gatherings/new/_components/NumberInput';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
 import DatePicker from '@/components/common/DatePicker';
-import FileInput from '@/components/common/FileInput';
+// import FileInput from '@/components/common/FileInput';
+import FileInputs from '@/components/common/FileInputs';
 import TextEditor from '@/components/common/TextEditor';
 import GameDataList from '@/app/gatherings/new/_components/GameDataList';
-import styles from '../../../new/New.module.scss';
-import { IGatheringDetailsResponseProps } from '@/types/response/Gathering';
-import { useDeleteGathering } from '@/api/queryHooks/gathering';
+import styles from './GatheringForm.module.scss';
 
 interface IGatheringFormProps {
   mode: 'create' | 'edit';
@@ -42,8 +43,8 @@ export default function GatheringForm({
   const methods = useForm<INewGatheringFormValuesRequest>({
     mode: 'all',
     defaultValues: {
-      title: `${initialData?.title}` ?? '',
-      content: initialData?.content ?? '',
+      title: '',
+      content: '',
       type: 'FREE',
       boardGameIdList: [],
       image: '',
@@ -124,69 +125,99 @@ export default function GatheringForm({
 
   // 'limitParticipant' 필드의 값 변화를 감지
   const watchedParticipant = watch('limitParticipant');
+  const initialBoardGameIdList = initialData?.boardGameListResponseList.map(
+    (el: any) => el.boardGameId
+  );
+  const convertURLtoFile = async (url: string) => {
+    const response = await fetch(url);
+    const data = await response.blob();
+    const filename = url.split('/').pop() || 'unknown';
+    const mimeType = data.type || 'application/octet-stream';
+    const metadata = { type: mimeType };
+    return new File([data], filename, metadata);
+  };
 
-  const setItem = (setData: IGatheringDetailsResponseProps) => {
-    if (setData) {
-      const {
-        title,
-        content,
-        boardGameListResponseList,
-        meetingDatetime,
-        limitParticipant,
-        locationName,
-        longitude,
-        latitude,
-        city,
-        county,
-        detailAddress,
-      } = setData;
-      const transformedGameList = boardGameListResponseList.map(game => ({
-        id: game.boardGameId,
-        title: game.title,
-      }));
+  const setItem = async (initData: IGatheringDetailsResponseProps) => {
+    if (initData) {
+      const transformedGameList = initData.boardGameListResponseList.map(
+        game => ({
+          id: game.boardGameId,
+          title: game.title,
+        })
+      );
+      // console.log(
+      //   ':::기존 이미지:::',
+      //   initData.thumbnail,
+      //   initData.thumbnail.split('/')[0] === 'meeting'
+      // );
       methods.reset({
-        title: title,
-        content: content,
-        contentWithoutHtml: content.replace(/\n/g, ''),
+        title: initData.title,
+        content: initData.content,
+        contentWithoutHtml: initData.content.replace(/\n/g, ''),
         type: 'FREE',
-        boardGameIdList: boardGameListResponseList.map(
+        boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
-        meetingDatetime: new Date(meetingDatetime),
-        limitParticipant: limitParticipant,
-        locationName: locationName,
-        longitude: longitude.toString(),
-        latitude: latitude.toString(),
-        city: city,
-        county: county,
-        detailAddress: detailAddress,
+        meetingDatetime: new Date(initData.meetingDatetime),
+        image:
+          initData.thumbnail.split('/')[0] === 'meeting'
+            ? await convertURLtoFile(initData.thumbnail)
+            : '',
+        limitParticipant: initData.limitParticipant,
+        locationName: initData.locationName,
+        longitude: initData.longitude.toString(),
+        latitude: initData.latitude.toString(),
+        city: initData.city,
+        county: initData.county,
+        detailAddress: initData.detailAddress,
       });
-      setValue('content', content);
+      setValue('content', initData.content);
       setBoardGameIdTitleList(transformedGameList);
       setLocationNameClicked(true);
+      setShowGameListMessage(true);
     }
   };
 
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
-    const { contentWithoutHtml, image, meetingDatetime, ...info } =
-      gatheringInfo;
+    const {
+      contentWithoutHtml,
+      image,
+      meetingDatetime,
+      genreIdList,
+      boardGameIdList,
+      ...info
+    } = gatheringInfo;
+
+    const isBoardGameListSame =
+      JSON.stringify(initialBoardGameIdList) ===
+      JSON.stringify(boardGameIdList);
+    console.log('수정 데이터', gatheringInfo);
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
+
+    const newRequestData = {
+      meetingDatetime: dateToString(meetingDatetime),
+      genreIdList: genreIdList,
+      boardGameIdList: boardGameIdList,
+      ...info,
+    };
+    const editRequestData = {
+      meetingDatetime: dateToString(meetingDatetime),
+      boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
+      id: Number(initialData?.meetingId),
+      ...info,
+    };
+
     const formData = new FormData();
-    formData.append('image', image);
+
+    if (!editMode || (editMode && image !== '')) {
+      formData.append('image', image);
+    }
 
     formData.append(
-      'meetingCreateRequest',
-      new Blob(
-        [
-          JSON.stringify({
-            meetingDatetime: dateToString(meetingDatetime),
-            ...info,
-          }),
-        ],
-        {
-          type: 'application/json',
-        }
-      )
+      editMode ? 'meetingUpdateRequest' : 'meetingCreateRequest',
+      new Blob([JSON.stringify(editMode ? editRequestData : newRequestData)], {
+        type: 'application/json',
+      })
     );
 
     try {
@@ -199,13 +230,16 @@ export default function GatheringForm({
         const path = response.headers.location.split('/');
         router.replace(`/gatherings/new/success/${path[2]}`);
       } else {
-        // await axiosInstance.put(`/meeting/${initialData.meetingId}`, formData);
-        // router.replace(`/gatherings/${initialData.meetingId}`);
+        const response = await axiosInstance.patch('/meeting', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        router.replace(`/gatherings/${initialData.meetingId}`);
+
+        if (response.status === 200)
+          addToast(`모임이 성공적으로 수정되었습니다.`, 'success');
       }
-      // addToast(
-      //   `모임이 성공적으로 ${mode === 'create' ? '생성' : '수정'}되었습니다.`,
-      //   'success'
-      // );
     } catch (error) {
       addToast(
         `모임 ${mode === 'create' ? '생성' : '수정'}에 실패했어요.`,
@@ -213,7 +247,13 @@ export default function GatheringForm({
       );
     }
   };
-
+  const handleGatheringDelete = () => {
+    if (initialData?.totalParticipantCount === 1) {
+      handleDeleteModalOpen();
+    } else {
+      addToast('모임 참가자가 있으면 모임 삭제가 불가능합니다.', 'error');
+    }
+  };
   useEffect(() => {
     const boardGameIdList = boardGameIdTitleList.map(idTitle => {
       return idTitle.id;
@@ -402,7 +442,7 @@ export default function GatheringForm({
                 직관적이고 잘 알아볼 수 있도록 사진을 넣어주세요!
               </p>
               <div className={styles.fileInput}>
-                <FileInput
+                {/* <FileInput
                   id="image"
                   setValue={setValue}
                   selectedImageUrl={selectedImageUrl}
@@ -426,7 +466,32 @@ export default function GatheringForm({
                   <p className={styles.fileInputDescription}>
                     상세 페이지에서 제일 먼저 보이는 이미지 입니다.
                   </p>
-                </FileInput>
+                </FileInput> */}
+                <FileInputs
+                  id="image"
+                  control={control}
+                  selectedImageUrl={selectedImageUrl}
+                  width="204px"
+                  height="247px">
+                  <Image
+                    className={styles.downloadIcon}
+                    src={'/assets/icons/download.svg'}
+                    alt="다운로드 아이콘"
+                    width={20}
+                    height={20}
+                    priority
+                  />
+                  <p className={styles.fileInputTitle}>이미지 업로드</p>
+                  <p className={styles.fileInputDescription}>
+                    파일 형식: jpg 또는 png
+                  </p>
+                  <p className={styles.fileInputDescription}>
+                    권장 사이즈: 가로 204px, 세로 247px
+                  </p>
+                  <p className={styles.fileInputDescription}>
+                    상세 페이지에서 제일 먼저 보이는 이미지 입니다.
+                  </p>
+                </FileInputs>
                 <div className={styles.successMessage}>
                   {watchedImage !== '' && '사진이 너무 멋있어요!'}
                 </div>
@@ -515,7 +580,7 @@ export default function GatheringForm({
               <div className={styles.numberInput}>
                 <NumberInput
                   setValue={setValue}
-                  minNum={initialData?.totalParticipantCount}
+                  minParticipants={initialData?.totalParticipantCount}
                 />
                 <div className={styles.successMessage}>
                   {watchedParticipant &&
@@ -536,11 +601,11 @@ export default function GatheringForm({
             className={styles.submitButton}>
             {editMode ? '수정하기' : '확인'}
           </button>
-          {editMode && initialData?.totalParticipantCount === 1 && (
+          {editMode && (
             <button
-              type="submit"
+              type="button"
               className={styles.deleteButton}
-              onClick={() => handleDeleteModalOpen()}>
+              onClick={handleGatheringDelete}>
               모임 삭제
             </button>
           )}

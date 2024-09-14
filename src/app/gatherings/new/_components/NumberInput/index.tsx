@@ -1,60 +1,62 @@
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
 import styles from './NumberInput.module.scss';
 import { UseFormSetValue } from 'react-hook-form';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 interface INumberInputProps {
   setValue: UseFormSetValue<INewGatheringFormValuesRequest>;
-  minNum?: number;
+  minParticipants?: number;
 }
 
-export default function NumberInput({ setValue, minNum }: INumberInputProps) {
-  const [count, setCount] = useState(2);
+export default function NumberInput({
+  setValue,
+  minParticipants = 1,
+}: INumberInputProps) {
+  const arrangedMinNum = minParticipants ? minParticipants + 1 : 2;
+  const [count, setCount] = useState(arrangedMinNum);
 
   const handleDecrement = () => {
-    if (count > 2) {
-      if (minNum && minNum > 2 && count > minNum) {
-        setCount(prev => prev - 1);
-        setValue('limitParticipant', count - 1);
-      }
-      setCount(prev => prev - 1);
+    if (minParticipants && count > minParticipants + 1) {
+      setCount((prev: number) => prev - 1);
+      setValue('limitParticipant', count - 1);
+    } else if (!minParticipants && count > 2) {
+      setCount((prev: number) => prev - 1);
       setValue('limitParticipant', count - 1);
     }
   };
   const handleIncrement = () => {
     if (count !== 30) {
-      setCount(prev => prev + 1);
+      setCount((prev: number) => prev + 1);
       setValue('limitParticipant', count + 1);
     }
   };
 
+  const isMinParticipants = minParticipants
+    ? count === minParticipants + 1
+    : count === 2;
+
   return (
     <div className={styles.input}>
       <button
-        className={`${styles.leftButton} ${count === 2 ? styles.gray : styles.blue}`}
+        className={`${styles.leftButton} ${isMinParticipants ? styles.gray : styles.blue}`}
         onClick={handleDecrement}
         type="button">
-        {count === 2 ? (
-          <Image
-            src={'/assets/icons/minus-gray.svg'}
-            alt="- 이미지"
-            width={24}
-            height={24}
-          />
-        ) : (
-          <Image
-            src={'/assets/icons/minus-blue.svg'}
-            alt="- 이미지"
-            width={24}
-            height={24}
-          />
-        )}
+        <Image
+          src={
+            isMinParticipants
+              ? '/assets/icons/minus-gray.svg'
+              : '/assets/icons/minus-blue.svg'
+          }
+          alt="- 이미지"
+          width={24}
+          height={24}
+        />
       </button>
       <div
-        className={`${styles.numberBackground}  ${count === 30 || count === 2 ? styles.gray : styles.blue}`}>
+        className={`${styles.numberBackground}  ${count === 30 ? styles.gray : styles.blue}`}>
         <h2
-          className={`${styles.number}  ${count === 30 || count === 2 ? styles.grayFont : styles.blueFont}`}>
+          className={`${styles.number}  ${count === 30 ? styles.grayFont : styles.blueFont}`}>
           {count}
         </h2>
       </div>

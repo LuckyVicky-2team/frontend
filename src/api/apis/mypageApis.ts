@@ -53,6 +53,13 @@ export const getMeetingList = () => {
 export const getLikeList = () => {
   return axiosInstance.get(`/my/meeting/like`);
 };
+//약관동의 설정 페이지 함수
+export const postAgree = (termsConditionsType: string, agreement: boolean) => {
+  return axiosInstance.post(`/terms-conditions/user`, {
+    termsConditionsType: termsConditionsType,
+    agreement: agreement,
+  });
+};
 
 // 게임 랭크 조회 함수
 export const getGameRank = () => {

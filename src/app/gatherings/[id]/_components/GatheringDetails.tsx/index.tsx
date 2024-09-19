@@ -219,7 +219,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   width={24}
                   height={24}
                 />
-                <div style={{ display: 'flex', gap: '11px' }}>
+                <div style={{ display: 'flex', gap: '11px', flexWrap: 'wrap' }}>
                   {data.boardGameListResponseList.map(game => {
                     return <div key={game.boardGameId}>{game.title}</div>;
                   })}

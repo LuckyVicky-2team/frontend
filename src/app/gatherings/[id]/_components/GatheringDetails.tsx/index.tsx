@@ -41,6 +41,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
     data?.totalParticipantCount || 0
   );
   const [isMobile, setIsMobile] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,
@@ -67,6 +68,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 439);
+      setScreenWidth(window.innerWidth);
     };
 
     window.addEventListener('resize', handleResize);
@@ -327,7 +329,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
               }}
               placeName={data.locationName}
               address={data.detailAddress}
-              mapLatio={'2.8'}
+              mapLatio={`${screenWidth / 320}`}
               isMobile={isMobile}
             />
           </div>

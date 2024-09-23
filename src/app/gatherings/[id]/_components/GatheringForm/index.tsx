@@ -15,11 +15,11 @@ import Modal from '@/components/common/Modal';
 import NumberInput from '@/app/gatherings/new/_components/NumberInput';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
 import DatePicker from '@/components/common/DatePicker';
-// import FileInput from '@/components/common/FileInput';
-import FileInputs from '@/components/common/FileInputs';
+import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import GameDataList from '@/app/gatherings/new/_components/GameDataList';
 import styles from './GatheringForm.module.scss';
+import { convertURLtoFile } from '@/utils/common';
 
 interface IGatheringFormProps {
   mode: 'create' | 'edit';
@@ -128,14 +128,6 @@ export default function GatheringForm({
   const initialBoardGameIdList = initialData?.boardGameListResponseList.map(
     (el: any) => el.boardGameId
   );
-  const convertURLtoFile = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.blob();
-    const filename = url.split('/').pop() || 'unknown';
-    const mimeType = data.type || 'application/octet-stream';
-    const metadata = { type: mimeType };
-    return new File([data], filename, metadata);
-  };
 
   const setItem = async (initData: IGatheringDetailsResponseProps) => {
     if (initData) {
@@ -145,11 +137,7 @@ export default function GatheringForm({
           title: game.title,
         })
       );
-      // console.log(
-      //   ':::기존 이미지:::',
-      //   initData.thumbnail,
-      //   initData.thumbnail.split('/')[0] === 'meeting'
-      // );
+
       methods.reset({
         title: initData.title,
         content: initData.content,
@@ -191,7 +179,6 @@ export default function GatheringForm({
     const isBoardGameListSame =
       JSON.stringify(initialBoardGameIdList) ===
       JSON.stringify(boardGameIdList);
-    console.log('수정 데이터', gatheringInfo);
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
 
     const newRequestData = {
@@ -209,7 +196,7 @@ export default function GatheringForm({
 
     const formData = new FormData();
 
-    if (!editMode || (editMode && image !== '')) {
+    if (!editMode || (editMode && image !== undefined)) {
       formData.append('image', image);
     }
 
@@ -442,7 +429,7 @@ export default function GatheringForm({
                 직관적이고 잘 알아볼 수 있도록 사진을 넣어주세요!
               </p>
               <div className={styles.fileInput}>
-                {/* <FileInput
+                <FileInput
                   id="image"
                   setValue={setValue}
                   selectedImageUrl={selectedImageUrl}
@@ -466,32 +453,7 @@ export default function GatheringForm({
                   <p className={styles.fileInputDescription}>
                     상세 페이지에서 제일 먼저 보이는 이미지 입니다.
                   </p>
-                </FileInput> */}
-                <FileInputs
-                  id="image"
-                  control={control}
-                  selectedImageUrl={selectedImageUrl}
-                  width="204px"
-                  height="247px">
-                  <Image
-                    className={styles.downloadIcon}
-                    src={'/assets/icons/download.svg'}
-                    alt="다운로드 아이콘"
-                    width={20}
-                    height={20}
-                    priority
-                  />
-                  <p className={styles.fileInputTitle}>이미지 업로드</p>
-                  <p className={styles.fileInputDescription}>
-                    파일 형식: jpg 또는 png
-                  </p>
-                  <p className={styles.fileInputDescription}>
-                    권장 사이즈: 가로 204px, 세로 247px
-                  </p>
-                  <p className={styles.fileInputDescription}>
-                    상세 페이지에서 제일 먼저 보이는 이미지 입니다.
-                  </p>
-                </FileInputs>
+                </FileInput>
                 <div className={styles.successMessage}>
                   {watchedImage !== '' && '사진이 너무 멋있어요!'}
                 </div>

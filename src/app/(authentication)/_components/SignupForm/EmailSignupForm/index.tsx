@@ -8,48 +8,30 @@ import AuthInput from '../../AuthInput';
 import Button from '@/components/common/Button';
 import AuthTagInput from '../../AuthTagInput';
 import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
+import { EmailSignupFormType } from '@/types/request/authRequestTypes';
 import {
-  ConsentFormType,
-  EmailSignupFormType,
-} from '@/types/request/authRequestTypes';
-import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
+  useGetTermsAgreement,
+  usePostEmailSignupForm,
+} from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import AuthHeader from '../../AuthHeader';
 import AuthTitle from '../../AuthTitle';
 import ConsentForm from '../ConsentForm';
 import styles from './EmailSignupForm.module.scss';
+import Spinner from '@/components/common/Spinner';
 
-const initialConsentForm = [
-  {
-    termsConditionsType: 'TERMS',
-    agreement: false,
-  },
-  {
-    termsConditionsType: 'PRIVACY',
-    agreement: false,
-  },
-  {
-    termsConditionsType: 'LOCATION',
-    agreement: false,
-  },
-  {
-    termsConditionsType: 'AGE14',
-    agreement: false,
-  },
-  {
-    termsConditionsType: 'PUSH',
-    agreement: false,
-  },
-];
+interface ITermsAgreementResponseType {
+  type: string;
+  title: string;
+  content: string;
+  required: boolean;
+}
 
 export default function EmailSignupForm() {
   const router = useRouter();
   const { Funnel, Step, setStep, currentStep } = useFunnel('first');
   const { addToast } = useToast();
-
-  const [consentForm, setConsentForm] =
-    useState<ConsentFormType>(initialConsentForm);
 
   const [isEmailDupOk, setIsEmailDupOk] = useState(false);
   const [emailDupLoading, setEmailDupLoading] = useState(false);
@@ -66,6 +48,28 @@ export default function EmailSignupForm() {
       passwordCheck: '',
       prTags: [],
       providerType: 'LOCAL',
+      termsConditions: [
+        {
+          termsConditionsType: 'TERMS',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PRIVACY',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'LOCATION',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'AGE14',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PUSH',
+          agreement: false,
+        },
+      ],
     } as EmailSignupFormType & { passwordCheck: string },
   });
 
@@ -77,7 +81,14 @@ export default function EmailSignupForm() {
     setError,
     watch,
     trigger,
+    setValue,
   } = props;
+
+  const {
+    data: termsConditionsData,
+    isLoading,
+    isError,
+  } = useGetTermsAgreement('all');
 
   const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
 
@@ -145,31 +156,11 @@ export default function EmailSignupForm() {
   return (
     <FormProvider {...props}>
       <AuthHeader
-        onClick={
-          currentStep === 'second'
-            ? () => setStep('first')
-            : currentStep === 'third'
-              ? () => setStep('second')
-              : undefined
-        }
+        onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
       <form>
         <Funnel>
           <Step name="first">
-            <div className={styles.formArea}>
-              <AuthTitle
-                text="서비스 이용을 위해 약관을 확인하고 동의해주세요."
-                title="약관 동의"
-              />
-              <ConsentForm
-                setValue={setConsentForm}
-                value={consentForm}
-                setStep={setStep}
-              />
-            </div>
-          </Step>
-
-          <Step name="second">
             <div className={styles.formArea}>
               <AuthTitle
                 text="보고에 회원가입 해주셔서 감사합니다."
@@ -306,17 +297,44 @@ export default function EmailSignupForm() {
                   />
                 )}
               />
+              {isLoading ? (
+                <div className={styles.consentExcept}>
+                  <Spinner />
+                </div>
+              ) : isError ? (
+                <div className={styles.consentExcept}>
+                  약관 내용을 불러올 수 없습니다.
+                </div>
+              ) : (
+                <ConsentForm
+                  conditions={termsConditionsData}
+                  setValue={value => setValue('termsConditions', value)}
+                  value={watch('termsConditions')}
+                />
+              )}
 
               <Button
                 onClick={() => {
-                  setStep('third');
+                  setStep('second');
                 }}
                 disabled={
                   !isValid ||
                   !isEmailDupOk ||
                   !isNickNameDupOk ||
                   !watch('password') ||
-                  !watch('passwordCheck')
+                  !watch('passwordCheck') ||
+                  !termsConditionsData.every(
+                    (item: ITermsAgreementResponseType) => {
+                      if (item.required) {
+                        return (
+                          watch('termsConditions').find(
+                            term => item.type === term.termsConditionsType
+                          )?.agreement === true
+                        );
+                      }
+                      return true;
+                    }
+                  )
                 }
                 className={styles.button}>
                 확인
@@ -331,7 +349,7 @@ export default function EmailSignupForm() {
             </div>
           </Step>
 
-          <Step name="third">
+          <Step name="second">
             <div className={styles.formArea}>
               <AuthTitle
                 text="나를 소개하는 PR 태그를 등록해보세요!"

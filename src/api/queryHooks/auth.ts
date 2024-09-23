@@ -7,7 +7,6 @@ import {
 import {
   getTermsAgreement,
   postEmailSignupForm,
-  postReissueAccessToken,
   postSigninForm,
   postSocialSignupForm,
   postTermsAgreement,
@@ -40,12 +39,6 @@ export const usePostSocialSignupForm = () => {
     }) => {
       await postSocialSignupForm(data, token);
     },
-  });
-};
-
-export const usePostReissueAccessToken = () => {
-  return useMutation({
-    mutationFn: async () => await postReissueAccessToken(),
   });
 };
 

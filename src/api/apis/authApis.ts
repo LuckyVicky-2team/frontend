@@ -47,14 +47,15 @@ export const postReissueAccessToken = (refreshToken: string) => {
     }
   );
 };
-// export const postReissueAccessToken = () => {
-//   return axiosInstance.post(`/reissue`);
-// };
 
-export const getTermsAgreement = (required: boolean | 'all') => {
+export const getTermsAgreement = async (required: boolean | 'all') => {
   const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';
 
-  return axiosInstance.get(`/terms-conditions?required=${query}`);
+  const { data } = await axiosInstance.get(
+    `/terms-conditions?required=${query}`
+  );
+
+  return data;
 };
 
 export const postTermsAgreement = (data: ConsentFormType) => {

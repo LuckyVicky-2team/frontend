@@ -1,22 +1,27 @@
 .except {
   display: flex;
   justify-content: center;
+  margin-top: 16px;
 }
 
-.terms {
+.form {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
 
-  .title {
-    flex-grow: 1;
-    word-break: keep-all;
+  .allConsent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #9ca3af;
+    font-weight: 700;
   }
 
-  .detail {
-    width: 32px;
-    height: 32px;
-    justify-self: flex-end;
+  .divisionLine {
+    width: 100%;
+    border: 0.8px solid #e7e8e9;
+    margin: 0;
   }
 }
 

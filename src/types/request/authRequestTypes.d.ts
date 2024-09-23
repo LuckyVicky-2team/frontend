@@ -4,6 +4,7 @@ export type EmailSignupFormType = {
   password: string;
   prTags: string[];
   providerType: 'LOCAL';
+  termsConditions: ConsentFormType;
 };
 
 export type SocialSignupFormType = {

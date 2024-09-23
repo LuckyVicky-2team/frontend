@@ -1,0 +1,55 @@
+.body {
+  padding: 130px 24px;
+  background-color: $blue-light;
+  min-height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.deleteAllButton {
+  color: #120d0d;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}
+
+.notifications {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.notification {
+  display: flex;
+  gap: 19px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 27px 28px 19px;
+}
+
+.title {
+  color: var(--lukyviky-gray-Darker, #37393d);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 83.333% */
+}
+
+.content {
+  margin: 16px 0 8px;
+}
+
+.content,
+.userName {
+  color: var(--lukyviky-gray-Normal, #9ca3af);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 125% */
+}

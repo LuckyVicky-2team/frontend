@@ -1,0 +1,82 @@
+.mainNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  border-radius: 15px;
+  box-shadow: 0 1px 6px #ddd;
+  width: 80%;
+  margin-top: 70px;
+  padding: 25px;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+
+  .mainNavContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    border-right: 1px solid #ddd;
+    &:last-child {
+      border-right: 0;
+      justify-content: flex-end;
+    }
+
+    h2 {
+      font-size: 22px;
+      font-weight: 900;
+      color: #2d7dff;
+      display: block;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      font-weight: 500;
+      color: #9ca3af;
+      line-height: 120%;
+      display: block;
+    }
+    img {
+      width: 90px;
+      height: 100px;
+    }
+  }
+}
+
+// 430px 이하 화면에 대한 반응형 스타일 추가
+@media (max-width: 430px) {
+  .mainNav {
+    flex-direction: column;
+    width: 90%;
+    margin-top: 20px;
+    padding: 0px;
+
+    .mainNavContent {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      gap: 6%;
+
+      &:last-child {
+        border-bottom: 0;
+        justify-content: center;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      img {
+        width: 70px;
+        height: 80px;
+      }
+    }
+  }
+}

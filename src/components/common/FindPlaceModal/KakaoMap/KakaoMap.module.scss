@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.map {
+  width: 100%;
+}
+
+.infowindow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 20px;
+  text-align: center;
+  font-family: 'LaundryGothicOTF';
+  font-size: 14px;
+}
+
+.item {
+  border-radius: 10px;
+  background-color: #e6f2ff;
+}

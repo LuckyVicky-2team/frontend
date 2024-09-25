@@ -1,0 +1,133 @@
+.container {
+  padding-bottom: 150px;
+  position: relative;
+  padding-top: 60px;
+}
+
+.banner {
+  display: block;
+  width: 100%;
+  position: relative;
+  background: url('/assets/mainImages/bannerV2.png') no-repeat center/cover;
+  padding: 55px 60px;
+  box-sizing: border-box;
+  color: #fff;
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  h2 {
+    font-size: 48px;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 15px;
+    span {
+      display: block;
+      margin-bottom: 10px;
+    }
+  }
+  p {
+    font-size: 28px;
+  }
+}
+
+.searchBarWrap {
+  display: block;
+  width: 100%;
+  position: relative;
+  .searchBar {
+    width: 80%;
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    box-shadow: 1px 1px 6px #999;
+    border-radius: 10px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translate(-50%, -50%);
+    input {
+      width: 80%;
+      outline: none;
+    }
+    button {
+      outline: none;
+    }
+  }
+}
+
+.contentContainerWrap {
+  padding: 0 15px;
+  .contentContainer {
+    margin-top: 100px;
+  }
+}
+
+@media (max-width: 430px) {
+  .container {
+    padding-top: 45px;
+    padding-bottom: 130px;
+    /* 여기에 반응형 스타일 추가 */
+    &:-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+  }
+
+  .banner {
+    background: url('/assets/mainImages/bannerV2.png') no-repeat center/cover;
+    padding: 30px 15px;
+    img {
+      width: 16px;
+      height: 16px;
+    }
+    h2 {
+      font-size: 18px;
+    }
+    p {
+      font-size: 16px;
+      /* 여기에 반응형 스타일 추가 */
+    }
+  }
+
+  .searchBarWrap {
+    /* 여기에 반응형 스타일 추가 */
+    .searchBar {
+      padding: 10px;
+      width: 90%;
+      margin: 0 auto;
+      position: static;
+      transform: none;
+      margin-top: 15px;
+      input {
+        font-size: 12px;
+        /* 여기에 반응형 스타일 추가 */
+      }
+      button {
+        display: block;
+        /* 여기에 반응형 스타일 추가 */
+      }
+    }
+  }
+
+  .contentContainerWrap {
+    /* 여기에 반응형 스타일 추가 */
+    &:-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    .contentContainer {
+      margin-top: 80px;
+      /* 여기에 반응형 스타일 추가 */
+      &:-webkit-scrollbar {
+        display: none;
+      }
+      scrollbar-width: none;
+    }
+  }
+}

@@ -1,0 +1,170 @@
+.dice {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateDice 3s infinite ease-in-out;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  background-color: #007aff;
+  border-radius: 4px;
+  border: 2px solid #007aff;
+  position: absolute;
+}
+
+.innerFace {
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.dot {
+  width: 22.2px;
+  height: 22.2px;
+  background-color: #007aff;
+  border-radius: 100%;
+  position: absolute;
+}
+
+.one .dot {
+  left: 38.5%;
+  top: 38.5%;
+}
+
+.two .dot {
+  &:nth-child(1) {
+    left: 10%;
+    top: 10%;
+  }
+  &:nth-child(2) {
+    right: 10%;
+    bottom: 10%;
+  }
+}
+
+.three .dot {
+  &:nth-child(1) {
+    right: 10%;
+    top: 10%;
+  }
+  &:nth-child(2) {
+    left: 38.5%;
+    top: 38.5%;
+  }
+  &:nth-child(3) {
+    left: 10%;
+    bottom: 10%;
+  }
+}
+
+.four .dot {
+  &:nth-child(1) {
+    left: 16.6%;
+    top: 16.6%;
+  }
+  &:nth-child(2) {
+    right: 16.6%;
+    top: 16.6%;
+  }
+  &:nth-child(3) {
+    left: 16.6%;
+    bottom: 16.6%;
+  }
+  &:nth-child(4) {
+    right: 16.6%;
+    bottom: 16.6%;
+  }
+}
+
+.five .dot {
+  &:nth-child(1) {
+    left: 10%;
+    top: 10%;
+  }
+  &:nth-child(2) {
+    right: 10%;
+    top: 10%;
+  }
+  &:nth-child(3) {
+    left: 38.5%;
+    top: 38.5%;
+  }
+  &:nth-child(4) {
+    left: 10%;
+    bottom: 10%;
+  }
+  &:nth-child(5) {
+    right: 10%;
+    bottom: 10%;
+  }
+}
+
+.six .dot {
+  &:nth-child(1) {
+    left: 10%;
+    top: 10%;
+  }
+  &:nth-child(2) {
+    right: 10%;
+    top: 10%;
+  }
+  &:nth-child(3) {
+    left: 10%;
+    top: 38.5%;
+  }
+  &:nth-child(4) {
+    right: 10%;
+    top: 38.5%;
+  }
+  &:nth-child(5) {
+    left: 10%;
+    bottom: 10%;
+  }
+  &:nth-child(6) {
+    right: 10%;
+    bottom: 10%;
+  }
+}
+.one {
+  transform: rotateY(0deg) translateZ(50px);
+}
+.two {
+  transform: rotateY(90deg) translateZ(50px);
+}
+.three {
+  transform: rotateY(180deg) translateZ(50px);
+}
+.four {
+  transform: rotateY(-90deg) translateZ(50px);
+}
+.five {
+  transform: rotateX(90deg) translateZ(50px);
+}
+.six {
+  transform: rotateX(-90deg) translateZ(50px);
+}
+
+@keyframes rotateDice {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(90deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(90deg) rotateY(90deg);
+  }
+  75% {
+    transform: rotateX(180deg) rotateY(90deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}

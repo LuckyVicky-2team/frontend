@@ -1,0 +1,58 @@
+.container {
+  padding: 100px 25px 128px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid #e5e7eb;
+  gap: 12px;
+  padding-top: 40px;
+  margin-top: 10px;
+
+  .guideText {
+    color: #1f2937;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 18px;
+  }
+
+  .squareButton {
+    width: 100%;
+    position: relative;
+
+    .balloon {
+      position: absolute;
+      top: -20px;
+      right: 3px;
+    }
+  }
+
+  .socialLogin {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    .roundButton {
+      position: relative;
+      display: flex;
+      width: 56px;
+      height: 56px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 32px;
+      gap: 10px;
+
+      &.google {
+        border: 1px solid #eee;
+        background: #fff;
+      }
+    }
+  }
+}

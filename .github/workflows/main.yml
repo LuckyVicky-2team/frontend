@@ -56,7 +56,7 @@ jobs:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: ${{ secrets.AWS_REGION }}
-          application_name: LuckyFE
-          environment_name: LuckyFE-env
+          application_name: LuckyFe
+          environment_name: LuckyFe-env
           version_label: '${{ steps.timestamp.outputs.date }}'
           deployment_package: deploy.zip

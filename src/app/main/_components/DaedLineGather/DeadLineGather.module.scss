@@ -1,0 +1,311 @@
+.newTitle {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  margin-bottom: 25px;
+  position: relative;
+  width: 100%;
+  img {
+    max-width: 70px;
+    display: block;
+    max-height: 70px;
+    width: 100%;
+    height: 100%;
+  }
+  .titleTxt {
+    .title1 {
+      color: #9ca3af;
+      font-weight: 500;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .title2 {
+      color: #333;
+      font-weight: 900;
+      font-size: 28px;
+      display: block;
+    }
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    img {
+      width: 24px;
+      height: 24px;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.lineTitle {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #999;
+    text-align: center;
+    background: #fff;
+    width: 30%;
+  }
+  &::before {
+    display: block;
+    content: '';
+    width: 100%;
+    height: 1px;
+    background: #998;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.genreList {
+  display: flex;
+  align-items: center;
+  justify-content: normal;
+  margin-top: 50px;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  position: relative;
+
+  /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Firefox에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox */
+
+  /* Internet Explorer 10 이상에서 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE 10+ */
+
+  .prevBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    left: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    img {
+      display: block;
+    }
+  }
+
+  .nextBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    position: absolute;
+    top: 38%;
+    right: 1%;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
+  li {
+    display: block;
+    width: 32%;
+    margin-right: 3%;
+    min-width: 180px;
+
+    a {
+      display: block;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      .famousIco {
+        background: #f8e049;
+        color: #007aff;
+        padding: 10px 30px;
+        position: absolute;
+        top: 12px;
+        left: -30px;
+        transform: rotate(-45deg);
+        font-size: 12px;
+      }
+
+      .deadLineIco {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        background: #007aff; /* 마감임박 강조색 */
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 10px;
+        font-size: 14px;
+        gap: 5px;
+        border-top-left-radius: 13px;
+        font-size: 12px;
+      }
+
+      .img {
+        width: 100%;
+        border-radius: 5px;
+        overflow: hidden;
+        img {
+          display: block;
+          width: 100%;
+          border-radius: 10px;
+        }
+      }
+
+      .tag {
+        font-size: 18px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+        line-height: 120%;
+        display: block;
+        color: #333;
+      }
+    }
+
+    .mid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      .loc {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: normal;
+        gap: 3px;
+        color: #757575;
+        .loc2 {
+          display: flex;
+          align-items: center;
+          justify-content: normal;
+          gap: 3px;
+        }
+
+        img {
+          width: 14px;
+          height: 14px;
+        }
+      }
+
+      .heart {
+        cursor: pointer;
+
+        input + label {
+          cursor: pointer;
+
+          img {
+            width: 22px;
+            height: 22px;
+          }
+        }
+
+        input:checked + label {
+          img {
+            width: 22px;
+            height: 22px;
+          }
+        }
+      }
+    }
+
+    .date {
+      font-size: 12px;
+      margin-top: 6px;
+      display: block;
+      color: #999;
+    }
+  }
+}
+
+/* 430px 이하 화면에 대한 반응형 스타일 추가 */
+@media (max-width: 430px) {
+  .newTitle {
+    // flex-direction: column;
+    // align-items: flex-start;
+    img {
+      max-width: 50px;
+      max-height: 50px;
+      margin-bottom: 10px;
+      display: none;
+    }
+    .titleTxt {
+      .title1 {
+        font-size: 16px;
+      }
+      .title2 {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .lineTitle p {
+    font-size: 14px;
+    width: 50%;
+  }
+
+  .genreList {
+    li {
+      min-width: 100%;
+      width: 100%;
+      margin-bottom: 15px;
+      // margin-right: 10%;
+    }
+    .prevBtn,
+    .nextBtn {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .loc {
+    font-size: 12px;
+  }
+
+  .date {
+    font-size: 10px;
+  }
+
+  .heart input + label img,
+  .heart input:checked + label img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .deadLineIco {
+    padding: 5px 8px;
+    font-size: 10px;
+  }
+}

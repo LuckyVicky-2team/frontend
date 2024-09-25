@@ -86,6 +86,7 @@ video {
   border: 0;
   font-size: 100%;
   font: inherit;
+  font-family: 'Pretendard', sans-serif, 'LaundryGothicOTP';
   vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -141,6 +142,8 @@ textarea {
 }
 
 button {
+  //버튼 클릭시 파란색 하이라이트 생기는 현상 제거
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
 
@@ -169,4 +172,7 @@ a {
 }
 a:visited {
   color: inherit;
+}
+* {
+  box-sizing: border-box;
 }

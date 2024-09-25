@@ -1,0 +1,212 @@
+.title {
+  display: block;
+  font-size: 24px;
+  margin-top: 95px;
+  margin-bottom: 26px;
+  font-weight: 900;
+  font-family: 'LaundryGothicOTF-Bold';
+}
+
+.relative {
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 24px;
+  padding-bottom: 150px;
+}
+
+.prWrap {
+  margin: 30px 0;
+  position: relative;
+  button {
+    position: absolute;
+    top: 15%;
+    right: 10px;
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow: hidden;
+    transition: 0.3s ease all;
+    // &.prOpen {
+    //   height: auto;
+    //   overflow: hidden;
+    //   transition: 0.3s ease all;
+    // }
+    li {
+      background: #f0f0f0;
+      display: block;
+      padding: 10px 15px;
+      border-radius: 15px;
+      color: #9ca3af;
+    }
+  }
+}
+
+.menuWrap {
+  li {
+    display: block;
+    a {
+      display: block;
+      padding: 18px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 18px;
+      color: #757a83;
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        transform: translateY(-50%) rotate(180deg);
+      }
+    }
+  }
+}
+
+.editModal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 600px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  padding: 15px;
+  z-index: 500;
+  transition: 0.3s ease all;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #007aff;
+    width: 3px;
+  }
+  &.off {
+    bottom: -100%;
+  }
+  &.on {
+    bottom: 0%;
+  }
+}
+
+.averageGrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 30px 0;
+  width: 100%;
+  b {
+    width: 20%;
+    color: #757a83;
+  }
+  .line {
+    width: 70%;
+    height: 10px;
+    background: #e6f2ff;
+    display: block;
+    position: relative;
+    .averageLine {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      transform: translateY(-50%);
+      height: 10px;
+      width: 70%;
+      background: #007aff;
+      transition: width 1s ease;
+      .average {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+        background: #007aff;
+        padding: 10px 25px;
+        border-radius: 20px;
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// 반응형 스타일 추가
+@media (max-width: 430px) {
+  .title {
+    font-size: 20px;
+    margin-top: 70px;
+    margin-bottom: 20px;
+  }
+
+  .relative {
+    padding: 0 15px;
+    padding-bottom: 100px;
+  }
+
+  .prWrap {
+    margin: 20px 0;
+    button {
+      top: 10%;
+      right: 5px;
+    }
+    ul {
+      gap: 5px;
+      li {
+        padding: 8px 10px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .menuWrap {
+    li {
+      a {
+        padding: 14px 0;
+        font-size: 16px;
+        img {
+          right: 0px;
+        }
+      }
+    }
+  }
+
+  .editModal {
+    max-width: 100%;
+    padding: 10px;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #007aff;
+      width: 4px;
+    }
+  }
+
+  .averageGrade {
+    flex-direction: column;
+    align-items: flex-start;
+    b {
+      width: 100%;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .line {
+      width: 100%;
+      height: 8px;
+      .averageLine {
+        width: 100%;
+        .average {
+          font-size: 14px;
+          padding: 8px 15px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.tag {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  color: #007aff;
+  border: 2px solid #007aff;
+  background: #ffffff;
+  line-height: 16px;
+  padding: 3.5px 10px;
+  gap: 5px;
+
+  &[data-size='small'] {
+    font-size: 10px;
+  }
+
+  &[data-size='medium'] {
+    font-size: 12px;
+  }
+
+  &[data-size='large'] {
+    font-size: 16 px;
+  }
+
+  .removeButton {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+  }
+}

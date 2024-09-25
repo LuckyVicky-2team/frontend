@@ -1,0 +1,25 @@
+.imageUploadBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin imagePreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.imagePreview {
+  @include imagePreview;
+}
+
+.defaultImage {
+  @include imagePreview;
+  position: relative;
+  border-radius: 10px;
+  background: var(--lukyviky-gray-Light, #f5f6f7);
+  padding: 16px 16px;
+}

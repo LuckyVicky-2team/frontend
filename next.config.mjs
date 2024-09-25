@@ -4,8 +4,10 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'd248qe8akqy587.cloudfront.net',
-        port: '',
+        hostname:
+          `${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}` ||
+          'd248qe8akqy587.cloudfront.net',
+        pathname: '**',
       },
     ],
   },
@@ -17,6 +19,9 @@ const nextConfig = {
       },
     ];
   },
+  sassOptions: {
+    includePaths: ['styles'],
+    additionalData: `@import "@/styles/color.scss"; @import "@/styles/typography.scss";`,
+  },
 };
-
 export default nextConfig;

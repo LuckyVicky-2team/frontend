@@ -1,0 +1,51 @@
+.prWrap {
+  padding: 0 24px;
+  box-sizing: border-box;
+  padding-top: 80px;
+  h1 {
+    display: block;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 50px 0;
+    li {
+      display: block;
+      button {
+        display: block;
+        padding: 5px 10px;
+        box-sizing: border-box;
+        border: 1px solid #007aff;
+        border-radius: 20px;
+        color: #007aff;
+        .tagName {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+        }
+      }
+    }
+  }
+  input {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    background: #f5f6f7;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+  }
+}
+.error {
+  color: red;
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}

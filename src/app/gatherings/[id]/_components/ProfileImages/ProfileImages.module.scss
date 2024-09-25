@@ -1,0 +1,22 @@
+.profileImages {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 28px;
+  width: 100px;
+  .count {
+    z-index: 10;
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--grayscale300);
+    font-size: 12px;
+    position: absolute;
+    left: 64px;
+  }
+}

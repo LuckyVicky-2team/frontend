@@ -1,0 +1,49 @@
+.formArea {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 35px 25px 50px;
+
+  .button {
+    margin-top: 16px;
+
+    & + .button {
+      margin-top: -10px;
+    }
+  }
+}
+
+.buttonInput {
+  position: relative;
+
+  & input {
+    padding-right: 102px;
+  }
+
+  & button {
+    position: absolute;
+    top: 41px;
+    right: 16px;
+    width: 70px;
+    height: 30px;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+}
+
+.linkContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  color: #1f2937;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: normal;
+
+  .loginLink {
+    color: #007aff;
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+}

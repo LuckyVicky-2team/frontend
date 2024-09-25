@@ -1,0 +1,66 @@
+.item {
+  width: 100%;
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &:hover {
+    background-color: #e6f2ff;
+  }
+}
+
+.nameArea {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    background-color: #3e82f1;
+    width: 32px;
+    height: 32px;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .name {
+    color: black;
+    font-size: 20px;
+    font-weight: 700;
+
+    &.url {
+      &:hover {
+        color: #3e82f1;
+      }
+    }
+  }
+
+  .category {
+    font-size: 16px;
+    color: #9ca3af;
+  }
+}
+
+.infoArea {
+  padding-left: 42px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 16px;
+  color: #9ca3af;
+
+  &.notIndexInfo {
+    padding-left: 0;
+  }
+
+  .distance {
+    display: flex;
+    align-items: center;
+  }
+}

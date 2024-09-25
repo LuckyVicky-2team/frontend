@@ -1,0 +1,28 @@
+.input {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 10px;
+  width: 100%;
+  height: 56px;
+  padding: 10px 16px 10px;
+  border-radius: 12px;
+  background-color: #f9fafb;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #1f2937;
+  outline: none;
+
+  &.error {
+    border: 2px solid #dc2626;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    border: 2px solid #3e82f1;
+  }
+}

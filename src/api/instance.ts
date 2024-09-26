@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
-  timeout: 5000,
+  timeout: 1000 * 20,
   headers: {
     'Content-Type': 'application/json',
     'X-API-Version': 1,

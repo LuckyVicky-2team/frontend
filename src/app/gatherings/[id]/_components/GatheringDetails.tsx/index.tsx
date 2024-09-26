@@ -297,7 +297,10 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
               modalOpen={profileModalOpen}
               onClose={handleProfileModalClose}
               onOpen={handleProfileModalOpen}
-              data={data.userParticipantResponseList}
+              data={{
+                userParticipantResponseList: data.userParticipantResponseList,
+                meetingState: data.state,
+              }}
               isMobile={isMobile}
               myType={myType}
               bottomSheetOpen={open}

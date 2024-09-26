@@ -1,41 +1,47 @@
 .searchTabHeader {
   width: 100%;
   padding: 100px 24px 0;
+  @media (max-width: 430px) {
+    padding: 80px 24px 0 24px;
+  }
 
   .filter {
     width: 100%;
-    justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     display: flex;
-    gap: 6px;
+    gap: 8px;
     margin: 24px 0px 10px 0;
+    flex-wrap: wrap;
 
-    select {
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px;
-      color: #37393d;
-      align-items: flex-start;
-      padding: 8px 12px;
-      border-radius: 12px;
-      border: 2px solid #f3f4f6;
-      max-width: 19%;
+    .genreSelectBox {
+      max-width: fit-content;
+      min-width: 100px;
     }
-
-    .aaa .datePicker {
-      height: 4vh;
-      border-radius: 12px;
-      outline: none;
-      border: 2px solid #f3f4f6;
-      color: #37393d;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      width: 100%;
-      min-width: fit-content;
-      padding: 0 10px 0 15px;
-      line-height: 20px;
+    .locationSelectBox {
+      max-width: fit-content;
+      min-width: 100px;
+    }
+    .dates {
+      display: flex;
+      gap: 6px;
+      .aaa .datePicker {
+        border-radius: 12px;
+        outline: none;
+        border: 2px solid #f3f4f6;
+        color: #37393d;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        width: 100px;
+        min-width: fit-content;
+        padding: 8px 12px;
+        line-height: 20px;
+        height: fit-content !important;
+        @media (max-width: 430px) {
+          margin-left: auto;
+        }
+      }
     }
   }
   button {
@@ -57,7 +63,6 @@
 .sortContainer {
   display: flex;
   align-items: center;
-
   justify-content: flex-end;
   gap: 13px;
   .resetBtn {
@@ -78,10 +83,10 @@
   }
   .sortType {
     border-radius: 12px;
-    border: 2px solid #f3f4f6;
-    background: #fff;
+    // border: 2px solid #f3f4f6;
+    // background: #fff;
     width: 100%;
-    max-width: 110px;
+    max-width: 150px;
     padding: 8px 12px;
     display: flex;
     gap: 4px;

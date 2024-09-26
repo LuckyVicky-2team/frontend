@@ -43,6 +43,8 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
         if (!lastPage || lastPage.length < 10) return undefined;
         return pages.length;
       },
+      refetchOnMount: true,
+      staleTime: 0,
     });
 
   const gatherings = data?.pages.flat() || [];

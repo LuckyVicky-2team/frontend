@@ -111,6 +111,7 @@ export default function DatePicker<F extends FieldValues>({
       )}
       {setSelectedDate && (
         <ReactDatePicker
+          onFocus={e => e.target.blur()}
           id={id}
           locale="ko"
           disabled={isDisabled}

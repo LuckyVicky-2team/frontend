@@ -1,6 +1,6 @@
 .cardContainer {
   width: 90%;
-  padding: 20px 0;
+  padding: 20px 0 30px 0;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -49,9 +49,16 @@
     bottom: 10%;
   }
 }
+
 @media only screen and (max-width: 600px) {
   .addGatheringBtn {
-    right: 16px;
+    right: 20px;
     bottom: 10%;
+  }
+}
+@media screen and (max-height: 770px) {
+  .addGatheringBtn {
+    right: 16px;
+    bottom: 13%;
   }
 }

@@ -1,8 +1,96 @@
-.select {
+.filter {
+  justify-content: space-between;
+  align-items: flex-start;
+  display: flex;
+  gap: 6px;
+  position: relative;
   width: 100%;
-  padding: 2px;
 
-  .option {
-    top: 25px;
+  .select {
+    width: 100%;
+    gap: 8px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    color: #37393d;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 2px solid #f3f4f6;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .label {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 20px;
+      height: 20px;
+    }
+    .right {
+      margin-right: -4px;
+    }
+    .left {
+      margin-left: -4px;
+    }
+  }
+
+  .disabled {
+    cursor: default;
+    opacity: 50%;
+  }
+
+  .options {
+    width: 100%;
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    border: 2px solid #f3f4f6;
+    border-radius: 12px;
+    background-color: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 1000;
+    max-height: 200px; /* selectbox 목록 최대 높이 */
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    &::-webkit-scrollbar-button:vertical:start:increment {
+      display: block;
+      height: 5px;
+    }
+    &::-webkit-scrollbar-button:vertical:end:decrement {
+      display: block;
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #007aff;
+      border-radius: 12px 12px 12px 12px;
+      width: 3px;
+    }
+
+    li {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      color: #37393d;
+      padding: 8px 12px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f3f4f6;
+      }
+    }
+
+    .selected {
+      background-color: #e2e8f0;
+    }
   }
 }

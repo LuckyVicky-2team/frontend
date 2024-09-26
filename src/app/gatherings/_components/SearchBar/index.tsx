@@ -27,20 +27,30 @@ export default function SearchBar({
     <div className={styles.searchBar}>
       <div className={styles.searchDropdown}>
         <SelectBox
+          className={styles.reset}
           clickOptionHandler={e => {
             setValue('search_type', e.target.value);
           }}
           id="searchDropdown"
           optionSet={selectOptionSet}
+          rightLabel={
+            <div
+              style={{
+                position: 'relative',
+                width: '12px',
+                height: '6px',
+                margin: 'auto 0',
+              }}>
+              <Image
+                fill
+                sizes={'100%'}
+                alt="downArrowIcon"
+                src={'/assets/icons/downArrow.svg'}
+              />
+            </div>
+          }
         />
-        <div className={styles.arrowDown}>
-          <Image
-            width={12}
-            height={6}
-            alt="downArrowIcon"
-            src={'/assets/icons/downArrow.svg'}
-          />
-        </div>
+        <div className={styles.arrowDown}></div>
       </div>
       <input
         {...register('search_word', {

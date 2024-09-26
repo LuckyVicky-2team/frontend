@@ -19,7 +19,7 @@ import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import GameDataList from '@/app/gatherings/new/_components/GameDataList';
 import styles from './GatheringForm.module.scss';
-import { convertURLtoFile } from '@/utils/common';
+// import { convertURLtoFile } from '@/utils/common';
 
 interface IGatheringFormProps {
   mode: 'create' | 'edit';
@@ -147,10 +147,10 @@ export default function GatheringForm({
           game => game.boardGameId
         ),
         meetingDatetime: new Date(initData.meetingDatetime),
-        image:
-          initData.thumbnail.split('/')[0] === 'meeting'
-            ? await convertURLtoFile(initData.thumbnail)
-            : '',
+        image: '',
+        // initData.thumbnail.split('/')[0] === 'meeting'
+        //   ? await convertURLtoFile(initData.thumbnail)
+        //   : '',
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
         longitude: initData.longitude.toString(),
@@ -180,7 +180,7 @@ export default function GatheringForm({
       JSON.stringify(initialBoardGameIdList) ===
       JSON.stringify(boardGameIdList);
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
-
+    console.log(':::::info:::::', gatheringInfo, '::::image:::::', image);
     const newRequestData = {
       meetingDatetime: dateToString(meetingDatetime),
       genreIdList: genreIdList,

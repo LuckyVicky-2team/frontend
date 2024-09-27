@@ -76,7 +76,18 @@ export default function NewGather({ meetingList }: NewGatherProps) {
           spaceBetween={20} // 슬라이드 간 간격 설정
           slidesPerView={3} // 한 번에 보일 슬라이드 수
           loop={true} // 루프 여부 설정
-        >
+          draggable={true}
+          breakpoints={{
+            550: {
+              slidesPerView: 4, // 550 이상일 때 슬라이드 4개
+            },
+            480: {
+              slidesPerView: 2, // 480 이상일 때 슬라이드 2개
+            },
+            330: {
+              slidesPerView: 1, // 330 이하일 때 슬라이드 1개
+            },
+          }}>
           {meetingList?.map(e => (
             <SwiperSlide key={e.id} className={styles.genreList}>
               <li>

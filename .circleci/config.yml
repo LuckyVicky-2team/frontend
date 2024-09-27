@@ -1,0 +1,23 @@
+version: 2.1
+orbs:
+  # "cypress-io/cypress@3" installs the latest published
+  # version "s.x.y" of the orb. We recommend you then use
+  # the strict explicit version "cypress-io/cypress@3.x.y"
+  # to lock the version and prevent unexpected CI changes.
+  cypress: cypress-io/cypress@3.3.1
+
+jobs:
+  cypress-run:
+    executor:
+      name: cypress/default
+      node-version: '20.14.0'
+    steps:
+      - cypress/install
+      - cypress/run-tests:
+          cypress-command: 'npx wait-on@latest http://localhost:3000 && npx cypress run'
+          start-command: 'npm run build && npm run start'
+
+workflows:
+  build:
+    jobs:
+      - cypress-run

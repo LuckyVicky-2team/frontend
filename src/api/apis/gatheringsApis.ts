@@ -1,5 +1,8 @@
 import { IGatheringDetailsResponseProps } from '@/types/response/Gathering';
-import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
+import {
+  IGatheringListRequestProps,
+  IKickInfoProps,
+} from '@/types/request/GatheringREQ';
 import { axiosInstance } from '../instance';
 
 export const gatheringAPI = {
@@ -39,5 +42,18 @@ export const gatheringAPI = {
 
   isUserTypeQuit: async (id: number) => {
     return axiosInstance.get(`/meeting-participant/out/${id}`);
+  },
+
+  kickParticipant: async (req: IKickInfoProps) => {
+    const { userId, meetingId, meetingState } = req;
+    const { data } = await axiosInstance.patch(
+      `/meeting-participant/out/${userId}`,
+      {
+        meetingId,
+        meetingState,
+      }
+    );
+
+    return data;
   },
 };

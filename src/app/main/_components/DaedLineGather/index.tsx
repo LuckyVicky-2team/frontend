@@ -92,9 +92,9 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
           />
         </Link>
       </div>
-      <div className={styles.lineTitle}>
+      {/* <div className={styles.lineTitle}>
         <p>추리게임</p>
-      </div>
+      </div> */}
 
       <div className={styles.sliderContainer}>
         <Swiper

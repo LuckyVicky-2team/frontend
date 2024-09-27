@@ -65,9 +65,9 @@ export default function NewGather({ meetingList }: NewGatherProps) {
           />
         </Link>
       </div>
-      <div className={styles.lineTitle}>
+      {/* <div className={styles.lineTitle}>
         <p>모임 목록</p>
-      </div>
+      </div> */}
 
       <div className={styles.sliderContainer}>
         <Swiper

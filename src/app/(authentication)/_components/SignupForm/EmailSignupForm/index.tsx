@@ -18,8 +18,8 @@ import { useToast } from '@/contexts/toastContext';
 import AuthHeader from '../../AuthHeader';
 import AuthTitle from '../../AuthTitle';
 import ConsentForm from '../ConsentForm';
-import styles from './EmailSignupForm.module.scss';
 import Spinner from '@/components/common/Spinner';
+import styles from './EmailSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
   type: string;
@@ -153,6 +153,14 @@ export default function EmailSignupForm() {
     }
   }, [watch('password'), trigger]);
 
+  useEffect(() => {
+    setIsEmailDupOk(false);
+  }, [watch('email')]);
+
+  useEffect(() => {
+    setIsNickNameDupOk(false);
+  }, [watch('nickName')]);
+
   return (
     <FormProvider {...props}>
       <AuthHeader
@@ -182,9 +190,9 @@ export default function EmailSignupForm() {
                       labelName="이메일"
                       type="email"
                       placeholder="이메일을 입력해주세요"
-                      disabled={isEmailDupOk}
                       autoComplete="email"
                       fieldName="email"
+                      isValidated={isEmailDupOk}
                       {...field}
                     />
                   )}
@@ -225,9 +233,9 @@ export default function EmailSignupForm() {
                     <AuthInput
                       labelName="닉네임"
                       placeholder="닉네임을 입력해주세요"
-                      disabled={isNickNameDupOk}
                       autoComplete="nickname"
                       fieldName="nickName"
+                      isValidated={isNickNameDupOk}
                       {...field}
                     />
                   )}

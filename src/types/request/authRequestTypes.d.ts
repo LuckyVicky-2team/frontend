@@ -10,6 +10,10 @@ export type EmailSignupFormType = {
 export type SocialSignupFormType = {
   nickName: string;
   prTags: string[];
+  termsConditions: {
+    termsConditionsType: string;
+    agreement: boolean;
+  }[];
 };
 
 export type SigninFormType = {

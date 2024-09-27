@@ -8,13 +8,25 @@ import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import AuthTagInput from '../../AuthTagInput';
-import { usePostSocialSignupForm } from '@/api/queryHooks/auth';
+import {
+  useGetTermsAgreement,
+  usePostSocialSignupForm,
+} from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
 import { getTokenFromCookie } from '@/actions/AuthActions';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
+import ConsentForm from '../ConsentForm';
+import Spinner from '@/components/common/Spinner';
 import styles from './SocialSignupForm.module.scss';
+
+interface ITermsAgreementResponseType {
+  type: string;
+  title: string;
+  content: string;
+  required: boolean;
+}
 
 export default function SocialSignupForm() {
   const router = useRouter();
@@ -31,6 +43,28 @@ export default function SocialSignupForm() {
     defaultValues: {
       nickName: '',
       prTags: [],
+      termsConditions: [
+        {
+          termsConditionsType: 'TERMS',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PRIVACY',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'LOCATION',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'AGE14',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PUSH',
+          agreement: false,
+        },
+      ],
     } as SocialSignupFormType,
   });
 
@@ -41,7 +75,14 @@ export default function SocialSignupForm() {
     setError,
     control,
     watch,
+    setValue,
   } = props;
+
+  const {
+    data: termsConditionsData,
+    isLoading,
+    isError,
+  } = useGetTermsAgreement('all');
 
   const { mutate: signupMutate, isPending } = usePostSocialSignupForm();
 
@@ -92,6 +133,10 @@ export default function SocialSignupForm() {
     transferToken();
   }, []);
 
+  useEffect(() => {
+    setIsNickNameDupOk(false);
+  }, [watch('nickName')]);
+
   return (
     <FormProvider {...props}>
       <AuthHeader
@@ -128,9 +173,9 @@ export default function SocialSignupForm() {
                     <AuthInput
                       labelName="닉네임"
                       placeholder="닉네임을 입력해주세요"
-                      disabled={isNickNameDupOk}
                       autoComplete="nickname"
                       fieldName="nickName"
+                      isValidated={isNickNameDupOk}
                       {...field}
                     />
                   )}
@@ -147,6 +192,22 @@ export default function SocialSignupForm() {
                   중복확인
                 </Button>
               </div>
+              {isLoading ? (
+                <div className={styles.consentExcept}>
+                  <Spinner />
+                </div>
+              ) : isError ? (
+                <div className={styles.consentExcept}>
+                  약관 내용을 불러올 수 없습니다.
+                </div>
+              ) : (
+                <ConsentForm
+                  conditions={termsConditionsData}
+                  setValue={value => setValue('termsConditions', value)}
+                  value={watch('termsConditions')}
+                />
+              )}
+
               <Button
                 onClick={() => {
                   setStep('second');
@@ -156,7 +217,19 @@ export default function SocialSignupForm() {
                   isPending ||
                   !watch('nickName') ||
                   !isValid ||
-                  !isNickNameDupOk
+                  !isNickNameDupOk ||
+                  !termsConditionsData.every(
+                    (item: ITermsAgreementResponseType) => {
+                      if (item.required) {
+                        return (
+                          watch('termsConditions').find(
+                            term => item.type === term.termsConditionsType
+                          )?.agreement === true
+                        );
+                      }
+                      return true;
+                    }
+                  )
                 }>
                 확인
               </Button>

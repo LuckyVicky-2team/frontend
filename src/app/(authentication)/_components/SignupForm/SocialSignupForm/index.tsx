@@ -126,7 +126,7 @@ export default function SocialSignupForm() {
       const token = await getTokenFromCookie();
 
       if (token) {
-        setToken(`Bearer ${token}`);
+        setToken(token);
       }
     };
 

@@ -71,25 +71,29 @@ export default function NewGather({ meetingList }: NewGatherProps) {
 
       <div className={styles.sliderContainer}>
         <Swiper
+          className={styles.genreList}
           modules={[Navigation]}
-          navigation // 내비게이션 버튼 사용
+          // navigation // 내비게이션 버튼 사용
+          navigation={{
+            nextEl: `.${styles.swiperButtonNext}`,
+            prevEl: `.${styles.swiperButtonPrev}`,
+          }}
           spaceBetween={20} // 슬라이드 간 간격 설정
-          slidesPerView={3} // 한 번에 보일 슬라이드 수
-          loop={true} // 루프 여부 설정
+          loop={false} // 루프 여부 설정
           draggable={true}
           breakpoints={{
-            550: {
-              slidesPerView: 4, // 550 이상일 때 슬라이드 4개
+            500: {
+              slidesPerView: 3,
             },
-            480: {
-              slidesPerView: 2, // 480 이상일 때 슬라이드 2개
+            400: {
+              slidesPerView: 2,
             },
             330: {
-              slidesPerView: 1, // 330 이하일 때 슬라이드 1개
+              slidesPerView: 1,
             },
           }}>
           {meetingList?.map(e => (
-            <SwiperSlide key={e.id} className={styles.genreList}>
+            <SwiperSlide key={e.id}>
               <li>
                 <Link href={`/gatherings/${e?.id}`}>
                   <span className={styles.img}>
@@ -128,6 +132,22 @@ export default function NewGather({ meetingList }: NewGatherProps) {
               </li>
             </SwiperSlide>
           ))}
+          <div className={`swiper-button-prev ${styles.swiperButtonPrev}`}>
+            <Image
+              src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
+              width={16}
+              height={16}
+              alt="이전"
+            />
+          </div>
+          <div className={`swiper-button-next ${styles.swiperButtonNext}`}>
+            <Image
+              src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
+              width={16}
+              height={16}
+              alt="다음"
+            />
+          </div>
         </Swiper>
       </div>
     </div>

@@ -54,12 +54,12 @@ export default function GameRank() {
             else if (i === 2) crownSrc = '/assets/icons/bronzeCrown.svg';
 
             return (
-              <div className={styles.rankItem} key={e.gameId}>
+              <div className={styles.rankItem} key={`${e.gameId}-${i}`}>
                 <b>{i + 1}</b>
                 <div className={styles.img}>
                   <Image
                     style={{ width: '100%', height: '100%' }}
-                    objectFit="cover"
+                    // objectFit="cover"
                     width={125}
                     height={125}
                     src={`https://${cloud}/${e.thumbnail}`}

@@ -15,6 +15,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'BoardGo!',
   description: 'LuckyVicky Team project BoardGo!',
+  other: {
+    'Content-Security-Policy': 'upgrade-insecure-requests',
+  },
 };
 
 export default function RootLayout({

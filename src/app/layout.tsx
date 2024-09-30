@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import Head from 'next/head';
 import Script from 'next/script';
 import { Inter } from 'next/font/google';
 import ReactQueryProvider from '@/components/ReactQueryProvider';
@@ -24,9 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <head>
+      <Head>
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-      </head>
+      </Head>
       <body className={inter.className}>
         <Script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"

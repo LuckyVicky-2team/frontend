@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+      </head>
       <body className={inter.className}>
         <Script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"

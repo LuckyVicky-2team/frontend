@@ -70,7 +70,7 @@ export default function Members({
   };
 
   const handleGoToOtherProfile = (id: number) => {
-    router.push(
+    router.replace(
       `/other-profile/${id}?id=${meetingId}&open=${isFull ? 'full' : 'half'}`
     );
   };

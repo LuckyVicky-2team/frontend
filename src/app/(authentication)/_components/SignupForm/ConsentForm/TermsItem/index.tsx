@@ -1,10 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ConsentFormType } from '@/types/request/authRequestTypes';
 import CheckButton from '../CheckButton';
 import Modal from '@/components/common/Modal';
 import useModal from '@/hooks/useModal';
+import { useToast } from '@/contexts/toastContext';
+import getFormattedDate from '@/utils/getFormattedDate';
 import styles from './TermsItem.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -26,6 +29,35 @@ export default function TermsItem({
   condition,
 }: ITermsItemProps) {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
+  const { addToast } = useToast();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (!isFirstRender && condition.type === 'PUSH') {
+      addToast(
+        value.some(item => {
+          if (item.termsConditionsType === 'PUSH') {
+            return item.agreement;
+          }
+        })
+          ? `${getFormattedDate()} 에 푸시 알림 수신 동의했습니다. (전송자: 보드고)`
+          : `${getFormattedDate()} 에 푸시 알림 수신 동의를 철회했습니다. (전송자: 보드고)`,
+        'success'
+      );
+    }
+  }, [
+    value.some(item => {
+      if (item.termsConditionsType === condition.type) {
+        return item.agreement;
+      }
+    }),
+  ]);
 
   return (
     <div className={styles.terms} key={condition.type}>

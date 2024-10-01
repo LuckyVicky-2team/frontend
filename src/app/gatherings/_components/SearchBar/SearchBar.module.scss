@@ -7,9 +7,13 @@
   justify-content: space-between;
   padding: 18px;
   border-bottom: 1px solid #007aff;
-
+  @media (max-width: 430px) {
+    padding: 12px 10px;
+    height: 46px;
+  }
   .searchDropdown {
-    min-width: fit-content;
+    min-width: 120px;
+    max-width: fit-content;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -18,12 +22,22 @@
     align-items: center;
     gap: 10px;
     color: #9ca3af;
-    select {
-      z-index: 1;
-      width: 90px;
-    }
+
     .arrowDown {
       margin-left: -30px;
+    }
+    .reset {
+      div {
+        padding: 2px 4px 2px 2px;
+        border: transparent !important;
+      }
+    }
+    @media (max-width: 430px) {
+      min-width: 100px;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
     }
   }
   input {
@@ -38,6 +52,10 @@
 
     &::placeholder {
       color: #9ca3af;
+    }
+    @media (max-width: 430px) {
+      font-size: 18px;
+      padding: 0 6px 0 3px;
     }
   }
   button {

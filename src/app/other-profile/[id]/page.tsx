@@ -1,7 +1,4 @@
-import {
-  getOtherEvaluationTags,
-  getOtherProfile,
-} from '@/api/apis/otherProfileApis';
+import { getOtherProfile } from '@/api/apis/otherProfileApis';
 import { QueryKey } from '@/utils/QueryKey';
 import {
   dehydrate,
@@ -17,16 +14,10 @@ import styles from './OtherProfilePage.module.scss';
 const prefetchUserData = async (id: number) => {
   const queryClient = new QueryClient();
 
-  await Promise.all([
-    queryClient.prefetchQuery({
-      queryKey: QueryKey.OTHER_USER.INFO(id),
-      queryFn: () => getOtherProfile(id, true),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: QueryKey.OTHER_USER.EVALUATION_TAGS(id),
-      queryFn: () => getOtherEvaluationTags(id),
-    }),
-  ]);
+  await queryClient.prefetchQuery({
+    queryKey: QueryKey.OTHER_USER.INFO(id),
+    queryFn: () => getOtherProfile(id, true),
+  });
 
   return dehydrate(queryClient);
 };
@@ -47,7 +38,7 @@ export default async function OtherProfilePage({
     <main className={styles.container}>
       <div className={styles.backButton}>
         {gatheringId && open ? (
-          <Link href={`/gatherings/${gatheringId}?open=${open}`}>
+          <Link href={`/gatherings/${gatheringId}?open=${open}`} replace>
             <Image
               src="/assets/icons/backArrow.svg"
               alt="돌아가기"

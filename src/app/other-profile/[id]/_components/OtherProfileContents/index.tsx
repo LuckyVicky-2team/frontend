@@ -49,7 +49,10 @@ export default function OtherProfileContents({ userId }: { userId: number }) {
           rating={data.averageRating}
           className={styles.heartRating}
         />
-        <OtherEvaluationTags userId={+userId} />
+        <OtherEvaluationTags
+          positiveTags={data.positiveTags}
+          negativeTags={data.negativeTags}
+        />
         {!!data.prTags?.length && (
           <div className={styles.prTags}>
             <div className={styles.prTag}>PR태그</div>

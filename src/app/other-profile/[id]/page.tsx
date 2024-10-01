@@ -38,7 +38,7 @@ export default async function OtherProfilePage({
     <main className={styles.container}>
       <div className={styles.backButton}>
         {gatheringId && open ? (
-          <Link href={`/gatherings/${gatheringId}?open=${open}`}>
+          <Link href={`/gatherings/${gatheringId}?open=${open}`} replace>
             <Image
               src="/assets/icons/backArrow.svg"
               alt="돌아가기"

@@ -100,11 +100,12 @@ import styles from './ThreadDetailPage.module.scss';
 //   return gatheringInfo;
 // };
 
-export default function ThreadDetailPage({
-  _params,
-}: {
-  _params: { gatheringId: string };
-}) {
+export default function ThreadDetailPage() {
+  // {
+  //   params,
+  // }: {
+  //   params: { gatheringId: string };
+  // }
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [messages, setMessages] = useState<string[]>([]);
   const [inputMessage, setInputMessage] = useState('');

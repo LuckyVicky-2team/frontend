@@ -1,5 +1,5 @@
 'use client';
-
+//상황별 추천 전체
 import { getRecommendInfo } from '@/api/apis/mypageApis';
 import { useEffect, useState, ChangeEvent } from 'react';
 import styles from './recommendAll.module.scss';
@@ -19,7 +19,7 @@ interface IRecommendInfo {
   maxPeople: number;
 }
 
-export default function Recommend() {
+export default function RecommendAll() {
   const [recommendInfo, setRecommendInfo] = useState<IRecommendInfo[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;

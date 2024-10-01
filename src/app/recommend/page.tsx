@@ -1,5 +1,5 @@
 'use client';
-
+//상황별 추천 2인
 import { getRecommendInfo } from '@/api/apis/mypageApis';
 import { useEffect, useState, ChangeEvent } from 'react';
 import styles from './recommend.module.scss';

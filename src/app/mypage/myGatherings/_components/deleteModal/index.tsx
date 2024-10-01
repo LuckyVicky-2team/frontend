@@ -12,7 +12,7 @@ interface IOutModalProps {
   handleModalClose: () => void; // props 인터페이스 정의
 }
 
-export default function OutModal({
+export default function DeleteModal({
   handleModalClose,
   meetingId,
   meetingTitle,

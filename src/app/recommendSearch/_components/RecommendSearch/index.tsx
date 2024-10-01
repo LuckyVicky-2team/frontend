@@ -1,7 +1,7 @@
 // src/components/RecommendSearchClient.tsx
 
 'use client';
-
+//상황별 추천 검색
 import { getRecommendInfo } from '@/api/apis/mypageApis';
 import { useEffect, useState, ChangeEvent } from 'react';
 import styles from '../../recommendSearch.module.scss';

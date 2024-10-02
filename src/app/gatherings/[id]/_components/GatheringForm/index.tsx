@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
-import { axiosInstance } from '@/api/instance';
 import { IGatheringDetailsResponseProps } from '@/types/response/Gathering';
 import { useDeleteGathering } from '@/api/queryHooks/gathering';
 import { useToast } from '@/contexts/toastContext';
@@ -19,7 +18,10 @@ import FileInput from '@/components/common/FileInput';
 import TextEditor from '@/components/common/TextEditor';
 import GameDataList from '@/app/gatherings/new/_components/GameDataList';
 import styles from './GatheringForm.module.scss';
-// import { convertURLtoFile } from '@/utils/common';
+import {
+  useCreateGathering,
+  useUpdateGathering,
+} from '@/api/queryHooks/gathering';
 
 interface IGatheringFormProps {
   mode: 'create' | 'edit';
@@ -39,6 +41,8 @@ export default function GatheringForm({
   const editMode = mode === 'edit';
   const { addToast } = useToast();
   const router = useRouter();
+  const createGathering = useCreateGathering();
+  const updateGathering = useUpdateGathering(initialData?.meetingId);
 
   const methods = useForm<INewGatheringFormValuesRequest>({
     mode: 'all',
@@ -146,11 +150,8 @@ export default function GatheringForm({
         boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
+        image: null,
         meetingDatetime: new Date(initData.meetingDatetime),
-        image: '',
-        // initData.thumbnail.split('/')[0] === 'meeting'
-        //   ? await convertURLtoFile(initData.thumbnail)
-        //   : '',
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
         longitude: initData.longitude.toString(),
@@ -180,7 +181,7 @@ export default function GatheringForm({
       JSON.stringify(initialBoardGameIdList) ===
       JSON.stringify(boardGameIdList);
     void contentWithoutHtml; //contentWithoutHtml 변수를 사용하지 않고 무시
-    console.log(':::::info:::::', gatheringInfo, '::::image:::::', image);
+
     const newRequestData = {
       meetingDatetime: dateToString(meetingDatetime),
       genreIdList: genreIdList,
@@ -196,8 +197,9 @@ export default function GatheringForm({
 
     const formData = new FormData();
 
-    if (!editMode || (editMode && image !== undefined)) {
-      formData.append('image', image);
+    if (!editMode || (editMode && image !== null)) {
+      formData.append('image', image === null ? '' : image);
+      // formData.append('image', image);
     }
 
     formData.append(
@@ -207,31 +209,26 @@ export default function GatheringForm({
       })
     );
 
-    try {
-      if (mode === 'create') {
-        const response = await axiosInstance.post('/meeting', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        const path = response.headers.location.split('/');
-        router.replace(`/gatherings/new/success/${path[2]}`);
-      } else {
-        const response = await axiosInstance.patch('/meeting', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-        router.replace(`/gatherings/${initialData.meetingId}`);
-
-        if (response.status === 200)
+    if (mode === 'create') {
+      createGathering.mutate(formData, {
+        onSuccess: async res => {
+          const path = res.headers.location.split('/');
+          router.replace(`/gatherings/new/success/${path[2]}`);
+        },
+        onError: () => {
+          addToast(`모임 생성에 실패했어요.`, 'error');
+        },
+      });
+    } else {
+      updateGathering.mutate(formData, {
+        onSuccess: async () => {
           addToast(`모임이 성공적으로 수정되었습니다.`, 'success');
-      }
-    } catch (error) {
-      addToast(
-        `모임 ${mode === 'create' ? '생성' : '수정'}에 실패했어요.`,
-        'error'
-      );
+          router.replace(`/gatherings/${initialData.meetingId}`);
+        },
+        onError: () => {
+          addToast(`모임 수정에 실패했어요.`, 'error');
+        },
+      });
     }
   };
   const handleGatheringDelete = () => {

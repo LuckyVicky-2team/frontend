@@ -59,4 +59,16 @@ export const gatheringAPI = {
   deleteGathering: async (gatheringId: number) => {
     return axiosInstance.delete(`/meeting/${gatheringId}`);
   },
+  createGathering: async (formData: FormData) => {
+    const response = await axiosInstance.post('/meeting', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response;
+  },
+  updateGathering: async (formData: FormData) => {
+    const { data } = await axiosInstance.patch('/meeting', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return data;
+  },
 };

@@ -32,11 +32,3 @@ export const dateToISOString = (date: Date | null) => {
 
   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}`;
 };
-export const convertURLtoFile = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.blob();
-  const filename = url.split('/').pop() || 'unknown';
-  const mimeType = data.type || 'application/octet-stream';
-  const metadata = { type: mimeType };
-  return new File([data], filename, metadata);
-};

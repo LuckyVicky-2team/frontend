@@ -88,3 +88,23 @@ export const useDeleteGathering = (gatheringId: number) => {
     },
   });
 };
+export const useCreateGathering = () => {
+  return useMutation({
+    // mutationFn: gatheringAPI.createGathering,
+    mutationFn: async (formData: FormData) => {
+      return await gatheringAPI.createGathering(formData);
+    },
+  });
+};
+
+export const useUpdateGathering = (gatheringId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: gatheringAPI.updateGathering,
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+      });
+    },
+  });
+};

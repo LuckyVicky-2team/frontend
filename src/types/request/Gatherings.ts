@@ -1,5 +1,5 @@
 export interface INewGatheringFormValuesRequest {
-  image: File | '' | null;
+  image: File | '';
   title: string;
   tags: string;
   content: string;

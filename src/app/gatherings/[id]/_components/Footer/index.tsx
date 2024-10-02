@@ -27,6 +27,7 @@ interface IGatheringFooterProps {
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   refetch: () => void;
+  meetingDatetime?: string;
 }
 
 export default function GatheringFooter({
@@ -41,12 +42,14 @@ export default function GatheringFooter({
   isInitialSaved,
   state,
   refetch,
+  meetingDatetime,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
-
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
   const { mutate: completeMutate } = usePatchCompleteGathering();
+  const progressGathering =
+    meetingDatetime && new Date(meetingDatetime) > new Date();
 
   const {
     modalOpen: successModalOpen,
@@ -180,29 +183,33 @@ export default function GatheringFooter({
             type !== 'PARTICIPANT' &&
             '종료된 모집입니다. '}
         </button>
-        {
-          type !== 'LEADER' && (
-            <button className={styles.editButton} type="button">
-              <SaveGatheringButton
-                id={id}
-                type="red"
-                className={`${styles.zzimButton}`}
-                rectangle
-                isInitialSaved={isInitialSaved}
-              />
-            </button>
-          )
-          // ) : (
-          //   <button className={styles.editButton} type="button">
-          //     <Image
-          //       src={'/assets/icons/pen.svg'}
-          //       alt="수정 이미지"
-          //       width={36}
-          //       height={36}
-          //     />
-          //   </button>
-          // )}
-        }
+
+        {type === 'LEADER' && progressGathering && (
+          <button
+            className={styles.editButton}
+            type="button"
+            onClick={() => {
+              router.push(`${id}/edit`);
+            }}>
+            <Image
+              src={'/assets/icons/pen.svg'}
+              alt="수정 이미지"
+              width={36}
+              height={36}
+            />
+          </button>
+        )}
+        {type !== 'LEADER' && (
+          <button className={styles.editButton} type="button">
+            <SaveGatheringButton
+              id={id}
+              type="red"
+              className={`${styles.zzimButton}`}
+              rectangle
+              isInitialSaved={isInitialSaved}
+            />
+          </button>
+        )}
       </div>
       <Modal
         modalOpen={successModalOpen}

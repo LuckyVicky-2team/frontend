@@ -59,8 +59,6 @@ export default function Finish() {
     fetchGatherings();
   }, []);
 
-  console.log(gatherings);
-
   if (loading) return <p>로딩 중...</p>;
   if (error) return <p>{error}</p>;
 

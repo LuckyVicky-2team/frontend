@@ -379,6 +379,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         id={id}
         title={data.title}
         type={myType}
+        meetingDatetime={data.meetingDatetime}
         // FREE or ACCEPT
         // gatheringType={data.type}
         participantCount={data.totalParticipantCount}

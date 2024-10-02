@@ -74,3 +74,37 @@ export const useKickParticipant = (meetingId: number) => {
     },
   });
 };
+
+export const useDeleteGathering = (gatheringId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (gatheringId: number) => {
+      return await gatheringAPI.deleteGathering(gatheringId);
+    },
+    onSettled: () => {
+      queryClient.removeQueries({
+        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+      });
+    },
+  });
+};
+export const useCreateGathering = () => {
+  return useMutation({
+    // mutationFn: gatheringAPI.createGathering,
+    mutationFn: async (formData: FormData) => {
+      return await gatheringAPI.createGathering(formData);
+    },
+  });
+};
+
+export const useUpdateGathering = (gatheringId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: gatheringAPI.updateGathering,
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+      });
+    },
+  });
+};

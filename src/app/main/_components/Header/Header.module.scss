@@ -22,6 +22,12 @@
     font-size: 30px;
     color: #007aff;
     font-weight: 800;
+    a {
+      color: #007aff;
+      &:visited {
+        color: inherit;
+      }
+    }
   }
 }
 

@@ -49,3 +49,75 @@
   margin-top: 10px;
   font-weight: bold;
 }
+
+.mobilePlace {
+  font-size: 12px;
+  color: #999;
+  display: none;
+}
+
+@media (max-width: 430px) {
+  .prWrap {
+    padding: 0 24px;
+    box-sizing: border-box;
+    padding-top: 80px;
+    h1 {
+      display: block;
+      margin-top: 30px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: normal;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 25px 0;
+      li {
+        display: block;
+        button {
+          display: block;
+          padding: 3px 10px;
+          box-sizing: border-box;
+          border: 1px solid #007aff;
+          border-radius: 20px;
+          color: #007aff;
+          .tagName {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    input {
+      width: 100%;
+      padding: 15px;
+      box-sizing: border-box;
+      background: #f5f6f7;
+      border-radius: 10px;
+      font-size: 12px;
+      outline: none;
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+  }
+  .error {
+    color: red;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 12px;
+  }
+  .mobilePlace {
+    font-size: 12px;
+    color: #999;
+    display: block;
+    margin-bottom: 5px;
+    line-height: 140%;
+  }
+}

@@ -4,6 +4,24 @@ import { axiosInstance } from '../instance';
 export const getPersonalInfo = () => {
   return axiosInstance.get('/personal-info');
 };
+// 내모임에서 개인 정보 조회를 위한 API 요청
+export const getPersonalInfoMyGatherings = () => {
+  return axiosInstance.get('/me');
+};
+
+// 모임 나가기를 위한 API 요청
+export const outMeeting = (id: string) => {
+  return axiosInstance.patch('/meeting-participant/out', {
+    meetingId: id,
+    meetingState: 'PROGRESS',
+  });
+};
+
+// 모임 삭제를 위한 API 요청
+export const deleteMeeting = (id: string) => {
+  return axiosInstance.delete(`/meeting/${id}`);
+};
+
 // 상황별 추천 조회를 위한 API 요청
 export const getRecommendInfo = (type: string) => {
   return axiosInstance.get(`/home/situation?situationType=${type}`);
@@ -34,6 +52,13 @@ export const getMeetingList = () => {
 //나의 찜한모임 목록 조회 함수
 export const getLikeList = () => {
   return axiosInstance.get(`/my/meeting/like`);
+};
+//약관동의 설정 페이지 함수
+export const postAgree = (termsConditionsType: string, agreement: boolean) => {
+  return axiosInstance.post(`/terms-conditions/user`, {
+    termsConditionsType: termsConditionsType,
+    agreement: agreement,
+  });
 };
 
 // 게임 랭크 조회 함수

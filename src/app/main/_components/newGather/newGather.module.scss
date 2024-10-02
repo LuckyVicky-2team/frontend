@@ -35,6 +35,7 @@
     top: 50%;
     transform: translateY(-50%);
     right: 0;
+    color: #333;
     img {
       width: 24px;
       height: 24px;
@@ -71,16 +72,17 @@
     transform: translate(-50%, -50%);
   }
 }
-
+.sliderContainer {
+  position: relative;
+}
 .genreList {
   display: flex;
   align-items: center;
   justify-content: normal;
-  margin-top: 50px;
+  margin-top: 15px;
   width: 100%;
   white-space: nowrap;
   overflow-x: auto;
-  position: relative;
 
   /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
   ::-webkit-scrollbar {
@@ -93,49 +95,9 @@
   /* Internet Explorer 10 이상에서 스크롤바 숨기기 */
   -ms-overflow-style: none; /* IE 10+ */
 
-  .prevBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.5);
-    width: 45px;
-    height: 45px;
-    border-radius: 100%;
-    position: absolute;
-    top: 38%;
-    left: 1%;
-    transform: translateY(-50%);
-    z-index: 5;
-
-    img {
-      display: block;
-    }
-  }
-
-  .nextBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.5);
-    width: 45px;
-    height: 45px;
-    border-radius: 100%;
-    position: absolute;
-    top: 38%;
-    right: 1%;
-    transform: translateY(-50%);
-    z-index: 5;
-
-    img {
-      transform: rotate(180deg);
-    }
-  }
-
   li {
     display: block;
-    width: 32%;
-    margin-right: 3%;
-    min-width: 180px;
+    min-width: 175px;
 
     a {
       display: block;
@@ -250,8 +212,51 @@
   }
 }
 
+.swiperButtonPrev {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &::after {
+    display: none;
+    width: 24px;
+  }
+}
+.swiperButtonNext {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  &::after {
+    display: none;
+  }
+  img {
+    transform: rotate(180deg);
+    width: 24px;
+  }
+}
+
+.swiperButtonPrev {
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+.swiperButtonNext {
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+}
+
 /* 430px 이하 화면에 대한 반응형 스타일 추가 */
 @media (max-width: 430px) {
+  .swiperButtonPrev,
+  .swiperButtonNext {
+    display: none;
+  }
   .newTitle {
     // flex-direction: column;
     // align-items: flex-start;

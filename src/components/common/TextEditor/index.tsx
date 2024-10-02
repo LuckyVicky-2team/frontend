@@ -21,6 +21,7 @@ interface ITextEditorProps {
   register?: UseFormRegister<INewGatheringFormValuesRequest>;
   name?: 'content'; //필요시 다른 이름 추가 가능
   id?: string;
+  editorContent?: string;
 }
 
 /**
@@ -34,6 +35,7 @@ export default function TextEditor({
   onChange,
   register,
   name,
+  editorContent,
   id,
 }: ITextEditorProps) {
   // react-quill에 정의된 onChange함수:
@@ -42,6 +44,7 @@ export default function TextEditor({
   //   onChange?(value: string, delta: DeltaStatic, source: Sources, editor: UnprivilegedEditor): void;
   //   ...
   // }
+
   const handleTextChange = (
     value: string,
     delta: any,
@@ -72,6 +75,7 @@ export default function TextEditor({
       id={id}
       style={{ width: '100%' }}
       modules={modules}
+      defaultValue={editorContent || ''}
       onChange={handleTextChange}
       theme="snow"
     />

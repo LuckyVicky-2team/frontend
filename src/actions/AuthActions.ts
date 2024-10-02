@@ -1,37 +1,35 @@
 'use server';
 
+import { postReissueAccessToken } from '@/api/apis/authApis';
 import { cookies } from 'next/headers';
 
+/**
+ * 쿠키의 리프레쉬 토큰을 통해 AccessToken 을 재발급하여 반환.
+ * @returns string | undefind
+ */
 export const getTokenFromCookie = async () => {
-  let tokenCookie = cookies().get('Authorization');
+  const refreshToken = cookies().get('Authorization');
 
-  if (!tokenCookie) return;
+  if (!refreshToken) return;
 
-  // 쿠키 삭제
-  // cookies().set({
-  //   name: 'Authorization',
-  //   value: '',
-  //   httpOnly: true,
-  //   secure: true,
-  //   path: '/',
-  //   expires: new Date(0),
-  // });
+  let accessToken;
 
-  // api 이용
-  // try {
-  //   const response = await axiosInstance.get(
-  //     `${process.env.NEXT_PUBLIC_API_BASE_URL}/token`,
-  //     {
-  //       headers: {
-  //         Cookie: `Authorization=${tokenCookie.value}`,
-  //       },
-  //     }
-  //   );
-  //   const token = response.headers['authorization'];
-  //   return token;
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  try {
+    const response = await postReissueAccessToken(refreshToken.value);
+    accessToken = response.headers['authorization'];
+  } catch (error) {
+    return;
+  }
 
-  return tokenCookie.value;
+  return accessToken;
+};
+
+/**
+ * 리프레시 토큰의 존재여부를 boolean 으로 반환.
+ * @returns boolean
+ */
+export const checkRefreshToken = async () => {
+  const refreshToken = await cookies().get('Authorization');
+
+  return !!refreshToken;
 };

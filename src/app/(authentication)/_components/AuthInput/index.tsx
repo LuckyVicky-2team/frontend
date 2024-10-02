@@ -10,10 +10,19 @@ interface IAuthInputProps extends InputHTMLAttributes<HTMLInputElement> {
   labelName: string;
   fieldName: string;
   hasEye?: boolean;
+  isValidated?: boolean;
 }
 
 export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
-  { className, type, labelName, disabled, fieldName, hasEye = false, ...props },
+  {
+    className,
+    type,
+    labelName,
+    fieldName,
+    hasEye = false,
+    isValidated = false,
+    ...props
+  },
   ref
 ) {
   const {
@@ -33,7 +42,6 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
           ref={ref}
           id={labelName}
           isError={!!errors[fieldName]}
-          disabled={disabled}
           className={hasEye ? styles.passwordInput : ''}
           {...props}
         />
@@ -60,7 +68,7 @@ export default forwardRef<HTMLInputElement, IAuthInputProps>(function AuthInput(
           {String(errors[fieldName]?.message)}
         </span>
       )}
-      {disabled && (
+      {isValidated && (
         <span className={styles.successMessage}>중복확인이 완료되었습니다</span>
       )}
     </div>

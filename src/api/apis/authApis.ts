@@ -1,5 +1,6 @@
 import { axiosInstance } from '../instance';
 import {
+  ConsentFormType,
   EmailSignupFormType,
   SocialSignupFormType,
 } from '@/types/request/authRequestTypes';
@@ -35,8 +36,28 @@ export const postSocialSignupForm = (
   });
 };
 
-export const getSocialToken = () => {
-  return axiosInstance.get(`/token`, {
-    withCredentials: true,
-  });
+export const postReissueAccessToken = (refreshToken: string) => {
+  return axiosInstance.post(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
+    {},
+    {
+      headers: {
+        Cookie: `Authorization=${refreshToken}`,
+      },
+    }
+  );
+};
+
+export const getTermsAgreement = async (required: boolean | 'all') => {
+  const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';
+
+  const { data } = await axiosInstance.get(
+    `/terms-conditions?required=${query}`
+  );
+
+  return data;
+};
+
+export const postTermsAgreement = (data: ConsentFormType) => {
+  return axiosInstance.post('/terms-conditions/user', data);
 };

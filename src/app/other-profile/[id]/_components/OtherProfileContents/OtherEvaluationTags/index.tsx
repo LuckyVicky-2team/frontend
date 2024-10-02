@@ -1,42 +1,40 @@
-'use client';
-
-import { useGetOtherEvaluationTags } from '@/api/queryHooks/otherProfile';
+import { IEvalueationTag } from '@/types/response/OtherProfileRES';
 import EvaluationTag from './EvaluationgTag';
 import styles from './OtherEvaluationTags.module.scss';
 
-export default function OtherEvaluationTags({ userId }: { userId: number }) {
-  const { data } = useGetOtherEvaluationTags(userId);
+interface IOtherEvaluationTagsProps {
+  positiveTags: IEvalueationTag[];
+  negativeTags: IEvalueationTag[];
+}
 
-  if (!data || 'errorCode' in data) {
-    return;
-  }
-
-  return (
+export default function OtherEvaluationTags({
+  positiveTags,
+  negativeTags,
+}: IOtherEvaluationTagsProps) {
+  return positiveTags.length || negativeTags.length ? (
     <div className={styles.container}>
-      <div className={styles.positive}>
-        {data.positiveTags.map(tag => {
-          return (
-            <EvaluationTag
-              key={tag.evaluationTagId}
-              text={tag.tagPhrase}
-              count={tag.count}
-              type={tag.evaluationType}
-            />
-          );
-        })}
-      </div>
-      <div className={styles.negative}>
-        {data.negativeTags.map(tag => {
-          return (
-            <EvaluationTag
-              key={tag.evaluationTagId}
-              text={tag.tagPhrase}
-              count={tag.count}
-              type={tag.evaluationType}
-            />
-          );
-        })}
-      </div>
+      {positiveTags?.map((tag, index) => {
+        return (
+          <EvaluationTag
+            key={index}
+            text={tag.tagPhrase}
+            count={tag.count}
+            type="POSITIVE"
+          />
+        );
+      })}
+      {negativeTags?.map((tag, index) => {
+        return (
+          <EvaluationTag
+            key={index}
+            text={tag.tagPhrase}
+            count={tag.count}
+            type="NEGATIVE"
+          />
+        );
+      })}
     </div>
+  ) : (
+    <div className={styles.except}>아직 다른사람의 후기가 없습니다.</div>
   );
 }

@@ -105,3 +105,82 @@
   margin: 0 0 0 4px;
   min-width: 60px;
 }
+
+.modalBackground {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--lukyviky-Blue-Darker, #002b59);
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: 1.04px;
+  height: 226px;
+  gap: 6px;
+
+  @media only screen and (max-width: 520px) {
+    font-size: 16px;
+  }
+
+  .description {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 13px 0 0;
+    width: min(100%, 388px);
+    padding: 9px 23px;
+    border-radius: 10px;
+    color: var(--lukyviky-Blue-Darker, #002b59);
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: 1.04px;
+    @media only screen and (max-width: 520px) {
+      font-size: 14px;
+    }
+    .userName {
+      color: var(--lukyviky-Blue-Normal, #007aff);
+      font-style: normal;
+      font-weight: 700;
+    }
+  }
+}
+
+.modalButtons {
+  display: flex;
+  width: 100%;
+  height: 113px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px; /* 75% */
+  letter-spacing: 0.96px;
+  text-align: center;
+  @media only screen and (max-width: 520px) {
+    font-size: 16px;
+  }
+  .modalFirstButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lukyviky-Blue-Normal, #007aff);
+    width: 50%;
+    border: 1px solid var(--lukyviky-Blue-Normal, #007aff);
+    border-left: none;
+    border-bottom: none;
+  }
+
+  .modalSecondButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--lukyviky-Blue-Light, #e6f2ff);
+    background: var(--lukyviky-Blue-Normal, #007aff);
+    width: 50%;
+  }
+}

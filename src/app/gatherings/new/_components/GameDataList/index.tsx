@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import styles from './GameDataList.module.scss';
@@ -57,6 +58,7 @@ export default function GameDataList({
   const [currentPage, setCurrentPage] = useState(1);
   const [gameData, setGameData] = useState<IGame[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const isDebounceActiveRef = useRef(true);
 
   // const gameDataMock = Array.from({ length: 5 }, (_, i) => i + 1).map(i => {
   //   return {
@@ -70,8 +72,10 @@ export default function GameDataList({
   // 디바운스된 검색 함수
   const debouncedSearch = useCallback(
     debounce((value: string) => {
-      setDebouncedGameTitle(value);
-      setCurrentPage(1);
+      if (isDebounceActiveRef.current) {
+        setDebouncedGameTitle(value);
+        setCurrentPage(1);
+      }
     }, 300),
     []
   );
@@ -108,6 +112,7 @@ export default function GameDataList({
   }, [debouncedGameTitle, currentPage]);
 
   const handlePageChange = (page: number) => {
+    isDebounceActiveRef.current = false;
     setCurrentPage(page);
   };
 
@@ -148,6 +153,7 @@ export default function GameDataList({
               onChange={e => {
                 const isEmpty = e.target.value === '';
                 setGameTitle(e.target.value);
+                isDebounceActiveRef.current = true;
                 debouncedSearch(e.target.value);
                 setShowGameData(!isEmpty);
               }}

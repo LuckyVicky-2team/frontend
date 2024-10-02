@@ -150,7 +150,7 @@ export default function GatheringForm({
         boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
-        image: null,
+        image: '',
         meetingDatetime: new Date(initData.meetingDatetime),
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
@@ -197,9 +197,9 @@ export default function GatheringForm({
 
     const formData = new FormData();
 
-    if (!editMode || (editMode && image !== null)) {
-      formData.append('image', image === null ? '' : image);
-      // formData.append('image', image);
+    //@haewon 로직 수정필요
+    if (!editMode || (editMode && image !== '')) {
+      formData.append('image', image);
     }
 
     formData.append(

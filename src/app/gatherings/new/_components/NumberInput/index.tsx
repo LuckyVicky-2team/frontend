@@ -13,11 +13,12 @@ export default function NumberInput({
   setValue,
   minParticipants = 1,
 }: INumberInputProps) {
-  const arrangedMinNum = minParticipants ? minParticipants + 1 : 2;
+  const arrangedMinNum =
+    minParticipants && minParticipants > 2 ? minParticipants : 2;
   const [count, setCount] = useState(arrangedMinNum);
 
   const handleDecrement = () => {
-    if (minParticipants && count > minParticipants + 1) {
+    if (count > arrangedMinNum) {
       setCount((prev: number) => prev - 1);
       setValue('limitParticipant', count - 1);
     } else if (!minParticipants && count > 2) {
@@ -32,9 +33,10 @@ export default function NumberInput({
     }
   };
 
-  const isMinParticipants = minParticipants
-    ? count === minParticipants + 1
-    : count === 2;
+  const isMinParticipants =
+    minParticipants && minParticipants > 2
+      ? count === minParticipants
+      : count === 2;
 
   return (
     <div className={styles.input}>

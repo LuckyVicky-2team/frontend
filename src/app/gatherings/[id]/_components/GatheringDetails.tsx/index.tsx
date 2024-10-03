@@ -36,7 +36,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const { data: isUserTypeQuitData } = useGetIsUserTypeQuit(
     data?.meetingId || 0
   );
-  const { data: dataMe, isError: isErrorMe } = useMe();
+  const { data: dataMe, isError: isErrorMe, isPending: isPendingMe } = useMe();
   const [participantCount, setParticipantCount] = useState<number>(
     data?.totalParticipantCount || 0
   );
@@ -389,6 +389,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         isMobile={isMobile}
         state={data.state}
         refetch={refetch}
+        isPendingMe={isPendingMe}
       />
     </div>
   );

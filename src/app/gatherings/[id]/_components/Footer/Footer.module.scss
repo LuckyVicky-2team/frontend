@@ -6,6 +6,7 @@
   width: min(100%, 600px);
   height: 130px;
   display: flex;
+  justify-content: space-between;
   border-radius: 10px 10px 0px 0px;
   background-color: white;
   box-shadow: 0 -10px 20px 0 rgb(0, 122, 255, 10%);
@@ -27,7 +28,8 @@
 }
 
 .cta,
-.ctaWhite {
+.ctaWhite,
+.ctaNone {
   display: flex;
   height: 88px;
   padding: 10px 16px;
@@ -59,6 +61,15 @@
     border: none;
     background: var(--lukyviky-gray-Normal, #9ca3af);
     color: var(--lukyviky-Blue-Light, #e6f2ff);
+  }
+}
+
+.ctaNone {
+  border: 2px solid var(--lukyviky-Blue-Normal, #9ca3af);
+  background-color: white;
+  &:disabled {
+    border: 2px solid var(--lukyviky-Blue-Normal, #9ca3af);
+    background-color: white;
   }
 }
 

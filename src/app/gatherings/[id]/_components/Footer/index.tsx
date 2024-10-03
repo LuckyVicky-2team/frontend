@@ -14,6 +14,7 @@ import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
+import Spinner from '@/components/common/Spinner';
 
 interface IGatheringFooterProps {
   id: number;
@@ -27,6 +28,7 @@ interface IGatheringFooterProps {
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   refetch: () => void;
+  isPendingMe: boolean;
   meetingDatetime?: string;
 }
 
@@ -42,6 +44,7 @@ export default function GatheringFooter({
   isInitialSaved,
   state,
   refetch,
+  isPendingMe,
   meetingDatetime,
 }: IGatheringFooterProps) {
   const router = useRouter();
@@ -147,9 +150,11 @@ export default function GatheringFooter({
         </button>
         <button
           className={
-            type === 'LEADER' || type === 'PARTICIPANT'
-              ? styles.ctaWhite
-              : styles.cta
+            isPendingMe
+              ? styles.ctaNone
+              : type === 'LEADER' || type === 'PARTICIPANT'
+                ? styles.ctaWhite
+                : styles.cta
           }
           type="button"
           onClick={handleButtonClick}
@@ -161,24 +166,35 @@ export default function GatheringFooter({
             (state === 'FINISH' &&
               type !== 'LEADER' &&
               type !== 'PARTICIPANT') ||
-            isPending
+            isPending ||
+            isPendingMe
           }>
-          {state === 'PROGRESS' &&
+          {isPendingMe && <Spinner />}
+          {!isPendingMe &&
+            state === 'PROGRESS' &&
             (!type || type === 'NONE') &&
             !isMobile &&
             '모임 참가하기'}
-          {state === 'PROGRESS' && (!type || type === 'NONE') && isMobile && (
-            <div>
-              모임 <br /> 참가하기
-            </div>
-          )}
-          {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
-          {type === 'QUIT' && '참여할 수 없는 모임입니다.'}
-          {state === 'COMPLETE' &&
+          {!isPendingMe &&
+            state === 'PROGRESS' &&
+            (!type || type === 'NONE') &&
+            /* eslint-disable indent */
+            isMobile && (
+              <div>
+                모임 <br /> 참가하기
+              </div>
+            )}
+          {!isPendingMe &&
+            (type === 'LEADER' || type === 'PARTICIPANT') &&
+            '채팅방으로 가기'}
+          {!isPendingMe && type === 'QUIT' && '참여할 수 없는 모임입니다.'}
+          {!isPendingMe &&
+            state === 'COMPLETE' &&
             type !== 'LEADER' &&
             type !== 'PARTICIPANT' &&
             '모집 완료되었습니다. '}
-          {state === 'FINISH' &&
+          {!isPendingMe &&
+            state === 'FINISH' &&
             type !== 'LEADER' &&
             type !== 'PARTICIPANT' &&
             '종료된 모집입니다. '}

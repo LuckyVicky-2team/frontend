@@ -51,7 +51,7 @@ export default function GatheringForm({
       content: '',
       type: 'FREE',
       boardGameIdList: [],
-      image: '',
+      // image: '',
       meetingDatetime: undefined,
       genreIdList: [],
       limitParticipant: 2,
@@ -150,7 +150,7 @@ export default function GatheringForm({
         boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
-        image: '',
+        // image: '',
         meetingDatetime: new Date(initData.meetingDatetime),
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
@@ -176,7 +176,8 @@ export default function GatheringForm({
       boardGameIdList,
       ...info
     } = gatheringInfo;
-
+    console.log(':::::이미지:::::', image);
+    const isDeleteThumbnail = image === '';
     const isBoardGameListSame =
       JSON.stringify(initialBoardGameIdList) ===
       JSON.stringify(boardGameIdList);
@@ -189,6 +190,7 @@ export default function GatheringForm({
       ...info,
     };
     const editRequestData = {
+      isDeleteThumbnail,
       meetingDatetime: dateToString(meetingDatetime),
       boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
       id: Number(initialData?.meetingId),
@@ -198,7 +200,7 @@ export default function GatheringForm({
     const formData = new FormData();
 
     //@haewon 로직 수정필요
-    if (!editMode || (editMode && image !== '')) {
+    if (!editMode || (editMode && image !== undefined)) {
       formData.append('image', image);
     }
 
@@ -208,6 +210,10 @@ export default function GatheringForm({
         type: 'application/json',
       })
     );
+
+    // editMode &&
+    //   isDeleteThumbnail &&
+    //   formData.append('isDeleteThumbnail', `${isDeleteThumbnail}`);
 
     if (mode === 'create') {
       createGathering.mutate(formData, {

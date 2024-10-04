@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body className={inter.className}>
         <Script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"

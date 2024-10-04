@@ -65,7 +65,7 @@ export default function PrEdit() {
       } else if (prTags.length >= 10) {
         errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
       } else if (!tagPattern.test(trimmedTag)) {
-        errorMessage = '띄어쓰기 없이 한글, 영어, 숫자만 허용됩니다.';
+        errorMessage = '한글, 영어, 숫자만 허용됩니다.';
       } else if (!trimmedTag) {
         errorMessage = '태그를 입력해주세요.';
       }
@@ -126,6 +126,9 @@ export default function PrEdit() {
           </li>
         ))}
       </ul>
+      <span className={styles.mobilePlace}>
+        PR태그는 입력해주세요. <br /> 10개 까지 추가 할 수 있습니다!
+      </span>
       <input
         type="text"
         value={newTag}

@@ -137,6 +137,78 @@ export default function Header() {
               </div>
             </div>
           </div>
+        ) : pathName.startsWith('/mypage/review') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                리뷰
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/mypage/myFavoriteGatherings') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                찜한 모임
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
+        ) : pathName.startsWith('/mypage/settingAlarm') ? (
+          <div className={styles.customHeader}>
+            <div className={styles.space}></div>
+            <div className={styles.headerContent}>
+              <p>
+                <button type="button" onClick={() => router.back()}>
+                  <span>
+                    <Image
+                      width={16}
+                      height={16}
+                      src="/assets/mainImages/backIcon.svg"
+                      alt="뒤로가기 아이콘"
+                    />
+                  </span>
+                </button>
+                설정
+              </p>
+              <div className={styles.right}>
+                <h2>
+                  <Link href="/">BOGO</Link>
+                </h2>
+              </div>
+            </div>
+          </div>
         ) : pathName.startsWith('/gatherings/new/success') ? (
           <div className={styles.customHeader} style={{ display: 'none' }}>
             <div className={styles.space}></div>

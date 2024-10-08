@@ -44,6 +44,7 @@ interface BottomSheetProps {
   full?: boolean;
   setIsFull?: Dispatch<SetStateAction<boolean>>;
   initialBottomSheetOpen?: string;
+  minHeight?: string;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -54,6 +55,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   full = false,
   setIsFull,
   initialBottomSheetOpen,
+  minHeight = '60vh',
 }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -166,8 +168,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
               ? '100vh'
               : isDragging
                 ? `${contentHeight}vh`
-                : '60vh',
-            minHeight: '60vh',
+                : minHeight,
+            minHeight: minHeight,
           }}>
           {children}
         </div>

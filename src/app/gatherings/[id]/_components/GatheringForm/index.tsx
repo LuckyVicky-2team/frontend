@@ -74,7 +74,7 @@ export default function GatheringForm({
   >([]);
 
   const selectedImageUrl =
-    initialData?.thumbnail &&
+    initialData?.thumbnail?.includes('meeting') &&
     `https://d248qe8akqy587.cloudfront.net/${initialData.thumbnail}`;
   const isGameListEmpty = useMemo(() => {
     return boardGameIdTitleList.length === 0;
@@ -176,7 +176,7 @@ export default function GatheringForm({
       boardGameIdList,
       ...info
     } = gatheringInfo;
-    console.log(':::::이미지:::::', image);
+
     const isDeleteThumbnail = image === '';
     const isBoardGameListSame =
       JSON.stringify(initialBoardGameIdList) ===
@@ -199,7 +199,6 @@ export default function GatheringForm({
 
     const formData = new FormData();
 
-    //@haewon 로직 수정필요
     if (!editMode || (editMode && image !== undefined)) {
       formData.append('image', image);
     }
@@ -210,10 +209,6 @@ export default function GatheringForm({
         type: 'application/json',
       })
     );
-
-    // editMode &&
-    //   isDeleteThumbnail &&
-    //   formData.append('isDeleteThumbnail', `${isDeleteThumbnail}`);
 
     if (mode === 'create') {
       createGathering.mutate(formData, {

@@ -97,13 +97,14 @@
 
   li {
     display: block;
-    min-width: 175px;
+    // min-width: 175px;
 
     a {
       display: block;
       width: 100%;
       position: relative;
       overflow: hidden;
+
       .famousIco {
         background: #f8e049;
         color: #007aff;
@@ -283,15 +284,11 @@
 
   .genreList {
     li {
-      min-width: 100%;
-      width: 100%;
-      margin-bottom: 15px;
-      // margin-right: 10%;
-    }
-    .prevBtn,
-    .nextBtn {
-      width: 35px;
-      height: 35px;
+      a {
+        img {
+          height: 160px;
+        }
+      }
     }
   }
 
@@ -312,5 +309,17 @@
   .deadLineIco {
     padding: 5px 8px;
     font-size: 10px;
+  }
+}
+
+@media (max-width: 330px) {
+  .genreList {
+    li {
+      a {
+        img {
+          height: 110px;
+        }
+      }
+    }
   }
 }

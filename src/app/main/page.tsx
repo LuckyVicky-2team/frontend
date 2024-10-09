@@ -10,6 +10,7 @@ import { usePostWishList } from '@/api/queryHooks/wishList';
 import NewGather from './_components/newGather/page';
 import MainSearch from './_components/mainSearch';
 import AppInstallPrompt from '@/components/common/AppInstallPrompt';
+import { handleAllowNotification } from '@/service/notificationPermission';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -82,6 +83,15 @@ export default function Main() {
       window.scrollTo({ top: topPosition, behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const notification = localStorage.getItem('notification');
+    if (token && !notification) {
+      handleAllowNotification();
+      localStorage.setItem('notification', 'true');
+    }
+  }, []);
 
   return (
     <main>

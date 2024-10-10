@@ -4,13 +4,20 @@ import React from 'react';
 import styles from './ReviewPage.module.scss';
 import GatheringItem from '../_components/GatheringItem';
 import { useMeetingList } from '@/api/queryHooks/review';
+import Skeleton from '@/app/gatherings/_components/Skeleton';
 
 export default function ReviewPage() {
-  const { data } = useMeetingList({ reviewType: 'PRE_PROGRESS' });
+  const { data, isLoading } = useMeetingList({
+    reviewType: 'PRE_PROGRESS',
+  });
 
   return (
     <div className={styles.container}>
-      {data ? (
+      {isLoading ? (
+        <div className={styles.skeletonContainer}>
+          <Skeleton type="review" />
+        </div>
+      ) : data ? (
         data.map(meeting => {
           return (
             <GatheringItem

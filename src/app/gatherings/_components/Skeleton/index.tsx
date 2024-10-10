@@ -1,7 +1,7 @@
 import styles from './Skeleton.module.scss';
 
 interface ISkeletonProps {
-  type: 'default' | 'review';
+  type?: 'default' | 'review';
 }
 
 export default function Skeleton({ type = 'default' }: ISkeletonProps) {

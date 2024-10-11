@@ -1,6 +1,7 @@
 import { getMessaging, getToken } from 'firebase/messaging';
 import { registerServiceWorker } from './registerServiceWorker';
 import { app } from './initFirebase';
+import { patchPushToken } from '@/api/apis/notification';
 
 export const handleAllowNotification = async () => {
   registerServiceWorker();
@@ -13,8 +14,9 @@ export const handleAllowNotification = async () => {
         vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
       });
       if (token) {
-        // sendTokenToServer(token); // (토큰을 서버로 전송하는 로직)
-        console.log(token);
+        //토큰을 서버로 전송
+        const response = patchPushToken(token);
+        void response;
       } else {
         alert('토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요');
       }

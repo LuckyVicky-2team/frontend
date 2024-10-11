@@ -11,7 +11,7 @@
   gap: 10px;
 }
 
-.deleteAllButton {
+.readeAllButton {
   color: #120d0d;
   font-size: 16px;
   font-weight: 500;
@@ -20,17 +20,24 @@
 
 .notifications {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 10px;
   border-radius: 10px;
 }
 
-.notification {
+.notification,
+.blueNotification {
   display: flex;
   gap: 19px;
   background-color: white;
   border-radius: 10px;
   padding: 27px 28px 19px;
+  text-align: left;
+}
+
+.blueNotification {
+  background-color: #d1e7ff;
 }
 
 .title {
@@ -45,11 +52,15 @@
   margin: 16px 0 8px;
 }
 
-.content,
-.userName {
+.content {
   color: var(--lukyviky-gray-Normal, #9ca3af);
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 125% */
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
 }

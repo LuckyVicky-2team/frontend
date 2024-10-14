@@ -20,11 +20,10 @@ interface IGatheringFooterProps {
   id: number;
   title: string;
   type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
-  gatheringType?: 'FREE' | 'ACCEPT';
+  // gatheringType?: 'FREE' | 'ACCEPT';
   participantCount: number;
   setParticipantCount: Dispatch<SetStateAction<number>>;
   limitParticipant: number;
-  isMobile: boolean;
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   refetch: () => void;
@@ -36,11 +35,10 @@ export default function GatheringFooter({
   id,
   title,
   type,
-  gatheringType = 'FREE',
+  // gatheringType = 'FREE',
   participantCount,
   setParticipantCount,
   limitParticipant,
-  isMobile,
   isInitialSaved,
   state,
   refetch,
@@ -141,9 +139,9 @@ export default function GatheringFooter({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleAlertLater = () => {
-    handleSuccessModalClose();
-  };
+  // const handleAlertLater = () => {
+  //   handleSuccessModalClose();
+  // };
 
   return (
     <>
@@ -267,12 +265,16 @@ export default function GatheringFooter({
         }}
         maxWidth={552}
         xButton>
-        <div className={styles.modalBackground}>
+        <div
+          className={styles.modalBackground}
+          style={{
+            height: `${screenWidth * 0.3}px`,
+            maxHeight: '150px',
+            gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+          }}>
           <p className={styles.title}>{title}</p>
-          {gatheringType === 'FREE'
-            ? '참여 완료 되었습니다.'
-            : '신청 완료 되었습니다.'}
-          {gatheringType === 'ACCEPT' && (
+          참여 완료 되었습니다.
+          {/* {gatheringType === 'ACCEPT' && (
             <div className={styles.description}>
               <Image
                 src={'/assets/icons/alert-triangle.svg'}
@@ -299,30 +301,26 @@ export default function GatheringFooter({
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
-        <div className={styles.modalButtons}>
+        <div
+          className={styles.modalButtons}
+          style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
           <button
             type="button"
             onClick={handleGoToGatheringList}
-            className={styles.modalFirstButton}>
+            className={styles.modalFirstButton}
+            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
             다른 모임방 둘러보기
           </button>
-          {gatheringType === 'FREE' ? (
-            <button
-              type="button"
-              onClick={handleGoToChatting}
-              className={styles.modalSecondButton}>
-              모임 채팅방 가기
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleAlertLater}
-              className={styles.modalSecondButton}>
-              나중에 개설 안내 받기
-            </button>
-          )}
+
+          <button
+            type="button"
+            onClick={handleGoToChatting}
+            className={styles.modalSecondButton}
+            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            모임 채팅방 가기
+          </button>
         </div>
       </Modal>
       <Modal

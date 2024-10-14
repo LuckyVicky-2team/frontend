@@ -344,7 +344,10 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         <Link
           href={`/other-profile/${LeaderID}?id=${data.meetingId}&open=zero`}
           className={styles.leaderProfile}
-          style={{ height: `max(80px,${(screenWidth * 130) / 600}px)` }}>
+          style={{
+            height: `max(80px,${(screenWidth * 130) / 600}px)`,
+            marginTop: `clamp(8px, ${(screenWidth * 19) / 600}px, 20px)`,
+          }}>
           <div
             style={{
               display: 'flex',
@@ -405,7 +408,6 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         setParticipantCount={setParticipantCount}
         limitParticipant={data.limitParticipant}
         isInitialSaved={data.likeStatus}
-        isMobile={isMobile}
         state={data.state}
         refetch={refetch}
         isPendingMe={isPendingMe}

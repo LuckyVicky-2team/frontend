@@ -9,7 +9,7 @@ import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
@@ -72,6 +72,8 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
       handleJoinButtonClick();
@@ -127,17 +129,40 @@ export default function GatheringFooter({
     // router.push('/Chatting');
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      // setIsMobile(window.innerWidth <= 439);
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleAlertLater = () => {
     handleSuccessModalClose();
   };
 
   return (
     <>
-      <div className={styles.background}>
+      <div
+        className={styles.background}
+        style={{
+          height: `${(screenWidth * 130) / 600}px`,
+          maxHeight: '130px',
+        }}>
         <button
           type="button"
           disabled={isPending}
           className={styles.backButton}
+          style={{
+            height: `${(screenWidth * 88) / 600}px`,
+            width: `${(screenWidth * 80) / 600}px`,
+            maxHeight: '88px',
+            maxWidth: '80px',
+          }}
           onClick={() => {
             router.back();
           }}>
@@ -156,6 +181,10 @@ export default function GatheringFooter({
                 ? styles.ctaWhite
                 : styles.cta
           }
+          style={{
+            height: `${(screenWidth * 88) / 600}px`,
+            maxHeight: '88px',
+          }}
           type="button"
           onClick={handleButtonClick}
           disabled={
@@ -173,17 +202,7 @@ export default function GatheringFooter({
           {!isPendingMe &&
             state === 'PROGRESS' &&
             (!type || type === 'NONE') &&
-            !isMobile &&
             '모임 참가하기'}
-          {!isPendingMe &&
-            state === 'PROGRESS' &&
-            (!type || type === 'NONE') &&
-            /* eslint-disable indent */
-            isMobile && (
-              <div>
-                모임 <br /> 참가하기
-              </div>
-            )}
           {!isPendingMe &&
             (type === 'LEADER' || type === 'PARTICIPANT') &&
             '채팅방으로 가기'}
@@ -203,6 +222,12 @@ export default function GatheringFooter({
         {type === 'LEADER' && progressGathering && (
           <button
             className={styles.editButton}
+            style={{
+              height: `${(screenWidth * 88) / 600}px`,
+              width: `${(screenWidth * 80) / 600}px`,
+              maxHeight: '88px',
+              maxWidth: '80px',
+            }}
             type="button"
             onClick={() => {
               router.push(`${id}/edit`);
@@ -216,15 +241,22 @@ export default function GatheringFooter({
           </button>
         )}
         {type !== 'LEADER' && (
-          <button className={styles.editButton} type="button">
-            <SaveGatheringButton
-              id={id}
-              type="red"
-              className={`${styles.zzimButton}`}
-              rectangle
-              isInitialSaved={isInitialSaved}
-            />
-          </button>
+          // <button
+          //   className={styles.editButton}
+          //   type="button"
+          //   style={{
+          //     height: `${(screenWidth * 88) / 600}px`,
+          //     width: `${(screenWidth * 80) / 600}px`,
+          //   }}>
+          <SaveGatheringButton
+            id={id}
+            type="red"
+            className={`${styles.zzimButton}`}
+            rectangle
+            screenWidth={screenWidth}
+            isInitialSaved={isInitialSaved}
+          />
+          //</button>
         )}
       </div>
       <Modal

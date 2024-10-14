@@ -12,6 +12,7 @@ export const QueryKey = {
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],
     COORDINATE: () => [QueryKey.USER.KEY, 'coordinate'],
     WISHLIST: () => [QueryKey.USER.KEY, 'wish-list'],
+    THREAD: () => [QueryKey.USER.KEY, 'chatrooms'],
   },
   OTHER_USER: {
     KEY: 'other-user',

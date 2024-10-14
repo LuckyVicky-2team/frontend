@@ -1,35 +1,40 @@
 import Image from 'next/image';
-import styles from './ThreadListItem.module.scss';
 import formatTimeDiff from '@/utils/formatTimeDiff';
+import styles from './ThreadListItem.module.scss';
 
 interface IThreadsListItemProps {
-  profileImage: string;
+  thumbnail: string | null;
   name: string;
-  recentMessage: {
-    contents: string;
-    createdAt: string;
-  };
-  unreadCount: number;
+  recentMessage: string | null;
+  lastSendDateTime: string | null;
 }
 
 export default function ThreadListItem({
-  profileImage,
+  thumbnail,
   name,
   recentMessage,
-  unreadCount,
+  lastSendDateTime,
 }: IThreadsListItemProps) {
   const recentMessageTime =
-    recentMessage && formatTimeDiff(recentMessage.createdAt);
+    lastSendDateTime && formatTimeDiff(lastSendDateTime);
 
   return (
     <div className={styles.item}>
       <div className={styles.imageArea}>
         <Image
-          src={profileImage}
+          src={
+            thumbnail
+              ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+              : '/assets/images/emptyThumbnail.png'
+          }
           alt={name}
           width={68}
           height={68}
           className={styles.profileImage}
+          unoptimized
+          onError={e =>
+            (e.currentTarget.src = '/assets/images/emptyThumbnail.png')
+          }
         />
       </div>
       <div className={styles.textArea}>
@@ -38,10 +43,9 @@ export default function ThreadListItem({
           <div className={styles.createdAt}>{recentMessageTime}</div>
         </div>
         <div className={styles.contentSection}>
-          <p className={styles.recentMessage}>{recentMessage.contents}</p>
-          {unreadCount !== 0 && (
-            <div className={styles.unreadCount}>{unreadCount}</div>
-          )}
+          <p className={styles.recentMessage}>
+            {recentMessage || '최근의 대화가 없습니다.'}
+          </p>
         </div>
       </div>
     </div>

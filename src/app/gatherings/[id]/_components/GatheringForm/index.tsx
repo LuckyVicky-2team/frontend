@@ -51,7 +51,6 @@ export default function GatheringForm({
       content: '',
       type: 'FREE',
       boardGameIdList: [],
-      // image: '',
       meetingDatetime: undefined,
       genreIdList: [],
       limitParticipant: 2,

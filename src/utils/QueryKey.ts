@@ -3,6 +3,7 @@ export const QueryKey = {
   DETAIL: 'detail',
   INFO: 'info',
   GAME: 'game',
+  NOTIFICATION: 'notification',
   TERMS_CONDITION: 'terms-condition',
   USER: {
     ME: 'me',
@@ -12,6 +13,7 @@ export const QueryKey = {
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],
     COORDINATE: () => [QueryKey.USER.KEY, 'coordinate'],
     WISHLIST: () => [QueryKey.USER.KEY, 'wish-list'],
+    NOTIFICATION: () => [QueryKey.USER.KEY, 'notification'],
   },
   OTHER_USER: {
     KEY: 'other-user',

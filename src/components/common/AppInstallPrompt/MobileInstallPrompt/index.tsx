@@ -60,7 +60,16 @@ export default function MobileInstallPrompt({
             BOGO는 앱에서 원활히 사용할 수 있습니다. 설치하시겠습니까?
           </p>
           {platform === 'ios' && (
-            <p>(버튼을 눌러 홈 화면에 추가하기를 통해 설치를 해주세요.)</p>
+            <p>
+              (
+              <Image
+                src={'/assets/icons/apple_share.png'}
+                width={16}
+                height={16}
+                alt="공유하기 아이콘"
+              />{' '}
+              버튼을 눌러 홈 화면에 추가하기를 통해 설치를 해주세요.)
+            </p>
           )}
           {platform === 'android' && (
             <button

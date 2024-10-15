@@ -65,7 +65,7 @@ export default function AppInstallPrompt() {
     if (deferredPrompt) handleModalOpen();
   });
 
-  //임시
+  // 임시
   // useEffect(() => {
   //   handleModalOpen();
   // });

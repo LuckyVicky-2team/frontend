@@ -5,6 +5,7 @@ import { useToast } from '@/contexts/toastContext';
 import Rating from '@/components/common/Rating';
 import { useRouter } from 'next/navigation';
 import { useEvaluationTagList, useReviewCreate } from '@/api/queryHooks/review';
+import Spinner from '@/components/common/Spinner';
 type FormValues = {
   rating: number;
   evaluationTagList: number[]; // 이 배열이 숫자의 배열임을 명시적으로 지정
@@ -90,31 +91,39 @@ export default function WriteReviewPage({ params, searchParams }: any) {
               <div className={styles.sigleEvaluation}>
                 <h1>😁</h1>
                 <div className={styles.tagBox}>
-                  {data?.positiveTags.map(el => {
-                    return (
-                      <button
-                        key={el.evaluationTagId}
-                        onClick={() => handleTagClick(el.evaluationTagId)}
-                        className={`${styles.button} ${field.value.includes(el.evaluationTagId) ? styles.active : ''}`}>
-                        {el.tagPhrase}
-                      </button>
-                    );
-                  })}
+                  {data?.positiveTags ? (
+                    data?.positiveTags?.map(el => {
+                      return (
+                        <button
+                          key={el.evaluationTagId}
+                          onClick={() => handleTagClick(el.evaluationTagId)}
+                          className={`${styles.button} ${field.value.includes(el.evaluationTagId) ? styles.active : ''}`}>
+                          {el.tagPhrase}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <Spinner />
+                  )}
                 </div>
               </div>
               <div className={styles.sigleEvaluation}>
                 <h1>😢</h1>
                 <div className={styles.tagBox}>
-                  {data?.negativeTags.map(el => {
-                    return (
-                      <button
-                        key={el.evaluationTagId}
-                        onClick={() => handleTagClick(el.evaluationTagId)}
-                        className={`${styles.button} ${field.value.includes(el.evaluationTagId) ? styles.active : ''}`}>
-                        {el.tagPhrase}
-                      </button>
-                    );
-                  })}
+                  {data?.negativeTags ? (
+                    data?.negativeTags.map(el => {
+                      return (
+                        <button
+                          key={el.evaluationTagId}
+                          onClick={() => handleTagClick(el.evaluationTagId)}
+                          className={`${styles.button} ${field.value.includes(el.evaluationTagId) ? styles.active : ''}`}>
+                          {el.tagPhrase}
+                        </button>
+                      );
+                    })
+                  ) : (
+                    <Spinner />
+                  )}
                 </div>
               </div>
             </>

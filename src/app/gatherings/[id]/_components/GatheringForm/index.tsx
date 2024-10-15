@@ -150,7 +150,6 @@ export default function GatheringForm({
         boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
-        // image: '',
         meetingDatetime: new Date(initData.meetingDatetime),
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
@@ -192,7 +191,10 @@ export default function GatheringForm({
     const editRequestData = {
       isDeleteThumbnail,
       meetingDatetime: dateToString(meetingDatetime),
-      boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
+      // boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
+      boardGameIdList: isBoardGameListSame
+        ? initialBoardGameIdList
+        : boardGameIdList,
       id: Number(initialData?.meetingId),
       ...info,
     };

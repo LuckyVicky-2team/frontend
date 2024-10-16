@@ -129,9 +129,9 @@ export default function Finish() {
                 </span>
               </p>
 
-              <div className={styles.outBtn}>
+              {/* <div className={styles.outBtn}>
                 <button>모임 나가기</button>
-              </div>
+              </div> */}
             </div>
           </div>
         ))

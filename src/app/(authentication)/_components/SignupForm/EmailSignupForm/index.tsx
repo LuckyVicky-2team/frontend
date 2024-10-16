@@ -9,12 +9,24 @@ import Button from '@/components/common/Button';
 import AuthTagInput from '../../AuthTagInput';
 import { getEmailDupCheck, getNickNameDupCheck } from '@/api/apis/authApis';
 import { EmailSignupFormType } from '@/types/request/authRequestTypes';
-import { usePostEmailSignupForm } from '@/api/queryHooks/auth';
+import {
+  useGetTermsAgreement,
+  usePostEmailSignupForm,
+} from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import AuthHeader from '../../AuthHeader';
 import AuthTitle from '../../AuthTitle';
+import ConsentForm from '../ConsentForm';
+import Spinner from '@/components/common/Spinner';
 import styles from './EmailSignupForm.module.scss';
+
+interface ITermsAgreementResponseType {
+  type: string;
+  title: string;
+  content: string;
+  required: boolean;
+}
 
 export default function EmailSignupForm() {
   const router = useRouter();
@@ -36,6 +48,28 @@ export default function EmailSignupForm() {
       passwordCheck: '',
       prTags: [],
       providerType: 'LOCAL',
+      termsConditions: [
+        {
+          termsConditionsType: 'TERMS',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PRIVACY',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'LOCATION',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'AGE14',
+          agreement: false,
+        },
+        {
+          termsConditionsType: 'PUSH',
+          agreement: false,
+        },
+      ],
     } as EmailSignupFormType & { passwordCheck: string },
   });
 
@@ -47,7 +81,14 @@ export default function EmailSignupForm() {
     setError,
     watch,
     trigger,
+    setValue,
   } = props;
+
+  const {
+    data: termsConditionsData,
+    isLoading,
+    isError,
+  } = useGetTermsAgreement('all');
 
   const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
 
@@ -107,8 +148,18 @@ export default function EmailSignupForm() {
   };
 
   useEffect(() => {
-    trigger('passwordCheck');
+    if (watch('password') === watch('passwordCheck')) {
+      trigger('passwordCheck');
+    }
   }, [watch('password'), trigger]);
+
+  useEffect(() => {
+    setIsEmailDupOk(false);
+  }, [watch('email')]);
+
+  useEffect(() => {
+    setIsNickNameDupOk(false);
+  }, [watch('nickName')]);
 
   return (
     <FormProvider {...props}>
@@ -139,9 +190,9 @@ export default function EmailSignupForm() {
                       labelName="이메일"
                       type="email"
                       placeholder="이메일을 입력해주세요"
-                      disabled={isEmailDupOk}
                       autoComplete="email"
                       fieldName="email"
+                      isValidated={isEmailDupOk}
                       {...field}
                     />
                   )}
@@ -182,9 +233,9 @@ export default function EmailSignupForm() {
                     <AuthInput
                       labelName="닉네임"
                       placeholder="닉네임을 입력해주세요"
-                      disabled={isNickNameDupOk}
                       autoComplete="nickname"
                       fieldName="nickName"
+                      isValidated={isNickNameDupOk}
                       {...field}
                     />
                   )}
@@ -254,6 +305,21 @@ export default function EmailSignupForm() {
                   />
                 )}
               />
+              {isLoading ? (
+                <div className={styles.consentExcept}>
+                  <Spinner />
+                </div>
+              ) : isError ? (
+                <div className={styles.consentExcept}>
+                  약관 내용을 불러올 수 없습니다.
+                </div>
+              ) : (
+                <ConsentForm
+                  conditions={termsConditionsData}
+                  setValue={value => setValue('termsConditions', value)}
+                  value={watch('termsConditions')}
+                />
+              )}
 
               <Button
                 onClick={() => {
@@ -264,7 +330,19 @@ export default function EmailSignupForm() {
                   !isEmailDupOk ||
                   !isNickNameDupOk ||
                   !watch('password') ||
-                  !watch('passwordCheck')
+                  !watch('passwordCheck') ||
+                  !termsConditionsData.every(
+                    (item: ITermsAgreementResponseType) => {
+                      if (item.required) {
+                        return (
+                          watch('termsConditions').find(
+                            term => item.type === term.termsConditionsType
+                          )?.agreement === true
+                        );
+                      }
+                      return true;
+                    }
+                  )
                 }
                 className={styles.button}>
                 확인

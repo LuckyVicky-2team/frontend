@@ -4,6 +4,8 @@ import {
   ReactNode,
   SetStateAction,
   useRef,
+  useEffect,
+  useState,
 } from 'react';
 import styles from './FileInput.module.scss';
 import { UseFormSetValue } from 'react-hook-form';
@@ -117,10 +119,12 @@ function FileInput({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { filePreview, setFilePreview, updateFilePreview } =
     useFilePreview(selectedImageUrl);
+  const [hasThumbnail, setHasThumbnail] = useState<boolean>(false);
 
   const handleFileInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       updateFilePreview(e.target.files);
+      setHasThumbnail(true);
       setValue && setValue(id, e.target.files[0]);
       setImage && setImage(e.target.files[0]);
     }
@@ -131,10 +135,23 @@ function FileInput({
       inputRef.current.value = '';
     }
     setFilePreview('');
+    setHasThumbnail(false);
     //이미지가 없을 때 백엔드 쪽에 null을 넘기기로 함.
     //formData.append('file','');을 할 경우 null이 저장됨.
     setValue && setValue(id, '');
   };
+  useEffect(() => {
+    if (selectedImageUrl) {
+      selectedImageUrl.includes('boardgame')
+        ? setHasThumbnail(false)
+        : setHasThumbnail(true);
+      setFilePreview(selectedImageUrl);
+    } else {
+      setFilePreview('');
+      setHasThumbnail(false);
+    }
+  }, [selectedImageUrl]);
+
   return (
     <>
       <div className={styles.imageUploadBox}>
@@ -178,7 +195,7 @@ function FileInput({
           onChange={handleFileInputChange}
         />
       </div>
-      {inputRef.current?.files && inputRef.current?.files?.length > 0 && (
+      {hasThumbnail && (
         <button
           type="button"
           className={styles.deleteButton}

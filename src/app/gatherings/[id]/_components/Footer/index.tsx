@@ -5,7 +5,10 @@ import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
-import { usePostJoinGathering } from '@/api/queryHooks/gathering';
+import {
+  usePatchCompleteGathering,
+  usePostJoinGathering,
+} from '@/api/queryHooks/gathering';
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
@@ -17,11 +20,14 @@ interface IGatheringFooterProps {
   title: string;
   type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
   gatheringType?: 'FREE' | 'ACCEPT';
+  participantCount: number;
   setParticipantCount: Dispatch<SetStateAction<number>>;
+  limitParticipant: number;
   isMobile: boolean;
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   refetch: () => void;
+  meetingDatetime?: string;
 }
 
 export default function GatheringFooter({
@@ -29,16 +35,21 @@ export default function GatheringFooter({
   title,
   type,
   gatheringType = 'FREE',
+  participantCount,
   setParticipantCount,
+  limitParticipant,
   isMobile,
   isInitialSaved,
   state,
   refetch,
+  meetingDatetime,
 }: IGatheringFooterProps) {
   const router = useRouter();
   const { addToast } = useToast();
-
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
+  const { mutate: completeMutate } = usePatchCompleteGathering();
+  const progressGathering =
+    meetingDatetime && new Date(meetingDatetime) > new Date();
 
   const {
     modalOpen: successModalOpen,
@@ -68,8 +79,8 @@ export default function GatheringFooter({
   };
 
   const handleJoinButtonClick = () => {
-    const accesssToken = localStorage.getItem('accessToken');
-    if (!accesssToken) {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
       handleLoginModalOpen();
       return;
     }
@@ -77,6 +88,13 @@ export default function GatheringFooter({
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
         handleSuccessModalOpen();
+        if (participantCount + 1 === limitParticipant) {
+          completeMutate(id, {
+            onError: _ => {
+              addToast('모집 완료 요청에 실패했습니다.', 'error');
+            },
+          });
+        }
       },
       onError: error => {
         if (axios.isAxiosError(error)) {
@@ -137,8 +155,12 @@ export default function GatheringFooter({
           onClick={handleButtonClick}
           disabled={
             type === 'QUIT' ||
-            state === 'COMPLETE' ||
-            state === 'FINISH' ||
+            (state === 'COMPLETE' &&
+              type !== 'LEADER' &&
+              type !== 'PARTICIPANT') ||
+            (state === 'FINISH' &&
+              type !== 'LEADER' &&
+              type !== 'PARTICIPANT') ||
             isPending
           }>
           {state === 'PROGRESS' &&
@@ -161,29 +183,33 @@ export default function GatheringFooter({
             type !== 'PARTICIPANT' &&
             '종료된 모집입니다. '}
         </button>
-        {
-          type !== 'LEADER' && (
-            <button className={styles.editButton} type="button">
-              <SaveGatheringButton
-                id={id}
-                type="red"
-                className={`${styles.zzimButton}`}
-                rectangle
-                isInitialSaved={isInitialSaved}
-              />
-            </button>
-          )
-          // ) : (
-          //   <button className={styles.editButton} type="button">
-          //     <Image
-          //       src={'/assets/icons/pen.svg'}
-          //       alt="수정 이미지"
-          //       width={36}
-          //       height={36}
-          //     />
-          //   </button>
-          // )}
-        }
+
+        {type === 'LEADER' && progressGathering && (
+          <button
+            className={styles.editButton}
+            type="button"
+            onClick={() => {
+              router.push(`${id}/edit`);
+            }}>
+            <Image
+              src={'/assets/icons/pen.svg'}
+              alt="수정 이미지"
+              width={36}
+              height={36}
+            />
+          </button>
+        )}
+        {type !== 'LEADER' && (
+          <button className={styles.editButton} type="button">
+            <SaveGatheringButton
+              id={id}
+              type="red"
+              className={`${styles.zzimButton}`}
+              rectangle
+              isInitialSaved={isInitialSaved}
+            />
+          </button>
+        )}
       </div>
       <Modal
         modalOpen={successModalOpen}

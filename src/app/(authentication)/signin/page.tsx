@@ -1,5 +1,5 @@
 import Link from 'next/link';
-// import Image from 'next/image';
+import Image from 'next/image';
 import SpeechBalloon from '../_components/SpeechBalloon';
 import SigninForm from '../_components/SigninForm';
 import Button from '@/components/common/Button';
@@ -21,7 +21,7 @@ export default function Signin() {
             textPosition={{ x: 22, y: 19 }}
           />
         </Link>
-        {/* <div className={styles.socialLogin}>
+        <div className={styles.socialLogin}>
           <Link
             href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`}
             className={`${styles.roundButton} ${styles.google}`}>
@@ -42,7 +42,7 @@ export default function Signin() {
               style={{ objectFit: 'cover' }}
             />
           </Link>
-        </div> */}
+        </div>
       </div>
     </main>
   );

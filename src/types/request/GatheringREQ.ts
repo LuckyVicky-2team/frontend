@@ -11,3 +11,9 @@ export interface IGatheringListRequestProps {
   size?: number;
   sortBy?: 'MEETING_DATE' | 'PARTICIPANT_COUNT';
 }
+
+export interface IKickInfoProps {
+  meetingId: number;
+  meetingState: string;
+  userId: number;
+}

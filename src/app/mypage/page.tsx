@@ -122,14 +122,9 @@ export default function MyPage() {
             height={24}
           /> */}
         </button>
-        <ul className={prOpen ? styles.prOpen : undefined}>
-          {info?.prTags.map((item, i) => <li key={i}>{item}</li>)}
-        </ul>
-      </div>
-      <ul className={styles.menuWrap}>
-        <li>
+        <p className={styles.myPrTag}>
           <Link href="/mypage/prEdit">
-            PR 태그 수정{' '}
+            내 PR 태그
             <Image
               width={32}
               height={32}
@@ -137,7 +132,15 @@ export default function MyPage() {
               alt="마이페이지 화살표"
             />
           </Link>
-        </li>
+        </p>
+        <ul className={prOpen ? styles.prOpen : undefined}>
+          {info?.prTags.map((item, i) => <li key={i}>{item}</li>)}
+        </ul>
+      </div>
+      <ul className={styles.menuWrap}>
+        {/* <li>
+          <Link href="/mypage/prEdit">PR 태그 수정</Link>
+        </li> */}
         <li>
           <Link href="/mypage/myGatherings/participant">
             내 모임
@@ -171,14 +174,20 @@ export default function MyPage() {
             />
           </Link>
         </li>
+        <li>
+          <Link href="/mypage/settingAlarm">
+            설정
+            <Image
+              width={32}
+              height={32}
+              src={'/assets/icons/chevron-left.svg'}
+              alt="마이페이지 화살표"
+            />
+          </Link>
+        </li>
       </ul>
     </div>
   );
-}
-{
-  /* <li>
-          <Link href="/mypage/settingAlarm">알림 설정</Link>
-        </li> */
 }
 {
   /* <li>

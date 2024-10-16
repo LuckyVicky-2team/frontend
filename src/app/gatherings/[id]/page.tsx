@@ -5,8 +5,15 @@ import { gatheringAPI } from '@/api/apis/gatheringsApis';
 import { getMe } from '@/api/apis/meApi';
 
 // [key: string]: string
-export default async function GatheringsInfo({ params }: { params: any }) {
+export default async function GatheringsInfo({
+  params,
+  searchParams,
+}: {
+  params: { [key: string]: string };
+  searchParams: { [key: string]: string };
+}) {
   const { id } = params;
+  const { open } = searchParams;
 
   const detailQuery = getDehydratedQuery({
     queryKey: [QueryKey.DETAIL],
@@ -22,7 +29,7 @@ export default async function GatheringsInfo({ params }: { params: any }) {
     <div>
       <Hydrate state={detailQuery}>
         <Hydrate state={meQuery}>
-          <GatheringDetails id={Number(id)} />
+          <GatheringDetails id={Number(id)} open={open} />
         </Hydrate>
       </Hydrate>
     </div>

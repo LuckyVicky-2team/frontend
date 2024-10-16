@@ -4,6 +4,7 @@ import styles from './info.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { logout } from '@/api/apis/logOutApis';
 
 // 환경 변수에서 도메인 가져오기
 const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -42,8 +43,10 @@ export default function Info({
     setLoggedIn(!!token);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('notification');
     setLoggedIn(false);
     alert('로그아웃 되었습니다.');
     router.push('/');
@@ -82,7 +85,11 @@ export default function Info({
               {loggedIn ? (
                 <>
                   <b>{mypageInfo?.nickName}</b>
-                  <button type="button" onClick={handleLogout}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleLogout();
+                    }}>
                     로그아웃
                   </button>
                 </>

@@ -63,7 +63,7 @@ interface IDatePickerProps<F extends FieldValues> {
   minDate?: Date | null;
 }
 
-function DatePicker<F extends FieldValues>({
+export default function DatePicker<F extends FieldValues>({
   control,
   name,
   selectedDate,
@@ -75,6 +75,12 @@ function DatePicker<F extends FieldValues>({
   time = false,
   className,
 }: IDatePickerProps<F>) {
+  const filterPassedTime = (time: Date) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
   registerLocale('ko', ko);
   return (
     <div className={`${styles.inputContainer} ${className}`}>
@@ -94,7 +100,9 @@ function DatePicker<F extends FieldValues>({
                 placeholderText={placeholder}
                 selected={value}
                 required={true}
+                minDate={minDate || undefined}
                 showTimeSelect={time}
+                filterTime={filterPassedTime}
                 // popperContainer={CalendarContainer}
               />
             );
@@ -103,6 +111,7 @@ function DatePicker<F extends FieldValues>({
       )}
       {setSelectedDate && (
         <ReactDatePicker
+          onFocus={e => e.target.blur()}
           id={id}
           locale="ko"
           disabled={isDisabled}
@@ -118,4 +127,3 @@ function DatePicker<F extends FieldValues>({
     </div>
   );
 }
-export default DatePicker;

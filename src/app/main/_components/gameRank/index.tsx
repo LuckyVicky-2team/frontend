@@ -14,7 +14,7 @@ interface IGameRankItem {
 
 export default function GameRank() {
   // useState의 타입을 IGameRankItem 배열로 지정
-  const [game, setGame] = useState<IGameRankItem[] | undefined>(undefined);
+  const [game, setGame] = useState<IGameRankItem[]>([]);
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
 
   useEffect(() => {
@@ -46,45 +46,46 @@ export default function GameRank() {
       </div>
 
       <div className={styles.rankWrap}>
-        {game?.map((e, i) => {
-          let crownSrc = '';
-          if (i === 0) crownSrc = '/assets/icons/goldCrown.svg';
-          else if (i === 1) crownSrc = '/assets/icons/silverCrown.svg';
-          else if (i === 2) crownSrc = '/assets/icons/bronzeCrown.svg';
+        {Array.isArray(game) &&
+          game.map((e, i) => {
+            let crownSrc = '';
+            if (i === 0) crownSrc = '/assets/icons/goldCrown.svg';
+            else if (i === 1) crownSrc = '/assets/icons/silverCrown.svg';
+            else if (i === 2) crownSrc = '/assets/icons/bronzeCrown.svg';
 
-          return (
-            <div className={styles.rankItem} key={e.gameId}>
-              <b>{i + 1}</b>
-              <div className={styles.img}>
-                <Image
-                  style={{ width: '100%', height: '100%' }}
-                  objectFit="cover"
-                  width={125}
-                  height={125}
-                  src={`https://${cloud}/${e.thumbnail}`}
-                  alt="게임랭크 이미지"
-                  unoptimized={true}
-                />
+            return (
+              <div className={styles.rankItem} key={`${e.gameId}-${i}`}>
+                <b>{i + 1}</b>
+                <div className={styles.img}>
+                  <Image
+                    style={{ width: '100%', height: '100%' }}
+                    // objectFit="cover"
+                    width={125}
+                    height={125}
+                    src={`https://${cloud}/${e.thumbnail}`}
+                    alt="게임랭크 이미지"
+                    unoptimized={true}
+                  />
+                </div>
+                <div className={styles.info}>
+                  <span className={styles.crown}>
+                    {i < 3 && (
+                      <Image
+                        src={crownSrc}
+                        alt={`${i + 1}위 왕관`}
+                        width={25} // 이미지의 적절한 크기 설정
+                        height={25}
+                      />
+                    )}
+                  </span>
+                  <span className={styles.name}>{e.title}</span>
+                  <span className={styles.count}>
+                    누적플레이 수 {e.cumulativeCount}회
+                  </span>
+                </div>
               </div>
-              <div className={styles.info}>
-                <span className={styles.crown}>
-                  {i < 3 && (
-                    <Image
-                      src={crownSrc}
-                      alt={`${i + 1}위 왕관`}
-                      width={25} // 이미지의 적절한 크기 설정
-                      height={25}
-                    />
-                  )}
-                </span>
-                <span className={styles.name}>{e.title}</span>
-                <span className={styles.count}>
-                  누적플레이 수 {e.cumulativeCount}회
-                </span>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

@@ -4,18 +4,13 @@ export interface IOtherProfileResponse {
   averageRating: number;
   prTags: string[];
   meetingCount: number;
+  positiveTags: IEvalueationTag[];
+  negativeTags: IEvalueationTag[];
 }
 
 export interface IEvalueationTag {
-  evaluationTagId: number;
   tagPhrase: string;
-  evaluationType: 'POSITIVE' | 'NEGATIVE';
   count: number;
-}
-
-export interface IOtherEvaluationTagsResponse {
-  positiveTags: IEvalueationTag[];
-  negativeTags: IEvalueationTag[];
 }
 
 export interface IOtherProfileAPIError {

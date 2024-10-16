@@ -4,6 +4,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import styles from './GameDataList.module.scss';
@@ -57,6 +58,7 @@ export default function GameDataList({
   const [currentPage, setCurrentPage] = useState(1);
   const [gameData, setGameData] = useState<IGame[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const isDebounceActiveRef = useRef(true);
 
   // const gameDataMock = Array.from({ length: 5 }, (_, i) => i + 1).map(i => {
   //   return {
@@ -70,7 +72,10 @@ export default function GameDataList({
   // 디바운스된 검색 함수
   const debouncedSearch = useCallback(
     debounce((value: string) => {
-      setDebouncedGameTitle(value);
+      if (isDebounceActiveRef.current) {
+        setDebouncedGameTitle(value);
+        setCurrentPage(1);
+      }
     }, 300),
     []
   );
@@ -92,6 +97,13 @@ export default function GameDataList({
   //   fetchGames();
   // }, [gameTitle, currentPage]);
 
+  // useEffect(() => {
+  //   if (debouncedGameTitle !== '') {
+  //     setCurrentPage(1); // 검색어가 변경될 때만 페이지를 1로 리셋
+  //     fetchGames();
+  //   }
+  // }, [debouncedGameTitle])
+
   // debouncedGameTitle이 변경될 때만 검색 실행
   useEffect(() => {
     if (debouncedGameTitle !== '') {
@@ -100,6 +112,7 @@ export default function GameDataList({
   }, [debouncedGameTitle, currentPage]);
 
   const handlePageChange = (page: number) => {
+    isDebounceActiveRef.current = false;
     setCurrentPage(page);
   };
 
@@ -140,6 +153,7 @@ export default function GameDataList({
               onChange={e => {
                 const isEmpty = e.target.value === '';
                 setGameTitle(e.target.value);
+                isDebounceActiveRef.current = true;
                 debouncedSearch(e.target.value);
                 setShowGameData(!isEmpty);
               }}
@@ -152,7 +166,7 @@ export default function GameDataList({
             />
           </div>
           {isLoading && <p className={styles.loading}>로딩 중...</p>}
-          {showGameData && (
+          {showGameData && !isLoading && (
             <div className={styles.gameDataList}>
               {gameData.map((data, i) => {
                 return (

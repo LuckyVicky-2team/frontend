@@ -5,6 +5,16 @@
   justify-content: center;
   padding: 30px 24px;
   gap: 220px;
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  max-width: 600px;
+  width: 100%;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
 }
 
 .contents {

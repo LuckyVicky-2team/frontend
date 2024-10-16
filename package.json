@@ -13,9 +13,11 @@
     "prettier": "prettier --write 'src/**/*.{tsx,css,scss}'"
   },
   "dependencies": {
+    "@sentry/nextjs": "^8.33.1",
     "@tanstack/react-query": "^5.51.11",
     "axios": "^1.7.2",
     "draft-js": "^0.11.7",
+    "firebase": "^10.14.0",
     "framer-motion": "^11.3.24",
     "html-react-parser": "^5.1.12",
     "husky": "^9.1.4",
@@ -29,6 +31,7 @@
     "react-quill": "^2.0.0",
     "sass": "^1.77.8",
     "sharp": "^0.33.5",
+    "swiper": "^11.1.14",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
@@ -41,6 +44,7 @@
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
+    "cypress": "^13.14.2",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5",
     "eslint-config-prettier": "^9.1.0",

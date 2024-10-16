@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { useClientSearchParams } from '@/hooks/useClientSearchParams';
 import { genre } from '@/data/dummyData';
-import { city, areas } from '@/data/locationData';
+import { city, areas, cityMapping } from '@/data/locationData';
 import { dateToISOString } from '@/utils/common';
 import DatePicker from '@/components/common/DatePicker';
 import SelectBox from '@/components/common/SelectBox';
@@ -18,15 +18,10 @@ export default function FilterContainer() {
   };
   const endDate = getDateFromUrl('endDate');
   const arrangedEndDate = new Date(endDate.setDate(endDate.getDate() - 1));
-  // const [selectedGenre, setSelectedGenre] = useState<string>(
-  //   searchParams.get('tag') || ''
-  // );
-  // const [selectedCity, setSelectedCity] = useState<string>(
-  //   searchParams.get('city') || ''
-  // );
-  // const [selectedCounty, setSelectedArea] = useState<string>(
-  //   searchParams.get('county') || ''
-  // );
+
+  const transCityText = (city: string) => {
+    return cityMapping[city] || city;
+  };
   const [searchResult, setSearchResult] = useState<string>('');
   const [showingStartDate, setShowingStartDate] = useState<Date | null>(
     new Date(searchParams.get('startDate')) < new Date()
@@ -45,6 +40,7 @@ export default function FilterContainer() {
   const [showingEndDate, setShowingEndDate] = useState<Date | null>(
     getDateFromUrl('endDate') < new Date() ? null : arrangedEndDate
   );
+
   const {
     handleSubmit,
     register,
@@ -82,7 +78,7 @@ export default function FilterContainer() {
     // 모든 검색 매개변수를 제거하여 초기화
     searchParams.clear('REPLACE');
 
-    // 폼의 기본값 설정
+    // 훅폼의 기본값 설정
     setValue('search_word', '');
     setValue('search_type', 'TITLE');
 
@@ -100,6 +96,7 @@ export default function FilterContainer() {
     setSelectedCity(searchParams.get('city') || '');
     setSelectedCounty(searchParams.get('county') || '');
   }, [JSON.stringify(searchParams.get())]);
+
   return (
     <section className={styles.searchTabHeader}>
       <SearchBar
@@ -124,96 +121,125 @@ export default function FilterContainer() {
         }}
       />
       <div className={styles.filter}>
-        <SelectBox
-          id="genre"
-          optionTitle="장르"
-          clickOptionHandler={e => setParamsToUrl('tag', e.target.value)}
-          optionSet={genre}
-          value={selectedGenre}
-        />
-        <SelectBox
-          id="city"
-          optionTitle="시/도"
-          optionSet={city}
-          clickOptionHandler={e => setParamsToUrl('city', e.target.value)}
-          value={selectedCity}
-        />
-        <SelectBox
-          id="area"
-          optionTitle="구/군"
-          optionSet={selectedCity ? areas[selectedCity] : []}
-          clickOptionHandler={e => setParamsToUrl('county', e.target.value)}
-          isDisabled={!selectedCity}
-          value={selectedCounty}
-        />
-
-        <div className={styles.aaa}>
-          <DatePicker
-            selectedDate={showingStartDate}
-            minDate={new Date()}
-            setSelectedDate={(date: Date | null) => {
-              if (!date) return;
-              setShowingStartDate(date);
-              const startDateISO = dateToISOString(date);
-
-              if (!showingEndDate && !showingStartDate) {
-                //1. 초기렌더링. endDate 없고 startDate 설정
+        <div className={styles.genreSelectBox}>
+          <SelectBox
+            id="genre"
+            optionTitle="장르"
+            clickOptionHandler={e =>
+              setParamsToUrl('tag', `${e.target.value}게임`)
+            }
+            optionSet={genre}
+            value={selectedGenre}
+            rightLabel={
+              <Image
+                sizes={'100%'}
+                fill
+                alt="upAndDownIcon"
+                src={'/assets/icons/filledArrowDown.svg'}
+              />
+            }
+          />
+        </div>
+        <div className={styles.locationSelectBox}>
+          <SelectBox
+            id="city"
+            optionTitle="시/도"
+            optionSet={city}
+            clickOptionHandler={e =>
+              setParamsToUrl('city', transCityText(e.target.value))
+            }
+            value={selectedCity}
+            rightLabel={
+              <Image
+                sizes={'100%'}
+                fill
+                alt="upAndDownIcon"
+                src={'/assets/icons/filledArrowDown.svg'}
+              />
+            }
+          />
+        </div>
+        <div className={styles.locationSelectBox}>
+          <SelectBox
+            id="area"
+            optionTitle="구/군"
+            optionSet={selectedCity ? areas[selectedCity] : []}
+            clickOptionHandler={e => setParamsToUrl('county', e.target.value)}
+            isDisabled={!selectedCity}
+            value={selectedCounty}
+            rightLabel={
+              <Image
+                sizes={'100%'}
+                fill
+                alt="upAndDownIcon"
+                src={'/assets/icons/filledArrowDown.svg'}
+              />
+            }
+          />
+        </div>
+        <div className={styles.dates}>
+          <div className={styles.aaa}>
+            <DatePicker
+              selectedDate={showingStartDate}
+              minDate={new Date()}
+              setSelectedDate={(date: Date | null) => {
+                if (!date) return;
                 setShowingStartDate(date);
-              } else if (showingEndDate && date > showingEndDate) {
-                // 2.. endDate가 있고, 새로 설정하려는 startDate가 endDate보다 이후일 경우
+                const startDateISO = dateToISOString(date);
+
+                if (!showingEndDate && !showingStartDate) {
+                  //1. 초기렌더링. endDate 없고 startDate 설정
+                  setShowingStartDate(date);
+                } else if (showingEndDate && date > showingEndDate) {
+                  // 2.. endDate가 있고, 새로 설정하려는 startDate가 endDate보다 이후일 경우
+                  const copyDate = new Date(date);
+                  const dateMidnight = new Date(
+                    copyDate.setDate(copyDate.getDate() + 1)
+                  );
+                  setShowingEndDate(date); // endDate를 startDate로 변경
+                  const endDateISO = dateToISOString(dateMidnight);
+                  searchParams.append('REPLACE', {
+                    startDate: startDateISO!,
+                    endDate: endDateISO!,
+                  });
+                } else {
+                  //새로 설정하려는 startDate이 endDate보다 이전이고, startDate 만 변경할경우
+                  setParamsToUrl('startDate', startDateISO);
+                }
+              }}
+              placeholder="시작 날짜"
+              className={`${styles.datePicker}`}
+            />
+          </div>
+          <div className={styles.aaa}>
+            <DatePicker
+              selectedDate={showingEndDate}
+              setSelectedDate={(date: Date | null) => {
+                if (!date) return;
+                setShowingEndDate(date);
                 const copyDate = new Date(date);
                 const dateMidnight = new Date(
                   copyDate.setDate(copyDate.getDate() + 1)
                 );
-                setShowingEndDate(date); // endDate를 startDate로 변경
                 const endDateISO = dateToISOString(dateMidnight);
+
+                const startDateISO = dateToISOString(showingStartDate);
                 searchParams.append('REPLACE', {
                   startDate: startDateISO!,
                   endDate: endDateISO!,
                 });
-              } else {
-                //새로 설정하려는 startDate이 endDate보다 이전이고, startDate 만 변경할경우
-                setParamsToUrl('startDate', startDateISO);
-              }
-            }}
-            placeholder="시작 날짜"
-            className={`${styles.datePicker}`}
-          />
-        </div>
-        <div className={styles.aaa}>
-          <DatePicker
-            selectedDate={showingEndDate}
-            setSelectedDate={(date: Date | null) => {
-              if (!date) return;
-              setShowingEndDate(date);
-              const copyDate = new Date(date);
-              const dateMidnight = new Date(
-                copyDate.setDate(copyDate.getDate() + 1)
-              );
-              const endDateISO = dateToISOString(dateMidnight);
-
-              const startDateISO = dateToISOString(showingStartDate);
-              searchParams.append('REPLACE', {
-                startDate: startDateISO!,
-                endDate: endDateISO!,
-              });
-            }}
-            isDisabled={!showingStartDate}
-            minDate={showingStartDate ? showingStartDate : null}
-            placeholder="종료 날짜"
-            className={`${styles.datePicker}`}
-          />
+              }}
+              isDisabled={!showingStartDate}
+              minDate={showingStartDate ? showingStartDate : null}
+              placeholder="종료 날짜"
+              className={`${styles.datePicker}`}
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.sortContainer}>
-        <div
-          className={styles.resetBtn}
-          // onClick={() => {
-          //   searchParams.clear('REPLACE');
-          //   setValue('search_word', '');
-          // }}
-          onClick={handleResetFilters}>
+        <div className={styles.resetBtn} onClick={handleResetFilters}>
           <h3>초기화</h3>
           <Image
             width={24}
@@ -222,14 +248,8 @@ export default function FilterContainer() {
             src={'/assets/icons/reset.svg'}
           />
         </div>
+        {/* <div className={styles.sortType}> */}
         <div className={styles.sortType}>
-          <Image
-            width={24}
-            height={24}
-            alt="upAndDownIcon"
-            src={'/assets/icons/upDownArrow.svg'}
-          />
-
           <SelectBox
             id="filter"
             optionSet={[
@@ -237,8 +257,17 @@ export default function FilterContainer() {
               { name: '참여인원 순', value: 'PARTICIPANT_COUNT' },
             ]}
             clickOptionHandler={e => setParamsToUrl('sortBy', e.target.value)}
+            leftLabel={
+              <Image
+                fill
+                sizes={'100%'}
+                alt="upAndDownIcon"
+                src={'/assets/icons/upDownArrow.svg'}
+              />
+            }
           />
         </div>
+        {/* </div> */}
       </div>
       {isSearchWord !== null && (
         <div className={styles.info}>

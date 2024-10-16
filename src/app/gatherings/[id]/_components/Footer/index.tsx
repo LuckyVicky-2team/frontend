@@ -9,12 +9,13 @@ import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
 import Spinner from '@/components/common/Spinner';
+import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface IGatheringFooterProps {
   id: number;
@@ -70,7 +71,7 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const screenWidth = useScreenWidth();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -126,18 +127,6 @@ export default function GatheringFooter({
     addToast('아직 구현되지 않은 기능입니다.', 'error');
     // router.push('/Chatting');
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      // setIsMobile(window.innerWidth <= 439);
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // 초기 로드 시 체크
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // const handleAlertLater = () => {
   //   handleSuccessModalClose();

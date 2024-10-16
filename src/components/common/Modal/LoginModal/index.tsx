@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Modal from '..';
 import styles from './LoginModal.module.scss';
-import { useEffect, useState } from 'react';
+import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface ILoginModal {
   modalOpen: boolean;
@@ -12,23 +12,12 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
   const router = useRouter();
   const pathname = usePathname();
   const currentURL = `${window.location.origin}${pathname}`;
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const screenWidth = useScreenWidth();
 
   const handleGoToLoginPage = () => {
     document.cookie = `referer=${currentURL}; path=/`;
     router.push('/signin');
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // 초기 로드 시 체크
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552}>

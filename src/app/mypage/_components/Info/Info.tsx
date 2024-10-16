@@ -46,6 +46,7 @@ export default function Info({
   const handleLogout = async () => {
     await logout();
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
     setLoggedIn(false);
     alert('로그아웃 되었습니다.');

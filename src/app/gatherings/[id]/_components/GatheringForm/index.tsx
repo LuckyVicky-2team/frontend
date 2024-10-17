@@ -457,7 +457,7 @@ export default function GatheringForm({
                   className={`${styles.successMessage} ${!watchedImage && styles.info}`}>
                   {watchedImage
                     ? '사진이 너무 멋있어요!'
-                    : '이미지를 업로드하지 않으시면, 선택하신 게임의 이미지로 등록됩니다.'}
+                    : '이미지를 업로드하지 않으시면, 선택하신 게임의 이미지가 보여집니다.'}
                 </div>
               </div>
             </div>

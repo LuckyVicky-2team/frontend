@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import BottomSheet from '../../BottomSheet';
 import styles from './MobileInstallPrompt.module.scss';
-import { useEffect, useState } from 'react';
+import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface IMobileInstallPromptProps {
   handleInstallClick: () => void;
@@ -16,19 +16,7 @@ export default function MobileInstallPrompt({
   platform,
   isOpen,
 }: IMobileInstallPromptProps) {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // 초기 로드 시 체크
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  const screenWidth = useScreenWidth();
   return (
     <BottomSheet
       isOpen={isOpen}

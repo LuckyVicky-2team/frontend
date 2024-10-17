@@ -9,12 +9,14 @@ import IconButton from '@/components/common/IconButton';
 import { useSaveItemState } from '@/hooks/useSavedItemsStatus';
 import { IWishListItemProps } from '@/types/response/WishListRES';
 import { useEffect, useState } from 'react';
+import styles from './SaveGatheringButton.module.scss';
 
 interface ISaveGatheringButtonProps {
   id: number;
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   type?: 'blue' | 'red' | 'default';
   rectangle?: boolean; //네모 테두리
+  screenWidth?: number;
   isInitialSaved?: 'Y' | 'N';
   className?: string;
 }
@@ -38,7 +40,8 @@ export default function SaveGatheringButton({
   type = 'default',
   id,
   size,
-  // rectangle = false,
+  rectangle = false,
+  screenWidth = 0,
   // isInitialSaved = 'N',
   className,
 }: ISaveGatheringButtonProps) {
@@ -82,11 +85,21 @@ export default function SaveGatheringButton({
   }, [savedItem, wishList]);
 
   return (
-    <IconButton
-      className={className}
-      size={size}
-      imgUrl={isSaved ? iconPathsObj[type].saved : iconPathsObj[type].unsaved}
-      clickIconButtonHandler={handleButton}
-    />
+    <div
+      className={rectangle ? styles.rectangle : ''}
+      style={{
+        height: screenWidth ? `${(screenWidth * 88) / 600}px` : '',
+        width: screenWidth ? `${(screenWidth * 80) / 600}px` : '',
+        maxHeight: screenWidth ? '88px' : '',
+        maxWidth: screenWidth ? '80px' : '',
+      }}
+      onClick={handleButton}>
+      <IconButton
+        className={className}
+        size={size}
+        imgUrl={isSaved ? iconPathsObj[type].saved : iconPathsObj[type].unsaved}
+        clickIconButtonHandler={handleButton}
+      />
+    </div>
   );
 }

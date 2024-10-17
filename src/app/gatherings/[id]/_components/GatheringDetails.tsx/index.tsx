@@ -36,7 +36,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const { data: isUserTypeQuitData } = useGetIsUserTypeQuit(
     data?.meetingId || 0
   );
-  const { data: dataMe, isError: isErrorMe } = useMe();
+  const { data: dataMe, isError: isErrorMe, isPending: isPendingMe } = useMe();
   const [participantCount, setParticipantCount] = useState<number>(
     data?.totalParticipantCount || 0
   );
@@ -343,11 +343,15 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         <p className={styles.h2Description}>모임장님은 이런 분이세요!</p>
         <Link
           href={`/other-profile/${LeaderID}?id=${data.meetingId}&open=zero`}
-          className={styles.leaderProfile}>
+          className={styles.leaderProfile}
+          style={{
+            height: `max(80px,${(screenWidth * 130) / 600}px)`,
+            marginTop: `clamp(8px, ${(screenWidth * 19) / 600}px, 20px)`,
+          }}>
           <div
             style={{
               display: 'flex',
-              alignItems: 'flex-start',
+              alignItems: 'center',
               height: '90px',
             }}>
             <ProfileImage
@@ -356,14 +360,32 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   participant => participant.type === 'LEADER'
                 )?.profileImage
               }
-              width={56}
-              height={56}
+              width={screenWidth > 600 ? 56 : (screenWidth * 56) / 600}
+              height={screenWidth > 600 ? 56 : (screenWidth * 56) / 600}
             />
           </div>
-          <div className={styles.leaderDescription}>
-            <div className={styles.userNickname}>{data.userNickName}</div>
-            <div className={styles.rating}>평점 {data.rating}점</div>
-            <div className={styles.gatheringCount}>
+          <div
+            className={styles.leaderDescription}
+            style={{ gap: screenWidth > 500 ? '8px' : '' }}>
+            <div
+              className={styles.userNickname}
+              style={{
+                fontSize: `clamp(16px, ${(screenWidth * 24) / 600}px, 24px)`,
+              }}>
+              {data.userNickName}
+            </div>
+            <div
+              className={styles.rating}
+              style={{
+                fontSize: `clamp(12px, ${(screenWidth * 16) / 600}px, 16px)`,
+              }}>
+              평점 {data.rating}점
+            </div>
+            <div
+              className={styles.gatheringCount}
+              style={{
+                fontSize: `clamp(12px, ${(screenWidth * 16) / 600}px, 16px)`,
+              }}>
               운영 모임 {data.userWritingCount}회
             </div>
           </div>
@@ -386,9 +408,9 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         setParticipantCount={setParticipantCount}
         limitParticipant={data.limitParticipant}
         isInitialSaved={data.likeStatus}
-        isMobile={isMobile}
         state={data.state}
         refetch={refetch}
+        isPendingMe={isPendingMe}
       />
     </div>
   );

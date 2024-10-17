@@ -13,6 +13,7 @@ export const handleAllowNotification = async () => {
       const token = await getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
       });
+      console.log(token);
       if (token) {
         //토큰을 서버로 전송
         const response = patchPushToken(token);

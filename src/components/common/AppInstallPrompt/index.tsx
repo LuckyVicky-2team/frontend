@@ -37,6 +37,7 @@ export default function AppInstallPrompt() {
         setDeferredPrompt(null);
       });
     }
+    handleModalClose();
   };
 
   const handleCancelClick = () => {

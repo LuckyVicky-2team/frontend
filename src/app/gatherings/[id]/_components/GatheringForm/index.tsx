@@ -51,7 +51,6 @@ export default function GatheringForm({
       content: '',
       type: 'FREE',
       boardGameIdList: [],
-      image: '',
       meetingDatetime: undefined,
       genreIdList: [],
       limitParticipant: 2,
@@ -74,7 +73,7 @@ export default function GatheringForm({
   >([]);
 
   const selectedImageUrl =
-    initialData?.thumbnail &&
+    initialData?.thumbnail?.includes('meeting') &&
     `https://d248qe8akqy587.cloudfront.net/${initialData.thumbnail}`;
   const isGameListEmpty = useMemo(() => {
     return boardGameIdTitleList.length === 0;
@@ -150,7 +149,6 @@ export default function GatheringForm({
         boardGameIdList: initData.boardGameListResponseList.map(
           game => game.boardGameId
         ),
-        image: '',
         meetingDatetime: new Date(initData.meetingDatetime),
         limitParticipant: initData.limitParticipant,
         locationName: initData.locationName,
@@ -177,6 +175,7 @@ export default function GatheringForm({
       ...info
     } = gatheringInfo;
 
+    const isDeleteThumbnail = image === '';
     const isBoardGameListSame =
       JSON.stringify(initialBoardGameIdList) ===
       JSON.stringify(boardGameIdList);
@@ -189,16 +188,19 @@ export default function GatheringForm({
       ...info,
     };
     const editRequestData = {
+      isDeleteThumbnail,
       meetingDatetime: dateToString(meetingDatetime),
-      boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
+      // boardGameIdList: isBoardGameListSame ? [] : boardGameIdList,
+      boardGameIdList: isBoardGameListSame
+        ? initialBoardGameIdList
+        : boardGameIdList,
       id: Number(initialData?.meetingId),
       ...info,
     };
 
     const formData = new FormData();
 
-    //@haewon 로직 수정필요
-    if (!editMode || (editMode && image !== '')) {
+    if (!editMode || (editMode && image !== undefined)) {
       formData.append('image', image);
     }
 

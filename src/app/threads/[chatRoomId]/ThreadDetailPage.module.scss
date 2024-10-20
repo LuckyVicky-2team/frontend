@@ -1,0 +1,12 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 65px 0 0;
+  min-height: 100vh;
+}
+
+.gatheringInfo {
+  position: sticky;
+  top: 65px;
+}

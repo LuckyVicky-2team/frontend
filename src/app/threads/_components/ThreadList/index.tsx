@@ -25,7 +25,10 @@ export default function ThreadList() {
 
           return (
             <Link
-              href={`/threads/${thread.chatRoomId}`}
+              href={{
+                pathname: `/threads/${thread.chatRoomId}`,
+                query: { meeting: thread.meetingId },
+              }}
               key={thread.chatRoomId}>
               <ThreadListItem
                 thumbnail={thread.thumbnail}

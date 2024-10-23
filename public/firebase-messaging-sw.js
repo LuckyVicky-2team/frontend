@@ -9,9 +9,9 @@ self.addEventListener("install", function (e) {
   self.skipWaiting();
 });
 
-self.addEventListener("activate", function (e) {
-  console.log("fcm service worker가 실행되었습니다.");
-});
+// self.addEventListener("activate", function (e) {
+//   console.log("fcm service worker가 실행되었습니다.");
+// });
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();

@@ -13,6 +13,7 @@ import AppInstallPrompt from '@/components/common/AppInstallPrompt';
 import { handleAllowNotification } from '@/service/notificationPermission';
 import { setUser } from '@sentry/nextjs';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
+import { app } from '@/service/initFirebase';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -113,7 +114,7 @@ export default function Main() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     const notification = localStorage.getItem('notification');
-    if (token && !notification) {
+    if (token && !notification && app) {
       handleAllowNotification();
       localStorage.setItem('notification', 'true');
     }

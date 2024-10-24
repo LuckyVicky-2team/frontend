@@ -4,7 +4,7 @@ describe('template spec', () => {
     cy.visit('http://localhost:3000/main');
   });
 
-  it('should contain "상황별 추천" text', () => {
+  it('should contain "상황별 추천!" text', () => {
     cy.contains('상황별 추천');
   });
 });

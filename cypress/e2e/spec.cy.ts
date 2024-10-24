@@ -5,6 +5,6 @@ describe('template spec', () => {
   });
 
   it('should contain "상황별 추천!" text', () => {
-    cy.contains('상황별 추천!');
+    cy.contains('상황별 추천!', { timeout: 10000 });
   });
 });

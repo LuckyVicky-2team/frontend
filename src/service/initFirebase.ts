@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
+import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,5 +17,17 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+let app: FirebaseApp | undefined;
+
+//테스트 환경이 아닐 때만 실행
+if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
+  //이미 초기화된 앱이 있는지 확인
+  if (!getApps().length) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    app = getApps()[0];
+  }
+}
+
+export { app };
 // const analytics = getAnalytics(app);

@@ -29,6 +29,7 @@ export const QueryKey = {
     KEY: 'gathering',
     LIST: (filters: any) => [QueryKey.GATHERING.KEY, QueryKey.LIST, filters],
     DETAIL: (id: number) => [QueryKey.GATHERING.KEY, id],
+    THREAD: (id: number) => [QueryKey.GATHERING.KEY, 'chatrooms', id],
   },
   REVIEW: {
     KEY: 'review',

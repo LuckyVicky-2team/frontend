@@ -4,29 +4,44 @@ import { useState, useEffect, KeyboardEvent, useRef } from 'react';
 import * as StompJs from '@stomp/stompjs';
 import { IErrorProps } from '@/types/CommonInterface';
 import ThreadInput from '../ThreadInput';
+import { IChattingsContent } from '@/types/response/ChatroomsRES';
+import {
+  useGetChattingLog,
+  useGetGatheringInfo,
+  useGetMyInfo,
+} from '@/api/queryHooks/thread';
+import { IParticipant } from '@/types/response/Gathering';
+import TalkListItem from '../TalkListItem';
 import styles from './ChattingRoom.module.scss';
 
 interface IChattingRoomProps {
   chatRoomId: number;
+  gatheringId: number;
 }
 
-export default function ChattingRoom({ chatRoomId }: IChattingRoomProps) {
+export default function ChattingRoom({
+  chatRoomId,
+  gatheringId,
+}: IChattingRoomProps) {
   const stompClient = useRef<StompJs.Client>();
-  const [connected, setConnected] = useState(false); // 연결 상태
+  // const [connected, setConnected] = useState(false); // 연결 상태
   const [message, setMessage] = useState(''); // 전송할 메시지
-  const [messages, setMessages] = useState<string[]>([]); // 수신한 메시지 목록
+  const [messages, setMessages] = useState<IChattingsContent[]>([]); // 수신한 메시지 목록
 
-  console.log(connected);
+  const { data: gatheringData } = useGetGatheringInfo(gatheringId);
+  const { data: userData } = useGetMyInfo(gatheringData);
+  const { data: chattingLog } = useGetChattingLog(chatRoomId, 0);
 
-  const onConnected = (frame: StompJs.IFrame) => {
-    console.log('Connected: ' + frame);
-    setConnected(true);
+  const gatheringMembers = gatheringData?.userParticipantResponseList;
+
+  const onConnected = () => {
+    // setConnected(true);
 
     if (!stompClient.current) return;
 
     stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, message => {
       const messageData = JSON.parse(message.body);
-      setMessages(prevMessages => [...prevMessages, messageData.content]);
+      setMessages(prevMessages => [...prevMessages, messageData]);
     });
   };
 
@@ -48,11 +63,15 @@ export default function ChattingRoom({ chatRoomId }: IChattingRoomProps) {
       return;
     }
 
-    if (stompClient.current) {
+    if (stompClient.current && userData) {
+      const userId = gatheringMembers.find(
+        (member: IParticipant) => member.nickname === userData.nickName
+      )?.userId;
+
       const chatRequest = {
         roomId: chatRoomId,
         content: message,
-        senderId: 46, // 사용자 ID
+        senderId: userId,
         sendDatetime: new Date().toISOString(),
       };
 
@@ -72,6 +91,8 @@ export default function ChattingRoom({ chatRoomId }: IChattingRoomProps) {
   };
 
   useEffect(() => {
+    if (!userData) return;
+
     const stompClientValue = new StompJs.Client({
       brokerURL: 'ws://43.200.143.133:8080/gs-guide-websocket',
       reconnectDelay: 2000, // 연결 끊김 시 재연결 시도
@@ -88,17 +109,49 @@ export default function ChattingRoom({ chatRoomId }: IChattingRoomProps) {
     return () => {
       stompClientValue.deactivate();
     };
-  }, []);
+  }, [userData]);
+
+  useEffect(() => {
+    if (!chattingLog) return;
+
+    const messageArray = chattingLog.content.reverse();
+
+    setMessages(messageArray);
+  }, [chattingLog]);
+
+  useEffect(() => {
+    window.scrollTo({ top: document.body.scrollHeight });
+  }, [messages]);
 
   return (
-    <>
-      <div className={styles.talks}>
-        {/* {talks.map(talk => {
-          return <TalkListItem key={talk.id} item={talk} />;
-        })} */}
-        {messages.map((message, index) => {
-          return <div key={index}>{message}</div>;
-        })}
+    <div className={styles.chattingRoom}>
+      {/* <GatheringInfoOfThread
+        thumbnail={gatheringInfo.thumbnail}
+        title={gatheringInfo.title}
+        description={gatheringInfo.content}
+        place={`${gatheringInfo.city} ${gatheringInfo.county}`}
+        meetingId={gatheringInfo.meetingId}
+        participants={gatheringInfo.userParticipantResponseList}
+        className={styles.gatheringInfo}
+      /> */}
+      <div className={styles.talksContainer}>
+        <div className={styles.talks}>
+          {messages.map(message => {
+            return (
+              <TalkListItem
+                key={message.sendDatetime}
+                item={message}
+                participants={gatheringMembers}
+                userId={
+                  gatheringMembers.find(
+                    (member: IParticipant) =>
+                      member?.nickname === userData?.nickName
+                  )?.userId
+                }
+              />
+            );
+          })}
+        </div>
       </div>
       <div className={styles.submit}>
         <ThreadInput
@@ -108,6 +161,6 @@ export default function ChattingRoom({ chatRoomId }: IChattingRoomProps) {
           onClick={() => sendMessage()}
         />
       </div>
-    </>
+    </div>
   );
 }

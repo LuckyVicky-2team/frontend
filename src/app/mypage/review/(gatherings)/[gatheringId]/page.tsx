@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './GatheringID.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,17 +8,20 @@ import { transDate } from '@/utils/common';
 import IconButton from '@/components/common/IconButton';
 import { useRevieweeList, useMeetingList } from '@/api/queryHooks/review';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/components/common/Spinner';
 
 export default function SingleGatheringPage({
   params,
 }: {
   params: { gatheringId: number };
 }) {
+  const [lastReviewee, setLastReviewee] = useState(false);
   const router = useRouter();
   const { data: meetingList } = useMeetingList({ reviewType: 'PRE_PROGRESS' });
-  const { data: revieweeList } = useRevieweeList({
+  const { data: revieweeList, isLoading } = useRevieweeList({
     meetingId: params.gatheringId,
   });
+
   const meetingData =
     meetingList &&
     meetingList?.find(el => el.meetingId === Number(params.gatheringId));
@@ -30,16 +33,16 @@ export default function SingleGatheringPage({
     meetingData && meetingData.thumbnail
       ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${meetingData.thumbnail}`
       : '/assets/images/emptyThumbnail.png';
+  useEffect(() => {
+    if (revieweeList) {
+      setLastReviewee(revieweeList.length === 1);
+    }
+  }, [revieweeList?.length]);
 
   useEffect(() => {
     if (!meetingList) router.push('/mypage/review');
-  }, [meetingList]);
+  }, [meetingList, revieweeList]);
 
-  useEffect(() => {
-    if (revieweeList?.length === 0) {
-      router.push('/mypage/review');
-    }
-  }, [revieweeList?.length]);
   return (
     <div className={styles.container}>
       {meetingData && (
@@ -83,6 +86,14 @@ export default function SingleGatheringPage({
           <span>참여자</span>
         </div>
         <div className={styles.revieweeCardContainer}>
+          {isLoading && (
+            <div
+              style={{
+                margin: 'auto',
+              }}>
+              <Spinner />
+            </div>
+          )}
           {revieweeList?.map((user: any) => (
             <div key={user.revieweeId} className={styles.reviewee}>
               <IconButton
@@ -96,6 +107,7 @@ export default function SingleGatheringPage({
                   pathname: `${params.gatheringId}/${user.revieweeId}`,
                   query: {
                     revieweeName: `${user.revieweeName}`,
+                    ...(lastReviewee && { last: true }),
                   },
                 }}
                 className={styles.writeReviewBtn}>

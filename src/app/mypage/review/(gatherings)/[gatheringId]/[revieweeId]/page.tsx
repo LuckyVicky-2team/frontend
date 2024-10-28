@@ -1,31 +1,47 @@
 'use client';
+
+import { useEffect } from 'react';
 import styles from './WriteReviewPage.module.scss';
 import { useForm, Controller } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
 import Rating from '@/components/common/Rating';
 import { useRouter } from 'next/navigation';
 import { useEvaluationTagList, useReviewCreate } from '@/api/queryHooks/review';
+import { useQueryClient } from '@tanstack/react-query';
+import { QueryKey } from '@/utils/QueryKey';
 import Spinner from '@/components/common/Spinner';
+
 type FormValues = {
   rating: number;
-  evaluationTagList: number[]; // 이 배열이 숫자의 배열임을 명시적으로 지정
+  evaluationTagList: number[];
 };
 
 export default function WriteReviewPage({ params, searchParams }: any) {
   const router = useRouter();
   const revieweeName = searchParams?.revieweeName;
+
   const revieweeId = params?.revieweeId;
   const { addToast } = useToast();
-  const { handleSubmit, control, setValue, getValues, watch } =
-    useForm<FormValues>({
-      defaultValues: {
-        rating: 1,
-        evaluationTagList: [],
-      },
-    });
+
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    getValues,
+    watch,
+    clearErrors,
+    setError,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      rating: 0,
+      evaluationTagList: [],
+    },
+  });
   const watchRating = watch('rating');
   const { data } = useEvaluationTagList();
   const { mutate } = useReviewCreate();
+  const queryClient = useQueryClient();
   const handleTagClick = (id: number) => {
     const currentTags = getValues('evaluationTagList') || [];
     if (currentTags.includes(id)) {
@@ -43,27 +59,47 @@ export default function WriteReviewPage({ params, searchParams }: any) {
       addToast('리뷰를 제출하는데 문제가 있습니다', 'error');
       return;
     }
-    const { evaluationTagList, rating } = data;
-    const requestParams = {
-      evaluationTagList,
-      rating,
-      meetingId: Number(params.gatheringId),
-      revieweeId: Number(revieweeId),
-    };
 
-    mutate(requestParams, {
-      onSuccess: () => {
-        addToast('리뷰를 성공적으로 작성하였습니다.', 'success');
-        router.back();
-      },
-      onError: (error: any) => {
-        const errorCode = error.response.data.errorCode;
-        const errorMsg = error.response.data.messages;
-        if (errorCode <= 404 || errorCode === 4041 || errorCode === 4040)
-          addToast(`${errorMsg}`, 'error');
-      },
-    });
+    const { evaluationTagList, rating } = data;
+    if (rating === 0) {
+      setError('rating', {
+        types: { required: '필수 입력사항입니다', shouldFocus: true },
+      });
+      return;
+    } else {
+      const requestParams = {
+        evaluationTagList,
+        rating,
+        meetingId: Number(params.gatheringId),
+        revieweeId: Number(revieweeId),
+      };
+
+      mutate(requestParams, {
+        onSuccess: () => {
+          addToast('리뷰를 성공적으로 작성하였습니다.', 'success');
+          queryClient.invalidateQueries({
+            queryKey: [QueryKey.REVIEW.REVIEWEE_LIST(params.gatheringId)],
+          });
+          searchParams?.last ? router.push(`/mypage/review`) : router.back();
+        },
+        onError: (error: any) => {
+          const errorCode = error.response.data.errorCode;
+          const errorMsg = error.response.data.messages;
+
+          if (errorCode <= 404 || errorCode === 4041 || errorCode === 4040)
+            addToast(`리뷰 작성에 실패하였습니다`, 'error');
+          console.error(errorMsg);
+        },
+      });
+    }
   };
+
+  const cancelCheck = () => {
+    router.back();
+  };
+  useEffect(() => {
+    watchRating !== 0 && clearErrors('rating');
+  }, [watchRating]);
 
   return (
     <div className={styles.container}>
@@ -73,14 +109,23 @@ export default function WriteReviewPage({ params, searchParams }: any) {
         <p className={styles.line3}>태그로 설명해주세요!</p>
       </div>
       <div className={styles.rating}>
-        <Rating
-          size={'medium'}
-          changeRatingHandler={rating => {
-            setValue('rating', rating);
-          }}
-        />
-        <h3>{watchRating ?? 1}/5</h3>
+        <div className={styles.group}>
+          <Rating
+            size={'medium'}
+            changeRatingHandler={rating => {
+              setValue('rating', rating);
+            }}
+          />
+          <h3
+            className={`${errors.rating && errors.rating.types && watchRating === 0 && styles.error}`}>
+            {watchRating ?? 0}/5
+          </h3>
+        </div>
+        {errors.rating && errors.rating.types && watchRating === 0 && (
+          <p className={styles.ratingError}>{errors.rating.types.required}</p>
+        )}
       </div>
+
       <div className={styles.evaluationContainer}>
         <Controller
           name="evaluationTagList"
@@ -139,10 +184,8 @@ export default function WriteReviewPage({ params, searchParams }: any) {
         </button>
         <button
           className={`${styles.button} ${styles.skip}`}
-          onClick={() => {
-            router.back();
-          }}>
-          건너뛰기
+          onClick={cancelCheck}>
+          닫기
         </button>
       </div>
     </div>

@@ -11,12 +11,14 @@ export default function ReviewPage() {
     reviewType: 'PRE_PROGRESS',
   });
 
-  const dateSortedData = data
-    ?.slice()
-    .sort(
-      (a, b) =>
-        new Date(b.meetingDate).getTime() - new Date(a.meetingDate).getTime()
-    );
+  const dateSortedData =
+    data &&
+    data
+      ?.slice()
+      .sort(
+        (a, b) =>
+          new Date(b.meetingDate).getTime() - new Date(a.meetingDate).getTime()
+      );
 
   return (
     <div className={styles.container}>

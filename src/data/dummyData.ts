@@ -82,7 +82,6 @@ export const gatheringsList = [
   },
 ];
 
-//@haewon
 export const genre = [
   '가족',
   '어린이',

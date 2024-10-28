@@ -81,6 +81,8 @@ export const gatheringsList = [
     games: ['뱅', '할리갈리', '가이아 프로젝트', '잃어버린 함대'],
   },
 ];
+
+//@haewon
 export const genre = [
   '가족',
   '어린이',

@@ -26,7 +26,6 @@
     .messageSection {
       display: flex;
       gap: 8px;
-      word-break: keep-all;
 
       .contents {
         align-self: flex-start;
@@ -42,6 +41,8 @@
         font-weight: 400;
         line-height: 28px;
         letter-spacing: -0.6px;
+        white-space: normal;
+        word-break: break-word;
       }
 
       .createdAt {
@@ -51,6 +52,7 @@
         line-height: 18px;
         letter-spacing: -0.6px;
         align-self: flex-end;
+        flex-shrink: 0;
       }
     }
   }

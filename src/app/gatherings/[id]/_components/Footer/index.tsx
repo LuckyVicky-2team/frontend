@@ -14,19 +14,21 @@ import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
+import Spinner from '@/components/common/Spinner';
+import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface IGatheringFooterProps {
   id: number;
   title: string;
   type: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
-  gatheringType?: 'FREE' | 'ACCEPT';
+  // gatheringType?: 'FREE' | 'ACCEPT';
   participantCount: number;
   setParticipantCount: Dispatch<SetStateAction<number>>;
   limitParticipant: number;
-  isMobile: boolean;
   isInitialSaved: 'Y' | 'N';
   state: 'PROGRESS' | 'COMPLETE' | 'FINISH';
   refetch: () => void;
+  isPendingMe: boolean;
   meetingDatetime?: string;
 }
 
@@ -34,14 +36,14 @@ export default function GatheringFooter({
   id,
   title,
   type,
-  gatheringType = 'FREE',
+  // gatheringType = 'FREE',
   participantCount,
   setParticipantCount,
   limitParticipant,
-  isMobile,
   isInitialSaved,
   state,
   refetch,
+  isPendingMe,
   meetingDatetime,
 }: IGatheringFooterProps) {
   const router = useRouter();
@@ -68,6 +70,8 @@ export default function GatheringFooter({
     handleModalOpen: handleLoginModalOpen,
     handleModalClose: handleLoginModalClose,
   } = useModal();
+
+  const screenWidth = useScreenWidth();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -124,17 +128,28 @@ export default function GatheringFooter({
     // router.push('/Chatting');
   };
 
-  const handleAlertLater = () => {
-    handleSuccessModalClose();
-  };
+  // const handleAlertLater = () => {
+  //   handleSuccessModalClose();
+  // };
 
   return (
     <>
-      <div className={styles.background}>
+      <div
+        className={styles.background}
+        style={{
+          height: `${(screenWidth * 130) / 600}px`,
+          maxHeight: '130px',
+        }}>
         <button
           type="button"
           disabled={isPending}
           className={styles.backButton}
+          style={{
+            height: `${(screenWidth * 88) / 600}px`,
+            width: `${(screenWidth * 80) / 600}px`,
+            maxHeight: '88px',
+            maxWidth: '80px',
+          }}
           onClick={() => {
             router.back();
           }}>
@@ -147,10 +162,16 @@ export default function GatheringFooter({
         </button>
         <button
           className={
-            type === 'LEADER' || type === 'PARTICIPANT'
-              ? styles.ctaWhite
-              : styles.cta
+            isPendingMe
+              ? styles.ctaNone
+              : type === 'LEADER' || type === 'PARTICIPANT'
+                ? styles.ctaWhite
+                : styles.cta
           }
+          style={{
+            height: `${(screenWidth * 88) / 600}px`,
+            maxHeight: '88px',
+          }}
           type="button"
           onClick={handleButtonClick}
           disabled={
@@ -161,24 +182,25 @@ export default function GatheringFooter({
             (state === 'FINISH' &&
               type !== 'LEADER' &&
               type !== 'PARTICIPANT') ||
-            isPending
+            isPending ||
+            isPendingMe
           }>
-          {state === 'PROGRESS' &&
+          {isPendingMe && <Spinner />}
+          {!isPendingMe &&
+            state === 'PROGRESS' &&
             (!type || type === 'NONE') &&
-            !isMobile &&
             '모임 참가하기'}
-          {state === 'PROGRESS' && (!type || type === 'NONE') && isMobile && (
-            <div>
-              모임 <br /> 참가하기
-            </div>
-          )}
-          {(type === 'LEADER' || type === 'PARTICIPANT') && '채팅방으로 가기'}
-          {type === 'QUIT' && '참여할 수 없는 모임입니다.'}
-          {state === 'COMPLETE' &&
+          {!isPendingMe &&
+            (type === 'LEADER' || type === 'PARTICIPANT') &&
+            '채팅방으로 가기'}
+          {!isPendingMe && type === 'QUIT' && '참여할 수 없는 모임입니다.'}
+          {!isPendingMe &&
+            state === 'COMPLETE' &&
             type !== 'LEADER' &&
             type !== 'PARTICIPANT' &&
             '모집 완료되었습니다. '}
-          {state === 'FINISH' &&
+          {!isPendingMe &&
+            state === 'FINISH' &&
             type !== 'LEADER' &&
             type !== 'PARTICIPANT' &&
             '종료된 모집입니다. '}
@@ -187,6 +209,12 @@ export default function GatheringFooter({
         {type === 'LEADER' && progressGathering && (
           <button
             className={styles.editButton}
+            style={{
+              height: `${(screenWidth * 88) / 600}px`,
+              width: `${(screenWidth * 80) / 600}px`,
+              maxHeight: '88px',
+              maxWidth: '80px',
+            }}
             type="button"
             onClick={() => {
               router.push(`${id}/edit`);
@@ -200,15 +228,22 @@ export default function GatheringFooter({
           </button>
         )}
         {type !== 'LEADER' && (
-          <button className={styles.editButton} type="button">
-            <SaveGatheringButton
-              id={id}
-              type="red"
-              className={`${styles.zzimButton}`}
-              rectangle
-              isInitialSaved={isInitialSaved}
-            />
-          </button>
+          // <button
+          //   className={styles.editButton}
+          //   type="button"
+          //   style={{
+          //     height: `${(screenWidth * 88) / 600}px`,
+          //     width: `${(screenWidth * 80) / 600}px`,
+          //   }}>
+          <SaveGatheringButton
+            id={id}
+            type="red"
+            className={`${styles.zzimButton}`}
+            rectangle
+            screenWidth={screenWidth}
+            isInitialSaved={isInitialSaved}
+          />
+          //</button>
         )}
       </div>
       <Modal
@@ -219,12 +254,16 @@ export default function GatheringFooter({
         }}
         maxWidth={552}
         xButton>
-        <div className={styles.modalBackground}>
+        <div
+          className={styles.modalBackground}
+          style={{
+            height: `${screenWidth * 0.3}px`,
+            maxHeight: '150px',
+            gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+          }}>
           <p className={styles.title}>{title}</p>
-          {gatheringType === 'FREE'
-            ? '참여 완료 되었습니다.'
-            : '신청 완료 되었습니다.'}
-          {gatheringType === 'ACCEPT' && (
+          참여 완료 되었습니다.
+          {/* {gatheringType === 'ACCEPT' && (
             <div className={styles.description}>
               <Image
                 src={'/assets/icons/alert-triangle.svg'}
@@ -251,30 +290,26 @@ export default function GatheringFooter({
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
-        <div className={styles.modalButtons}>
+        <div
+          className={styles.modalButtons}
+          style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
           <button
             type="button"
             onClick={handleGoToGatheringList}
-            className={styles.modalFirstButton}>
+            className={styles.modalFirstButton}
+            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
             다른 모임방 둘러보기
           </button>
-          {gatheringType === 'FREE' ? (
-            <button
-              type="button"
-              onClick={handleGoToChatting}
-              className={styles.modalSecondButton}>
-              모임 채팅방 가기
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleAlertLater}
-              className={styles.modalSecondButton}>
-              나중에 개설 안내 받기
-            </button>
-          )}
+
+          <button
+            type="button"
+            onClick={handleGoToChatting}
+            className={styles.modalSecondButton}
+            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            모임 채팅방 가기
+          </button>
         </div>
       </Modal>
       <Modal

@@ -40,8 +40,8 @@ export default function SingleGatheringPage({
   }, [revieweeList?.length]);
 
   useEffect(() => {
-    if (!meetingList) router.push('/mypage/review');
-  }, [meetingList, revieweeList]);
+    if (!meetingData) router.push('/mypage/review');
+  }, [meetingData]);
 
   return (
     <div className={styles.container}>

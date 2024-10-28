@@ -201,6 +201,10 @@
   line-height: 18px; /* 112.5% */
   letter-spacing: 0.64px;
   margin: 8px 0 0;
+
+  &.info {
+    color: var(--lukyviky-Gray-Normal, #9ca3af);
+  }
 }
 
 .modalBackground {

@@ -6,8 +6,7 @@
 >
 > 모임 일정 조율, 참가자 관리, 게임 추천 등 다양한 기능을 통해 친구들과의 보드게임 시간을 더 즐겁고 특별하게 만들어 드립니다.
 >
-> #### <a href="https://dev.app.board-go.net/" target="_blank" rel="noopener noreferrer">HomePage</a>
-> #### 🏠 [HomePage](https://dev.app.board-go.net/){: target="_blank"}
+> #### 🏠 [HomePage](https://dev.app.board-go.net/)
 
 <br>
 

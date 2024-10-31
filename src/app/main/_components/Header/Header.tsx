@@ -373,7 +373,11 @@ export default function Header() {
                     />
                     <span>{likeCount}</span>
                   </a>
-                  {/* <button className={styles.headerAlarmIcon}>
+                  <button
+                    className={styles.headerAlarmIcon}
+                    onClick={() => {
+                      router.push('/notification');
+                    }}>
                     <Image
                       width={56}
                       height={56}
@@ -381,7 +385,7 @@ export default function Header() {
                       alt="알람 아이콘"
                     />
                     <span></span>
-                  </button> */}
+                  </button>
                   <Link href="/mypage" className={styles.headerMyapgeButton}>
                     <Image
                       width={24}

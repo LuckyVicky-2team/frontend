@@ -3,6 +3,7 @@ export const QueryKey = {
   DETAIL: 'detail',
   INFO: 'info',
   GAME: 'game',
+  NOTIFICATION: 'notification',
   TERMS_CONDITION: 'terms-condition',
   USER: {
     ME: 'me',
@@ -12,6 +13,8 @@ export const QueryKey = {
     INFO: (id: number) => [QueryKey.USER.KEY, QueryKey.INFO, id],
     COORDINATE: () => [QueryKey.USER.KEY, 'coordinate'],
     WISHLIST: () => [QueryKey.USER.KEY, 'wish-list'],
+    NOTIFICATION: () => [QueryKey.USER.KEY, 'notification'],
+    THREAD: () => [QueryKey.USER.KEY, 'chatrooms'],
   },
   OTHER_USER: {
     KEY: 'other-user',
@@ -26,6 +29,7 @@ export const QueryKey = {
     KEY: 'gathering',
     LIST: (filters: any) => [QueryKey.GATHERING.KEY, QueryKey.LIST, filters],
     DETAIL: (id: number) => [QueryKey.GATHERING.KEY, id],
+    THREAD: (id: number) => [QueryKey.GATHERING.KEY, 'chatrooms', id],
   },
   REVIEW: {
     KEY: 'review',

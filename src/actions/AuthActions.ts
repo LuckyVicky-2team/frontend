@@ -23,13 +23,3 @@ export const getTokenFromCookie = async () => {
 
   return accessToken;
 };
-
-/**
- * 리프레시 토큰의 존재여부를 boolean 으로 반환.
- * @returns boolean
- */
-export const checkRefreshToken = async () => {
-  const refreshToken = await cookies().get('Authorization');
-
-  return !!refreshToken;
-};

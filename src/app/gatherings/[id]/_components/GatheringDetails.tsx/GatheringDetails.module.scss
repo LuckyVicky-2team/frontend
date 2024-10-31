@@ -233,7 +233,8 @@
   border: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
   width: 100%;
   margin: 38px 0 0;
-  padding: 19px 30px;
+  padding: 0 30px;
+  max-height: 130px;
   gap: 16px;
   align-items: center;
 }
@@ -259,9 +260,5 @@
     font-style: normal;
     font-weight: 500;
     line-height: 20px; /* 125% */
-  }
-
-  .rating {
-    margin: 8px 0;
   }
 }

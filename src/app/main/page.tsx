@@ -9,6 +9,11 @@ import { getMeetingList } from '@/api/apis/mypageApis';
 import { usePostWishList } from '@/api/queryHooks/wishList';
 import NewGather from './_components/newGather/page';
 import MainSearch from './_components/mainSearch';
+import AppInstallPrompt from '@/components/common/AppInstallPrompt';
+import { handleAllowNotification } from '@/service/notificationPermission';
+import { setUser } from '@sentry/nextjs';
+import { getPersonalInfo } from '@/api/apis/mypageApis';
+import { app } from '@/service/initFirebase';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -34,6 +39,8 @@ export default function Main() {
 
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
+  const token = localStorage.getItem('accessToken');
+  const isVerifiedUser = localStorage.getItem('isVerifiedUser');
 
   const { mutate: likeMutate } = usePostWishList();
 
@@ -46,6 +53,28 @@ export default function Main() {
   //   };
   //   transferToken();
   // }, []);
+
+  const SentrySetUserInfo = async () => {
+    try {
+      const personalInfo = await getPersonalInfo();
+      const { email, nickName } = personalInfo.data;
+      setUser({
+        email,
+        username: nickName,
+      });
+
+      localStorage.setItem('isVerifiedUser', 'true');
+    } catch (error) {
+      console.error('Sentry Can"t set user info :', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!token) return;
+    if (token && !isVerifiedUser) {
+      SentrySetUserInfo();
+    }
+  }, [token, isVerifiedUser]);
 
   useEffect(() => {
     if (localStorage.getItem('savedGatherings')) {
@@ -81,6 +110,15 @@ export default function Main() {
       window.scrollTo({ top: topPosition, behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const notification = localStorage.getItem('notification');
+    if (token && !notification && app) {
+      handleAllowNotification();
+      localStorage.setItem('notification', 'true');
+    }
+  }, []);
 
   return (
     <main>
@@ -118,6 +156,7 @@ export default function Main() {
           </div>
         </div>
       </div>
+      <AppInstallPrompt />
     </main>
   );
 }

@@ -80,12 +80,13 @@
 
 ---
 
+
 ## 🖼 주요 페이지
 
-| <h4>메인 페이지</h4> | <h4>로그인/회원 가입 페이지</h4> | <h4>개인 정보 수정 페이지</h4> | <h4>친구 목록 페이지</h4> | <h4>리뷰 페이지</h4> |
+| <h4>메인 페이지</h4> | <h4>로그인 페이지</h4> | <h4>회원 가입 페이지</h4> | <h4>개인 정보 수정 페이지</h4> | <h4>리뷰 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |
-| <img width="277" alt="mainpage" src="https://github.com/user-attachments/assets/a55899da-2ec2-4d20-8f8c-5fbab60b3ae6"> | <img width="277" alt="Login-Signup" src="https://github.com/user-attachments/assets/1eaaa43f-daf4-4cf9-9318-7e954cee7323"> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> |
+| <img width="277" alt="mainpage" src="https://github.com/user-attachments/assets/a55899da-2ec2-4d20-8f8c-5fbab60b3ae6"> | <img width="277" alt="login" src="https://github.com/user-attachments/assets/782e6a59-85c0-4f68-9ed2-81f6f4ba82b8"> | <img width="277" alt="signup" src="https://github.com/user-attachments/assets/2ebd2c10-8d45-452c-8c97-a0b0365a6fff"> | <img width="277" alt="mypage" src="https://github.com/user-attachments/assets/b9a9aeea-e8da-4a55-bdb4-f20326650e37"> | <img width="277" alt="review" src="https://github.com/user-attachments/assets/cf5c39c6-eeae-4843-8c31-fb2f1c48eb06"> |
 
 | <h4>모임 목록 페이지</h4> | <h4>모임 상세 페이지</h4> | <h4>모임 생성 페이지</h4> | <h4>다른 사람 프로필 페이지</h4> | <h4>스레드 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |
-| <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> |
+| <img width="277" alt="meetingList" src="https://github.com/user-attachments/assets/3dc07650-2e7a-4b12-9f27-b0840d71103b"> | <img width="277" alt="meetingDetail" src="https://github.com/user-attachments/assets/be3ac1b5-c730-4708-ab07-4282a7dede46"> | <img width="277" alt="createMeeting" src="https://github.com/user-attachments/assets/4f186a7c-5c42-4451-8da3-220b2030164b"> | <img width="277" alt="" src="https://github.com/user-attachments/assets/8b5e1956-0979-45a8-a257-b4886cc70855"> | <img width="277" alt="" src=""> |

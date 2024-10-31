@@ -14,6 +14,8 @@
 <p align='center'>
 <img width='500px' src='https://github.com/user-attachments/assets/e6f7645d-807b-4264-915e-82940c3f2405'>
 </p>
+  
+<br>
 
 <div>
   <img src='https://img.shields.io/badge/Nextjs-v14.2.5-blue?logo=nextdotjs'/>

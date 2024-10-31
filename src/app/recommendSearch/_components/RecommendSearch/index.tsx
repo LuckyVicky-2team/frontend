@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Skeleton from '@/app/recommend/_components/skeleton';
 
 // IRecommendInfo 타입 정의
 interface IRecommendInfo {
@@ -25,6 +26,7 @@ interface IRecommendInfo {
 export default function RecommendSearchClient() {
   const [recommendInfo, setRecommendInfo] = useState<IRecommendInfo[]>([]);
   const [filteredInfo, setFilteredInfo] = useState<IRecommendInfo[]>([]);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
   const router = useRouter();
@@ -35,11 +37,16 @@ export default function RecommendSearchClient() {
 
   useEffect(() => {
     const fetchRecommendInfo = async () => {
+      setLoading(true);
       try {
         const res = await getRecommendInfo('MANY');
         setRecommendInfo(res.data);
       } catch (err) {
         void err;
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       }
     };
     fetchRecommendInfo();
@@ -96,54 +103,58 @@ export default function RecommendSearchClient() {
         <Link href="/recommendMany">다인용 게임</Link>
         <Link href="/recommendAll">전체</Link>
       </div>
-      <div className={styles.recoListWrap}>
-        {filteredInfo.length > 0 ? (
-          filteredInfo.map((e, i) => (
-            <div className={styles.recoItem} key={i}>
-              <div className={styles.img}>
-                <Image
-                  width={555}
-                  height={555}
-                  src={`https://${cloud}/${e.thumbnail}`}
-                  alt="상황별 추천 게임 이미지"
-                  unoptimized={true}
-                />
-              </div>
-              <h1 className={styles.title}>{e.title}</h1>
-              <div className={styles.info}>
-                <span className={styles.person}>
+      {loading ? (
+        <Skeleton recommendInfo={recommendInfo} />
+      ) : (
+        <div className={styles.recoListWrap}>
+          {filteredInfo.length > 0 ? (
+            filteredInfo.map((e, i) => (
+              <div className={styles.recoItem} key={i}>
+                <div className={styles.img}>
                   <Image
-                    width={20}
-                    height={20}
-                    src={'/assets/icons/user.svg'}
-                    alt=""
+                    width={555}
+                    height={555}
+                    src={`https://${cloud}/${e.thumbnail}`}
+                    alt="상황별 추천 게임 이미지"
+                    unoptimized={true}
                   />
-                  {e?.minPeople}명 ~ {e?.maxPeople}명
-                </span>
-                <span className={styles.time}>
-                  <Image
-                    width={12}
-                    height={12}
-                    src={'/assets/icons/situ_clock.svg'}
-                    alt=""
-                  />
-                  {e.minPlaytime}분~{e.maxPlaytime}분
-                </span>
+                </div>
+                <h1 className={styles.title}>{e.title}</h1>
+                <div className={styles.info}>
+                  <span className={styles.person}>
+                    <Image
+                      width={20}
+                      height={20}
+                      src={'/assets/icons/user.svg'}
+                      alt=""
+                    />
+                    {e?.minPeople}명 ~ {e?.maxPeople}명
+                  </span>
+                  <span className={styles.time}>
+                    <Image
+                      width={12}
+                      height={12}
+                      src={'/assets/icons/situ_clock.svg'}
+                      alt=""
+                    />
+                    {e.minPlaytime}분~{e.maxPlaytime}분
+                  </span>
+                </div>
+                <div className={styles.category}>
+                  {e.genres.map((genre, genreI) => (
+                    <span key={genreI}>{genre}</span>
+                  ))}
+                </div>
               </div>
-              <div className={styles.category}>
-                {e.genres.map((genre, genreI) => (
-                  <span key={genreI}>{genre}</span>
-                ))}
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className={styles.noResults}>
-            {`"${query}"`}에 맞는 게임 검색 결과가 없습니다. <br />
-            게임 이름을 다시 확인해주세요!
-          </p>
-        )}
-      </div>
+            ))
+          ) : (
+            <p className={styles.noResults}>
+              {`"${query}"`}에 맞는 게임 검색 결과가 없습니다. <br />
+              게임 이름을 다시 확인해주세요!
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -83,6 +83,7 @@
   width: 100%;
   white-space: nowrap;
   overflow-x: auto;
+  // flex-wrap: wrap;
 
   /* 웹킷 기반 브라우저에서 스크롤바를 숨기기 */
   ::-webkit-scrollbar {
@@ -134,10 +135,10 @@
   }
 
   li {
-    display: block;
-    width: 32%;
-    margin-right: 3%;
-    min-width: 180px;
+    // display: block;
+    // width: 32%;
+    // margin-right: 3%;
+    // min-width: 180px;
 
     a {
       display: block;
@@ -170,6 +171,7 @@
         gap: 5px;
         border-top-left-radius: 13px;
         font-size: 12px;
+        max-height: 40px;
       }
 
       .img {
@@ -331,15 +333,16 @@
 
   .genreList {
     li {
-      min-width: 100%;
-      width: 100%;
-      margin-bottom: 15px;
-      // margin-right: 10%;
-    }
-    .prevBtn,
-    .nextBtn {
-      width: 35px;
-      height: 35px;
+      a {
+        img {
+          height: 160px;
+        }
+        .deadLineIco {
+          padding: 5px 8px;
+          font-size: 10px;
+          max-height: 30px;
+        }
+      }
     }
   }
 
@@ -356,9 +359,16 @@
     width: 18px;
     height: 18px;
   }
+}
 
-  .deadLineIco {
-    padding: 5px 8px;
-    font-size: 10px;
+@media (max-width: 330px) {
+  .genreList {
+    li {
+      a {
+        img {
+          height: 110px;
+        }
+      }
+    }
   }
 }

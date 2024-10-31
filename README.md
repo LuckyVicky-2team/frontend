@@ -12,7 +12,7 @@
 
 <center>
 <p align='center'>
-<img width='100%' src='https://github.com/user-attachments/assets/e6f7645d-807b-4264-915e-82940c3f2405'>
+<img width='760px' src='https://github.com/user-attachments/assets/e6f7645d-807b-4264-915e-82940c3f2405'>
 </p>
 
 <div>

@@ -27,7 +27,6 @@
   <img src='https://img.shields.io/badge/Puppeteer-v23.0.2-blue?logo=Puppeteer'/>
   <img src='https://img.shields.io/badge/React Query-v5.51.11-pink?logo=React Query'/>
   <img src='https://img.shields.io/badge/Cypress-^13.14.2-green?logo=Cypress'/>
-  <img src='https://img.shields.io/badge/React Hook Form-^7.52.1-pink?logo=React Hook Form'/>
  </div>
 </center>
 

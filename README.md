@@ -6,13 +6,13 @@
 >
 > 모임 일정 조율, 참가자 관리, 게임 추천 등 다양한 기능을 통해 친구들과의 보드게임 시간을 더 즐겁고 특별하게 만들어 드립니다.
 >
-> #### 🏠 [HomePage](https://dev.app.board-go.net/){: target="_blank"}
+> #### 🏠 [HomePage](https://dev.app.board-go.net/)
 
 <br>
 
 <center>
 <p align='center'>
-<img width='760px' src='https://github.com/user-attachments/assets/e6f7645d-807b-4264-915e-82940c3f2405'>
+<img width='500px' src='https://github.com/user-attachments/assets/e6f7645d-807b-4264-915e-82940c3f2405'>
 </p>
 
 <div>

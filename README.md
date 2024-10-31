@@ -84,7 +84,8 @@
 
 | <h4>메인 페이지</h4> | <h4>로그인/회원 가입 페이지</h4> | <h4>개인 정보 수정 페이지</h4> | <h4>친구 목록 페이지</h4> | <h4>리뷰 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |
-| <img width="277" alt="mainpage" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> |
+| <img width="277" alt="mainpage" src="https://github.com/user-attachments/assets/a55899da-2ec2-4d20-8f8c-5fbab60b3ae6">
+"> | <img width="277" alt="Login-Signup" src="https://github.com/user-attachments/assets/e081e983-5694-461f-b285-7a92b4dfdab6"> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> | <img width="277" alt="" src=""> |
 
 | <h4>모임 목록 페이지</h4> | <h4>모임 상세 페이지</h4> | <h4>모임 생성 페이지</h4> | <h4>다른 사람 프로필 페이지</h4> | <h4>스레드 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |

@@ -88,8 +88,8 @@ export default function NewGather({ meetingList }: NewGatherProps) {
             400: {
               slidesPerView: 2,
             },
-            330: {
-              slidesPerView: 1,
+            300: {
+              slidesPerView: 2,
             },
           }}>
           {meetingList?.map(e => (

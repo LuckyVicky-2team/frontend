@@ -21,6 +21,7 @@ interface IGathering {
 
 export default function Finish() {
   const [gatherings, setGatherings] = useState<IGathering[]>([]);
+  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태 추가
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
   const [modal, setModal] = useState<boolean>(false);
   const [selectedMeetingId, setSelectedMeetingId] = useState<string | null>(
@@ -46,6 +47,7 @@ export default function Finish() {
   useEffect(() => {
     const fetchGatherings = async () => {
       try {
+        setLoading(true); // 로딩 상태 시작
         const response = await getPersonalGatherings('CREATE');
         if (Array.isArray(response.data)) {
           setGatherings(response.data);
@@ -57,6 +59,7 @@ export default function Finish() {
         // console.error('Error fetching gatherings:', err);
       } finally {
         // setLoading(false);
+        setLoading(false); // 로딩 상태 끝
       }
     };
 
@@ -92,7 +95,9 @@ export default function Finish() {
         </Link>
       </div>
 
-      {gatherings.length === 0 ? (
+      {loading ? ( // 로딩 중일 때
+        <div className={styles.loading}></div>
+      ) : gatherings.length === 0 ? (
         <div className={styles.noMyGatheringsList}>
           <h1>
             <Image

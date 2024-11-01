@@ -97,30 +97,30 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
       </div> */}
 
       <div className={styles.sliderContainer}>
-        <Swiper
-          className={styles.genreList}
-          modules={[Navigation]}
-          navigation={{
-            nextEl: `.${styles.swiperButtonNext}`,
-            prevEl: `.${styles.swiperButtonPrev}`,
-          }}
-          spaceBetween={20} // 슬라이드 간 간격 설정
-          loop={false} // 루프 여부 설정
-          draggable={true}
-          breakpoints={{
-            500: {
-              slidesPerView: 3,
-            },
-            400: {
-              slidesPerView: 2,
-            },
-            330: {
-              slidesPerView: 1,
-            },
-          }}>
-          {Array.isArray(filteredMeetingList) &&
-          filteredMeetingList.length > 0 ? (
-            filteredMeetingList?.map(e => {
+        {Array.isArray(filteredMeetingList) &&
+        filteredMeetingList.length > 0 ? (
+          <Swiper
+            className={styles.genreList}
+            modules={[Navigation]}
+            navigation={{
+              nextEl: `.${styles.swiperButtonNext}`,
+              prevEl: `.${styles.swiperButtonPrev}`,
+            }}
+            spaceBetween={20} // 슬라이드 간 간격 설정
+            loop={false} // 루프 여부 설정
+            draggable={true}
+            breakpoints={{
+              500: {
+                slidesPerView: 3,
+              },
+              400: {
+                slidesPerView: 2,
+              },
+              300: {
+                slidesPerView: 2,
+              },
+            }}>
+            {filteredMeetingList?.map(e => {
               const gatheringDate = new Date(e.meetingDate);
               return (
                 <SwiperSlide key={e.id}>
@@ -176,29 +176,27 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                   </li>
                 </SwiperSlide>
               );
-            })
-          ) : (
-            <p className={styles.noDeadList}>
-              지금은 마감임박한 모임이 없어요!
-            </p>
-          )}
-          <div className={`swiper-button-prev ${styles.swiperButtonPrev}`}>
-            <Image
-              src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
-              width={16}
-              height={16}
-              alt="이전"
-            />
-          </div>
-          <div className={`swiper-button-next ${styles.swiperButtonNext}`}>
-            <Image
-              src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
-              width={16}
-              height={16}
-              alt="다음"
-            />
-          </div>
-        </Swiper>
+            })}
+            <div className={`swiper-button-prev ${styles.swiperButtonPrev}`}>
+              <Image
+                src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
+                width={16}
+                height={16}
+                alt="이전"
+              />
+            </div>
+            <div className={`swiper-button-next ${styles.swiperButtonNext}`}>
+              <Image
+                src="/assets/mainImages/backIcon.svg" // 실제 화살표 이미지 경로로 수정하세요
+                width={16}
+                height={16}
+                alt="다음"
+              />
+            </div>
+          </Swiper>
+        ) : (
+          <p className={styles.noDeadList}>지금은 마감임박한 모임이 없어요!</p>
+        )}
       </div>
     </div>
   );

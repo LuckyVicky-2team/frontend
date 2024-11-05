@@ -1,0 +1,140 @@
+.skeletonCard {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  min-height: 20vh;
+  overflow: hidden;
+  padding-bottom: 35px;
+
+  .thumbnail {
+    border-radius: 10px;
+    background-color: #ddd;
+    min-width: 38%;
+    height: 200px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .content {
+    display: flex;
+    padding: 0 16px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    max-width: 317px;
+
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      width: 100%;
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 70%;
+
+        .title,
+        .location,
+        .time {
+          background-color: #ddd;
+          border-radius: 4px;
+          height: 20px;
+          animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .title {
+          width: 80%;
+        }
+
+        .location {
+          width: 50%;
+        }
+
+        .time {
+          display: flex;
+          gap: 8px;
+
+          .date,
+          .timeDetail {
+            width: 40%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 4px;
+            animation: pulse 1.5s infinite ease-in-out;
+          }
+        }
+      }
+
+      .iconButton {
+        background-color: #ddd;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+    }
+
+    .tagContainer,
+    .gameContainer {
+      display: flex;
+      gap: 8px;
+
+      .tag,
+      .game {
+        background-color: #ddd;
+        border-radius: 12px;
+        height: 10px;
+        width: 80px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+    }
+
+    .participants {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .participantDetails {
+        background-color: #ddd;
+        height: 20px;
+        width: 50%;
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+
+      .progress {
+        background-color: #ddd;
+        height: 4px;
+        border-radius: 6px;
+        width: 100%;
+        animation: pulse 1.5s infinite ease-in-out;
+      }
+    }
+
+    .seeDetail {
+      background-color: #ddd;
+      height: 28px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 317px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ddd;
+    opacity: 1;
+  }
+  50% {
+    background-color: #e0e0e0;
+    opacity: 0.5;
+  }
+  100% {
+    background-color: #ddd;
+    opacity: 1;
+  }
+}

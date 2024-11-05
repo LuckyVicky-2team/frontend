@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.label {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  align-self: flex-start;
+}
+
+.suggest {
+  color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .title {
+    font-size: 13px;
+  }
+
+  .contents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 25px;
+  }
+
+  .content {
+    font-size: 12px;
+    line-height: normal;
+  }
+}

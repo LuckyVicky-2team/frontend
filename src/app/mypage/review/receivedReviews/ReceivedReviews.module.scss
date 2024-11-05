@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: -35px;
+  height: 100%;
+  gap: 10px;
+
+  .rating {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    p {
+      display: flex;
+      width: 71px;
+      height: 40px;
+      flex-direction: column;
+      justify-content: center;
+      color: $gray-normal;
+      text-align: center;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+    }
+  }
+}
+.emptyReview {
+  display: table;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .boxInfo {
+    height: calc(100vh - 400px);
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 14px;
+  }
+}

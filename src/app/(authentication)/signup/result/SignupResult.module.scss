@@ -1,0 +1,31 @@
+.container {
+  min-height: 100vh;
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 170px;
+
+  .welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .title {
+      font-family: LaundryGothicOTF;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 32px;
+      letter-spacing: 1.2px;
+      margin-bottom: 20px;
+    }
+
+    .contents {
+      color: #9ca3af;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+    }
+  }
+}

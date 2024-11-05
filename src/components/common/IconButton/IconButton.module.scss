@@ -1,0 +1,25 @@
+.icon {
+  position: relative;
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  &[data-size='xsmall'] {
+    width: 16px;
+    height: 16px;
+  }
+
+  &[data-size='small'] {
+    width: 24px;
+    height: 24px;
+  }
+
+  &[data-size='medium'] {
+    width: 32px;
+    height: 32px;
+  }
+
+  &[data-size='large'] {
+    width: 48px;
+    height: 48px;
+  }
+}

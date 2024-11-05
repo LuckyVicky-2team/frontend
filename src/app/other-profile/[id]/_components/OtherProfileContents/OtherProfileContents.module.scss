@@ -1,0 +1,97 @@
+.contents {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .profile {
+    display: flex;
+    gap: 17px;
+
+    .profileImage {
+      position: relative;
+      top: -30px;
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border: 3.5px solid #ffffff;
+      border-radius: 100%;
+    }
+
+    .textArea {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+
+      .nickName {
+        color: #1f2937;
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 24px;
+      }
+
+      .subText {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .manner {
+          color: #757a83;
+          flex-shrink: 0;
+          font-size: 20px;
+          font-weight: 400;
+          line-height: 24px;
+          letter-spacing: -0.6px;
+        }
+      }
+    }
+  }
+
+  .subContents {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+    margin-left: 16px;
+
+    .prTags {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      .prTag {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        white-space: nowrap;
+      }
+
+      .tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+
+        .tag {
+          font-size: 16px;
+          line-height: 20px;
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .contents {
+    .profile {
+      .textArea {
+        .subText {
+          padding-top: 10px;
+          margin-left: -80px;
+          gap: 20px 10px;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}

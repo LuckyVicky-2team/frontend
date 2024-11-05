@@ -1,0 +1,319 @@
+.card {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  min-height: 20vh;
+  background: #fff;
+  overflow: hidden;
+  padding-bottom: 35px;
+  border-bottom: 1px solid #e7e8e9;
+
+  &:nth-last-child(2) {
+    border-bottom: none;
+  }
+
+  .thumbnail {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e0e2e6;
+    min-width: 38%;
+    position: relative;
+    width: fit-content;
+    .fullUser {
+      white-space: pre-wrap;
+      width: 100;
+      height: 100%;
+      flex-shrink: 0;
+      border-radius: 10px;
+      opacity: 0.7;
+      background: #164273;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        margin: auto 0;
+        color: #fff;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    padding: 0 0 0 16px;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 200px;
+
+    .header {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      .topHeader {
+        justify-content: space-between;
+        display: flex;
+        width: 100%;
+        h1 {
+          max-width: 83%;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: 600;
+          line-height: 28px;
+          color: #1f2937;
+          display: inline-block;
+          word-break: keep-all;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+      }
+      .info {
+        max-width: 70%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      h3 {
+        span {
+          color: #111827;
+          font-size: 18px;
+          font-style: normal;
+          font-weight: bolder;
+          line-height: 28px;
+        }
+
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        color: #374151;
+      }
+      .time {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+
+        h3 {
+          padding: 2px 8px;
+          width: auto;
+          justify-content: center;
+          display: flex;
+          align-items: center;
+          border-radius: 4px;
+          background-color: #007aff;
+          color: white;
+          font-size: small;
+        }
+      }
+    }
+    .tagContainer {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      overflow: scroll;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .tags {
+        width: min-content;
+        padding: 0 12px;
+        align-items: center;
+        display: flex;
+        gap: 76px;
+        min-width: fit-content;
+        font-size: 10px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        border-radius: 20px;
+        color: #007aff;
+        border: 1px solid #007aff;
+      }
+    }
+    .gameContainer {
+      position: relative;
+      gap: 4px;
+      display: flex;
+
+      overflow-x: scroll;
+      align-items: center;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .checkIcon {
+        margin-right: 0px;
+        position: sticky;
+        left: 0;
+        background-color: white;
+      }
+      .games {
+        display: flex;
+        width: fit-content;
+        color: #007aff;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        min-width: fit-content;
+      }
+    }
+    .participants {
+      margin-bottom: 6px;
+      gap: 8px;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      color: #374151;
+
+      .leaderName {
+        margin-right: 4px;
+      }
+
+      .progress {
+        appearance: none;
+        height: 4px;
+        width: 100%;
+        border-radius: 6px;
+        background-color: #e6f2ff;
+
+        /* Webkit 전용 스타일 */
+        &::-webkit-progress-bar {
+          background-color: #e6f2ff;
+          border-radius: 6px;
+        }
+
+        &::-webkit-progress-value {
+          background-color: #e6f2ff;
+          border-radius: 6px;
+        }
+
+        /* Firefox 전용 스타일 */
+        &::-moz-progress-bar {
+          background-color: #e6f2ff;
+          border-radius: 6px;
+        }
+        &::-webkit-progress-value {
+          background-color: #007aff;
+          border-radius: 6px;
+        }
+        /* 기타 브라우저를 위한 스타일 */
+        &::-ms-fill {
+          background-color: #007aff;
+          border-radius: 6px;
+        }
+      }
+    }
+    .seeDetail {
+      width: 100%;
+      padding: 10px 28px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 12px;
+      border: 1px solid #007aff;
+
+      color: #007aff;
+      text-align: center;
+
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 20px;
+    }
+  }
+}
+@media screen and (max-width: 430px) {
+  .card {
+    padding-bottom: 25px;
+    .content {
+      gap: 10px;
+      flex-direction: column;
+      min-width: 150px;
+      .header {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        .topHeader {
+          justify-content: space-between;
+          h1 {
+            max-width: 80%;
+            font-size: 18px;
+            line-height: 20px;
+            display: inline-block;
+            word-break: keep-all;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+        .info {
+          max-width: 70%;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        h3 {
+          span {
+            font-size: 16px;
+            line-height: 20px;
+          }
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: 18px;
+          color: #374151;
+        }
+        .time {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          width: max-content;
+        }
+      }
+      .tagContainer {
+        gap: 6px;
+        .tags {
+          padding: 0 10px;
+          gap: 76px;
+          min-width: fit-content;
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 20px;
+        }
+      }
+      .gameContainer {
+        .games {
+          display: flex;
+          width: fit-content;
+          color: #007aff;
+          font-size: 12px;
+          font-style: normal;
+          line-height: 20px;
+        }
+      }
+      .seeDetail {
+        padding: 10px 18px;
+        gap: 10px;
+        font-size: 14px;
+      }
+    }
+  }
+}

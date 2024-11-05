@@ -1,0 +1,179 @@
+.container {
+  margin-top: 30px;
+  .title {
+    display: block;
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px 0;
+  }
+
+  .preview {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+
+    position: relative;
+    .previewImgWrap {
+      width: 200px;
+      height: 200px;
+      display: block;
+      overflow: hidden;
+      margin: 0 auto;
+      border: 1px solid #666;
+      border-radius: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+
+    .inputWrap {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 50px;
+      position: absolute;
+      bottom: -20%;
+      right: 0;
+      input {
+        display: none;
+      }
+      input + label {
+        img {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: #fff;
+          border-radius: 100%;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+.proBtnWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  .uploadButton {
+    display: block;
+    width: 100%;
+    color: #999;
+    text-decoration: underline;
+    margin-top: 20px;
+    text-align: right;
+  }
+  .resetButton {
+    display: block;
+    width: 100%;
+    color: #999;
+    text-decoration: underline;
+    margin-top: 20px;
+    text-align: left;
+  }
+}
+
+.cancleBtn {
+  margin: 0 auto;
+  margin-top: 20px;
+  display: block;
+  background: #666;
+  color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 18px;
+}
+
+@media (max-width: 430px) {
+  .container {
+    margin-top: 30px;
+    .title {
+      display: block;
+      text-align: left;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 50px 0;
+    }
+
+    .preview {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+
+      position: relative;
+      .previewImgWrap {
+        width: 200px;
+        height: 200px;
+        display: block;
+        overflow: hidden;
+        margin: 0 auto;
+        border: 1px solid #666;
+        border-radius: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      }
+
+      .inputWrap {
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 50px;
+        position: absolute;
+        bottom: -20%;
+        right: 0;
+        input {
+          display: none;
+        }
+        input + label {
+          img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 100%;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+  .proBtnWrap {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    .uploadButton {
+      display: block;
+      width: 100%;
+      color: #999;
+      text-decoration: underline;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .resetButton {
+      display: block;
+      width: 100%;
+      color: #999;
+      text-decoration: underline;
+      margin-top: 20px;
+      text-align: center;
+    }
+  }
+
+  .cancleBtn {
+    margin: 0 auto;
+    margin-top: 20px;
+    display: block;
+    background: #666;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 18px;
+  }
+}

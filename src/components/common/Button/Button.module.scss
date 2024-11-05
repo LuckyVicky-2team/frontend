@@ -1,0 +1,44 @@
+.button {
+  width: 100%;
+  height: 56px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+
+  &.blue {
+    background: #007aff;
+    color: #ffffff;
+
+    &:hover {
+      background: #006ee6;
+    }
+
+    &:active {
+      background: #0062cc;
+    }
+
+    &:disabled {
+      background: #9ca3af;
+    }
+  }
+
+  &.white {
+    background: #ffffff;
+    border: 2px solid #007aff;
+    color: #007aff;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:active {
+      opacity: 0.6;
+    }
+
+    &:disabled {
+      border-color: #9ca3af;
+      color: #9ca3af;
+    }
+  }
+}

@@ -1,0 +1,100 @@
+.container {
+  position: relative;
+  max-height: calc(100vh - 145px);
+  margin-top: 65px;
+  overflow: hidden;
+  .fullScreenLayout {
+    overflow: auto;
+  }
+
+  .header {
+    position: sticky;
+    width: 100%;
+    h1 {
+      overflow: hidden;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      clip: rect(0px, 0px, 0px, 0px);
+    }
+
+    h2 {
+      font-family: LaundryGothicOTF;
+      padding: 30px 24px 30px 24px;
+      font-size: 30px;
+      font-style: normal;
+      letter-spacing: 1.2px;
+      font-weight: 700;
+      color: #000;
+      line-height: normal;
+    }
+  }
+  .tabHeader {
+    padding: 0 24px;
+    width: 100%;
+    align-items: flex-start;
+    gap: 32px;
+    position: sticky;
+    display: flex;
+    left: 0;
+    background-color: #fff;
+  }
+
+  .reviewContainer {
+    width: 100%;
+    padding: 54px 24px;
+    background: #f4f9ff;
+    flex-direction: column;
+    align-items: center;
+    gap: 38px;
+    height: calc(100vh - 240px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f4f9ff;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #007aff;
+      border-radius: 6px;
+      border: 2px solid #ffffff;
+    }
+  }
+}
+.emptyReview {
+  display: table;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .boxInfo {
+    height: calc(100vh - 400px);
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .container {
+    .header {
+      h2 {
+        padding: 20px 24px 20px 24px;
+        font-size: 30px;
+        font-style: normal;
+        letter-spacing: 1.2px;
+        font-weight: 700;
+        color: #000;
+        line-height: normal;
+      }
+    }
+  }
+}

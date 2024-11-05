@@ -1,0 +1,30 @@
+.except {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+
+  .allConsent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #9ca3af;
+    font-weight: 700;
+  }
+
+  .divisionLine {
+    width: 100%;
+    border: 0.8px solid #e7e8e9;
+    margin: 0;
+  }
+}
+
+.button {
+  margin-top: 16px;
+}

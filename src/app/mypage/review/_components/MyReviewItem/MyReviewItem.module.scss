@@ -1,0 +1,132 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  align-items: center;
+  overflow: hidden;
+  background: #f4f9ff;
+}
+
+.detailModal {
+  width: 100%;
+  max-width: 552px;
+  max-height: 797px;
+  min-height: 50vh;
+  padding: 50px 38px 40px 42px;
+  background-color: white;
+  overflow-y: auto;
+  border-radius: 10px;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  word-break: break-word;
+  .modalHeader {
+    display: flex;
+    justify-content: flex-start;
+    color: $gray-dark;
+    font-family: LaundryGothicOTF;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.2px;
+    h2 {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+      width: 60%;
+      overflow: hidden;
+      color: $gray-dark;
+      font-family: LaundryGothicOTF;
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 1.2px;
+    }
+  }
+}
+
+.reviewList {
+  margin-top: 42px;
+  display: flex;
+  max-width: 469px;
+  max-height: 587px;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #007aff;
+    border-radius: 6px;
+    border: 2px solid #ffffff;
+  }
+
+  .reviewedUser {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    justify-content: space-between;
+    h4 {
+      display: inline-block;
+      max-width: 16%;
+      word-break: keep-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
+      min-width: 15%;
+      color: $gray-darker;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .tags {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      align-items: flex-start;
+
+      .tag {
+        display: inline-block;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 15px;
+        font-weight: 700;
+        &.positive {
+          background-color: #fff2d3;
+          color: #f85d1b;
+        }
+        &.negative {
+          background-color: #e6f2ff;
+          color: #007aff;
+        }
+      }
+    }
+  }
+}
+
+//320-600px mobile
+@media screen and (max-width: 590px) {
+  .detailModal {
+    width: 100vw;
+    height: calc(400px * 2 / 3); /* 400px의 2/3 */
+    padding: 24px 15px 15px 15px;
+  }
+}

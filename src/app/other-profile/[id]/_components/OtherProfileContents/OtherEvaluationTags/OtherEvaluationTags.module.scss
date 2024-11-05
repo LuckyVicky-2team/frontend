@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.except {
+  line-height: normal;
+  word-break: keep-all;
+}

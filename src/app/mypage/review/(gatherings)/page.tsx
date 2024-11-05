@@ -11,6 +11,15 @@ export default function ReviewPage() {
     reviewType: 'PRE_PROGRESS',
   });
 
+  const dateSortedData =
+    data &&
+    data
+      ?.slice()
+      .sort(
+        (a, b) =>
+          new Date(b.meetingDate).getTime() - new Date(a.meetingDate).getTime()
+      );
+
   return (
     <div className={styles.container}>
       {isLoading ? (
@@ -18,7 +27,7 @@ export default function ReviewPage() {
           <Skeleton type="review" />
         </div>
       ) : data ? (
-        data.map(meeting => {
+        dateSortedData?.map(meeting => {
           return (
             <GatheringItem
               key={meeting.meetingId}

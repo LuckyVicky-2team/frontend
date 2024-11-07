@@ -3,7 +3,7 @@ import {
   IGatheringListRequestProps,
   IKickInfoProps,
 } from '@/types/request/GatheringREQ';
-import { axiosInstance, axiosInstanceNoAuth } from '../instance';
+import { axiosInstance } from '../instance';
 
 export const gatheringAPI = {
   getGatheringsInfo: async (id: number) => {
@@ -16,7 +16,7 @@ export const gatheringAPI = {
   gatheringList: async (req: IGatheringListRequestProps) => {
     const {
       data: { content },
-    } = await axiosInstanceNoAuth.get(`/meeting`, {
+    } = await axiosInstance.get(`/meeting`, {
       params: req,
     });
     return content;

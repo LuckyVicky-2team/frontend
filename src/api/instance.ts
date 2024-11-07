@@ -37,14 +37,3 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-// 비인증 요청을 위한 새로운 axios 인스턴스 생성
-export const axiosInstanceNoAuth = axios.create({
-  baseURL: '/api',
-  timeout: 1000 * 20,
-  headers: {
-    'Content-Type': 'application/json',
-    'X-API-Version': 1,
-  },
-  withCredentials: false,
-});

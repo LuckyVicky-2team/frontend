@@ -1,4 +1,5 @@
 export interface IErrorProps {
-  code: number;
-  message: string;
+  response: {
+    data: { errorCode: number; messages: string };
+  };
 }

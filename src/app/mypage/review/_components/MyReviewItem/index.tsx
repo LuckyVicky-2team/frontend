@@ -23,7 +23,7 @@ export default function MyReviewItem({
     <>
       <div key={meetingId} className={styles.container}>
         <GatheringItem
-          buttonName={'보낸 리뷰 보기'}
+          buttonName={'작성한 리뷰 보기'}
           data={data}
           modalOpen={handleModalOpen}
         />

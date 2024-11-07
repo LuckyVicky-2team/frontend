@@ -10,7 +10,7 @@ const navLinks = [
     href: '/mypage/review',
     label: '리뷰 작성하기',
   },
-  { href: '/mypage/review/myReviews', label: '보낸 리뷰' },
+  { href: '/mypage/review/myReviews', label: '작성한 리뷰' },
   { href: '/mypage/review/receivedReviews', label: '받은 리뷰' },
 ];
 

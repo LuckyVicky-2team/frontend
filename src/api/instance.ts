@@ -11,6 +11,23 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+axiosInstance.interceptors.request.use(
+  config => {
+    if (typeof window !== 'undefined') {
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (accessToken) {
+        config.headers.Authorization = accessToken;
+      }
+    }
+
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
 axiosInstance.interceptors.response.use(
   response => {
     return response;

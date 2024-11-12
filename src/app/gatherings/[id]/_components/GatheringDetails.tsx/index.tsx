@@ -136,6 +136,11 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
             priority
             fill
             objectFit="contain"
+            quality={50}
+            loading="eager"
+            // placeholder="blur"
+            // blurDataURL={'/assets/images/spinner2.gif'}
+            onError={() => (data.thumbnail = '')}
           />
         </div>
         <div className={styles.gatheringInfo}>

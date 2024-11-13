@@ -1,19 +1,17 @@
 'use client';
 
 import React, { useEffect, Suspense } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useClientSearchParams } from '@/hooks/useClientSearchParams';
+import dynamic from 'next/dynamic';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useClientSearchParams } from '@/hooks/useClientSearchParams';
+import useModal from '@/hooks/useModal';
 import { QueryKey } from '@/utils/QueryKey';
 import { gatheringAPI } from '@/api/apis/gatheringsApis';
-import styles from './GatheringsPageClient.module.scss';
-import Card from './_components/Card';
-import Skeleton from './_components/Skeleton';
 import FilterContainer from './_components/FilterContainer';
-import useModal from '@/hooks/useModal';
-import dynamic from 'next/dynamic';
+import GatheringList from './_components/GatheringList';
+import AddGatheringButton from './_components/AddGatheringButton';
 
 const DynamicLoginModal = dynamic(
   () => import('@/components/common/Modal/LoginModal'),
@@ -47,9 +45,9 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
       staleTime: 0,
     });
 
-  const gatherings = data?.pages.flat() || [];
+  const FilteredGatherings = data?.pages.flat() || [];
 
-  const handleAddNewMeeting = () => {
+  const addNewMeeting = () => {
     const accesssToken = localStorage.getItem('accessToken');
     if (!accesssToken) {
       handleLoginModalOpen();
@@ -66,45 +64,17 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
 
   return (
     <>
-      <div>
-        <main>
-          <button
-            onClick={handleAddNewMeeting}
-            className={styles.addGatheringBtn}>
-            <Image
-              src={'/assets/icons/plusCircle.svg'}
-              alt={'addIcon'}
-              width={24}
-              height={24}
-            />
-          </button>
-          <FilterContainer />
-          <section className={`${styles.cardContainer} `}>
-            {status === 'pending' ? (
-              <Skeleton />
-            ) : status === 'error' ? (
-              <div className={styles.empty}>
-                <p className={styles.emptyContent}>
-                  Error Message : {error.message}
-                </p>
-              </div>
-            ) : gatherings.length ? (
-              <section className={styles.cardContainer}>
-                {gatherings.map(el => {
-                  return <Card key={el.id} {...el} />;
-                })}
-                {isFetchingNextPage ? <Skeleton /> : <div ref={ref}></div>}
-              </section>
-            ) : (
-              <div className={styles.empty}>
-                <p className={styles.emptyContent}>
-                  앗 조건에 해당하는 모임이 없어요!
-                </p>
-              </div>
-            )}
-          </section>
-        </main>
-      </div>
+      <main>
+        <AddGatheringButton handleAddNewMeeting={addNewMeeting} />
+        <FilterContainer />
+        <GatheringList
+          ref={ref}
+          isFetchingNextPage={isFetchingNextPage}
+          status={status}
+          gatherings={FilteredGatherings}
+          error={error}
+        />
+      </main>
     </>
   );
 }

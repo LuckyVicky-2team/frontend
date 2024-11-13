@@ -1,8 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './Card.module.scss';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+import { useState } from 'react';
 
 interface ICardProps {
   id: number;
@@ -37,26 +40,37 @@ export default function Card({
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
   const isDateOver = new Date(meetingDate) < new Date();
+  const [isImageError, setIsImageError] = useState(false);
+  const fallbackSrc = '/assets/images/emptyThumbnail.png';
 
   return (
     <>
       <div className={styles.card} onClick={onClick}>
-        <div className={styles.thumbnail}>
-          <Link href={`/gatherings/${id}`}>
+        <Link className={styles.link} href={`/gatherings/${id}`} style={{}}>
+          <div className={styles.thumbnail}>
             <Image
-              src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
+              src={
+                isImageError
+                  ? fallbackSrc
+                  : `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+              }
               alt="thumbnail"
               fill
-              sizes="100%"
+              onError={() => {
+                setIsImageError(true);
+              }}
+              sizes="35vw"
               priority
+              quality={70}
             />
+
             {isFullParticipant || isDateOver ? (
               <div className={styles.fullUser}>
                 <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
               </div>
             ) : null}
-          </Link>
-        </div>
+          </div>
+        </Link>
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.topHeader}>

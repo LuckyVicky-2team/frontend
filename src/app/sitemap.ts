@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
+import { IGatheringListResponseProps } from '@/types/response/GatheringListRES';
 import axios from 'axios';
 
 const axiosInstanceSitemap = axios.create({

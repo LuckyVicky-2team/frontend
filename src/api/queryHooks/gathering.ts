@@ -10,7 +10,7 @@ import {
   IGatheringListRequestProps,
   IKickInfoProps,
 } from '@/types/request/GatheringREQ';
-import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
+import { IGatheringListResponseProps } from '@/types/response/GatheringListRES';
 import { IErrorProps } from '@/types/CommonInterface';
 
 export const useGatheringDetails = (id: number) => {

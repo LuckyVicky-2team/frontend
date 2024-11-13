@@ -11,14 +11,19 @@
   &:nth-last-child(2) {
     border-bottom: none;
   }
-
+  .link {
+    min-width: 38%;
+    min-height: 274px;
+    width: fit-content;
+  }
   .thumbnail {
+    border: 1px solid red;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #e0e2e6;
-    min-width: 38%;
+    width: 100%;
+    height: 100%;
     position: relative;
-    width: fit-content;
     .fullUser {
       white-space: pre-wrap;
       width: 100;

@@ -116,3 +116,8 @@ export const updatePRTags = (tags: string[]) => {
     },
   });
 };
+
+// 개인 정보 조회를 위한 API 요청
+export const getNotification = () => {
+  return axiosInstance.get('/user-notification/list');
+};

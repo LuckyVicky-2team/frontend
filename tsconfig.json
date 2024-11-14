@@ -27,7 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "public/firebase-messaging-sw.js"
+    "public/firebase-messaging-sw.js",
+    "jest.config.js"
   ],
   "exclude": ["node_modules"]
 }

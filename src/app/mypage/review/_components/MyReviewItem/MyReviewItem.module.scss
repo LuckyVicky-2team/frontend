@@ -80,9 +80,13 @@
     h4 {
       display: inline-block;
       max-width: 16%;
+      word-break: keep-all;
       overflow: hidden;
-      white-space: nowrap;
       text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+
       min-width: 15%;
       color: $gray-darker;
       font-size: 18px;

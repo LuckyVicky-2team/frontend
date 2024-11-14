@@ -125,9 +125,15 @@ export default function FilterContainer() {
           <SelectBox
             id="genre"
             optionTitle="장르"
-            clickOptionHandler={e =>
-              setParamsToUrl('tag', `${e.target.value}게임`)
-            }
+            clickOptionHandler={e => {
+              console.log(e.target.value);
+              const gameTag =
+                e.target.value === ''
+                  ? e.target.value
+                  : `${e.target.value}게임`;
+
+              setParamsToUrl('tag', gameTag);
+            }}
             optionSet={genre}
             value={selectedGenre}
             rightLabel={

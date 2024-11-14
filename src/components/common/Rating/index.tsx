@@ -29,7 +29,7 @@ interface IRatingProps {
 }
 
 export default function Rating({
-  rating = 1,
+  rating = 0,
   size = 'small',
   readable = false,
   changeRatingHandler,
@@ -40,7 +40,7 @@ export default function Rating({
     let updatedRating = newRating;
 
     if (newRating === currentRating) {
-      if (newRating === 1) return;
+      if (newRating === 0) return;
       updatedRating = newRating - 1;
     }
 
@@ -55,7 +55,7 @@ export default function Rating({
     <>
       <div className={`${styles.container}`}>
         {[...Array(5)].map((_, i) => {
-          const fillPercentage = Math.min(1, Math.max(0, currentRating - i));
+          const fillPercentage = Math.min(0, Math.max(0, currentRating - i));
 
           return (
             <React.Fragment key={i}>

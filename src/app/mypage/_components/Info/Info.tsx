@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { logout } from '@/api/apis/logOutApis';
+import { useQueryClient } from '@tanstack/react-query';
+import { QueryKey } from '@/utils/QueryKey';
 
 // 환경 변수에서 도메인 가져오기
 const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -33,6 +35,8 @@ export default function Info({
 
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   // 프로필 이미지 URL
   const profileImageUrl = mypageInfo?.profileImage
     ? `https://${cloud}/${mypageInfo.profileImage}`
@@ -48,6 +52,22 @@ export default function Info({
     localStorage.removeItem('accessToken');
     localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
+
+    console.log('a');
+    // GATHERING.DETAIL 관련 쿼리, user.quit관련 쿼리만 제거
+    queryClient.removeQueries({
+      predicate: query => {
+        const queryKey = query.queryKey;
+        return (
+          (Array.isArray(queryKey) &&
+            queryKey.length >= 2 &&
+            queryKey[0] === QueryKey.GATHERING.KEY &&
+            typeof queryKey[1] === 'number') ||
+          queryKey[0] === 'quit'
+        );
+      },
+    });
+
     setLoggedIn(false);
     alert('로그아웃 되었습니다.');
     router.push('/');

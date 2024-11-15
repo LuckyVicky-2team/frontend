@@ -36,16 +36,8 @@ export const postSocialSignupForm = (
   });
 };
 
-export const postReissueAccessToken = (refreshToken: string) => {
-  return axiosInstance.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
-    {},
-    {
-      headers: {
-        Cookie: `Authorization=${refreshToken}`,
-      },
-    }
-  );
+export const postRenewAccessToken = () => {
+  return axiosInstance.post(`/reissue`);
 };
 
 export const getTermsAgreement = async (required: boolean | 'all') => {

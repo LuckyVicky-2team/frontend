@@ -94,7 +94,7 @@ export default function ChattingRoom({
     if (!userData) return;
 
     const stompClientValue = new StompJs.Client({
-      brokerURL: 'ws://43.200.143.133:8080/gs-guide-websocket',
+      brokerURL: 'https://chat.board-go.net/gs-guide-websocket',
       reconnectDelay: 2000, // 연결 끊김 시 재연결 시도
       onConnect: onConnected,
       onStompError: onError,

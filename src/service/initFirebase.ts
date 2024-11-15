@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { detectInAppBrowser } from '@/utils/detectInAppBrowser';
 import { FirebaseApp, getApps, initializeApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -19,8 +20,14 @@ const firebaseConfig = {
 // Initialize Firebase
 let app: FirebaseApp | undefined;
 
-//테스트 환경이 아닐 때만 실행
-if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {
+const isInapp = detectInAppBrowser(window.navigator.userAgent);
+
+//테스트 환경이 아니고, 인앱 브라우저가 아닐 때만 실행
+if (
+  typeof window !== 'undefined' &&
+  process.env.NODE_ENV !== 'test' &&
+  !isInapp
+) {
   //이미 초기화된 앱이 있는지 확인
   if (!getApps().length) {
     app = initializeApp(firebaseConfig);

@@ -53,9 +53,11 @@ axiosInstance.interceptors.response.use(
   async error => {
     if (typeof window !== 'undefined') {
       if (
-        error.response?.data?.errorCode === 4010 ||
-        error.response?.data?.errorCode === 4011
+        (error.response?.data?.errorCode === 4010 ||
+          error.response?.data?.errorCode === 4011) &&
+        isRefreshing === false
       ) {
+        isRefreshing = true;
         const newAccessToken = await getNewAccessToken();
 
         if (newAccessToken) {

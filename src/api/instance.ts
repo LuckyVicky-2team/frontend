@@ -27,8 +27,8 @@ axiosInstance.interceptors.request.use(
 
       if (hasRefreshToken && isRefreshing === false) {
         isRefreshing = true;
-
         const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
@@ -59,12 +59,12 @@ axiosInstance.interceptors.response.use(
       ) {
         isRefreshing = true;
         const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
         } else {
           localStorage.removeItem('accessToken');
-          window.location.href = '/signin';
         }
       }
     }

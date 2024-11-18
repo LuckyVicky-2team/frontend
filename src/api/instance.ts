@@ -33,6 +33,7 @@ axiosInstance.interceptors.request.use(
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
           config.headers.Authorization = newAccessToken;
+          window.location.reload();
         }
       }
     }
@@ -66,6 +67,8 @@ axiosInstance.interceptors.response.use(
         } else {
           localStorage.removeItem('accessToken');
         }
+
+        return axiosInstance(error.config);
       }
     }
 

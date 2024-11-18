@@ -27,12 +27,13 @@ axiosInstance.interceptors.request.use(
 
       if (hasRefreshToken && isRefreshing === false) {
         isRefreshing = true;
-
         const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
           config.headers.Authorization = newAccessToken;
+          window.location.reload();
         }
       }
     }
@@ -53,17 +54,21 @@ axiosInstance.interceptors.response.use(
   async error => {
     if (typeof window !== 'undefined') {
       if (
-        error.response?.data?.errorCode === 4010 ||
-        error.response?.data?.errorCode === 4011
+        (error.response?.data?.errorCode === 4010 ||
+          error.response?.data?.errorCode === 4011) &&
+        isRefreshing === false
       ) {
+        isRefreshing = true;
         const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
         } else {
           localStorage.removeItem('accessToken');
-          window.location.href = '/signin';
         }
+
+        return axiosInstance(error.config);
       }
     }
 

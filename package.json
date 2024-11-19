@@ -26,7 +26,7 @@
     "framer-motion": "^11.3.24",
     "html-react-parser": "^5.1.12",
     "husky": "^9.1.4",
-    "next": "^15.0.3",
+    "next": "14.2.5",
     "puppeteer": "^23.0.2",
     "react": "^18",
     "react-datepicker": "^7.3.0",

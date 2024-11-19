@@ -13,12 +13,12 @@ import {
   usePostSocialSignupForm,
 } from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
-import { getTokenFromCookie } from '@/actions/AuthActions';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
+import getNewAccessToken from '@/utils/getNewAccessToken';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -123,11 +123,17 @@ export default function SocialSignupForm() {
 
   useEffect(() => {
     const transferToken = async () => {
-      const token = await getTokenFromCookie();
+      const token = await getNewAccessToken();
 
-      if (token) {
-        setToken(token);
+      if (!token) {
+        addToast(
+          '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+          'error'
+        );
+        router.push('/signin');
       }
+
+      setToken(token);
     };
 
     transferToken();

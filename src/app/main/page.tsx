@@ -44,16 +44,6 @@ export default function Main() {
 
   const { mutate: likeMutate } = usePostWishList();
 
-  // useEffect(() => {
-  //   const transferToken = async () => {
-  //     const token = await getTokenFromCookie();
-  //     if (token) {
-  //       localStorage.setItem('accessToken', `Bearer ${token}`);
-  //     }
-  //   };
-  //   transferToken();
-  // }, []);
-
   const SentrySetUserInfo = async () => {
     try {
       const personalInfo = await getPersonalInfo();

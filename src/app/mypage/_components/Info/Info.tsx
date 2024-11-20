@@ -53,7 +53,6 @@ export default function Info({
     localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
 
-    console.log('a');
     // GATHERING.DETAIL 관련 쿼리, user.quit관련 쿼리만 제거
     queryClient.removeQueries({
       predicate: query => {

@@ -15,7 +15,7 @@ import { IErrorProps } from '@/types/CommonInterface';
 
 export const useGatheringDetails = (id: number) => {
   const query = useQuery({
-    queryKey: [QueryKey.GATHERING.DETAIL(id)],
+    queryKey: QueryKey.GATHERING.DETAIL(id),
     queryFn: () => gatheringAPI.getGatheringsInfo(id),
   });
 
@@ -57,7 +57,7 @@ export const usePatchShareGathering = () => {
 
 export const useGetIsUserTypeQuit = (id: number) => {
   return useQuery({
-    queryKey: [QueryKey.USER.QUIT(id)],
+    queryKey: QueryKey.USER.QUIT(id),
     queryFn: () => gatheringAPI.isUserTypeQuit(id),
   });
 };

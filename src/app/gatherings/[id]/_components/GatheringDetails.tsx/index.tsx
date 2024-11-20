@@ -20,6 +20,7 @@ import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
 import Link from 'next/link';
+import GifToMp4 from '@/utils/gifToMp4';
 // import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
@@ -123,20 +124,23 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
     <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>
         <div className={styles.thumbnailBackground}>
-          <Image
-            src={
-              data.thumbnail
-                ? /* eslint-disable indent */
-                  `https://${
-                    process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
-                  }/${data.thumbnail}`
-                : '/assets/images/detail-image-default.png'
-            }
-            alt="썸네일 이미지"
-            priority
-            fill
-            objectFit="contain"
-          />
+          {data.thumbnail ? (
+            <GifToMp4
+              url={`https://${
+                process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+              }/${data.thumbnail}`}
+            />
+          ) : (
+            <Image
+              src={'/assets/images/detail-image-default.png'}
+              alt="썸네일 이미지"
+              priority
+              fill
+              objectFit="contain"
+              quality={50}
+              loading="eager"
+            />
+          )}
         </div>
         <div className={styles.gatheringInfo}>
           <div className={styles.firstGatheringInfo}>

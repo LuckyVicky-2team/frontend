@@ -15,13 +15,6 @@ export default forwardRef(function GatheringList(
   { status, gatherings, isFetchingNextPage, error = null }: IGatheringListProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
-  // ({
-  //   status,
-  //   gatherings,
-  //   isFetchingNextPage,
-  //   intersectionDetectorRef,
-  //   error = null,
-  // }: IGatheringListProps)
   return (
     <>
       <section className={`${styles.cardContainer} `}>

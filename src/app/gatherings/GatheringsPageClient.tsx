@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useClientSearchParams } from '@/hooks/useClientSearchParams';
 import useModal from '@/hooks/useModal';
 import { QueryKey } from '@/utils/QueryKey';
 import { gatheringAPI } from '@/api/apis/gatheringsApis';
-import FilterContainer from './_components/FilterContainer';
 import GatheringList from './_components/GatheringList';
 import AddGatheringButton from './_components/AddGatheringButton';
+import useQueryStrings from '@/hooks/useQueryStrings';
+import Filter from './_components/Filter';
 
 const DynamicLoginModal = dynamic(
   () => import('@/components/common/Modal/LoginModal'),
@@ -20,9 +20,9 @@ const DynamicLoginModal = dynamic(
 
 function GatheringsPageContent({ handleLoginModalOpen }: any) {
   const router = useRouter();
-  const searchParams = useClientSearchParams();
   const { ref, inView } = useInView();
-  const params = searchParams.get();
+  const { getParams, setParams, clearParams } = useQueryStrings();
+  const params = getParams();
 
   const { data, error, fetchNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
@@ -66,7 +66,12 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
     <>
       <main>
         <AddGatheringButton handleAddNewMeeting={addNewMeeting} />
-        <FilterContainer />
+        <Filter
+          clearParams={clearParams}
+          filterItems={params}
+          setParams={setParams}
+        />
+
         <GatheringList
           ref={ref}
           isFetchingNextPage={isFetchingNextPage}

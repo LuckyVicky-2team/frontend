@@ -14,7 +14,7 @@ export const handleAllowNotification = async () => {
         vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY,
       });
       //임시로 출력
-      console.log(token);
+      // console.log(token);
       if (token) {
         //토큰을 서버로 전송
         const response = patchPushToken(token);

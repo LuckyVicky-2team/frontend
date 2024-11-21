@@ -27,6 +27,14 @@
       display: flex;
       gap: 8px;
 
+      &.myTalk {
+        flex-direction: row-reverse;
+
+        .contents {
+          background: #007aff;
+        }
+      }
+
       .contents {
         align-self: flex-start;
         display: inline-flex;

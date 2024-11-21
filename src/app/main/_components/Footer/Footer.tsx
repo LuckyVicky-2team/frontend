@@ -25,6 +25,8 @@ export default function Footer() {
       setOn(0);
     } else if (currentPathName === 'gatherings') {
       setOn(4);
+    } else if (currentPathName === 'threads') {
+      setOn(1);
     } else {
       setOn(999);
     }
@@ -54,7 +56,7 @@ export default function Footer() {
             </button>
           </div>
         </div>
-      ) : pathName.startsWith('/threads') ? (
+      ) : pathName.startsWith('/threads/') ? (
         <div className={styles.customFooter} style={{ display: 'none' }}>
           <div className={styles.space}></div>
           <div className={styles.footerContent}>

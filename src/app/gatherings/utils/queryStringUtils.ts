@@ -1,7 +1,9 @@
+import { IParamProps } from '@/hooks/useQueryStrings';
+
 type SearchType = '' | 'TITLE' | 'CONTENT' | 'ALL';
 type SortBy = 'MEETING_DATE' | 'PARTICIPANT_COUNT';
 
-export function parseQueryString(queryString) {
+export function parseQueryString(queryString: string) {
   const searchParams = new URLSearchParams(queryString);
   const params = {
     tag: searchParams.get('tag') || '',
@@ -18,15 +20,9 @@ export function parseQueryString(queryString) {
       return value !== null && value !== undefined && value !== '';
     })
   );
-  // let result: Record<string, string> = {};
-  // if (searchParams.size === 0) return {};
-  // searchParams.forEach((value, key) => {
-  //   result[key] = value;
-  // });
-  // return result;
 }
 
-export function createQueryString(params: any) {
+export function createQueryString(params: IParamProps) {
   const searchParams = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== '' && value !== null) {

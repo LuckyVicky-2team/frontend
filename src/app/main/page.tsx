@@ -14,6 +14,7 @@ import { handleAllowNotification } from '@/service/notificationPermission';
 import { setUser } from '@sentry/nextjs';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import { app } from '@/service/initFirebase';
+import { detectInAppBrowser } from '@/utils/detectInAppBrowser';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -36,7 +37,7 @@ export default function Main() {
   const [meetingList, setMeetingList] = useState<IMeetingProps[] | undefined>(
     undefined
   );
-
+  const [isInApp, setIsInApp] = useState(false);
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const token = localStorage.getItem('accessToken');
@@ -110,6 +111,13 @@ export default function Main() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isInAppBrowser = detectInAppBrowser(window.navigator.userAgent);
+      setIsInApp(isInAppBrowser);
+    }
+  }, []);
+
   return (
     <main>
       <div className={styles.container}>
@@ -146,7 +154,7 @@ export default function Main() {
           </div>
         </div>
       </div>
-      <AppInstallPrompt />
+      {isInApp || <AppInstallPrompt />}
     </main>
   );
 }

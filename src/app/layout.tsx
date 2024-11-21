@@ -24,10 +24,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="touch-icon-iphone.png" />
+        <link rel="apple-touch-icon" href="/assets/icons/logo.svg" />
         <link
           rel="apple-touch-icon"
           sizes="152x152"

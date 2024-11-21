@@ -1,5 +1,6 @@
 'use client';
 import Modal from '@/components/common/Modal';
+import Spinner from '@/components/common/Spinner';
 import useModal from '@/hooks/useModal';
 
 export default function SongeunPage() {
@@ -24,6 +25,15 @@ export default function SongeunPage() {
         <Modal modalOpen={modalOpen} onClose={handleModalClose}>
           Modal Content
         </Modal>
+      </div>
+      <div
+        style={{
+          height: '100px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Spinner />
       </div>
     </div>
   );

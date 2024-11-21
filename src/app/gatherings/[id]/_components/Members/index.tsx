@@ -19,6 +19,7 @@ interface IMembersProps {
   meetingId: number;
   bottomSheetOpen: string;
   myType: 'LEADER' | 'PARTICIPANT' | 'NONE' | 'QUIT' | undefined;
+  applyPlace?: string;
 }
 
 export default function Members({
@@ -30,6 +31,7 @@ export default function Members({
   meetingId,
   bottomSheetOpen,
   myType,
+  applyPlace,
 }: IMembersProps) {
   // const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -70,6 +72,11 @@ export default function Members({
   };
 
   const handleGoToOtherProfile = (id: number) => {
+    if (applyPlace === 'thread') {
+      router.push(`/other-profile/${id}`);
+      return;
+    }
+
     router.replace(
       `/other-profile/${id}?id=${meetingId}&open=${isFull ? 'full' : 'half'}`
     );

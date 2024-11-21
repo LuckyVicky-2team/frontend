@@ -66,6 +66,7 @@ axiosInstance.interceptors.response.use(
           localStorage.setItem('accessToken', newAccessToken);
         } else {
           localStorage.removeItem('accessToken');
+          delete error.config.headers.Authorization;
         }
 
         return axiosInstance(error.config);

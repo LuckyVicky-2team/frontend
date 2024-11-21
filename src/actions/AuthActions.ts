@@ -24,13 +24,7 @@ import { cookies } from 'next/headers';
 // };
 
 export const deleteInitialRefreshToken = () => {
-  cookies().set('Authorization', '', {
-    path: '/',
-    domain: 'dev.app.board-go.net',
-    secure: true,
-    httpOnly: true,
-    maxAge: 0,
-  });
+  cookies().delete('Authorization');
 };
 
 export const checkRefreshToken = () => {

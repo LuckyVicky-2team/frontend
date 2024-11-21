@@ -12,6 +12,7 @@ import {
 } from '@/api/queryHooks/thread';
 import { IParticipant } from '@/types/response/Gathering';
 import TalkListItem from '../TalkListItem';
+import GatheringInfoOfThread from '../GatheringInfoOfThread';
 import styles from './ChattingRoom.module.scss';
 
 interface IChattingRoomProps {
@@ -24,19 +25,22 @@ export default function ChattingRoom({
   gatheringId,
 }: IChattingRoomProps) {
   const stompClient = useRef<StompJs.Client>();
-  // const [connected, setConnected] = useState(false); // 연결 상태
+  const talkListItemRef = useRef<HTMLDivElement>(null);
+
   const [message, setMessage] = useState(''); // 전송할 메시지
   const [messages, setMessages] = useState<IChattingsContent[]>([]); // 수신한 메시지 목록
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const { data: gatheringData } = useGetGatheringInfo(gatheringId);
   const { data: userData } = useGetMyInfo(gatheringData);
   const { data: chattingLog } = useGetChattingLog(chatRoomId, 0);
 
   const gatheringMembers = gatheringData?.userParticipantResponseList;
+  const userId = gatheringMembers?.find(
+    (member: IParticipant) => member?.nickname === userData?.nickName
+  )?.userId;
 
   const onConnected = () => {
-    // setConnected(true);
-
     if (!stompClient.current) return;
 
     stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, message => {
@@ -64,10 +68,6 @@ export default function ChattingRoom({
     }
 
     if (stompClient.current && userData) {
-      const userId = gatheringMembers.find(
-        (member: IParticipant) => member.nickname === userData.nickName
-      )?.userId;
-
       const chatRequest = {
         roomId: chatRoomId,
         content: message,
@@ -94,7 +94,7 @@ export default function ChattingRoom({
     if (!userData) return;
 
     const stompClientValue = new StompJs.Client({
-      brokerURL: 'ws://43.200.143.133:8080/gs-guide-websocket',
+      brokerURL: 'https://chat.board-go.net/gs-guide-websocket',
       reconnectDelay: 2000, // 연결 끊김 시 재연결 시도
       onConnect: onConnected,
       onStompError: onError,
@@ -120,21 +120,37 @@ export default function ChattingRoom({
   }, [chattingLog]);
 
   useEffect(() => {
-    window.scrollTo({ top: document.body.scrollHeight });
+    if (talkListItemRef.current) {
+      if (isFirstRender && messages.length) {
+        talkListItemRef.current.scrollTop =
+          talkListItemRef.current.scrollHeight;
+      } else {
+        talkListItemRef.current.scrollTo({
+          top: talkListItemRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+
+      if (isFirstRender && messages.length) {
+        setIsFirstRender(false);
+      }
+    }
   }, [messages]);
 
   return (
     <div className={styles.chattingRoom}>
-      {/* <GatheringInfoOfThread
-        thumbnail={gatheringInfo.thumbnail}
-        title={gatheringInfo.title}
-        description={gatheringInfo.content}
-        place={`${gatheringInfo.city} ${gatheringInfo.county}`}
-        meetingId={gatheringInfo.meetingId}
-        participants={gatheringInfo.userParticipantResponseList}
-        className={styles.gatheringInfo}
-      /> */}
-      <div className={styles.talksContainer}>
+      <GatheringInfoOfThread
+        thumbnail={gatheringData.thumbnail}
+        title={gatheringData.title}
+        description={gatheringData.content}
+        place={`${gatheringData.city} ${gatheringData.county}`}
+        meetingId={gatheringData.meetingId}
+        participants={gatheringData.userParticipantResponseList}
+        state={gatheringData.state}
+        userId={userId}
+        className={styles.gatheringData}
+      />
+      <div className={styles.talksContainer} ref={talkListItemRef}>
         <div className={styles.talks}>
           {messages.map(message => {
             return (
@@ -142,12 +158,7 @@ export default function ChattingRoom({
                 key={message.sendDatetime}
                 item={message}
                 participants={gatheringMembers}
-                userId={
-                  gatheringMembers.find(
-                    (member: IParticipant) =>
-                      member?.nickname === userData?.nickName
-                  )?.userId
-                }
+                userId={userId}
               />
             );
           })}

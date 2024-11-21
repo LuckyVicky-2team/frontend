@@ -1,5 +1,6 @@
-import { getTokenFromCookie } from '@/actions/AuthActions';
 import axios from 'axios';
+import getNewAccessToken from '@/utils/getNewAccessToken';
+import { checkRefreshToken } from '@/actions/AuthActions';
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
@@ -11,18 +12,35 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+let isRefreshing = false;
+
 axiosInstance.interceptors.request.use(
-  config => {
+  async config => {
     if (typeof window !== 'undefined') {
       const accessToken = localStorage.getItem('accessToken');
+      const hasRefreshToken = await checkRefreshToken();
 
       if (accessToken) {
         config.headers.Authorization = accessToken;
+        return config;
+      }
+
+      if (hasRefreshToken && isRefreshing === false) {
+        isRefreshing = true;
+        const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
+
+        if (newAccessToken) {
+          localStorage.setItem('accessToken', newAccessToken);
+          config.headers.Authorization = newAccessToken;
+          window.location.reload();
+        }
       }
     }
 
     return config;
   },
+
   error => {
     return Promise.reject(error);
   }
@@ -36,18 +54,22 @@ axiosInstance.interceptors.response.use(
   async error => {
     if (typeof window !== 'undefined') {
       if (
-        error.response?.data?.errorCode === 4010 ||
-        error.response?.data?.errorCode === 4011
+        (error.response?.data?.errorCode === 4010 ||
+          error.response?.data?.errorCode === 4011) &&
+        isRefreshing === false
       ) {
-        const newAccessToken = await getTokenFromCookie();
+        isRefreshing = true;
+        const newAccessToken = await getNewAccessToken();
+        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
         } else {
           localStorage.removeItem('accessToken');
-          window.location.href = '/signin';
-          console.log(error);
+          delete error.config.headers.Authorization;
         }
+
+        return axiosInstance(error.config);
       }
     }
 

@@ -10,8 +10,6 @@ import styles from './ThreadList.module.scss';
 export default function ThreadList() {
   const { data: threads, isError, isPending } = useGetMyChatrooms();
 
-  console.log(threads);
-
   return (
     <div className={styles.threads}>
       {isPending ? (

@@ -6,6 +6,5 @@ export const useMe = () => {
   return useQuery({
     queryKey: [QueryKey.USER.ME],
     queryFn: getMe,
-    gcTime: 0,
   });
 };

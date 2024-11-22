@@ -69,7 +69,7 @@ export default function AppInstallPrompt() {
       'standalone' in window.navigator && window.navigator.standalone;
     setIsStandalone(standalone as boolean);
     if (deferredPrompt || !isStandalone) handleModalOpen();
-  });
+  }, []);
 
   // 임시
   // useEffect(() => {

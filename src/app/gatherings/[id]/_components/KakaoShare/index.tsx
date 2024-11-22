@@ -89,8 +89,7 @@ export default function KakaoShare({
         <Image
           src={'/assets/icons/kakao_logo_deepyellow.svg'}
           alt="카카오 이미지"
-          width={64}
-          height={64}
+          fill
         />
       </div>
       카카오톡

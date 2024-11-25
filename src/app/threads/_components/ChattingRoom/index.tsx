@@ -178,7 +178,6 @@ export default function ChattingRoom({
       <GatheringInfoOfThread
         thumbnail={gatheringData.thumbnail}
         title={gatheringData.title}
-        description={gatheringData.content}
         place={`${gatheringData.city} ${gatheringData.county}`}
         meetingId={gatheringData.meetingId}
         participants={gatheringData.userParticipantResponseList}

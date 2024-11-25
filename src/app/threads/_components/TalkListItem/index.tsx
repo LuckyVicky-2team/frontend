@@ -35,8 +35,7 @@ export default forwardRef<HTMLDivElement, ITalkListProps>(function TalkListItem(
                 '/assets/icons/default-profile.svg'
               }
               alt={String(item.userId)}
-              width={68}
-              height={68}
+              fill
               className={styles.profileImage}
               unoptimized
               onError={e =>

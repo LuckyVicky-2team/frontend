@@ -82,5 +82,13 @@
     .gatheringData {
       top: 50px;
     }
+
+    .outerTalksContainer {
+      .talksContainer {
+        .talks {
+          padding: 20px 15px;
+        }
+      }
+    }
   }
 }

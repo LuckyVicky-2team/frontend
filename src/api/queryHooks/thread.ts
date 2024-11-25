@@ -1,5 +1,5 @@
 import { QueryKey } from '@/utils/QueryKey';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import {
   getChattingLog,
   getGatheringInfo,
@@ -15,10 +15,24 @@ export const useGetMyChatrooms = () => {
   });
 };
 
-export const useGetChattingLog = (chatroomId: number, page: number) => {
-  return useQuery({
+// export const useGetChattingLog = (chatroomId: number, page: number) => {
+//   return useQuery({
+//     queryKey: QueryKey.GATHERING.THREAD(chatroomId),
+//     queryFn: () => getChattingLog(chatroomId, page),
+//     gcTime: 0,
+//   });
+// };
+
+export const useGetChattingLog = (chatroomId: number) => {
+  return useInfiniteQuery({
     queryKey: QueryKey.GATHERING.THREAD(chatroomId),
-    queryFn: () => getChattingLog(chatroomId, page),
+    queryFn: ({ pageParam = 0 }) => getChattingLog(chatroomId, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.last) return undefined;
+      return pages.length;
+    },
+    refetchOnMount: true,
     gcTime: 0,
   });
 };

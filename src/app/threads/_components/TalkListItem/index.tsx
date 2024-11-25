@@ -1,11 +1,12 @@
 'use client';
 
+import { forwardRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import formatTimeDiff from '@/utils/formatTimeDiff';
 import { IChattingsContent } from '@/types/response/ChatroomsRES';
 import { IParticipant } from '@/types/response/Gathering';
 import styles from './TalkListItem.module.scss';
-import Link from 'next/link';
 
 interface ITalkListProps {
   item: IChattingsContent;
@@ -13,11 +14,10 @@ interface ITalkListProps {
   participants: IParticipant[];
 }
 
-export default function TalkListItem({
-  item,
-  userId,
-  participants,
-}: ITalkListProps) {
+export default forwardRef<HTMLDivElement, ITalkListProps>(function TalkListItem(
+  { item, userId, participants }: ITalkListProps,
+  ref
+) {
   const processedDate = formatTimeDiff(item.sendDatetime);
   const memberData = participants.find(
     member => +item.userId === member.userId
@@ -25,7 +25,7 @@ export default function TalkListItem({
   const isMyTalk = userId === +item.userId;
 
   return (
-    <div className={styles.item}>
+    <div className={styles.item} ref={ref}>
       {isMyTalk || (
         <div className={styles.imageArea}>
           <Link href={`/other-profile/${item.userId}`}>
@@ -60,4 +60,4 @@ export default function TalkListItem({
       </div>
     </div>
   );
-}
+});

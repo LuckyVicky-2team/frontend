@@ -14,8 +14,8 @@ import TalkListItem from '../TalkListItem';
 import GatheringInfoOfThread from '../GatheringInfoOfThread';
 import { useInView } from 'react-intersection-observer';
 import { useToast } from '@/contexts/toastContext';
-import styles from './ChattingRoom.module.scss';
 import ToBottomButton from '../ToBottomButton';
+import styles from './ChattingRoom.module.scss';
 
 interface IChattingRoomProps {
   chatRoomId: number;
@@ -128,7 +128,9 @@ export default function ChattingRoom({
   }, [userData]);
 
   useEffect(() => {
-    if (!chattingLog) return;
+    if (!chattingLog || !talkListItemRef.current) return;
+
+    const previousScrollHeight = talkListItemRef.current.scrollHeight;
 
     const newMessages = chattingLog.pages[chattingLog.pages.length - 1].content;
 
@@ -136,7 +138,15 @@ export default function ChattingRoom({
 
     newMessages.reverse();
 
-    setMessages([...newMessages, ...messages]);
+    setMessages(prevMessages => [...newMessages, ...prevMessages]);
+
+    setTimeout(() => {
+      if (talkListItemRef.current) {
+        const currentScrollHeight = talkListItemRef.current.scrollHeight;
+        talkListItemRef.current.scrollTop +=
+          currentScrollHeight - previousScrollHeight;
+      }
+    }, 0);
   }, [chattingLog]);
 
   useEffect(() => {

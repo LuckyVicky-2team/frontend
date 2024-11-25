@@ -28,6 +28,7 @@ export default function AppInstallPrompt() {
     useState<BeforeInstallPromptEvent | null>(
       isDeviceIOS ? isIOSPromptActive() : null
     );
+  const [isStandalone, setIsStandalone] = useState(false);
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
@@ -63,8 +64,12 @@ export default function AppInstallPrompt() {
   }, []);
 
   useEffect(() => {
-    if (deferredPrompt) handleModalOpen();
-  });
+    // iOS에서 앱으로 실행 여부 확인
+    const standalone =
+      'standalone' in window.navigator && window.navigator.standalone;
+    setIsStandalone(standalone as boolean);
+    if (deferredPrompt || !isStandalone) handleModalOpen();
+  }, []);
 
   // 임시
   // useEffect(() => {

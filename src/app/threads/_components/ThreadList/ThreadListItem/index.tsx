@@ -28,8 +28,7 @@ export default function ThreadListItem({
               : '/assets/images/emptyThumbnail.png'
           }
           alt={name}
-          width={68}
-          height={68}
+          fill
           className={styles.profileImage}
           unoptimized
           onError={e =>

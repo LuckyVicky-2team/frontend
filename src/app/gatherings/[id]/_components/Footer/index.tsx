@@ -91,6 +91,7 @@ export default function GatheringFooter({
     joinMutate(id, {
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
+        refetch();
         handleSuccessModalOpen();
         if (participantCount + 1 === limitParticipant) {
           completeMutate(id, {
@@ -116,12 +117,10 @@ export default function GatheringFooter({
   };
 
   const handleChatButtonClick = () => {
-    refetch();
     router.push(`/threads/${id - 90}?meeting=${id}`);
   };
 
   const handleGoToGatheringList = () => {
-    refetch();
     router.push('/gatherings');
   };
 
@@ -247,7 +246,6 @@ export default function GatheringFooter({
         modalOpen={successModalOpen}
         onClose={() => {
           handleSuccessModalClose();
-          refetch();
         }}
         maxWidth={552}
         xButton>

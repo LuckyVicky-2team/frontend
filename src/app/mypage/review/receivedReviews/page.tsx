@@ -1,10 +1,10 @@
 'use client';
 
 import { useReceivedReview } from '@/api/queryHooks/review';
-import ReceivedReviewItem from '../_components/reveicedReviewItem';
 import styles from './ReceivedReviews.module.scss';
 import Rating from '@/components/common/Rating';
 import Spinner from '@/components/common/Spinner';
+import ReceivedReviewItem from '../_components/reveicedReviewItem';
 
 export default function ReceivedReviews() {
   const { data, isLoading } = useReceivedReview();

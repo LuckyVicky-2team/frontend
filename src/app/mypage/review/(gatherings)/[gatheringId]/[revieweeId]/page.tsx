@@ -42,6 +42,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
   const { data } = useEvaluationTagList();
   const { mutate } = useReviewCreate();
   const queryClient = useQueryClient();
+
   const handleTagClick = (id: number) => {
     const currentTags = getValues('evaluationTagList') || [];
     if (currentTags.includes(id)) {
@@ -97,6 +98,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
   const cancelCheck = () => {
     router.back();
   };
+
   useEffect(() => {
     watchRating !== 0 && clearErrors('rating');
   }, [watchRating]);
@@ -148,7 +150,9 @@ export default function WriteReviewPage({ params, searchParams }: any) {
                       );
                     })
                   ) : (
-                    <Spinner />
+                    <div className={styles.loading}>
+                      <Spinner />
+                    </div>
                   )}
                 </div>
               </div>
@@ -167,7 +171,9 @@ export default function WriteReviewPage({ params, searchParams }: any) {
                       );
                     })
                   ) : (
-                    <Spinner />
+                    <div className={styles.loading}>
+                      <Spinner />
+                    </div>
                   )}
                 </div>
               </div>

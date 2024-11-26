@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import styles from './settingAlarm.module.scss';
 import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
+import { useInApp } from '@/hooks/useInApp';
 
 export default function SettingAlarm() {
   const [alarmOn, setAlarmOn] = useState<boolean>(true);
+  const isInApp = useInApp();
 
   const handleAlarm = () => {
     setAlarmOn(!alarmOn);
@@ -38,7 +40,7 @@ export default function SettingAlarm() {
           </div>
         </div>
       </div>
-      <FCMDisabledPrompt />
+      {isInApp && <FCMDisabledPrompt />}
     </>
   );
 }

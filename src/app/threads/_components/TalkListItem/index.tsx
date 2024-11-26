@@ -3,7 +3,7 @@
 import { forwardRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import formatTimeDiff from '@/utils/formatTimeDiff';
+import { plusNineHours, formatTimeDiff } from '@/utils/formatTimeDiff';
 import { IChattingsContent } from '@/types/response/ChatroomsRES';
 import { IParticipant } from '@/types/response/Gathering';
 import styles from './TalkListItem.module.scss';
@@ -18,7 +18,8 @@ export default forwardRef<HTMLDivElement, ITalkListProps>(function TalkListItem(
   { item, userId, participants }: ITalkListProps,
   ref
 ) {
-  const processedDate = formatTimeDiff(item.sendDatetime);
+  const plusedTimeStamp = plusNineHours(item.sendDatetime);
+  const processedDate = formatTimeDiff(plusedTimeStamp);
   const memberData = participants.find(
     member => +item.userId === member.userId
   );

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import formatTimeDiff from '@/utils/formatTimeDiff';
+import { plusNineHours, formatTimeDiff } from '@/utils/formatTimeDiff';
 import styles from './ThreadListItem.module.scss';
 
 interface IThreadsListItemProps {
@@ -16,7 +16,7 @@ export default function ThreadListItem({
   lastSendDateTime,
 }: IThreadsListItemProps) {
   const recentMessageTime =
-    lastSendDateTime && formatTimeDiff(lastSendDateTime);
+    lastSendDateTime && formatTimeDiff(plusNineHours(lastSendDateTime));
 
   return (
     <div className={styles.item}>

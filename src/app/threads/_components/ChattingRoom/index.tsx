@@ -16,6 +16,7 @@ import { useInView } from 'react-intersection-observer';
 import { useToast } from '@/contexts/toastContext';
 import ToBottomButton from '../ToBottomButton';
 import styles from './ChattingRoom.module.scss';
+import { useRouter } from 'next/navigation';
 
 interface IChattingRoomProps {
   chatRoomId: number;
@@ -27,6 +28,8 @@ export default function ChattingRoom({
   gatheringId,
 }: IChattingRoomProps) {
   const { addToast } = useToast();
+
+  const router = useRouter();
 
   const stompClient = useRef<StompJs.Client>();
   const talkListItemRef = useRef<HTMLDivElement>(null);
@@ -44,10 +47,12 @@ export default function ChattingRoom({
   const { data: chattingLog, fetchNextPage } = useGetChattingLog(chatRoomId);
 
   const gatheringMembers = gatheringData?.userParticipantResponseList;
+
   const userId = gatheringMembers?.find(
     (member: IParticipant) => member?.nickname === userData?.nickName
   )?.userId;
 
+  // 채팅방 연결 시
   const onConnected = () => {
     if (!stompClient.current) return;
 
@@ -69,7 +74,6 @@ export default function ChattingRoom({
 
   // 메시지 전송
   const sendMessage = () => {
-    // 빈 메시지는 전송하지 않음
     if (!message.trim()) {
       return;
     }
@@ -95,17 +99,30 @@ export default function ChattingRoom({
     }
   };
 
+  // 메시지 전송 키보드 이벤트 핸들러
   const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       sendMessage();
     }
   };
 
+  // 최근 메시지 보기 버튼 마우스 이벤트 핸들러
   const handleClickBottomButton = () => {
     if (!talkListItemRef.current) return;
     talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
   };
 
+  // 채팅방 멤버에 속하지 않는 경우 리다이렉트
+  useEffect(() => {
+    if (!userData) return;
+
+    if (!userId) {
+      addToast('잘못된 접근입니다.', 'error');
+      return router.replace('/main');
+    }
+  }, [userData]);
+
+  // 채팅방 서버와 연결
   useEffect(() => {
     if (!userData) return;
 
@@ -127,6 +144,7 @@ export default function ChattingRoom({
     };
   }, [userData]);
 
+  // 채팅 메시지들 업데이트 및 스크롤 제어
   useEffect(() => {
     if (!chattingLog || !talkListItemRef.current) return;
 
@@ -149,6 +167,7 @@ export default function ChattingRoom({
     }, 0);
   }, [chattingLog]);
 
+  // 스크롤 제어
   useEffect(() => {
     if (talkListItemRef.current) {
       if (isFirstRender && messages.length) {
@@ -167,6 +186,7 @@ export default function ChattingRoom({
     }
   }, [messages]);
 
+  // 이전 메시지 더 불러오기
   useEffect(() => {
     if (firstMessageView) {
       fetchNextPage();

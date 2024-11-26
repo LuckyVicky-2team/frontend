@@ -7,9 +7,9 @@ import Rating from '@/components/common/Rating';
 import Spinner from '@/components/common/Spinner';
 
 export default function ReceivedReviews() {
-  const { data, isLoading, isFetching } = useReceivedReview();
+  const { data, isLoading } = useReceivedReview();
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className={`${styles.container} ${styles.loading}`}>
         <Spinner />

@@ -7,11 +7,11 @@ import MyReviewItem from '../_components/MyReviewItem';
 import ReviewSkeleton from '@/app/gatherings/_components/Skeleton';
 
 export default function MyReviews() {
-  const { data, isLoading, isFetching } = useWrittenMeetingList({
+  const { data, isLoading } = useWrittenMeetingList({
     reviewType: 'FINISH',
   });
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return (
       <div className={styles.skeletonContainer}>
         <ReviewSkeleton type={'review'} />

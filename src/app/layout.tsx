@@ -10,6 +10,7 @@ import { ToastProvider } from '@/contexts/toastContext';
 import ToastList from '@/components/common/ToastList';
 import AccessControlBoundary from '@/components/common/AccessControlBoundary';
 import { ForegroundMessage } from '@/service/foregroundMessage';
+import { PWAProvider } from '@/contexts/pwaContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -61,14 +62,16 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
         <ToastProvider>
-          <ToastList />
-          <AccessControlBoundary>
-            <Header />
-            <div className="rootContainer">
-              <ReactQueryProvider>{children}</ReactQueryProvider>
-            </div>
-            <Footer />
-          </AccessControlBoundary>
+          <PWAProvider>
+            <ToastList />
+            <AccessControlBoundary>
+              <Header />
+              <div className="rootContainer">
+                <ReactQueryProvider>{children}</ReactQueryProvider>
+              </div>
+              <Footer />
+            </AccessControlBoundary>
+          </PWAProvider>
         </ToastProvider>
       </body>
     </html>

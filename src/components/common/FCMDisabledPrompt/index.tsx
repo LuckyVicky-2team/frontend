@@ -40,7 +40,17 @@ export default function FCMDisabledPrompt() {
               />
             )}
             <div style={{ padding: '30px 30px', maxWidth: '390px' }}>
-              <h1 className={styles.title}>BOGO</h1>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {screenWidth >= 450 || (
+                  <Image
+                    src={'/assets/icons/logo.svg'}
+                    alt="로고"
+                    width={30}
+                    height={30}
+                  />
+                )}
+                <h1 className={styles.title}>BOGO</h1>
+              </div>
               <p className={styles.description}>
                 알림을 지원하지 않는 브라우저일 경우 알림을 받지 못할 수 있어요.
                 ( Naver, Kakaotalk, Google App, Samsung browser,...)

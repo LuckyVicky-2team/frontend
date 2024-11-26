@@ -116,10 +116,12 @@ export default function GatheringFooter({
   };
 
   const handleChatButtonClick = () => {
+    refetch();
     router.push(`/threads/${id - 90}?meeting=${id}`);
   };
 
   const handleGoToGatheringList = () => {
+    refetch();
     router.push('/gatherings');
   };
 

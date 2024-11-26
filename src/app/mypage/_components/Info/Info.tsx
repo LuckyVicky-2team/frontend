@@ -100,10 +100,10 @@ export default function Info({
             </div>
             {loggedIn ? (
               <ul className={styles.list}>
-                <li>
+                {/* <li>
                   <b>company.</b>
                   <p>BoardGo</p>
-                </li>
+                </li> */}
                 <li>
                   <b>E-mail.</b>
                   <p>{mypageInfo?.email}</p>

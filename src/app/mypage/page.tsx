@@ -106,7 +106,9 @@ export default function MyPage() {
         <div className={styles.line}>
           <div
             className={styles.averageLine}
-            style={{ width: `${ratingPercentage}%` }} // Animate width based on animatedRating
+            style={{
+              width: `${ratingPercentage <= 20 ? 15 : Math.min(ratingPercentage, 100)}%`,
+            }} // Animate width based on animatedRating
           >
             <p className={styles.average}>{animatedRating.toFixed(1)}</p>
           </div>

@@ -39,6 +39,13 @@
         flex-direction: column;
         gap: 24px;
       }
+
+      .logExcept {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
     }
 
     .toBottomButton {

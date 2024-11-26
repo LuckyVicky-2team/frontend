@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, KeyboardEvent, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import * as StompJs from '@stomp/stompjs';
 import ThreadInput from '../ThreadInput';
 import { IChattingsContent } from '@/types/response/ChatroomsRES';
@@ -16,7 +17,7 @@ import { useInView } from 'react-intersection-observer';
 import { useToast } from '@/contexts/toastContext';
 import ToBottomButton from '../ToBottomButton';
 import styles from './ChattingRoom.module.scss';
-import { useRouter } from 'next/navigation';
+import Spinner from '@/components/common/Spinner';
 
 interface IChattingRoomProps {
   chatRoomId: number;
@@ -43,8 +44,15 @@ export default function ChattingRoom({
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   const { data: gatheringData } = useGetGatheringInfo(gatheringId);
-  const { data: userData } = useGetMyInfo(gatheringData);
-  const { data: chattingLog, fetchNextPage } = useGetChattingLog(chatRoomId);
+  const { data: userData, isError: isUserError } = useGetMyInfo(gatheringData);
+  const {
+    data: chattingLog,
+    fetchNextPage,
+    isLoading: isChattingLoading,
+    isError: isChattingError,
+    isFetchNextPageError,
+    isFetchingNextPage,
+  } = useGetChattingLog(chatRoomId);
 
   const gatheringMembers = gatheringData?.userParticipantResponseList;
 
@@ -112,15 +120,27 @@ export default function ChattingRoom({
     talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
   };
 
-  // 채팅방 멤버에 속하지 않는 경우 리다이렉트
+  // 채팅방 멤버에 속하지 않거나 유저 정보를 불러올 수 없는 경우 리다이렉트
   useEffect(() => {
+    if (isUserError) {
+      addToast('유저 정보를 불러올 수 없습니다.', 'error');
+      return router.replace('/main');
+    }
+
     if (!userData) return;
 
     if (!userId) {
       addToast('잘못된 접근입니다.', 'error');
       return router.replace('/main');
     }
-  }, [userData]);
+  }, [userData, isUserError]);
+
+  // 채팅 로그 불러오기 오류 시 채팅 서버 연결 해제
+  useEffect(() => {
+    if (isChattingError && stompClient.current) {
+      stompClient.current.deactivate();
+    }
+  }, [isChattingError]);
 
   // 채팅방 서버와 연결
   useEffect(() => {
@@ -207,25 +227,44 @@ export default function ChattingRoom({
       />
       <div className={styles.outerTalksContainer}>
         <div className={styles.talksContainer} ref={talkListItemRef}>
-          <div className={styles.talks}>
-            {messages.map((message, index) => {
-              return (
-                <TalkListItem
-                  key={index}
-                  item={message}
-                  participants={gatheringMembers}
-                  userId={userId}
-                  ref={
-                    index === 0
-                      ? firstMessageRef
-                      : index === messages.length - 1
-                        ? lastMessageRef
-                        : null
-                  }
-                />
-              );
-            })}
-          </div>
+          {isChattingLoading ? (
+            <div className={styles.logExcept}>
+              <Spinner />
+            </div>
+          ) : isChattingError ? (
+            <div className={styles.logExcept}>채팅을 불러올 수 없습니다.</div>
+          ) : (
+            <div className={styles.talks}>
+              {isFetchingNextPage ? (
+                <div className={styles.logExcept}>
+                  <Spinner />
+                </div>
+              ) : (
+                isFetchNextPageError && (
+                  <div className={styles.logExcept}>
+                    이전 채팅을 불러올 수 없습니다.
+                  </div>
+                )
+              )}
+              {messages.map((message, index) => {
+                return (
+                  <TalkListItem
+                    key={index}
+                    item={message}
+                    participants={gatheringMembers}
+                    userId={userId}
+                    ref={
+                      index === 0
+                        ? firstMessageRef
+                        : index === messages.length - 1
+                          ? lastMessageRef
+                          : null
+                    }
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
         <div
           className={`${styles.toBottomButton} ${!lastMessageView && styles.visible}`}>

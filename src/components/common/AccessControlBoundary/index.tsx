@@ -35,6 +35,8 @@ export default function AccessControlBoundary({
         '/mypage/myFavoriteGatherings',
         '/mypage/settingAlarm',
         '/mypage/review',
+        '/mypage/review/receivedReviews',
+        '/mypage/review/myReviews',
       ]);
 
       if (forbiddenPath.has(path)) {

@@ -15,6 +15,7 @@ import { setUser } from '@sentry/nextjs';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import { app } from '@/service/initFirebase';
 import { detectInAppBrowser } from '@/utils/detectInAppBrowser';
+import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -154,7 +155,7 @@ export default function Main() {
           </div>
         </div>
       </div>
-      {isInApp || <AppInstallPrompt />}
+      {isInApp ? <FCMDisabledPrompt /> : <AppInstallPrompt />}
     </main>
   );
 }

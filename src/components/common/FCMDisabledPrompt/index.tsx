@@ -7,7 +7,7 @@ import useScreenWidth from '@/hooks/useScreenWidth';
 
 export default function FCMDisabledPrompt() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
   useEffect(() => {
     handleModalOpen();
   }, []);

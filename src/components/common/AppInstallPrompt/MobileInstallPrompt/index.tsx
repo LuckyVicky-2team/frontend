@@ -16,7 +16,7 @@ export default function MobileInstallPrompt({
   platform,
   isOpen,
 }: IMobileInstallPromptProps) {
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
   return (
     <BottomSheet
       isOpen={isOpen}

@@ -59,7 +59,7 @@ export default function PlaceListItem({
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px',
+              gap: '4px',
             }}>
             <div className={styles.address}>
               {addressParts[0]} {addressParts[1]}

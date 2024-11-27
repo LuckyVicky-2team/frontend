@@ -71,7 +71,7 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {

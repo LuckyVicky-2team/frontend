@@ -39,6 +39,10 @@
         color: #3e82f1;
       }
     }
+
+    @media screen and (max-width: 480px) {
+      font-size: 16px;
+    }
   }
 
   .category {
@@ -62,5 +66,11 @@
   .distance {
     display: flex;
     align-items: center;
+  }
+}
+
+.address {
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
   }
 }

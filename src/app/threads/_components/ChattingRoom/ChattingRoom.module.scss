@@ -37,6 +37,8 @@
         padding: 39px 27.7px 39px 39px;
         display: flex;
         flex-direction: column;
+        justify-content: flex-end;
+        min-height: 100%;
         gap: 24px;
       }
 

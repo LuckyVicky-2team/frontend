@@ -11,5 +11,9 @@
 @media only screen and (max-width: 430px) {
   .container {
     padding-top: 50px;
+
+    .title {
+      padding: 32px 16px 0px;
+    }
   }
 }

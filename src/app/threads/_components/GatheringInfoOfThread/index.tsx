@@ -12,7 +12,6 @@ import styles from './GatheringInfoThread.module.scss';
 interface IGatheringInfoOfThreadProps {
   thumbnail: string;
   title: string;
-  description: string;
   place: string;
   meetingId: number;
   participants: IParticipant[];
@@ -24,7 +23,6 @@ interface IGatheringInfoOfThreadProps {
 export default function GatheringInfoOfThread({
   thumbnail,
   title,
-  description,
   place,
   meetingId,
   participants,
@@ -77,7 +75,6 @@ export default function GatheringInfoOfThread({
         <div className={styles.texts}>
           <div className={styles.contents}>
             <div className={styles.content}>{title}</div>
-            <div className={styles.content}>{description.slice(3, -4)}</div>
           </div>
           <div className={styles.place}>{place}</div>
         </div>

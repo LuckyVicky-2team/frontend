@@ -1,11 +1,12 @@
 'use client';
 
+import { forwardRef } from 'react';
 import Image from 'next/image';
-import formatTimeDiff from '@/utils/formatTimeDiff';
+import Link from 'next/link';
+import { plusNineHours, formatTimeDiff } from '@/utils/formatTimeDiff';
 import { IChattingsContent } from '@/types/response/ChatroomsRES';
 import { IParticipant } from '@/types/response/Gathering';
 import styles from './TalkListItem.module.scss';
-import Link from 'next/link';
 
 interface ITalkListProps {
   item: IChattingsContent;
@@ -13,19 +14,19 @@ interface ITalkListProps {
   participants: IParticipant[];
 }
 
-export default function TalkListItem({
-  item,
-  userId,
-  participants,
-}: ITalkListProps) {
-  const processedDate = formatTimeDiff(item.sendDatetime);
+export default forwardRef<HTMLDivElement, ITalkListProps>(function TalkListItem(
+  { item, userId, participants }: ITalkListProps,
+  ref
+) {
+  const plusedTimeStamp = plusNineHours(item.sendDatetime);
+  const processedDate = formatTimeDiff(plusedTimeStamp);
   const memberData = participants.find(
     member => +item.userId === member.userId
   );
   const isMyTalk = userId === +item.userId;
 
   return (
-    <div className={styles.item}>
+    <div className={styles.item} ref={ref}>
       {isMyTalk || (
         <div className={styles.imageArea}>
           <Link href={`/other-profile/${item.userId}`}>
@@ -35,8 +36,7 @@ export default function TalkListItem({
                 '/assets/icons/default-profile.svg'
               }
               alt={String(item.userId)}
-              width={68}
-              height={68}
+              fill
               className={styles.profileImage}
               unoptimized
               onError={e =>
@@ -60,4 +60,4 @@ export default function TalkListItem({
       </div>
     </div>
   );
-}
+});

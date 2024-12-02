@@ -1,6 +1,10 @@
-import axios from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 import getNewAccessToken from '@/utils/getNewAccessToken';
 import { checkRefreshToken } from '@/actions/AuthActions';
+
+interface ICustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  noInterceptors?: boolean;
+}
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
@@ -12,10 +16,8 @@ export const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-let isRefreshing = false;
-
 axiosInstance.interceptors.request.use(
-  async config => {
+  async (config: ICustomAxiosRequestConfig) => {
     if (typeof window !== 'undefined') {
       const accessToken = localStorage.getItem('accessToken');
       const hasRefreshToken = await checkRefreshToken();
@@ -25,10 +27,8 @@ axiosInstance.interceptors.request.use(
         return config;
       }
 
-      if (hasRefreshToken && isRefreshing === false) {
-        isRefreshing = true;
+      if (hasRefreshToken && !config.noInterceptors) {
         const newAccessToken = await getNewAccessToken();
-        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
@@ -56,11 +56,9 @@ axiosInstance.interceptors.response.use(
       if (
         (error.response?.data?.errorCode === 4010 ||
           error.response?.data?.errorCode === 4011) &&
-        isRefreshing === false
+        !error.config.noInterceptors
       ) {
-        isRefreshing = true;
         const newAccessToken = await getNewAccessToken();
-        isRefreshing = false;
 
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);

@@ -69,7 +69,7 @@ export const useKickParticipant = (meetingId: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(meetingId)],
+        queryKey: QueryKey.GATHERING.DETAIL(meetingId),
       });
     },
   });
@@ -83,10 +83,11 @@ export const useDeleteGathering = (gatheringId: number) => {
     },
     onSettled: () => {
       queryClient.removeQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+        queryKey: QueryKey.GATHERING.DETAIL(gatheringId),
       });
       queryClient.invalidateQueries({
         queryKey: QueryKey.GATHERING.LIST({}),
+        refetchType: 'all',
       });
     },
   });

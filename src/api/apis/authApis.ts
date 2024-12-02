@@ -1,9 +1,14 @@
+import { InternalAxiosRequestConfig } from 'axios';
 import { axiosInstance } from '../instance';
 import {
   ConsentFormType,
   EmailSignupFormType,
   SocialSignupFormType,
 } from '@/types/request/authRequestTypes';
+
+interface ICustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  noInterceptors?: boolean;
+}
 
 export const postSigninForm = (formData: FormData) => {
   return axiosInstance.post('/login', formData, {
@@ -37,7 +42,9 @@ export const postSocialSignupForm = (
 };
 
 export const postRenewAccessToken = () => {
-  return axiosInstance.post(`/reissue`);
+  return axiosInstance.post(`/reissue`, {}, {
+    noInterceptors: true,
+  } as ICustomAxiosRequestConfig);
 };
 
 export const getTermsAgreement = async (required: boolean | 'all') => {

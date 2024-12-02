@@ -3,7 +3,13 @@
   gap: 8px;
 
   .imageArea {
+    flex-shrink: 0;
+    position: relative;
+    width: 68px;
+    height: 68px;
+
     .profileImage {
+      object-fit: cover;
       border-radius: 100%;
       cursor: pointer;
     }
@@ -36,10 +42,6 @@
       }
 
       .contents {
-        align-self: flex-start;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
         border-radius: 22px;
         background: #8c939e;
         padding: 6px 20px;
@@ -49,8 +51,8 @@
         font-weight: 400;
         line-height: 28px;
         letter-spacing: -0.6px;
-        white-space: normal;
         word-break: break-word;
+        overflow-wrap: break-word;
       }
 
       .createdAt {
@@ -62,6 +64,15 @@
         align-self: flex-end;
         flex-shrink: 0;
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .item {
+    .imageArea {
+      width: 42px;
+      height: 42px;
     }
   }
 }

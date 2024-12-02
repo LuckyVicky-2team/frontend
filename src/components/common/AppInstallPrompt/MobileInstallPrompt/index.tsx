@@ -16,7 +16,7 @@ export default function MobileInstallPrompt({
   platform,
   isOpen,
 }: IMobileInstallPromptProps) {
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
   return (
     <BottomSheet
       isOpen={isOpen}
@@ -43,7 +43,17 @@ export default function MobileInstallPrompt({
           />
         )}
         <div style={{ padding: '30px 30px', maxWidth: '390px' }}>
-          <h1 className={styles.title}>BOGO</h1>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {screenWidth >= 450 || (
+              <Image
+                src={'/assets/icons/logo.svg'}
+                alt="로고"
+                width={30}
+                height={30}
+              />
+            )}
+            <h1 className={styles.title}>BOGO</h1>
+          </div>
           <p className={styles.description}>
             BOGO는 앱에서 원활히 사용할 수 있습니다. 설치하시겠습니까?
           </p>

@@ -148,6 +148,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             setIsDragging(false);
             setIsFullScreen(true);
           }
+          if (!full) {
+            setIsDragging(false);
+          }
           void event;
         }}>
         {/* 헤더 부분- 필요시 추가하기 */}
@@ -167,7 +170,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             height: isFullScreen
               ? '100vh'
               : isDragging
-                ? `${contentHeight}vh`
+                ? full
+                  ? `${contentHeight}vh`
+                  : minHeight
                 : minHeight,
             minHeight: minHeight,
           }}>

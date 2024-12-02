@@ -12,7 +12,7 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
   const router = useRouter();
   const pathname = usePathname();
   const currentURL = `${window.location.origin}${pathname}`;
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
 
   const handleGoToLoginPage = () => {
     document.cookie = `referer=${currentURL}; path=/`;

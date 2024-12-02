@@ -18,6 +18,8 @@ export const detectInAppBrowser = (agent: any) => {
     /FBIOS/i,
     /FBSS/i,
     /SamsungBrowser/i,
+    /GSA/i, // Google Search App (iOS, Android)
+    /Google/i, // Google App (iOS, Android)
   ];
   return inappRegex.some(mobile => agent.match(mobile));
 };

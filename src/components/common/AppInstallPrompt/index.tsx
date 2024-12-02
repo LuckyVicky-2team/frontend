@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { BeforeInstallPromptEvent } from '@/types/window';
 import MobileInstallPrompt from './MobileInstallPrompt';
 import useModal from '@/hooks/useModal';
+import { usePWA } from '@/contexts/pwaContext';
 
 const defaultBeforeInstallPromptEvent: BeforeInstallPromptEvent = {
   platforms: [],
@@ -28,7 +29,7 @@ export default function AppInstallPrompt() {
     useState<BeforeInstallPromptEvent | null>(
       isDeviceIOS ? isIOSPromptActive() : null
     );
-  const [isStandalone, setIsStandalone] = useState(false);
+  const isPWA = usePWA();
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
@@ -64,11 +65,7 @@ export default function AppInstallPrompt() {
   }, []);
 
   useEffect(() => {
-    // iOS에서 앱으로 실행 여부 확인
-    const standalone =
-      'standalone' in window.navigator && window.navigator.standalone;
-    setIsStandalone(standalone as boolean);
-    if (deferredPrompt || !isStandalone) handleModalOpen();
+    if (deferredPrompt || !isPWA) handleModalOpen();
   }, []);
 
   // 임시

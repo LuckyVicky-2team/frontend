@@ -2,12 +2,22 @@
 
 import React from 'react';
 import { useWrittenMeetingList } from '@/api/queryHooks/review';
+import styles from './MyReviews.module.scss';
 import MyReviewItem from '../_components/MyReviewItem';
-import styles from '../Layout.module.scss';
+import ReviewSkeleton from '@/app/gatherings/_components/Skeleton';
 
 export default function MyReviews() {
-  const { data } = useWrittenMeetingList({ reviewType: 'FINISH' });
+  const { data, isLoading } = useWrittenMeetingList({
+    reviewType: 'FINISH',
+  });
 
+  if (isLoading) {
+    return (
+      <div className={styles.skeletonContainer}>
+        <ReviewSkeleton type={'review'} />
+      </div>
+    );
+  }
   return (
     <>
       {data?.length === 0 ? (

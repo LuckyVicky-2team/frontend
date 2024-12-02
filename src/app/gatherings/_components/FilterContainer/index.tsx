@@ -126,7 +126,6 @@ export default function FilterContainer() {
             id="genre"
             optionTitle="장르"
             clickOptionHandler={e => {
-              console.log(e.target.value);
               const gameTag =
                 e.target.value === ''
                   ? e.target.value

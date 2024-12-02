@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import Link from 'next/link';
-import styles from './Card.module.scss';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
+import styles from './Card.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface ICardProps {
@@ -19,6 +20,11 @@ interface ICardProps {
   onClick?: (_args: any) => void;
 }
 
+const DEFAULT_IMAGES = [
+  '/assets/images/emptyGameThumbnail.png',
+  '/assets/images/emptyThumbnail.png',
+];
+
 export default function Card({
   id,
   title,
@@ -33,10 +39,18 @@ export default function Card({
   nickName,
   onClick,
 }: ICardProps) {
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+  );
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
   const isDateOver = new Date(meetingDate) < new Date();
+
+  const handleImageError = () => {
+    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
+    setImgSrc(DEFAULT_IMAGES[randomIndex]);
+  };
 
   return (
     <>
@@ -44,15 +58,16 @@ export default function Card({
         <div className={styles.thumbnail}>
           <Link href={`/gatherings/${id}`}>
             <Image
-              src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
+              src={imgSrc}
               alt="thumbnail"
               fill
               sizes="100%"
               priority
+              onError={handleImageError}
             />
             {isFullParticipant || isDateOver ? (
               <div className={styles.fullUser}>
-                <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
+                <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
               </div>
             ) : null}
           </Link>

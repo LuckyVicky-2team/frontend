@@ -14,11 +14,12 @@ export default async function GatheringsPage() {
   const queryClient = new QueryClient();
   const req: IGatheringListRequestProps = {
     page: 0,
-    count: 10,
+    // count: 10,
     sortBy: 'MEETING_DATE',
   };
   await queryClient.prefetchQuery({
     queryKey: QueryKey.GATHERING.LIST(req),
+    staleTime: 1000 * 60 * 1,
     queryFn: () => gatheringAPI.gatheringList(req),
   });
   return (

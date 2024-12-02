@@ -18,7 +18,8 @@ import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
-import getNewAccessToken from '@/utils/getNewAccessToken';
+import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
+import { logout } from '@/api/apis/logOutApis';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -35,7 +36,9 @@ export default function SocialSignupForm() {
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
 
-  const [token, setToken] = useState('');
+  const [at, setAt] = useState('');
+  const [rt, setRt] = useState('');
+
   const { addToast } = useToast();
 
   const props = useForm({
@@ -109,11 +112,12 @@ export default function SocialSignupForm() {
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
     signupMutate(
-      { data: formData, token },
+      { data: formData, token: at },
       {
-        onSuccess: () => {
-          localStorage.setItem('accessToken', token);
-          router.push('/signup/result?type=social');
+        onSuccess: async () => {
+          localStorage.setItem('accessToken', at);
+          await saveRefreshToken(rt);
+          router.replace('/signup/result?type=social');
         },
         onError: () => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -123,21 +127,27 @@ export default function SocialSignupForm() {
   };
 
   useEffect(() => {
-    const transferToken = async () => {
-      const token = await getNewAccessToken();
+    const tempSaveToken = async () => {
+      const tokens = await reissueTokenViaServer();
 
-      if (!token) {
+      if (!tokens) {
         addToast(
           '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
           'error'
         );
-        router.push('/signin');
+        await logout();
+        return router.replace('/signin');
       }
 
-      setToken(token);
+      await logout();
+
+      setAt(tokens.at);
+      setRt(tokens.rt || '');
+
+      return;
     };
 
-    transferToken();
+    tempSaveToken();
   }, []);
 
   useEffect(() => {

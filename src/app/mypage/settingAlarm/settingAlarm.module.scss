@@ -109,3 +109,121 @@
     }
   }
 }
+
+@media (max-width: 430px) {
+  .relative {
+    display: block;
+    padding: 0 24px;
+    box-sizing: border-box;
+    padding-top: 60px;
+
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      margin-top: 30px;
+      font-family: 'LaundryGothicOTF-Bold';
+    }
+    .addCon {
+      font-size: 13px;
+      display: block;
+      width: 100%;
+      font-weight: 500;
+      margin-top: 10px;
+    }
+
+    .setWrap {
+      margin-top: 70px;
+
+      h2 {
+        color: #007aff;
+        font-weight: bold;
+        font-size: 16px;
+        border-left: 3px solid #007aff;
+        padding: 10px 20px;
+      }
+
+      .settingItem {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 20px 0;
+
+        h3 {
+          width: 40%;
+          font-size: 14px;
+          font-weight: bold;
+          span {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+          }
+        }
+
+        .settingBtn {
+          width: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+
+          .btnWrap {
+            border-radius: 25px;
+            width: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #d9d9d9;
+            padding: 3px;
+            position: relative;
+            &.alrmOn2 {
+              border: 2px solid #007aff;
+            }
+
+            button {
+              width: 100%;
+              padding: 10px 15px;
+              box-sizing: border-box;
+              border-radius: 25px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              transition: 0.3 ease all;
+              transition: background-color 0.3s ease;
+
+              p {
+                display: block;
+                text-align: center;
+                width: 50%;
+                color: #fff;
+                z-index: 2;
+                transition: 0.3 ease all;
+                display: none;
+              }
+              span {
+                z-index: 1;
+                display: block;
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0%;
+                transform: translate(5%, -50%);
+                background: #007aff;
+                width: 20px;
+                height: 20px;
+                border-radius: 20px;
+                transition: 0.3 ease all;
+                transition: transform 0.3s ease;
+                &.alarmOff {
+                  transform: translate(100%, -50%);
+                  transition: 0.3 ease all;
+                  background: #9ca3af;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

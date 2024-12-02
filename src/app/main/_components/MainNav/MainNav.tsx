@@ -42,7 +42,7 @@ export default function MainNav({
         <div>
           <h2>신규모임</h2>
           <p>
-            따끈따근한
+            따끈따끈한
             <br />
             신규 모임들 !
           </p>

@@ -121,3 +121,11 @@ export const updatePRTags = (tags: string[]) => {
 export const getNotification = () => {
   return axiosInstance.get('/user-notification/list');
 };
+
+// 알림설정 수정 api 요청
+export const patchNotification = (msgType: string, agree: boolean) => {
+  return axiosInstance.patch('/user-notification', {
+    messageType: msgType,
+    isAgreed: agree,
+  });
+};

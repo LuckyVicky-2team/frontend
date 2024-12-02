@@ -1,22 +1,35 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getNotification } from '@/api/apis/mypageApis';
+import { getNotification, patchNotification } from '@/api/apis/mypageApis';
 import styles from './settingAlarm.module.scss';
 
 interface INotificationProps {
-  additionalContent: 'string';
-  content: 'string';
-  isAgreed: 'boolean';
-  messageType: 'string';
+  isAgreed: boolean;
+  content: string;
+  additionalContent: string;
+  messageType: string;
 }
 
 export default function SettingAlarm() {
-  const [alarmOn, setAlarmOn] = useState<boolean>(true);
+  // const [alarmOn, setAlarmOn] = useState<boolean>(true);
   const [alrmList, setAlrmList] = useState<INotificationProps[]>([]);
 
-  const handleAlarm = () => {
-    setAlarmOn(!alarmOn);
+  const handleAlarm = async (index: number) => {
+    const currentItem = alrmList[index];
+    const updatedIsAgreed = !currentItem.isAgreed;
+
+    try {
+      await patchNotification(currentItem.messageType, updatedIsAgreed);
+
+      setAlrmList(prev =>
+        prev.map((item, i) =>
+          i === index ? { ...item, isAgreed: updatedIsAgreed } : item
+        )
+      );
+    } catch (error) {
+      console.log('알림설정 실패', error);
+    }
   };
 
   const fetchNotification = async () => {
@@ -32,8 +45,6 @@ export default function SettingAlarm() {
     fetchNotification();
   }, []);
 
-  console.log(alrmList);
-
   return (
     <div className={styles.relative}>
       <h1 className={styles.title}>알림 설정</h1>
@@ -48,13 +59,20 @@ export default function SettingAlarm() {
                   <button
                     type={'button'}
                     onClick={() => {
-                      handleAlarm();
-                    }}>
+                      handleAlarm(i);
+                    }}
+                    className={
+                      item?.isAgreed
+                        ? `${styles.alarmOn2}`
+                        : `${styles.alarmOff2}`
+                    }>
                     <p>ON</p>
                     <p>OFF</p>
                     <span
                       className={
-                        alarmOn === false ? `${styles.alarmOff}` : ''
+                        item?.isAgreed
+                          ? `${styles.alarmOn}`
+                          : `${styles.alarmOff}`
                       }></span>
                   </button>
                 </div>
@@ -63,25 +81,6 @@ export default function SettingAlarm() {
             </div>
           );
         })}
-        {/* <div className={styles.settingItem}>
-          <h3>알람이 올 상황</h3>
-          <div className={styles.settingBtn}>
-            <div className={styles.btnWrap}>
-              <button
-                type={'button'}
-                onClick={() => {
-                  handleAlarm();
-                }}>
-                <p>ON</p>
-                <p>OFF</p>
-                <span
-                  className={
-                    alarmOn === false ? `${styles.alarmOff}` : ''
-                  }></span>
-              </button>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

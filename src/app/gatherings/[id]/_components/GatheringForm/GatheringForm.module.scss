@@ -161,6 +161,7 @@
 
   &:disabled {
     background: #9ca3af;
+    pointer-events: none;
   }
 }
 .deleteButton {
@@ -174,6 +175,10 @@
   font-weight: 600;
   line-height: 20px;
   margin: 20px 0 0;
+
+  &:disabled {
+    pointer-events: none;
+  }
 }
 
 .error {

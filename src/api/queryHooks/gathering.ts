@@ -26,7 +26,7 @@ export const useGatheringList = (req: IGatheringListRequestProps) => {
   return useQuery<IGatheringListResponseProps, IErrorProps>({
     queryKey: QueryKey.GATHERING.LIST(req),
     queryFn: () => gatheringAPI.gatheringList(req),
-    staleTime: 60 * 1000 * 30,
+    staleTime: 60 * 1000 * 10,
     placeholderData: keepPreviousData,
   });
 };
@@ -85,6 +85,9 @@ export const useDeleteGathering = (gatheringId: number) => {
       queryClient.removeQueries({
         queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
       });
+      queryClient.invalidateQueries({
+        queryKey: QueryKey.GATHERING.LIST({}),
+      });
     },
   });
 };
@@ -103,7 +106,8 @@ export const useUpdateGathering = (gatheringId: number) => {
     mutationFn: gatheringAPI.updateGathering,
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+        queryKey: QueryKey.GATHERING.DETAIL(gatheringId),
+        refetchType: 'all',
       });
     },
   });

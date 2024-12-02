@@ -16,8 +16,8 @@ import GatheringInfoOfThread from '../GatheringInfoOfThread';
 import { useInView } from 'react-intersection-observer';
 import { useToast } from '@/contexts/toastContext';
 import ToBottomButton from '../ToBottomButton';
-import styles from './ChattingRoom.module.scss';
 import Spinner from '@/components/common/Spinner';
+import styles from './ChattingRoom.module.scss';
 
 interface IChattingRoomProps {
   chatRoomId: number;
@@ -189,20 +189,28 @@ export default function ChattingRoom({
 
   // 스크롤 제어
   useEffect(() => {
-    if (talkListItemRef.current) {
-      if (isFirstRender && messages.length) {
-        talkListItemRef.current.scrollTop =
-          talkListItemRef.current.scrollHeight;
-      } else if (lastMessageView) {
-        talkListItemRef.current.scrollTo({
-          top: talkListItemRef.current.scrollHeight,
-          behavior: 'smooth',
-        });
-      }
+    if (!talkListItemRef.current) return;
 
-      if (isFirstRender && messages.length) {
-        setIsFirstRender(false);
-      }
+    // 첫 렌더링 시 맨 아래로 스크롤 위치
+    if (isFirstRender && messages.length) {
+      talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
+      setIsFirstRender(false);
+      return;
+    }
+
+    // 내 메시지 전송 후 스크롤 내리기
+    if (Number(messages.at(-1)?.userId) === userId && !lastMessageView) {
+      talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
+      return;
+    }
+
+    // 맨 아래 메시지가 보일 때는 스크롤 부드럽게 조절
+    if (lastMessageView) {
+      talkListItemRef.current.scrollTo({
+        top: talkListItemRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+      return;
     }
   }, [messages]);
 

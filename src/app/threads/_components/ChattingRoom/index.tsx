@@ -48,7 +48,7 @@ export default function ChattingRoom({
   const {
     data: chattingLog,
     fetchNextPage,
-    isLoading: isChattingLoading,
+    isPending: isChattingPending,
     isError: isChattingError,
     isFetchNextPageError,
     isFetchingNextPage,
@@ -227,7 +227,7 @@ export default function ChattingRoom({
       />
       <div className={styles.outerTalksContainer}>
         <div className={styles.talksContainer} ref={talkListItemRef}>
-          {isChattingLoading ? (
+          {isChattingPending ? (
             <div className={styles.logExcept}>
               <Spinner />
             </div>

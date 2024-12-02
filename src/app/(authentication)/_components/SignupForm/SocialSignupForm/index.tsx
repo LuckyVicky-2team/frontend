@@ -80,11 +80,12 @@ export default function SocialSignupForm() {
 
   const {
     data: termsConditionsData,
-    isLoading,
+    isPending: isTermsPending,
     isError,
   } = useGetTermsAgreement('all');
 
-  const { mutate: signupMutate, isPending } = usePostSocialSignupForm();
+  const { mutate: signupMutate, isPending: isSignupPending } =
+    usePostSocialSignupForm();
 
   const nickNameDupCheck = async (nickName: string) => {
     try {
@@ -198,7 +199,7 @@ export default function SocialSignupForm() {
                   중복확인
                 </Button>
               </div>
-              {isLoading ? (
+              {isTermsPending ? (
                 <div className={styles.consentExcept}>
                   <Spinner />
                 </div>
@@ -220,7 +221,7 @@ export default function SocialSignupForm() {
                 }}
                 className={styles.button}
                 disabled={
-                  isPending ||
+                  isSignupPending ||
                   !watch('nickName') ||
                   !isValid ||
                   !isNickNameDupOk ||
@@ -255,7 +256,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 className={styles.button}>
                 PR 태그 등록하기
               </Button>
@@ -266,7 +267,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 color="white"
                 className={styles.button}>
                 건너뛰기

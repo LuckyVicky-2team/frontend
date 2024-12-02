@@ -53,7 +53,7 @@ export default function Info({
     localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
 
-    // GATHERING.DETAIL 관련 쿼리, user.quit관련 쿼리만 제거
+    // GATHERING.DETAIL 관련 쿼리, user.quit, me관련 쿼리만 제거
     queryClient.removeQueries({
       predicate: query => {
         const queryKey = query.queryKey;
@@ -62,7 +62,8 @@ export default function Info({
             queryKey.length >= 2 &&
             queryKey[0] === QueryKey.GATHERING.KEY &&
             typeof queryKey[1] === 'number') ||
-          queryKey[0] === 'quit'
+          queryKey[0] === 'quit' ||
+          queryKey[0] === QueryKey.USER.ME
         );
       },
     });

@@ -14,6 +14,8 @@ import { handleAllowNotification } from '@/service/notificationPermission';
 import { setUser } from '@sentry/nextjs';
 import { getPersonalInfo } from '@/api/apis/mypageApis';
 import { app } from '@/service/initFirebase';
+import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
+import { useInApp } from '@/hooks/useInApp';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -36,11 +38,11 @@ export default function Main() {
   const [meetingList, setMeetingList] = useState<IMeetingProps[] | undefined>(
     undefined
   );
-
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const token = localStorage.getItem('accessToken');
   const isVerifiedUser = localStorage.getItem('isVerifiedUser');
+  const isInApp = useInApp();
 
   const { mutate: likeMutate } = usePostWishList();
 
@@ -146,7 +148,7 @@ export default function Main() {
           </div>
         </div>
       </div>
-      <AppInstallPrompt />
+      {isInApp ? <FCMDisabledPrompt /> : <AppInstallPrompt />}
     </main>
   );
 }

@@ -1,6 +1,9 @@
 .background {
   position: fixed;
-  bottom: 0;
+  bottom: env(
+    safe-area-inset-bottom,
+    0
+  ); /* Safe Area 인셋 반영, 지원되지 않으면 0으로 설정 */
   left: 50%;
   transform: translate(-50%, 0);
   width: min(100%, 600px);
@@ -77,6 +80,8 @@
 .zzimButton {
   width: 36px;
   height: 36px;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .editButton {

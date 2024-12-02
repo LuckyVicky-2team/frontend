@@ -55,7 +55,7 @@ export default function Rating({
     <>
       <div className={`${styles.container}`}>
         {[...Array(5)].map((_, i) => {
-          const fillPercentage = Math.min(0, Math.max(0, currentRating - i));
+          const fillPercentage = Math.min(1, Math.max(0, currentRating - i));
 
           return (
             <React.Fragment key={i}>

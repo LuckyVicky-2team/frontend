@@ -77,7 +77,7 @@ export default function Members({
       return;
     }
 
-    router.replace(
+    router.push(
       `/other-profile/${id}?id=${meetingId}&open=${isFull ? 'full' : 'half'}`
     );
   };

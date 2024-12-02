@@ -1,7 +1,8 @@
-import styles from './GatheringItem.module.scss';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
+import styles from './GatheringItem.module.scss';
 
 interface IGatheringProps {
   buttonName: string;
@@ -16,6 +17,10 @@ interface IGatheringProps {
     meetingId: number;
   };
 }
+const DEFAULT_IMAGES = [
+  '/assets/images/emptyGameThumbnail.png',
+  '/assets/images/emptyThumbnail.png',
+];
 
 export default function GatheringItem({
   data,
@@ -25,16 +30,26 @@ export default function GatheringItem({
 }: IGatheringProps) {
   const { title, thumbnail, city, county, meetingDate } = data;
 
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+  );
   const { mondthAndDay, time } = transDate(meetingDate);
-  const imageURL = thumbnail
-    ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
-    : '/assets/images/emptyThumbnail.png';
 
+  const handleImageError = () => {
+    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
+    setImgSrc(DEFAULT_IMAGES[randomIndex]);
+  };
   return (
     <div className={styles.outerLayer}>
       <div className={styles.innerLayer}>
         <div className={styles.thumbnail}>
-          <Image src={imageURL} alt="thumbnail" fill priority />
+          <Image
+            src={imgSrc}
+            alt="thumbnail"
+            fill
+            priority
+            onError={handleImageError}
+          />
         </div>
         <div className={styles.content}>
           <div className={styles.detail}>

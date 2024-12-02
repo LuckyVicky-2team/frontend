@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { BeforeInstallPromptEvent } from '@/types/window';
 import MobileInstallPrompt from './MobileInstallPrompt';
 import useModal from '@/hooks/useModal';
+import { usePWA } from '@/contexts/pwaContext';
 
 const defaultBeforeInstallPromptEvent: BeforeInstallPromptEvent = {
   platforms: [],
@@ -28,6 +29,7 @@ export default function AppInstallPrompt() {
     useState<BeforeInstallPromptEvent | null>(
       isDeviceIOS ? isIOSPromptActive() : null
     );
+  const isPWA = usePWA();
 
   const handleInstallClick = () => {
     if (deferredPrompt) {
@@ -63,8 +65,8 @@ export default function AppInstallPrompt() {
   }, []);
 
   useEffect(() => {
-    if (deferredPrompt) handleModalOpen();
-  });
+    if (deferredPrompt || !isPWA) handleModalOpen();
+  }, []);
 
   // 임시
   // useEffect(() => {

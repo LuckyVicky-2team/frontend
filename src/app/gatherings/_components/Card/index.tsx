@@ -22,6 +22,11 @@ interface ICardProps {
   onClick?: (_args: any) => void;
 }
 
+const DEFAULT_IMAGES = [
+  '/assets/images/emptyGameThumbnail.png',
+  '/assets/images/emptyThumbnail.png',
+];
+
 export default function Card({
   id,
   title,
@@ -36,12 +41,18 @@ export default function Card({
   nickName,
   onClick,
 }: ICardProps) {
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+  );
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
   const isDateOver = new Date(meetingDate) < new Date();
-  const [isImageError, setIsImageError] = useState(false);
-  const fallbackSrc = '/assets/images/emptyThumbnail.png';
+
+  const handleImageError = () => {
+    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
+    setImgSrc(DEFAULT_IMAGES[randomIndex]);
+  };
 
   return (
     <>
@@ -49,24 +60,18 @@ export default function Card({
         <Link className={styles.link} href={`/gatherings/${id}`} style={{}}>
           <div className={styles.thumbnail}>
             <Image
-              src={
-                isImageError
-                  ? fallbackSrc
-                  : `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
-              }
+              src={imgSrc}
               alt="thumbnail"
               fill
-              onError={() => {
-                setIsImageError(true);
-              }}
-              sizes="35vw"
+              sizes="50%"
               priority
-              quality={70}
+              quality={80}
+              onError={handleImageError}
             />
 
             {isFullParticipant || isDateOver ? (
               <div className={styles.fullUser}>
-                <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
+                <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
               </div>
             ) : null}
           </div>

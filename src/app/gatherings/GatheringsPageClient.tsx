@@ -27,12 +27,12 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
   const { data, error, fetchNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: QueryKey.GATHERING.LIST({
-        count: 10,
+        // count: 10,
         ...params,
       }),
       queryFn: ({ pageParam = 0 }) =>
         gatheringAPI.gatheringList({
-          count: 10,
+          // count: 10,
           page: pageParam,
           ...params,
         }),
@@ -41,8 +41,8 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
         if (!lastPage || lastPage.length < 10) return undefined;
         return pages.length;
       },
+      staleTime: 1000 * 60 * 1,
       refetchOnMount: true,
-      staleTime: 0,
     });
 
   const FilteredGatherings = data?.pages.flat() || [];

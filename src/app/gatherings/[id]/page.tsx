@@ -16,7 +16,7 @@ export default async function GatheringsInfo({
   const { open } = searchParams;
 
   const detailQuery = getDehydratedQuery({
-    queryKey: [QueryKey.DETAIL],
+    queryKey: QueryKey.GATHERING.DETAIL(Number(id)),
     queryFn: () => gatheringAPI.getGatheringsInfo(Number(id)),
   });
 

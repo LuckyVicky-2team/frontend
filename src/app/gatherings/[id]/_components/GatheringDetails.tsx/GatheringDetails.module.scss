@@ -42,6 +42,10 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media screen and (max-width: 480px) {
+    font-size: 20px;
+  }
 }
 
 .place {
@@ -55,6 +59,9 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 125% */
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .gatheringInfo .tag {
@@ -85,6 +92,9 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 142.857% */
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .games {
@@ -96,6 +106,9 @@
   font-weight: 500;
   line-height: 20px; /* 142.857% */
   gap: 4px;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .genres {
@@ -103,6 +116,9 @@
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .firstGatheringInfoIcons {
@@ -194,6 +210,10 @@
   font-style: normal;
   font-weight: 600;
   line-height: 20px; /* 125% */
+  @media screen and (max-width: 480px) {
+    font-size: 14px;
+    height: 48px;
+  }
 }
 
 .section2,
@@ -206,11 +226,17 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+    }
   }
 
   .convertedContent {
     margin: 38px 0 0;
     min-height: 200px;
+    @media screen and (max-width: 480px) {
+      font-size: 14px;
+    }
   }
 
   .h2 {
@@ -220,6 +246,15 @@
     font-weight: 700;
     line-height: 20px; /* 83.333% */
     margin: 0 0 12px 0;
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+    }
+  }
+
+  .h2Description {
+    @media screen and (max-width: 480px) {
+      font-size: 14px;
+    }
   }
 }
 

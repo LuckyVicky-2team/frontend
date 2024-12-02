@@ -71,7 +71,7 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -91,6 +91,7 @@ export default function GatheringFooter({
     joinMutate(id, {
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
+        refetch();
         handleSuccessModalOpen();
         if (participantCount + 1 === limitParticipant) {
           completeMutate(id, {
@@ -116,16 +117,11 @@ export default function GatheringFooter({
   };
 
   const handleChatButtonClick = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
+    router.push(`/threads/${id - 90}?meeting=${id}`);
   };
 
   const handleGoToGatheringList = () => {
     router.push('/gatherings');
-  };
-
-  const handleGoToChatting = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
-    // router.push('/Chatting');
   };
 
   // const handleAlertLater = () => {
@@ -250,7 +246,6 @@ export default function GatheringFooter({
         modalOpen={successModalOpen}
         onClose={() => {
           handleSuccessModalClose();
-          refetch();
         }}
         maxWidth={552}
         xButton>
@@ -305,7 +300,7 @@ export default function GatheringFooter({
 
           <button
             type="button"
-            onClick={handleGoToChatting}
+            onClick={handleChatButtonClick}
             className={styles.modalSecondButton}
             style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
             모임 채팅방 가기

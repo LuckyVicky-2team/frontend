@@ -1,105 +1,90 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import styles from './FilterContainer.module.scss';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { useClientSearchParams } from '@/hooks/useClientSearchParams';
-import { genre } from '@/data/dummyData';
-import { city, areas, cityMapping } from '@/data/locationData';
+import { useSearchQuery } from '../../utils/useSearchQuery';
 import { dateToISOString } from '@/utils/common';
-import DatePicker from '@/components/common/DatePicker';
-import SelectBox from '@/components/common/SelectBox';
+import { genre } from '@/data/dummyData';
+import { cities, areas, cityMapping } from '@/data/locationData';
+import styles from '../Filter/Filter.module.scss';
 import SearchBar from '../SearchBar';
+import SelectBox from '@/components/common/SelectBox';
+import DatePicker from '@/components/common/DatePicker';
 
-export default function FilterContainer() {
-  const searchParams = useClientSearchParams();
-  const getDateFromUrl = (query: string) => {
-    return new Date(searchParams.get(query));
-  };
-  const endDate = getDateFromUrl('endDate');
-  const arrangedEndDate = new Date(endDate.setDate(endDate.getDate() - 1));
+interface IFilterProps {
+  tag?: string;
+  city?: string;
+  county?: string;
+  startDate?: Date | '';
+  endDate?: Date | '';
+  searchType?: string;
+  searchWord?: string;
+  sortBy?: string;
+  page?: number;
+}
 
+export default function Filter({
+  filterItems: {
+    startDate = '',
+    endDate = '',
+    city = '',
+    tag = '',
+    county = '',
+  },
+  setParams,
+  clearParams,
+}: {
+  filterItems: IFilterProps;
+  setParams: any;
+  clearParams: () => void;
+}) {
+  const { searchKeyword, searchType, setSearch } = useSearchQuery();
+  const formattedEndDate = new Date(endDate);
+  const arrangedEndDate = new Date(
+    formattedEndDate.setDate(formattedEndDate.getDate() - 1)
+  );
   const transCityText = (city: string) => {
     return cityMapping[city] || city;
   };
   const [searchResult, setSearchResult] = useState<string>('');
   const [showingStartDate, setShowingStartDate] = useState<Date | null>(
-    new Date(searchParams.get('startDate')) < new Date()
-      ? null
-      : getDateFromUrl('startDate')
-  );
-  const [selectedGenre, setSelectedGenre] = useState<string>(
-    searchParams.get('tag') || ''
-  );
-  const [selectedCity, setSelectedCity] = useState<string>(
-    searchParams.get('city') || ''
-  );
-  const [selectedCounty, setSelectedCounty] = useState<string>(
-    searchParams.get('county') || ''
+    startDate ? new Date(startDate) : null
   );
   const [showingEndDate, setShowingEndDate] = useState<Date | null>(
-    getDateFromUrl('endDate') < new Date() ? null : arrangedEndDate
+    endDate ? arrangedEndDate : null
   );
 
   const {
     handleSubmit,
     register,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      search_word: searchParams.get('searchWord'),
-      search_type: searchParams.get('searchType') || 'TITLE',
+      search_word: searchKeyword,
+      search_type: 'TITLE',
     },
   });
+  const errorMessage = errors.search_word?.message;
 
   const onSearch = (data: { [key: string]: any }) => {
-    if (data['search_word'].trim() !== '') {
-      searchParams.append('REPLACE', {
-        searchWord: data['search_word'],
-        searchType: data['search_type'],
-      });
-    }
+    setSearch({ keyword: data['search_word'], type: data['search_type'] });
     setSearchResult(`${data['search_word']} 검색결과 입니다.`);
   };
 
-  const setParamsToUrl = (name: string, value: any) => {
-    if (!value || value === null || value === '') {
-      searchParams.remove('REPLACE', name);
-    } else {
-      searchParams.append('REPLACE', { [name]: value });
-    }
-  };
-  const isSearchWord = searchParams.get('searchWord');
-  const errorMessage = errors.search_word?.message;
-  // const selectedCity = searchParams.get('city');
-
   const handleResetFilters = () => {
-    // 모든 검색 매개변수를 제거하여 초기화
-    searchParams.clear('REPLACE');
-
-    // 훅폼의 기본값 설정
-    setValue('search_word', '');
-    setValue('search_type', 'TITLE');
-
-    // 상태 초기화
-    setSearchResult('');
+    clearParams();
     setShowingStartDate(null);
     setShowingEndDate(null);
-    setSelectedGenre('');
-    setSelectedCity('');
-    setSelectedCounty('');
+    setSearchResult('');
+    reset();
   };
-
-  useEffect(() => {
-    setSelectedGenre(searchParams.get('tag') || '');
-    setSelectedCity(searchParams.get('city') || '');
-    setSelectedCounty(searchParams.get('county') || '');
-  }, [JSON.stringify(searchParams.get())]);
 
   return (
     <section className={styles.searchTabHeader}>
       <SearchBar
+        searchType={searchType}
         register={register}
         setValue={setValue}
         selectOptionSet={[
@@ -130,11 +115,10 @@ export default function FilterContainer() {
                 e.target.value === ''
                   ? e.target.value
                   : `${e.target.value}게임`;
-
-              setParamsToUrl('tag', gameTag);
+              setParams({ tag: gameTag });
             }}
             optionSet={genre}
-            value={selectedGenre}
+            value={tag}
             rightLabel={
               <Image
                 sizes={'100%'}
@@ -149,11 +133,11 @@ export default function FilterContainer() {
           <SelectBox
             id="city"
             optionTitle="시/도"
-            optionSet={city}
+            optionSet={cities}
             clickOptionHandler={e =>
-              setParamsToUrl('city', transCityText(e.target.value))
+              setParams({ city: transCityText(e.target.value) })
             }
-            value={selectedCity}
+            value={city}
             rightLabel={
               <Image
                 sizes={'100%'}
@@ -168,10 +152,10 @@ export default function FilterContainer() {
           <SelectBox
             id="area"
             optionTitle="구/군"
-            optionSet={selectedCity ? areas[selectedCity] : []}
-            clickOptionHandler={e => setParamsToUrl('county', e.target.value)}
-            isDisabled={!selectedCity}
-            value={selectedCounty}
+            optionSet={city ? areas[city] : []}
+            clickOptionHandler={e => setParams({ county: e.target.value })}
+            isDisabled={!city}
+            value={county}
             rightLabel={
               <Image
                 sizes={'100%'}
@@ -193,23 +177,18 @@ export default function FilterContainer() {
                 const startDateISO = dateToISOString(date);
 
                 if (!showingEndDate && !showingStartDate) {
-                  //1. 초기렌더링. endDate 없고 startDate 설정
+                  // 초기 선택 시, startDate는 params로 설정하지않고 UI만 변경
                   setShowingStartDate(date);
                 } else if (showingEndDate && date > showingEndDate) {
-                  // 2.. endDate가 있고, 새로 설정하려는 startDate가 endDate보다 이후일 경우
-                  const copyDate = new Date(date);
-                  const dateMidnight = new Date(
-                    copyDate.setDate(copyDate.getDate() + 1)
-                  );
+                  // 재선택시, startDate 변경: startDate가 endDate보다 이후 날짜로 변경할 경우
+                  const nextDay = new Date(date);
+                  nextDay.setDate(nextDay.getDate() + 1);
                   setShowingEndDate(date); // endDate를 startDate로 변경
-                  const endDateISO = dateToISOString(dateMidnight);
-                  searchParams.append('REPLACE', {
-                    startDate: startDateISO!,
-                    endDate: endDateISO!,
-                  });
+                  const endDateISO = dateToISOString(nextDay);
+                  setParams({ startDate: startDateISO!, endDate: endDateISO! });
                 } else {
-                  //새로 설정하려는 startDate이 endDate보다 이전이고, startDate 만 변경할경우
-                  setParamsToUrl('startDate', startDateISO);
+                  // 재선택시, startDate 변경: startDate가 endDate 보다 이전 날짜로 변경할 경우
+                  setParams({ startDate: startDateISO });
                 }
               }}
               placeholder="시작 날짜"
@@ -227,12 +206,8 @@ export default function FilterContainer() {
                   copyDate.setDate(copyDate.getDate() + 1)
                 );
                 const endDateISO = dateToISOString(dateMidnight);
-
                 const startDateISO = dateToISOString(showingStartDate);
-                searchParams.append('REPLACE', {
-                  startDate: startDateISO!,
-                  endDate: endDateISO!,
-                });
+                setParams({ startDate: startDateISO!, endDate: endDateISO! });
               }}
               isDisabled={!showingStartDate}
               minDate={showingStartDate ? showingStartDate : null}
@@ -253,7 +228,7 @@ export default function FilterContainer() {
             src={'/assets/icons/reset.svg'}
           />
         </div>
-        {/* <div className={styles.sortType}> */}
+
         <div className={styles.sortType}>
           <SelectBox
             id="filter"
@@ -261,7 +236,8 @@ export default function FilterContainer() {
               { name: '마감임박 순', value: 'MEETING_DATE' },
               { name: '참여인원 순', value: 'PARTICIPANT_COUNT' },
             ]}
-            clickOptionHandler={e => setParamsToUrl('sortBy', e.target.value)}
+            // value={sortBy}
+            clickOptionHandler={e => setParams({ sortBy: e.target.value })}
             leftLabel={
               <Image
                 fill
@@ -272,9 +248,8 @@ export default function FilterContainer() {
             }
           />
         </div>
-        {/* </div> */}
       </div>
-      {isSearchWord !== null && (
+      {searchKeyword !== null && (
         <div className={styles.info}>
           <p>{errorMessage ?? errors.search_word?.message ?? searchResult}</p>
         </div>

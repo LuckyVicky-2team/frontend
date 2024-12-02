@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -55,23 +57,25 @@ export default function Card({
   return (
     <>
       <div className={styles.card} onClick={onClick}>
-        <div className={styles.thumbnail}>
-          <Link href={`/gatherings/${id}`}>
+        <Link className={styles.link} href={`/gatherings/${id}`} style={{}}>
+          <div className={styles.thumbnail}>
             <Image
               src={imgSrc}
               alt="thumbnail"
               fill
-              sizes="100%"
+              sizes="50%"
               priority
+              quality={80}
               onError={handleImageError}
             />
+
             {isFullParticipant || isDateOver ? (
               <div className={styles.fullUser}>
                 <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
               </div>
             ) : null}
-          </Link>
-        </div>
+          </div>
+        </Link>
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.topHeader}>

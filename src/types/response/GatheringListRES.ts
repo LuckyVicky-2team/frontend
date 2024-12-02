@@ -1,17 +1,21 @@
+export interface ISingleGatheringProps {
+  likeStatus: 'Y' | 'N';
+  viewCount: number;
+  id: number;
+  title: string;
+  city: string;
+  county: string;
+  meetingDate: string;
+  limitParticipant: number;
+  nickName: string;
+  games: string[];
+  tags: string[];
+  participantCount: number;
+  thumbnail: string;
+}
+
 export interface IGatheringListResponseProps {
-  content: {
-    id: number;
-    title: string;
-    city: string;
-    county: string;
-    meetingDate: string;
-    limitParticipant: number;
-    nickName: string;
-    games: string[];
-    tags: string[];
-    participantCount: number;
-    thumbnail: string;
-  }[];
+  content: ISingleGatheringProps[];
   pageable: {
     pageNumber: number;
     pageSize: number;

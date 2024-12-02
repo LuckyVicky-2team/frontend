@@ -12,7 +12,8 @@
     gap: 8px;
     padding: 46px 24px 0 24px;
 
-    .meetingDeatilHeader {
+    .meetingDetailHeader {
+      padding: 0 24px;
       color: #757a83;
       font-family: LaundryGothicOTF;
       font-size: 30px;
@@ -21,14 +22,32 @@
       line-height: normal;
       letter-spacing: 1.2px;
       display: flex;
-      max-width: 90%;
-
-      h1 {
+      width: 100%;
+      .title {
+        font-size: 30px;
+        margin-right: 6px;
         font-family: inherit;
-        max-width: 70%;
+        max-width: 60%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      @media only screen and (max-width: 450px) {
+        align-items: center;
+        font-size: 20px;
+        padding: 0 24px;
+        .title {
+          font-size: 20px;
+        }
+      }
+      @media only screen and (max-width: 330px) {
+        align-items: center;
+        font-size: 16px;
+        padding: 0 24px;
+        .title {
+          font-size: 16px;
+        }
       }
     }
     .meetingDetailContent {
@@ -133,6 +152,11 @@
         font-weight: 700;
         line-height: normal;
       }
+      @media only screen and (max-width: 450px) {
+        span {
+          font-size: 20px;
+        }
+      }
     }
     .revieweeCardContainer {
       display: inline-flex;
@@ -178,6 +202,9 @@
           font-size: 24px;
           font-style: normal;
           font-weight: 700;
+          @media only screen and (max-width: 450px) {
+            font-size: 20px;
+          }
         }
         .writeReviewBtn {
           width: 100%;
@@ -194,7 +221,11 @@
           font-size: 14px;
           font-style: normal;
           font-weight: 700;
-          line-height: 20px; /* 142.857% */
+          line-height: 20px;
+          @media only screen and (max-width: 450px) {
+            font-size: 12px;
+            max-width: 83px;
+          }
         }
       }
     }

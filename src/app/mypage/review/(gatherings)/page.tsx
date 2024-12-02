@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './ReviewPage.module.scss';
 import GatheringItem from '../_components/GatheringItem';
 import { useMeetingList } from '@/api/queryHooks/review';
-import Skeleton from '@/app/gatherings/_components/Skeleton';
+import ReviewSkeleton from '@/app/gatherings/_components/Skeleton';
 
 export default function ReviewPage() {
   const { data, isLoading } = useMeetingList({
@@ -24,7 +24,7 @@ export default function ReviewPage() {
     <div className={styles.container}>
       {isLoading ? (
         <div className={styles.skeletonContainer}>
-          <Skeleton type="review" />
+          <ReviewSkeleton type="review" />
         </div>
       ) : data ? (
         dateSortedData?.map(meeting => {

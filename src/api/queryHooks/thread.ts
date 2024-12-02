@@ -15,14 +15,6 @@ export const useGetMyChatrooms = () => {
   });
 };
 
-// export const useGetChattingLog = (chatroomId: number, page: number) => {
-//   return useQuery({
-//     queryKey: QueryKey.GATHERING.THREAD(chatroomId),
-//     queryFn: () => getChattingLog(chatroomId, page),
-//     gcTime: 0,
-//   });
-// };
-
 export const useGetChattingLog = (chatroomId: number) => {
   return useInfiniteQuery({
     queryKey: QueryKey.GATHERING.THREAD(chatroomId),
@@ -32,7 +24,6 @@ export const useGetChattingLog = (chatroomId: number) => {
       if (lastPage.last) return undefined;
       return pages.length;
     },
-    refetchOnMount: true,
     gcTime: 0,
   });
 };

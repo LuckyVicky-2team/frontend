@@ -1,5 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg';
-// import ffmpegStatic from 'ffmpeg-static';
+import ffmpegStatic from 'ffmpeg-static';
 import fs from 'fs';
 import fs2 from 'fs/promises';
 import path from 'path';
@@ -7,9 +7,15 @@ import { NextResponse } from 'next/server';
 // import sharp from 'sharp';
 
 // 환경 변수로부터 FFmpeg 경로 가져오기
-const ffmpegPath = process.env.FFMPEG_PATH
-  ? path.resolve(process.cwd(), process.env.FFMPEG_PATH)
-  : null;
+// const ffmpegPath = process.env.FFMPEG_PATH
+//   ? path.resolve(process.cwd(), process.env.FFMPEG_PATH)
+//   : null;
+
+// 실행 파일 경로 설정
+const ffmpegPath =
+  process.platform === 'win32'
+    ? ffmpegStatic
+    : '/var/task/node_modules/ffmpeg-static/ffmpeg';
 
 if (ffmpegPath) {
   ffmpeg.setFfmpegPath(ffmpegPath);
@@ -38,6 +44,8 @@ async function safeUnlink(filePath: string) {
 
 export async function POST(request: any) {
   try {
+    const ffmpegPath = require('ffmpeg-static');
+    console.log(`FFmpeg Path: ${ffmpegPath}`);
     const { url } = await request.json();
 
     // 파일 확장자 확인

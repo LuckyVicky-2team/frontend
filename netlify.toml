@@ -1,5 +1,5 @@
 [functions]
-included_files = ["node_modules/**"]
+included_files = ["node_modules/ffmpeg-static/**"]
 
 [build]
   command = "npm run build"

@@ -1,5 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg';
-// import ffmpegStatic from 'ffmpeg-static';
+import ffmpegStatic from 'ffmpeg-static';
 import fs from 'fs';
 import fs2 from 'fs/promises';
 import path from 'path';
@@ -7,9 +7,15 @@ import { NextResponse } from 'next/server';
 // import sharp from 'sharp';
 
 // 환경 변수로부터 FFmpeg 경로 가져오기
-const ffmpegPath = process.env.FFMPEG_PATH
-  ? path.resolve(process.cwd(), process.env.FFMPEG_PATH)
-  : null;
+// const ffmpegPath = process.env.FFMPEG_PATH
+//   ? path.resolve(process.cwd(), process.env.FFMPEG_PATH)
+//   : null;
+
+// 실행 파일 경로 설정
+const ffmpegPath =
+  process.platform === 'win32'
+    ? ffmpegStatic
+    : '/var/task/node_modules/ffmpeg-static/ffmpeg';
 
 if (ffmpegPath) {
   ffmpeg.setFfmpegPath(ffmpegPath);
@@ -38,14 +44,19 @@ async function safeUnlink(filePath: string) {
 
 export async function POST(request: any) {
   try {
+    //나중에 지우기
+    const ffmpegPath = require('ffmpeg-static');
+    console.log(`FFmpeg Path: ${ffmpegPath}`);
+
     const { url } = await request.json();
 
     // 파일 확장자 확인
     // const extension = url.split('.').pop().toLowerCase();
 
     // 경로 설정 (프로젝트 디렉토리 내에 tmp 폴더 사용)
-    const tempDir = path.resolve(process.cwd(), 'tmp') || '/tmp'; // 기본 임시 디렉토리;
-    await fs2.mkdir(tempDir, { recursive: true });
+    // const tempDir = path.resolve(process.cwd(), 'tmp')
+    // await fs2.mkdir(tempDir, { recursive: true });
+    const tempDir = process.env.TEMP || process.env.TMP || '/tmp';
     const gifPath = path.join(tempDir, 'input.gif');
     const mp4Path = path.join(tempDir, 'output.mp4');
 
@@ -97,9 +108,6 @@ export async function POST(request: any) {
     });
   } catch (error) {
     console.error('Error in converting GIF to MP4:', error);
-    return NextResponse.json(
-      { error: 'Conversion failed. Please check the server logs.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

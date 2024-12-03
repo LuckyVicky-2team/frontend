@@ -65,7 +65,7 @@ export default function AppInstallPrompt() {
   }, []);
 
   useEffect(() => {
-    if (deferredPrompt || !isPWA) handleModalOpen();
+    if (deferredPrompt && !isPWA) handleModalOpen();
   }, []);
 
   // 임시

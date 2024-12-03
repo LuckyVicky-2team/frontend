@@ -140,7 +140,7 @@ export default function EmailSignupForm() {
 
     signupMutate(newFormData, {
       onSuccess: () => {
-        router.push('/signup/result?type=local');
+        router.replace('/signup/result?type=local');
       },
       onError: () => {
         addToast('회원가입 중 오류가 발생했습니다.', 'error');

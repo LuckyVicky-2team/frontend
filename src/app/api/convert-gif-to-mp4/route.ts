@@ -12,10 +12,11 @@ import { NextResponse } from 'next/server';
 //   : null;
 
 // 실행 파일 경로 설정
+// Netlify 환경과 Windows 환경 구분
 const ffmpegPath =
   process.platform === 'win32'
-    ? ffmpegStatic
-    : '/var/task/node_modules/ffmpeg-static/ffmpeg';
+    ? ffmpegStatic // Windows용 ffmpeg-static
+    : ffmpegStatic; // Netlify(Linux)에서 제공하는 기본 ffmpeg-static 바이너리
 
 if (ffmpegPath) {
   ffmpeg.setFfmpegPath(ffmpegPath);

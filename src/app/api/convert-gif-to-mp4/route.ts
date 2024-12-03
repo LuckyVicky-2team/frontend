@@ -44,8 +44,9 @@ export async function POST(request: any) {
     // const extension = url.split('.').pop().toLowerCase();
 
     // 경로 설정 (프로젝트 디렉토리 내에 tmp 폴더 사용)
-    const tempDir = path.resolve(process.cwd(), 'tmp') || '/tmp'; // 기본 임시 디렉토리;
-    await fs2.mkdir(tempDir, { recursive: true });
+    // const tempDir = path.resolve(process.cwd(), 'tmp')
+    // await fs2.mkdir(tempDir, { recursive: true });
+    const tempDir = process.env.TEMP || process.env.TMP || '/tmp';
     const gifPath = path.join(tempDir, 'input.gif');
     const mp4Path = path.join(tempDir, 'output.mp4');
 
@@ -97,9 +98,6 @@ export async function POST(request: any) {
     });
   } catch (error) {
     console.error('Error in converting GIF to MP4:', error);
-    return NextResponse.json(
-      { error: 'Conversion failed. Please check the server logs.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

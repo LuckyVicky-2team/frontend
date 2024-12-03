@@ -1,9 +1,9 @@
-[functions]
-included_files = ["node_modules/ffmpeg-static/**"]
-
 [build]
   command = "npm run build"
   publish = ".next"
+
+[functions]
+  included_files = ["node_modules/ffmpeg-static/**"]
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

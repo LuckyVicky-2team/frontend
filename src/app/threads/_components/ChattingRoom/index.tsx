@@ -42,6 +42,7 @@ export default function ChattingRoom({
   const [message, setMessage] = useState(''); // 전송할 메시지
   const [messages, setMessages] = useState<IChattingsContent[]>([]); // 수신한 메시지 목록
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const [isMyMessage, setIsMyMessage] = useState(false);
 
   const { data: gatheringData } = useGetGatheringInfo(gatheringId);
   const { data: userData, isError: isUserError } = useGetMyInfo(gatheringData);
@@ -67,6 +68,10 @@ export default function ChattingRoom({
     stompClient.current.subscribe(`/topic/chat/${chatRoomId}`, message => {
       const messageData = JSON.parse(message.body);
       setMessages(prevMessages => [...prevMessages, messageData]);
+
+      if (+messageData.userId === userId) {
+        setIsMyMessage(true);
+      }
     });
   };
 
@@ -198,18 +203,19 @@ export default function ChattingRoom({
       return;
     }
 
-    // 내 메시지 전송 후 스크롤 내리기
-    if (Number(messages.at(-1)?.userId) === userId && !lastMessageView) {
-      talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
-      return;
-    }
-
     // 맨 아래 메시지가 보일 때는 스크롤 부드럽게 조절
     if (lastMessageView) {
       talkListItemRef.current.scrollTo({
         top: talkListItemRef.current.scrollHeight,
         behavior: 'smooth',
       });
+      return;
+    }
+
+    // 내 메시지 전송 후 스크롤 내리기
+    if (isMyMessage) {
+      talkListItemRef.current.scrollTop = talkListItemRef.current.scrollHeight;
+      setIsMyMessage(false);
       return;
     }
   }, [messages]);
@@ -241,6 +247,10 @@ export default function ChattingRoom({
             </div>
           ) : isChattingError ? (
             <div className={styles.logExcept}>채팅을 불러올 수 없습니다.</div>
+          ) : messages.length === 0 ? (
+            <div className={styles.logExcept}>
+              아직 대화가 없습니다. 첫 메시지를 남겨보세요!
+            </div>
           ) : (
             <div className={styles.talks}>
               {isFetchingNextPage ? (

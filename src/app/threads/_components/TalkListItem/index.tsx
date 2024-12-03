@@ -25,6 +25,8 @@ export default forwardRef<HTMLDivElement, ITalkListProps>(function TalkListItem(
   );
   const isMyTalk = userId === +item.userId;
 
+  if (!userId) return;
+
   return (
     <div className={styles.item} ref={ref}>
       {isMyTalk || (

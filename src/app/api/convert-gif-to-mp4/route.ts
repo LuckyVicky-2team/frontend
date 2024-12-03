@@ -44,8 +44,10 @@ async function safeUnlink(filePath: string) {
 
 export async function POST(request: any) {
   try {
+    //나중에 지우기
     const ffmpegPath = require('ffmpeg-static');
     console.log(`FFmpeg Path: ${ffmpegPath}`);
+
     const { url } = await request.json();
 
     // 파일 확장자 확인

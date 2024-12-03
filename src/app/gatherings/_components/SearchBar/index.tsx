@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './SearchBar.module.scss';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
-import SelectBox from '@/components/common/SelectBox';
 import Image from 'next/image';
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import styles from './SearchBar.module.scss';
+import SelectBox from '@/components/common/SelectBox';
 
 interface ISearchBarProps {
   selectOptionSet:
@@ -15,6 +15,7 @@ interface ISearchBarProps {
   setValue: UseFormSetValue<{ search_word: string; search_type: string }>;
   register: UseFormRegister<{ search_word: string; search_type: string }>;
   searchHandler: (_args: any) => void;
+  searchType: string;
 }
 
 export default function SearchBar({
@@ -22,11 +23,17 @@ export default function SearchBar({
   setValue,
   register,
   searchHandler,
+  searchType,
 }: ISearchBarProps) {
+  const transSearchType = selectOptionSet.find(
+    e => e.value === searchType
+  )?.name;
+
   return (
     <div className={styles.searchBar}>
       <div className={styles.searchDropdown}>
         <SelectBox
+          value={transSearchType}
           className={styles.reset}
           clickOptionHandler={e => {
             setValue('search_type', e.target.value);
@@ -60,7 +67,7 @@ export default function SearchBar({
         type="text"
         id="searchBar"
       />
-      <button type="submit" onClick={searchHandler}>
+      <button className={styles.submit} type="submit" onClick={searchHandler}>
         <Image
           src={'/assets/icons/searchLight.svg'}
           alt="finder"

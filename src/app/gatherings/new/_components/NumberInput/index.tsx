@@ -6,16 +6,20 @@ import { INewGatheringFormValuesRequest } from '@/types/request/Gatherings';
 
 interface INumberInputProps {
   setValue: UseFormSetValue<INewGatheringFormValuesRequest>;
-  minParticipants?: number;
+  minParticipants?: number; //현재 참가인원
+  currentMaxParticipants?: number; //리더가 설정한 최대 참가가능 인원
 }
 
 export default function NumberInput({
   setValue,
   minParticipants = 1,
+  currentMaxParticipants,
 }: INumberInputProps) {
   const arrangedMinNum =
     minParticipants && minParticipants > 2 ? minParticipants : 2;
-  const [count, setCount] = useState(arrangedMinNum);
+  const [count, setCount] = useState<number>(
+    currentMaxParticipants || arrangedMinNum
+  );
 
   const handleDecrement = () => {
     if (count > arrangedMinNum) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './WriteReviewPage.module.scss';
 import { useForm, Controller } from 'react-hook-form';
 import { useToast } from '@/contexts/toastContext';
@@ -17,9 +17,9 @@ type FormValues = {
 };
 
 export default function WriteReviewPage({ params, searchParams }: any) {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const router = useRouter();
   const revieweeName = searchParams?.revieweeName;
-
   const revieweeId = params?.revieweeId;
   const { addToast } = useToast();
 
@@ -42,6 +42,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
   const { data } = useEvaluationTagList();
   const { mutate } = useReviewCreate();
   const queryClient = useQueryClient();
+
   const handleTagClick = (id: number) => {
     const currentTags = getValues('evaluationTagList') || [];
     if (currentTags.includes(id)) {
@@ -55,8 +56,10 @@ export default function WriteReviewPage({ params, searchParams }: any) {
   };
 
   const onSubmit = (data: any) => {
+    setIsButtonDisabled(true);
     if (!data) {
       addToast('리뷰를 제출하는데 문제가 있습니다', 'error');
+      setIsButtonDisabled(false);
       return;
     }
 
@@ -89,6 +92,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
           if (errorCode <= 404 || errorCode === 4041 || errorCode === 4040)
             addToast(`리뷰 작성에 실패하였습니다`, 'error');
           console.error(errorMsg);
+          setIsButtonDisabled(false);
         },
       });
     }
@@ -97,6 +101,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
   const cancelCheck = () => {
     router.back();
   };
+
   useEffect(() => {
     watchRating !== 0 && clearErrors('rating');
   }, [watchRating]);
@@ -148,7 +153,9 @@ export default function WriteReviewPage({ params, searchParams }: any) {
                       );
                     })
                   ) : (
-                    <Spinner />
+                    <div className={styles.loading}>
+                      <Spinner />
+                    </div>
                   )}
                 </div>
               </div>
@@ -167,7 +174,9 @@ export default function WriteReviewPage({ params, searchParams }: any) {
                       );
                     })
                   ) : (
-                    <Spinner />
+                    <div className={styles.loading}>
+                      <Spinner />
+                    </div>
                   )}
                 </div>
               </div>
@@ -179,6 +188,7 @@ export default function WriteReviewPage({ params, searchParams }: any) {
       <div className={styles.buttons}>
         <button
           className={`${styles.button} ${styles.submit}`}
+          disabled={isButtonDisabled}
           onClick={handleSubmit(onSubmit)}>
           리뷰 등록하기
         </button>

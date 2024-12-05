@@ -19,7 +19,7 @@ import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
 import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
-// import { logout } from '@/api/apis/logOutApis';
+import { logout } from '@/api/apis/logOutApis';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -128,27 +128,24 @@ export default function SocialSignupForm() {
 
   useEffect(() => {
     const tempSaveToken = async () => {
-      const tokens: any = await reissueTokenViaServer();
+      const tokens = await reissueTokenViaServer();
 
       if (!tokens) {
         addToast(
           '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
           'error'
         );
-        // await logout();
-        // return router.replace('/signin');
+        await logout();
+        router.replace('/signin');
         return;
       }
 
-      // await logout();
+      setAt(tokens.at);
+      setRt(tokens.rt);
 
       console.log(tokens);
 
-      // setAt(tokens.at);
-      // setRt(tokens.rt || '');
-
-      setAt('');
-      setRt('');
+      await logout();
 
       return;
     };

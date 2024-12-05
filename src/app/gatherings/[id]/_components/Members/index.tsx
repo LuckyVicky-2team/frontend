@@ -126,21 +126,30 @@ export default function Members({
             <Image
               src={'/assets/icons/plus-circle.svg'}
               alt="닫기 버튼"
-              width={38}
-              height={38}
+              width={30}
+              height={30}
             />
           </button>
         </div>
         <div
           style={{
             height: `calc(100% - 141.14px)`,
-            padding: isOverflowing ? '0 33px 0 0' : '',
+            padding: isOverflowing
+              ? isMobile
+                ? '0 26px 0 19px'
+                : '0 34px 0 0'
+              : '',
           }}>
           <ul
             className={styles.profiles}
             style={{
               height: '100%',
-              padding: isOverflowing ? '0 33px 0 19px' : '0 19px',
+              padding: isOverflowing
+                ? isMobile
+                  ? '0 26px 0 19px'
+                  : '0 34px 0 19px'
+                : '0 19px',
+              margin: '0',
             }}
             ref={h2Ref}>
             {data.userParticipantResponseList.map(participant => {
@@ -156,16 +165,16 @@ export default function Members({
                         <Image
                           src={'/assets/icons/crown.svg'}
                           alt="왕관"
-                          width={isMobile ? 26 : 34}
-                          height={isMobile ? 26 : 32}
+                          width={isMobile ? 20 : 26}
+                          height={isMobile ? 20 : 26}
                         />
                       )}
                     </div>
                     <div style={{ borderRadius: '50%' }}>
                       <ProfileImage
                         url={participant.profileImage}
-                        width={isMobile ? 34 : 56}
-                        height={isMobile ? 34 : 56}
+                        width={isMobile ? 28 : 36}
+                        height={isMobile ? 28 : 36}
                       />
                     </div>
                     <p className={styles.nickname}>{participant.nickname}</p>

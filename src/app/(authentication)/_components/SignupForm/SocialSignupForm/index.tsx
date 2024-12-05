@@ -19,7 +19,7 @@ import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
 import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
-import { logout } from '@/api/apis/logOutApis';
+// import { logout } from '@/api/apis/logOutApis';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -128,7 +128,7 @@ export default function SocialSignupForm() {
 
   useEffect(() => {
     const tempSaveToken = async () => {
-      const tokens = await reissueTokenViaServer();
+      const tokens: any = await reissueTokenViaServer();
 
       if (!tokens) {
         addToast(
@@ -140,10 +140,15 @@ export default function SocialSignupForm() {
         return;
       }
 
-      await logout();
+      // await logout();
 
-      setAt(tokens.at);
-      setRt(tokens.rt || '');
+      console.log(tokens);
+
+      // setAt(tokens.at);
+      // setRt(tokens.rt || '');
+
+      setAt('');
+      setRt('');
 
       return;
     };

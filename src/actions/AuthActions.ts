@@ -4,10 +4,17 @@ import { axiosInstance } from '@/api/instance';
 import { cookies } from 'next/headers';
 
 export const reissueTokenViaServer = async () => {
-  try {
-    const refreshToken = cookies().get('Authorization')?.value;
+  let refreshToken;
+  let response;
 
-    const response = await axiosInstance.post(
+  try {
+    refreshToken = cookies().get('Authorization')?.value;
+  } catch (error: any) {
+    return 1;
+  }
+
+  try {
+    response = await axiosInstance.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
       {},
       {
@@ -16,15 +23,18 @@ export const reissueTokenViaServer = async () => {
         },
       }
     );
-
+  } catch (error: any) {
+    return error.response.data;
+  }
+  try {
     const headers = response.headers;
 
     return {
       at: headers.authorization,
       rt: headers['set-cookie']?.pop(),
     };
-  } catch {
-    return;
+  } catch (error: any) {
+    return 2;
   }
 };
 

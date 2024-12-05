@@ -253,7 +253,7 @@ export default function ChattingRoom({
             </div>
           ) : (
             <div className={styles.talks}>
-              {isFetchingNextPage ? (
+              {messages.length !== 1 && isFetchingNextPage ? (
                 <div className={styles.logExcept}>
                   <Spinner />
                 </div>

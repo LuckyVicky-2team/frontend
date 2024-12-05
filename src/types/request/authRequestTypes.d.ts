@@ -1,3 +1,9 @@
+import {
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+  InternalAxiosRequestConfig,
+} from 'axios';
+
 export type EmailSignupFormType = {
   email: string;
   nickName: string;
@@ -25,3 +31,12 @@ export type ConsentFormType = {
   termsConditionsType: string;
   agreement: boolean;
 }[];
+
+export interface ICustomAxiosInterceptorConfig
+  extends InternalAxiosRequestConfig {
+  noInterceptors?: boolean;
+}
+
+export interface ICustomAxiosRequestConfig extends AxiosRequestConfig {
+  noInterceptors?: boolean;
+}

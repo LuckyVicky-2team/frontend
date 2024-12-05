@@ -1,14 +1,10 @@
-import { InternalAxiosRequestConfig } from 'axios';
 import { axiosInstance } from '../instance';
 import {
   ConsentFormType,
   EmailSignupFormType,
+  ICustomAxiosRequestConfig,
   SocialSignupFormType,
 } from '@/types/request/authRequestTypes';
-
-interface ICustomAxiosRequestConfig extends InternalAxiosRequestConfig {
-  noInterceptors?: boolean;
-}
 
 export const postSigninForm = (formData: FormData) => {
   return axiosInstance.post('/login', formData, {

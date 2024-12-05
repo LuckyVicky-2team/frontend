@@ -128,6 +128,8 @@ export default function SocialSignupForm() {
 
   useEffect(() => {
     const tempSaveToken = async () => {
+      if (at && rt) return;
+
       const tokens = await reissueTokenViaServer();
 
       if (!tokens) {
@@ -145,7 +147,7 @@ export default function SocialSignupForm() {
         setRt(tokens.rt);
       }
 
-      console.log(tokens, 'error');
+      console.log(tokens);
 
       await logout();
 

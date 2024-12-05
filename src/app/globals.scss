@@ -19,6 +19,12 @@
 .react-datepicker-popper {
   z-index: 9999 !important;
 }
+.react-datepicker__time-container {
+  width: 75px !important;
+}
+.react-datepicker__time-list-item {
+  width: 75px !important;
+}
 .react-datepicker-wrapper {
   width: 100%;
 }

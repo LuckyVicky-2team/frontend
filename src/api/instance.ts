@@ -16,6 +16,14 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config: ICustomAxiosInterceptorConfig) => {
     if (typeof window !== 'undefined') {
+      const skipInterceptorUrl = '/signup?type=social';
+
+      const currentUrl = window.location.href;
+
+      if (currentUrl.includes(skipInterceptorUrl)) {
+        return config;
+      }
+
       const accessToken = localStorage.getItem('accessToken');
       const hasRefreshToken = await checkRefreshToken();
 

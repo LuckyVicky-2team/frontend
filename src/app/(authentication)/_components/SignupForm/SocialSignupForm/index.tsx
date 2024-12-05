@@ -140,10 +140,12 @@ export default function SocialSignupForm() {
         return;
       }
 
-      setAt(tokens.at);
-      setRt(tokens.rt);
+      if (tokens.at && tokens.rt) {
+        setAt(tokens.at);
+        setRt(tokens.rt);
+      }
 
-      console.log(tokens);
+      console.log(tokens, 'error');
 
       await logout();
 

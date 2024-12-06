@@ -41,6 +41,8 @@ export default function SocialSignupForm() {
 
   const { addToast } = useToast();
 
+  console.log(at, rt);
+
   const props = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -130,28 +132,33 @@ export default function SocialSignupForm() {
     const tempSaveToken = async () => {
       if (at && rt) return;
 
-      const tokens = await reissueTokenViaServer();
+      try {
+        const tokens = await reissueTokenViaServer();
 
-      if (!tokens) {
-        addToast(
-          '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
-          'error'
-        );
+        // if (!tokens) {
+        //   addToast(
+        //     '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+        //     'error'
+        //   );
+        //   await logout();
+        //   router.replace('/signin');
+        //   console.log(tokens);
+        //   return;
+        // }
+
+        if (tokens.at && tokens.rt) {
+          setAt(tokens.at);
+          setRt(tokens.rt);
+        }
+
+        console.log(tokens);
+
         await logout();
-        router.replace('/signin');
+
         return;
+      } catch (error) {
+        return error;
       }
-
-      if (tokens.at && tokens.rt) {
-        setAt(tokens.at);
-        setRt(tokens.rt);
-      }
-
-      console.log(tokens);
-
-      await logout();
-
-      return;
     };
 
     tempSaveToken();

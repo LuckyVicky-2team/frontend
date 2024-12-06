@@ -14,6 +14,9 @@ interface INotificationProps {
 export default function SettingAlarm() {
   // const [alarmOn, setAlarmOn] = useState<boolean>(true);
   const [alrmList, setAlrmList] = useState<INotificationProps[]>([]);
+  // const [pushAP, setPushAP] = useState(false);
+  // const [pushDP, setPushDP] = useState(false);
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
 
   const handleAlarm = async (index: number) => {
     const currentItem = alrmList[index];
@@ -26,6 +29,13 @@ export default function SettingAlarm() {
         prev.map((item, i) =>
           i === index ? { ...item, isAgreed: updatedIsAgreed } : item
         )
+      );
+
+      // 팝업 메시지 설정
+      setPopupMessage(
+        updatedIsAgreed
+          ? `${currentItem.content} 동의 처리 완료`
+          : `${currentItem.content} 거부 처리 완료`
       );
     } catch (error) {
       console.log('알림설정 실패', error);
@@ -45,8 +55,36 @@ export default function SettingAlarm() {
     fetchNotification();
   }, []);
 
+  const today = new Date();
+  const formatter = new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  const formattedDate = formatter.format(today);
+
   return (
     <div className={styles.relative}>
+      {/* <div>푸쉬 알림 동의 완료</div>
+      <div>푸쉬 알림 거부 완료</div> */}
+      {/* 팝업 */}
+      {popupMessage && (
+        <div className={styles.popup}>
+          <div className={styles.item}>
+            <b>처리날짜 : {formattedDate}</b>
+            <p>{popupMessage}</p>
+            <div className={styles.btn}>
+              <button
+                onClick={() => {
+                  setPopupMessage(null);
+                }}>
+                완료
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <h1 className={styles.title}>알림 설정</h1>
       <div className={styles.setWrap}>
         <h2>기본 알림</h2>

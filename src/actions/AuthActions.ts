@@ -5,25 +5,30 @@ import { ICustomAxiosRequestConfig } from '@/types/request/authRequestTypes';
 import { cookies } from 'next/headers';
 
 export const reissueTokenViaServer = async () => {
-  const refreshToken = cookies().get('Authorization')?.value;
+  try {
+    const refreshToken = cookies().get('Authorization')?.value;
 
-  const response = await axiosInstance.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
-    {},
-    {
-      noInterceptors: true,
-      headers: {
-        Cookie: `Authorization=${refreshToken}`,
-      },
-    } as ICustomAxiosRequestConfig
-  );
+    const response = await axiosInstance.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
+      {},
+      {
+        retry: false,
+        noInterceptors: true,
+        headers: {
+          Cookie: `Authorization=${refreshToken}`,
+        },
+      } as ICustomAxiosRequestConfig
+    );
 
-  const headers = response.headers;
+    const headers = response.headers;
 
-  return {
-    at: headers.authorization,
-    rt: headers['set-cookie']?.pop(),
-  };
+    return {
+      at: headers.authorization,
+      rt: headers['set-cookie']?.pop(),
+    };
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const deleteInitialRefreshToken = () => {

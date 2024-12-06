@@ -9,14 +9,14 @@ import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
 import Spinner from '@/components/common/Spinner';
 import useScreenWidth from '@/hooks/useScreenWidth';
-import useScreenHeight from '@/hooks/useScreenHeight';
+// import useScreenHeight from '@/hooks/useScreenHeight';
 
 interface IGatheringFooterProps {
   id: number;
@@ -73,7 +73,7 @@ export default function GatheringFooter({
   } = useModal();
 
   const { screenWidth } = useScreenWidth();
-  const screenHeight = useScreenHeight();
+  // const screenHeight = useScreenHeight();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -130,22 +130,22 @@ export default function GatheringFooter({
   //   handleSuccessModalClose();
   // };
 
-  useEffect(() => {
-    const footer = document.querySelector('.background') as HTMLDivElement;
-    const safeAreaBottom = parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue(
-        '--safe-area-inset-bottom'
-      ) || '0',
-      10
-    );
+  // useEffect(() => {
+  //   const footer = document.querySelector('.background') as HTMLDivElement;
+  //   const safeAreaBottom = parseInt(
+  //     getComputedStyle(document.documentElement).getPropertyValue(
+  //       '--safe-area-inset-bottom'
+  //     ) || '0',
+  //     10
+  //   );
 
-    footer.style.bottom = `${safeAreaBottom}px`; // Safe Area 처리
-    footer.style.height = `${screenHeight - safeAreaBottom}px`; // 동적 높이 반영
-  }, [screenHeight]);
+  //   footer.style.bottom = `${safeAreaBottom}px`; // Safe Area 처리
+  //   footer.style.height = `${screenHeight - safeAreaBottom}px`; // 동적 높이 반영
+  // }, [screenHeight]);
 
   return (
     <>
-      <div
+      <footer
         className={styles.background}
         style={{
           height: `${(screenWidth * 130) / 600}px`,
@@ -256,7 +256,7 @@ export default function GatheringFooter({
           />
           //</button>
         )}
-      </div>
+      </footer>
       <Modal
         modalOpen={successModalOpen}
         onClose={() => {

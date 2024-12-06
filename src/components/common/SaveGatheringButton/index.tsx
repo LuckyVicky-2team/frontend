@@ -92,8 +92,7 @@ export default function SaveGatheringButton({
         width: screenWidth ? `${(screenWidth * 80) / 600}px` : '',
         maxHeight: screenWidth ? '88px' : '',
         maxWidth: screenWidth ? '80px' : '',
-      }}
-      onClick={handleButton}>
+      }}>
       <IconButton
         className={className}
         size={size}

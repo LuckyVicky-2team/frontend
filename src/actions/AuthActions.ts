@@ -1,6 +1,7 @@
 'use server';
 
 import { axiosInstance } from '@/api/instance';
+import { ICustomAxiosRequestConfig } from '@/types/request/authRequestTypes';
 import { cookies } from 'next/headers';
 
 export const reissueTokenViaServer = async () => {
@@ -11,10 +12,12 @@ export const reissueTokenViaServer = async () => {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
       {},
       {
+        retry: false,
+        noInterceptors: true,
         headers: {
           Cookie: `Authorization=${refreshToken}`,
         },
-      }
+      } as ICustomAxiosRequestConfig
     );
 
     const headers = response.headers;
@@ -23,8 +26,8 @@ export const reissueTokenViaServer = async () => {
       at: headers.authorization,
       rt: headers['set-cookie']?.pop(),
     };
-  } catch {
-    return;
+  } catch (error: any) {
+    return error.response.data;
   }
 };
 

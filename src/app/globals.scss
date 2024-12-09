@@ -52,7 +52,11 @@ body {
   width: 100%;
   margin: 0 auto;
   overflow-y: scroll;
+  //주소창이 숨겨질 때 콘텐츠가 가려지지 않도록
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
 }
+
 .rootContainer {
   position: relative;
   &::after {

@@ -35,6 +35,8 @@
 
 .fullScreen {
   border-radius: 0;
+  //사파리에서 주소창 때문에 윗 부분이 가려지는 문제: 해결됐는지 확인 필요
+  margin-top: env(safe-area-inset-top);
 }
 
 .content {

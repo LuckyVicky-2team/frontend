@@ -19,6 +19,12 @@
 .react-datepicker-popper {
   z-index: 9999 !important;
 }
+.react-datepicker__time-container {
+  width: 75px !important;
+}
+.react-datepicker__time-list-item {
+  width: 75px !important;
+}
 .react-datepicker-wrapper {
   width: 100%;
 }
@@ -46,7 +52,11 @@ body {
   width: 100%;
   margin: 0 auto;
   overflow-y: scroll;
+  //주소창이 숨겨질 때 콘텐츠가 가려지지 않도록
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
 }
+
 .rootContainer {
   position: relative;
   &::after {
@@ -81,6 +91,9 @@ body {
   border-bottom-right-radius: 1.5em;
   width: 100%;
   height: 300px;
+  @media only screen and (max-width: 480px) {
+    height: 200px;
+  }
 }
 .ql-toolbar {
   border-top-left-radius: 1.5em;

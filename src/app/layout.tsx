@@ -9,7 +9,8 @@ import Footer from './main/_components/Footer/Footer';
 import { ToastProvider } from '@/contexts/toastContext';
 import ToastList from '@/components/common/ToastList';
 import AccessControlBoundary from '@/components/common/AccessControlBoundary';
-import { ForegroundMessage } from '@/service/foregroundMessage';
+// 임시 주석 처리
+// import { ForegroundMessage } from '@/service/foregroundMessage';
 import { PWAProvider } from '@/contexts/pwaContext';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -107,7 +108,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ForegroundMessage />
+        {/* <ForegroundMessage /> 임시 주석 처리*/}
         <Script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"

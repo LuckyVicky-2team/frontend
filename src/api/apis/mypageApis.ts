@@ -129,3 +129,11 @@ export const patchNotification = (msgType: string, agree: boolean) => {
     isAgreed: agree,
   });
 };
+
+// 푸쉬알림동의 수정을위한 api
+export const patchPushNotificationAgreement = (isAgreed: boolean) => {
+  return axiosInstance.patch(
+    `/user-terms-conditions/push?isAgreed=${isAgreed}`,
+    {}
+  );
+};

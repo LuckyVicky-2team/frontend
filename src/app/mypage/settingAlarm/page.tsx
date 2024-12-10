@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getNotification, patchNotification } from '@/api/apis/mypageApis';
+import {
+  getNotification,
+  patchNotification,
+  patchPushNotificationAgreement,
+} from '@/api/apis/mypageApis';
 import styles from './settingAlarm.module.scss';
 
 interface INotificationProps {
@@ -12,10 +16,7 @@ interface INotificationProps {
 }
 
 export default function SettingAlarm() {
-  // const [alarmOn, setAlarmOn] = useState<boolean>(true);
   const [alrmList, setAlrmList] = useState<INotificationProps[]>([]);
-  // const [pushAP, setPushAP] = useState(false);
-  // const [pushDP, setPushDP] = useState(false);
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
 
   const handleAlarm = async (index: number) => {
@@ -25,11 +26,14 @@ export default function SettingAlarm() {
     try {
       await patchNotification(currentItem.messageType, updatedIsAgreed);
 
-      setAlrmList(prev =>
-        prev.map((item, i) =>
-          i === index ? { ...item, isAgreed: updatedIsAgreed } : item
-        )
+      const updatedList = alrmList.map((item, i) =>
+        i === index ? { ...item, isAgreed: updatedIsAgreed } : item
       );
+
+      setAlrmList(updatedList);
+
+      // 푸쉬 알림 동의 상태 업데이트
+      await updatePushAgreementStatus(updatedList);
 
       // 팝업 메시지 설정
       setPopupMessage(
@@ -41,11 +45,23 @@ export default function SettingAlarm() {
       console.log('알림설정 실패', error);
     }
   };
+  // 알림 리스트 기반으로 push 동의 상태 계산 후 API 호출
+  const updatePushAgreementStatus = async (list: INotificationProps[]) => {
+    const isAnyAgreed = list.some(item => item.isAgreed);
+    try {
+      await patchPushNotificationAgreement(isAnyAgreed);
+    } catch (error) {
+      console.error('푸쉬 알림 동의 상태 업데이트 실패', error);
+    }
+  };
 
   const fetchNotification = async () => {
     try {
       const res = await getNotification();
       setAlrmList(res.data);
+
+      // 초기 푸쉬 동의 상태 업데이트
+      await updatePushAgreementStatus(res.data);
     } catch (error) {
       console.error('Failed to fetch notifications:', error);
     }
@@ -66,9 +82,6 @@ export default function SettingAlarm() {
 
   return (
     <div className={styles.relative}>
-      {/* <div>푸쉬 알림 동의 완료</div>
-      <div>푸쉬 알림 거부 완료</div> */}
-      {/* 팝업 */}
       {popupMessage && (
         <div className={styles.popup}>
           <div className={styles.item}>

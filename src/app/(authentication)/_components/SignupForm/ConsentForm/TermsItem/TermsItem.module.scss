@@ -46,6 +46,7 @@
         padding: 18px;
 
         .modalText {
+          min-height: 300px;
           max-height: 450px;
           color: #9ca3af;
           font-size: 16px;
@@ -101,6 +102,7 @@
           padding: 12px;
 
           .modalText {
+            min-height: 200px;
             max-height: 350px;
             font-size: 14px;
             padding-right: 6px;

@@ -10,9 +10,10 @@ import { getCookie } from '@/utils/getCookie';
 //1. 사이트에 처음 진입=> 설치 프롬프트 창 띄우기
 //2. 닫기 => 프롬프트를 닫고 새로고침 하면 다시 프롬프트 열림
 //3. 30일간 안 보기 => 쿠키 설정 후 30일간 안 띄우기
-//4. 앱 설치 후 pwa에 진입 => 프롬프트 창 안 보여야 함
-//5. 앱 설치 후 화면 새로고침 => 앱 설치 여부 확인 후 프롬프트 창 안 띄우기 (firefox에서는 동작 X)
-//6. 앱 설치했다가 삭제 후 화면 새로고침 =>  앱 삭제 여부 확인 후 쿠키가 없을 경우 프롬프트 창 띄우기 (firefox에서는 동작 X)
+//4. 앱 설치 후 pwa에 진입 => 프롬프트 창 안 보여야 함.
+//5. 앱 설치 후 화면 새로고침 => 프롬프트 창 안 띄우기. 앱 설치 여부 확인을 못해서 로컬 스토리지로 구현.
+//                            근데 앱을 삭제하면 로컬 스토리지를 비우지 않는 이상 프롬프트 창을 못 보게 되어서 그냥 프롬프트 창 계속 보이게 구현.
+//6. 앱 설치했다가 삭제 후 화면 새로고침 =>  다시 프롬프트 창 띄우면 좋은데 앱 설치 여부 확인을 못해서 불가능.
 //7. firefox일 경우=> 앱 설치 여부 확인을 못해서 그냥 계속 ios용 설치 프롬프트 띄워주기
 
 //ios가 아닐 경우 (예상 동작)
@@ -99,24 +100,24 @@ export default function AppInstallPrompt() {
     };
   }, []);
 
-  useEffect(() => {
-    //5. ios에서 앱 설치 후 화면 새로고침 => 앱 설치 여부 확인 후 프롬프트 창 안 띄우기 (firefox에서는 동작 X)
-    if (
-      isDeviceIOS &&
-      'getInstalledRelatedApps' in navigator &&
-      navigator.getInstalledRelatedApps
-    ) {
-      navigator.getInstalledRelatedApps().then(apps => {
-        if (apps.length === 0 && isVisible && !isPWA) {
-          handleModalOpen();
-        }
-      });
-    }
-  }, [isDeviceIOS]);
+  // useEffect(() => {
+  //   //5. ios에서 앱 설치 후 화면 새로고침 => 앱 설치 여부 확인 후 프롬프트 창 안 띄우기 (firefox에서는 동작 X)
+  //근데 아래코드는 안드로이드 크롬에서만 동작해서 실패...
+  //   if (
+  //     isDeviceIOS &&
+  //     'getInstalledRelatedApps' in navigator &&
+  //     navigator.getInstalledRelatedApps
+  //   ) {
+  //     navigator.getInstalledRelatedApps().then(apps => {
+  //       if (apps.length === 0 && isVisible && !isPWA) {
+  //         handleModalOpen();
+  //       }
+  //     });
+  //   }
+  // }, [isDeviceIOS]);
 
   useEffect(() => {
-    if (!isDeviceIOS && deferredPrompt && isVisible && !isPWA)
-      handleModalOpen();
+    if (deferredPrompt && isVisible && !isPWA) handleModalOpen();
     //아래는 불가능한 방법. 수동으로 앱 설치 여부를 판단하더라도 deferredPrompt를 가져올 수가 없음. (로컬 저장도 못 함)
     // 결국엔 beforeinstallprompt를 다시 트리거 하는 방법 밖에는 없는데, 앱 설치 후에 삭제하면 트리거가 안 되어서 문제임
     // (캐시 삭제해도, 브라우저 재시작해도 안 됨)

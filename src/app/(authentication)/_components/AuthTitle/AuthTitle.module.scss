@@ -32,3 +32,17 @@
     word-break: keep-all;
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .logo {
+    .link {
+      .title {
+        font-size: 30px;
+      }
+    }
+
+    .subTitle {
+      font-size: 20px;
+    }
+  }
+}

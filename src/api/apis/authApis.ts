@@ -43,14 +43,23 @@ export const postRenewAccessToken = () => {
   } as ICustomAxiosRequestConfig);
 };
 
-export const getTermsAgreement = async (required: boolean | 'all') => {
+export const getTermsAgreement = async (
+  required: boolean | 'all',
+  isServer: boolean
+) => {
   const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';
 
-  const { data } = await axiosInstance.get(
-    `/terms-conditions?required=${query}`
-  );
+  try {
+    const { data } = await axiosInstance.get(
+      isServer
+        ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/terms-conditions?required=${query}`
+        : `/terms-conditions?required=${query}`
+    );
 
-  return data;
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const postTermsAgreement = (data: ConsentFormType) => {

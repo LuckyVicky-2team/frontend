@@ -5,7 +5,7 @@
 .title {
   color: #000;
   font-family: LaundryGothicOTF;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 1.2px;
@@ -157,7 +157,11 @@
   }
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+
   .myFavoriteGathering {
     gap: 10px;
 

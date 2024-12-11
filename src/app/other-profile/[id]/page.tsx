@@ -5,10 +5,9 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import BackButton from '@/components/common/BackButton';
-import Link from 'next/link';
 import Image from 'next/image';
 import OtherProfileContents from './_components/OtherProfileContents';
+import OtherProfileBackButton from './_components/OtherProfileBackButton';
 import styles from './OtherProfilePage.module.scss';
 
 const prefetchUserData = async (id: number) => {
@@ -36,21 +35,13 @@ export default async function OtherProfilePage({
 
   return (
     <main className={styles.container}>
-      <div className={styles.backButton}>
-        {gatheringId && open ? (
-          <Link href={`/gatherings/${gatheringId}?open=${open}`} replace>
-            <Image
-              src="/assets/icons/backArrow.svg"
-              alt="돌아가기"
-              width={24}
-              height={24}
-            />
-          </Link>
-        ) : (
-          <BackButton />
-        )}
-        <p className={styles.pageTitle}>닉네임 프로필</p>
-      </div>
+      <HydrationBoundary state={dehydratedState}>
+        <OtherProfileBackButton
+          userId={userId}
+          gatheringId={gatheringId}
+          open={open}
+        />
+      </HydrationBoundary>
       <div className={styles.profile}>
         <div className={styles.header}>
           <Image

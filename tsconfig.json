@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["jest", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",
@@ -28,7 +29,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "public/firebase-messaging-sw.js",
-    "jest.config.js",
+    "jest.config.ts",
+    "jest.setup.ts",
     "global.d.ts"
   ],
   "exclude": ["node_modules"]

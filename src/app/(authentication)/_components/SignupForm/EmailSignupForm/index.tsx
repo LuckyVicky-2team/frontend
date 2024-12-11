@@ -86,11 +86,12 @@ export default function EmailSignupForm() {
 
   const {
     data: termsConditionsData,
-    isLoading,
+    isPending: isTermsPending,
     isError,
   } = useGetTermsAgreement('all');
 
-  const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
+  const { mutate: signupMutate, isPending: isSignupPending } =
+    usePostEmailSignupForm();
 
   const emailDupCheck = async (email: string) => {
     try {
@@ -139,7 +140,7 @@ export default function EmailSignupForm() {
 
     signupMutate(newFormData, {
       onSuccess: () => {
-        router.push('/signup/result?type=local');
+        router.replace('/signup/result?type=local');
       },
       onError: () => {
         addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -305,7 +306,7 @@ export default function EmailSignupForm() {
                   />
                 )}
               />
-              {isLoading ? (
+              {isTermsPending ? (
                 <div className={styles.consentExcept}>
                   <Spinner />
                 </div>
@@ -370,7 +371,7 @@ export default function EmailSignupForm() {
                     submitEmailSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 className={styles.button}>
                 PR 태그 등록하기
               </Button>
@@ -381,7 +382,7 @@ export default function EmailSignupForm() {
                     submitEmailSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 color="white"
                 className={styles.button}>
                 건너뛰기

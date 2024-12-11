@@ -10,12 +10,12 @@ import {
   IGatheringListRequestProps,
   IKickInfoProps,
 } from '@/types/request/GatheringREQ';
-import { IGatheringListResponseProps } from '@/types/response/GatheringRES';
+import { IGatheringListResponseProps } from '@/types/response/GatheringListRES';
 import { IErrorProps } from '@/types/CommonInterface';
 
 export const useGatheringDetails = (id: number) => {
   const query = useQuery({
-    queryKey: [QueryKey.GATHERING.DETAIL(id)],
+    queryKey: QueryKey.GATHERING.DETAIL(id),
     queryFn: () => gatheringAPI.getGatheringsInfo(id),
   });
 
@@ -26,7 +26,7 @@ export const useGatheringList = (req: IGatheringListRequestProps) => {
   return useQuery<IGatheringListResponseProps, IErrorProps>({
     queryKey: QueryKey.GATHERING.LIST(req),
     queryFn: () => gatheringAPI.gatheringList(req),
-    staleTime: 60 * 1000 * 30,
+    staleTime: 60 * 1000 * 10,
     placeholderData: keepPreviousData,
   });
 };
@@ -57,7 +57,7 @@ export const usePatchShareGathering = () => {
 
 export const useGetIsUserTypeQuit = (id: number) => {
   return useQuery({
-    queryKey: [QueryKey.USER.QUIT(id)],
+    queryKey: QueryKey.USER.QUIT(id),
     queryFn: () => gatheringAPI.isUserTypeQuit(id),
   });
 };
@@ -69,7 +69,7 @@ export const useKickParticipant = (meetingId: number) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(meetingId)],
+        queryKey: QueryKey.GATHERING.DETAIL(meetingId),
       });
     },
   });
@@ -83,7 +83,11 @@ export const useDeleteGathering = (gatheringId: number) => {
     },
     onSettled: () => {
       queryClient.removeQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+        queryKey: QueryKey.GATHERING.DETAIL(gatheringId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: QueryKey.GATHERING.LIST({}),
+        refetchType: 'all',
       });
     },
   });
@@ -103,7 +107,8 @@ export const useUpdateGathering = (gatheringId: number) => {
     mutationFn: gatheringAPI.updateGathering,
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [QueryKey.GATHERING.DETAIL(gatheringId)],
+        queryKey: QueryKey.GATHERING.DETAIL(gatheringId),
+        refetchType: 'all',
       });
     },
   });

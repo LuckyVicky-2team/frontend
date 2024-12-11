@@ -6,6 +6,7 @@ import useScreenWidth from '@/hooks/useScreenWidth';
 interface IMobileInstallPromptProps {
   handleInstallClick: () => void;
   handleCancelClick: () => void;
+  handle30ButtonClick: () => void;
   platform: string;
   isOpen: boolean;
 }
@@ -13,27 +14,32 @@ interface IMobileInstallPromptProps {
 export default function MobileInstallPrompt({
   handleInstallClick,
   handleCancelClick,
+  handle30ButtonClick,
   platform,
   isOpen,
 }: IMobileInstallPromptProps) {
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
   return (
     <BottomSheet
       isOpen={isOpen}
       onClose={handleCancelClick}
-      minHeight={screenWidth >= 450 ? '35vh' : '45vh'}>
+      minHeight={screenWidth >= 450 ? '335px' : '345px'}>
       <div className={styles.prompt}>
-        <button
-          type="button"
-          onClick={handleCancelClick}
-          className={styles.closeButton}>
-          <Image
+        <div className={styles.closeButtons}>
+          {/* <Image
             src={'/assets/icons/plus-circle.svg'}
             alt="닫기 버튼"
             width={38}
             height={38}
-          />
-        </button>
+          /> */}
+          <button type="button" onClick={handle30ButtonClick}>
+            30일간 안 보기
+          </button>
+          <span>|</span>
+          <button type="button" onClick={handleCancelClick}>
+            닫기
+          </button>
+        </div>
         {screenWidth >= 450 && (
           <Image
             src={'/assets/icons/logo.svg'}
@@ -43,7 +49,17 @@ export default function MobileInstallPrompt({
           />
         )}
         <div style={{ padding: '30px 30px', maxWidth: '390px' }}>
-          <h1 className={styles.title}>BOGO</h1>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {screenWidth >= 450 || (
+              <Image
+                src={'/assets/icons/logo.svg'}
+                alt="로고"
+                width={28}
+                height={28}
+              />
+            )}
+            <h1 className={styles.title}>BOGO</h1>
+          </div>
           <p className={styles.description}>
             BOGO는 앱에서 원활히 사용할 수 있습니다. 설치하시겠습니까?
           </p>
@@ -66,6 +82,11 @@ export default function MobileInstallPrompt({
               className={styles.button}>
               홈 화면에 추가
             </button>
+          )}
+          {platform === 'firefox' && (
+            <p>
+              (Firefox에서는 홈 화면에 추가를 통해 앱을 설치할 수 있습니다.)
+            </p>
           )}
         </div>
       </div>

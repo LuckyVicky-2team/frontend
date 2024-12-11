@@ -7,6 +7,8 @@ import {
   patchPushNotificationAgreement,
 } from '@/api/apis/mypageApis';
 import styles from './settingAlarm.module.scss';
+import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
+import { useInApp } from '@/hooks/useInApp';
 
 interface INotificationProps {
   isAgreed: boolean;
@@ -16,6 +18,8 @@ interface INotificationProps {
 }
 
 export default function SettingAlarm() {
+  const isInApp = useInApp();
+
   const [alrmList, setAlrmList] = useState<INotificationProps[]>([]);
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
 
@@ -133,6 +137,7 @@ export default function SettingAlarm() {
           );
         })}
       </div>
+      {isInApp && <FCMDisabledPrompt />}
     </div>
   );
 }

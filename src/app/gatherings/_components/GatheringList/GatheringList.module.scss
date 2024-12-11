@@ -29,36 +29,3 @@
     padding: 20px 0 30px 0;
   }
 }
-.addGatheringBtn {
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  background: #007aff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
-  position: fixed;
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media only screen and (min-width: 600px) {
-  .addGatheringBtn {
-    left: 50%;
-    transform: translateX(220px);
-    bottom: 10%;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .addGatheringBtn {
-    right: 20px;
-    bottom: 10%;
-  }
-}
-@media screen and (max-height: 770px) {
-  .addGatheringBtn {
-    right: 16px;
-    bottom: 13%;
-  }
-}

@@ -2,12 +2,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 41px 29px 29px 24px;
+  padding: 41px 24px 29px 24px;
+  @media screen and (max-width: 480px) {
+    padding: 30px 16px 30px 16px;
+  }
 }
 
 .title {
   color: var(--lukyviky-Blue-Normal, #007aff);
-  font-size: 26px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -21,7 +24,7 @@
   padding: 0 19px;
 
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 8px;
     // border: 30px solid white;
     // background-clip: padding-box;
   }
@@ -47,6 +50,12 @@
   align-items: center;
   padding: 19px 30px 19px 25px;
   border-bottom: 1px solid var(--lukyviky-gray-light-active, #e0e2e6);
+  @media screen and (max-width: 520px) {
+    padding: 12px 20px 12px 15px;
+  }
+  @media screen and (max-width: 360px) {
+    padding: 12px 5px 12px 0px;
+  }
 }
 
 .profilePart1 {
@@ -64,7 +73,7 @@
 
   .nickname {
     color: var(--lukyviky-gray-Darker, #37393d);
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 700;
     line-height: 30px; /* 83.333% */
@@ -77,11 +86,11 @@
     flex-shrink: 1;
     display: block;
   }
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 520px) {
     flex-shrink: 0;
-    gap: 4px;
+    gap: 8px;
     .nickname {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 600;
     }
   }

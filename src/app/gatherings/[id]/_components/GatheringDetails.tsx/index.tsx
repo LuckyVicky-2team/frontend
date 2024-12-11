@@ -20,6 +20,8 @@ import { useMe } from '@/api/queryHooks/me';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
 import Link from 'next/link';
+import GifToMp4 from '@/utils/gifToMp4';
+import useScreenWidth from '@/hooks/useScreenWidth';
 // import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
@@ -40,8 +42,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const [participantCount, setParticipantCount] = useState<number>(
     data?.totalParticipantCount || 0
   );
-  const [isMobile, setIsMobile] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const { screenWidth, isMobile } = useScreenWidth(480);
   const {
     modalOpen: shareModalOpen,
     handleModalOpen: handleShareModalOpen,
@@ -64,18 +65,6 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
       setParticipantCount(data.totalParticipantCount);
     }
   }, [data, setParticipantCount]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 439);
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // 초기 로드 시 체크
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   if (!data) return;
 
@@ -123,20 +112,23 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
     <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>
         <div className={styles.thumbnailBackground}>
-          <Image
-            src={
-              data.thumbnail
-                ? /* eslint-disable indent */
-                  `https://${
-                    process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
-                  }/${data.thumbnail}`
-                : '/assets/images/detail-image-default.png'
-            }
-            alt="썸네일 이미지"
-            priority
-            fill
-            objectFit="contain"
-          />
+          {data.thumbnail ? (
+            <GifToMp4
+              url={`https://${
+                process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN
+              }/${data.thumbnail}`}
+            />
+          ) : (
+            <Image
+              src={'/assets/images/detail-image-default.png'}
+              alt="썸네일 이미지"
+              priority
+              fill
+              objectFit="contain"
+              quality={50}
+              loading="eager"
+            />
+          )}
         </div>
         <div className={styles.gatheringInfo}>
           <div className={styles.firstGatheringInfo}>
@@ -147,19 +139,24 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   <SaveGatheringButton
                     id={id}
                     type="default"
-                    size={'large'}
+                    size={'medium'}
                     isInitialSaved={data.likeStatus}
                   />
                   <button
                     className={styles.shareButton}
                     type="button"
-                    onClick={handleShareModalOpen}>
+                    onClick={handleShareModalOpen}
+                    style={{
+                      width: '32px',
+                      height: '32px',
+                      marginLeft: '4px',
+                    }}>
                     <Image
                       src={'/assets/icons/share-2.svg'}
                       alt="공유하기 버튼"
                       priority
-                      width={24}
-                      height={24}
+                      width={16}
+                      height={16}
                     />
                   </button>
                 </div>
@@ -168,10 +165,15 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                 <Image
                   src={'/assets/icons/bar-black.svg'}
                   alt={'검은색 선'}
-                  width={7}
-                  height={28}
+                  width={isMobile ? 5 : 7}
+                  height={isMobile ? 20 : 28}
                 />
-                <span>{data.city}</span> <span>{data.county}</span>
+                <span style={{ fontSize: isMobile ? '12px' : '16px' }}>
+                  {data.city}
+                </span>{' '}
+                <span style={{ fontSize: isMobile ? '12px' : '16px' }}>
+                  {data.county}
+                </span>
               </div>
               <div className={styles.dateAndTime}>
                 <Tag
@@ -179,7 +181,8 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   fontColor={'#ffffff'}
                   backgroundColor={'#007AFF'}
                   className={`${styles.tag}`}
-                  enableDelete={false}>
+                  enableDelete={false}
+                  size={isMobile ? 'small' : 'large'}>
                   {formattedDate}
                 </Tag>
                 <Tag
@@ -187,7 +190,8 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   fontColor={'#ffffff'}
                   backgroundColor={'#007AFF'}
                   className={`${styles.tag}`}
-                  enableDelete={false}>
+                  enableDelete={false}
+                  size={isMobile ? 'small' : 'large'}>
                   {formattedTime}
                 </Tag>
               </div>
@@ -229,40 +233,41 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                 {data.genres.map((genre, i) => {
                   if (genre === '' || genre === '정보없음') return;
                   return (
-                    <Tag key={i} enableDelete={false}>
+                    <Tag
+                      key={i}
+                      enableDelete={false}
+                      size={isMobile ? 'small' : 'large'}>
                       {genre}
                     </Tag>
                   );
                 })}
               </div>
             </div>
-            <div className={styles.firstGatheringInfoIcons}>
-              {!isMobile && (
-                <>
-                  <SaveGatheringButton id={id} type="default" size={'large'} />
-                  <button
-                    className={styles.shareButton}
-                    type="button"
-                    onClick={handleShareModalOpen}>
-                    <Image
-                      src={'/assets/icons/share-2.svg'}
-                      alt="공유하기 버튼"
-                      priority
-                      width={24}
-                      height={24}
-                    />
-                  </button>
-                </>
-              )}
-              <ShareModal
-                modalOpen={shareModalOpen}
-                onClose={handleShareModalClose}
-                pathname={pathname}
-                shareCount={data.shareCount}
-                isMobile={isMobile}
-                meetingId={data.meetingId}
-              />
-            </div>
+            {isMobile || (
+              <div className={styles.firstGatheringInfoIcons}>
+                <SaveGatheringButton id={id} type="default" size={'large'} />
+                <button
+                  className={styles.shareButton}
+                  type="button"
+                  onClick={handleShareModalOpen}>
+                  <Image
+                    src={'/assets/icons/share-2.svg'}
+                    alt="공유하기 버튼"
+                    priority
+                    width={24}
+                    height={24}
+                  />
+                </button>
+              </div>
+            )}
+            <ShareModal
+              modalOpen={shareModalOpen}
+              onClose={handleShareModalClose}
+              pathname={pathname}
+              shareCount={data.shareCount}
+              isMobile={isMobile}
+              meetingId={data.meetingId}
+            />
           </div>
           <div className={styles.stroke}>
             <Image alt="점선" src={'/assets/icons/stroke.svg'} fill />
@@ -309,12 +314,17 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
         </div>
       </div>
       <div className={styles.section2}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '35px' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '20px' : '35px',
+          }}>
           <Image
             src={'/assets/icons/vector-252.svg'}
             alt="세로줄"
             width={4}
-            height={60}
+            height={isMobile ? 36 : 60}
           />
           <h1 className={styles.title2}>{data.title} 모임원 모집</h1>
         </div>

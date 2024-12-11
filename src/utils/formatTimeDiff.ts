@@ -1,4 +1,16 @@
-const formatTimeDiff = (timeStamp: string) => {
+export const plusNineHours = (timeStamp: string) => {
+  const originalDate = new Date(timeStamp);
+
+  const nineHoursInMs = 9 * 60 * 60 * 1000;
+
+  const updatedDate = new Date(originalDate.getTime() + nineHoursInMs);
+
+  const updatedTimeStr = updatedDate.toISOString();
+
+  return updatedTimeStr;
+};
+
+export const formatTimeDiff = (timeStamp: string) => {
   const now = new Date();
   const date = new Date(timeStamp);
 
@@ -36,5 +48,3 @@ const formatTimeDiff = (timeStamp: string) => {
     day: 'numeric',
   });
 };
-
-export default formatTimeDiff;

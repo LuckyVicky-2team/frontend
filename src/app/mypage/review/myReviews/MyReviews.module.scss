@@ -1,0 +1,26 @@
+.skeletonContainer {
+  max-width: 534px;
+  width: 100%;
+  padding: 32px 28px;
+  border-radius: 20px;
+  background-color: #fff;
+  height: 100%;
+  max-height: 228px;
+  overflow: hidden;
+  display: flex;
+}
+.emptyReview {
+  display: table;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+
+  .boxInfo {
+    height: calc(100vh - 400px);
+    display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    color: #aaa;
+    font-size: 14px;
+  }
+}

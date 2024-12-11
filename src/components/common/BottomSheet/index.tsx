@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { motion } from 'framer-motion';
 import styles from './BottomSheet.module.scss';
+import useScreenHeight from '@/hooks/useScreenHeight';
 
 // 사용 예시
 // full은 화면을 꽉 채우는 바텀시트
@@ -63,6 +64,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   const [contentHeight, setContentHeight] = useState(60);
   const [offsetY, setOffsetY] = useState(0);
   const [prevOffsetY, setPrevOffsetY] = useState(0);
+  const screenHeight = useScreenHeight();
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
     if (backgroundRef.current === e.target && !isDragging) {
@@ -148,6 +150,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             setIsDragging(false);
             setIsFullScreen(true);
           }
+          if (!full) {
+            setIsDragging(false);
+          }
           void event;
         }}>
         {/* 헤더 부분- 필요시 추가하기 */}
@@ -162,17 +167,19 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             style={{ width: '70px', height: '2px', backgroundColor: '#000000' }}
           />
         </div> */}
-        <div
-          style={{
+        <motion.div
+          animate={{
             height: isFullScreen
-              ? '100vh'
+              ? `${screenHeight}px`
               : isDragging
-                ? `${contentHeight}vh`
+                ? full
+                  ? `${contentHeight}vh`
+                  : minHeight
                 : minHeight,
             minHeight: minHeight,
           }}>
           {children}
-        </div>
+        </motion.div>
         <div style={{ height: '600px' }} />
       </motion.div>
     </div>

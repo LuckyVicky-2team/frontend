@@ -1,7 +1,16 @@
 import { withSentryConfig } from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: config => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false, // fs 모듈이 서버 사이드에서만 사용되도록 설정
+      path: false,
+    };
+    return config;
+  },
   images: {
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',

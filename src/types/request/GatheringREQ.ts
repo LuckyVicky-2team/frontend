@@ -1,5 +1,5 @@
 export interface IGatheringListRequestProps {
-  count: number;
+  count?: number;
   tag?: string;
   startDate?: Date | string;
   endDate?: Date | string;

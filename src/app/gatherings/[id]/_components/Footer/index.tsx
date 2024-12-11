@@ -9,13 +9,14 @@ import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import useModal from '@/hooks/useModal';
 import Modal from '@/components/common/Modal';
 import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
 import Spinner from '@/components/common/Spinner';
 import useScreenWidth from '@/hooks/useScreenWidth';
+import useScreenHeight from '@/hooks/useScreenHeight';
 
 interface IGatheringFooterProps {
   id: number;
@@ -71,7 +72,8 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const screenWidth = useScreenWidth();
+  const { screenWidth } = useScreenWidth();
+  const screenHeight = useScreenHeight();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -91,6 +93,7 @@ export default function GatheringFooter({
     joinMutate(id, {
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
+        refetch();
         handleSuccessModalOpen();
         if (participantCount + 1 === limitParticipant) {
           completeMutate(id, {
@@ -116,25 +119,35 @@ export default function GatheringFooter({
   };
 
   const handleChatButtonClick = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
+    router.push(`/threads/${id - 90}?meeting=${id}`);
   };
 
   const handleGoToGatheringList = () => {
     router.push('/gatherings');
   };
 
-  const handleGoToChatting = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
-    // router.push('/Chatting');
-  };
-
   // const handleAlertLater = () => {
   //   handleSuccessModalClose();
   // };
 
+  useEffect(() => {
+    const footer = document.querySelector(
+      `.${styles.background}`
+    ) as HTMLDivElement;
+    const safeAreaBottom =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--safe-area-inset-bottom'
+        ) || '0',
+        10
+      ) || 0; // 기본값 0 추가
+
+    footer.style.bottom = `${safeAreaBottom}px`; // Safe Area 처리
+  }, [screenHeight]);
+
   return (
     <>
-      <div
+      <footer
         className={styles.background}
         style={{
           height: `${(screenWidth * 130) / 600}px`,
@@ -245,12 +258,11 @@ export default function GatheringFooter({
           />
           //</button>
         )}
-      </div>
+      </footer>
       <Modal
         modalOpen={successModalOpen}
         onClose={() => {
           handleSuccessModalClose();
-          refetch();
         }}
         maxWidth={552}
         xButton>
@@ -305,7 +317,7 @@ export default function GatheringFooter({
 
           <button
             type="button"
-            onClick={handleGoToChatting}
+            onClick={handleChatButtonClick}
             className={styles.modalSecondButton}
             style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
             모임 채팅방 가기

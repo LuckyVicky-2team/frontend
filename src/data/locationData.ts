@@ -1,4 +1,4 @@
-const city: string[] = [
+const cities: string[] = [
   '서울특별시',
   '인천광역시',
   '대전광역시',
@@ -274,4 +274,4 @@ const areas: Record<string, string[]> = {
   제주특별자치도: ['서귀포시', '제주시', '남제주군', '북제주군'],
 };
 
-export { city, areas, cityMapping };
+export { cities, areas, cityMapping };

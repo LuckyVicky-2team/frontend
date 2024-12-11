@@ -266,8 +266,8 @@ export default function GameDataList({
                     <Image
                       src={'/assets/icons/chevron-double-left.svg'}
                       alt="맨 이전 번호로 가기"
-                      width={36}
-                      height={36}
+                      width={24}
+                      height={24}
                     />
                   </button>
                   <button
@@ -283,8 +283,8 @@ export default function GameDataList({
                     <Image
                       src={'/assets/icons/chevron-left.svg'}
                       alt="이전 번호로 가기"
-                      width={36}
-                      height={36}
+                      width={24}
+                      height={24}
                     />
                   </button>
                   {/* 1,2,3,4,5             {length: 5, start: 1}
@@ -326,8 +326,8 @@ export default function GameDataList({
                     <Image
                       src={'/assets/icons/chevron-right.svg'}
                       alt="이후 번호로 가기"
-                      width={36}
-                      height={36}
+                      width={24}
+                      height={24}
                     />
                   </button>
                   <button
@@ -336,8 +336,8 @@ export default function GameDataList({
                     <Image
                       src={'/assets/icons/chevron-double-right.svg'}
                       alt="맨 이후 번호로 가기"
-                      width={36}
-                      height={36}
+                      width={24}
+                      height={24}
                     />
                   </button>
                 </div>

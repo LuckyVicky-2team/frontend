@@ -13,12 +13,13 @@ import {
   usePostSocialSignupForm,
 } from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
-import { getTokenFromCookie } from '@/actions/AuthActions';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
+// import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
+// import { logout } from '@/api/apis/logOutApis';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -35,7 +36,9 @@ export default function SocialSignupForm() {
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
 
-  const [token, setToken] = useState('');
+  // const [at, setAt] = useState('');
+  // const [rt, setRt] = useState('');
+
   const { addToast } = useToast();
 
   const props = useForm({
@@ -80,11 +83,12 @@ export default function SocialSignupForm() {
 
   const {
     data: termsConditionsData,
-    isLoading,
+    isPending: isTermsPending,
     isError,
   } = useGetTermsAgreement('all');
 
-  const { mutate: signupMutate, isPending } = usePostSocialSignupForm();
+  const { mutate: signupMutate, isPending: isSignupPending } =
+    usePostSocialSignupForm();
 
   const nickNameDupCheck = async (nickName: string) => {
     try {
@@ -108,11 +112,12 @@ export default function SocialSignupForm() {
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
     signupMutate(
-      { data: formData, token },
+      { data: formData, token: '' },
       {
-        onSuccess: () => {
-          localStorage.setItem('accessToken', token);
-          router.push('/signup/result?type=social');
+        onSuccess: async () => {
+          // localStorage.setItem('accessToken', at);
+          // await saveRefreshToken(rt);
+          router.replace('/signup/result?type=social');
         },
         onError: () => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -121,17 +126,37 @@ export default function SocialSignupForm() {
     );
   };
 
-  useEffect(() => {
-    const transferToken = async () => {
-      const token = await getTokenFromCookie();
+  // useEffect(() => {
+  //   const tempSaveToken = async () => {
+  //     if (at && rt) return;
 
-      if (token) {
-        setToken(token);
-      }
-    };
+  //     const tokens = await reissueTokenViaServer();
 
-    transferToken();
-  }, []);
+  //     if (!tokens) {
+  //       addToast(
+  //         '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+  //         'error'
+  //       );
+  //       await logout();
+  //       router.replace('/signin');
+  //       console.log(tokens);
+  //       return;
+  //     }
+
+  //     if (tokens?.at && tokens?.rt) {
+  //       setAt(tokens.at);
+  //       setRt(tokens.rt);
+  //     }
+
+  //     console.log(tokens);
+
+  //     await logout();
+
+  //     return;
+  //   };
+
+  //   tempSaveToken();
+  // }, []);
 
   useEffect(() => {
     setIsNickNameDupOk(false);
@@ -192,7 +217,7 @@ export default function SocialSignupForm() {
                   중복확인
                 </Button>
               </div>
-              {isLoading ? (
+              {isTermsPending ? (
                 <div className={styles.consentExcept}>
                   <Spinner />
                 </div>
@@ -214,7 +239,7 @@ export default function SocialSignupForm() {
                 }}
                 className={styles.button}
                 disabled={
-                  isPending ||
+                  isSignupPending ||
                   !watch('nickName') ||
                   !isValid ||
                   !isNickNameDupOk ||
@@ -249,7 +274,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 className={styles.button}>
                 PR 태그 등록하기
               </Button>
@@ -260,7 +285,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 color="white"
                 className={styles.button}>
                 건너뛰기

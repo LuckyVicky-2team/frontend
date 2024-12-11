@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import formatTimeDiff from '@/utils/formatTimeDiff';
+import { plusNineHours, formatTimeDiff } from '@/utils/formatTimeDiff';
 import styles from './ThreadListItem.module.scss';
 
 interface IThreadsListItemProps {
@@ -16,7 +16,7 @@ export default function ThreadListItem({
   lastSendDateTime,
 }: IThreadsListItemProps) {
   const recentMessageTime =
-    lastSendDateTime && formatTimeDiff(lastSendDateTime);
+    lastSendDateTime && formatTimeDiff(plusNineHours(lastSendDateTime));
 
   return (
     <div className={styles.item}>
@@ -28,8 +28,7 @@ export default function ThreadListItem({
               : '/assets/images/emptyThumbnail.png'
           }
           alt={name}
-          width={68}
-          height={68}
+          fill
           className={styles.profileImage}
           unoptimized
           onError={e =>

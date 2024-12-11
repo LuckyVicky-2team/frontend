@@ -162,6 +162,12 @@ export default function SocialSignupForm() {
     setIsNickNameDupOk(false);
   }, [watch('nickName')]);
 
+  if (!termsConditionsData || 'errorCode' in termsConditionsData) {
+    addToast('회원가입 페이지를 불러오는데 실패했습니다.', 'error');
+    router.back();
+    return;
+  }
+
   return (
     <FormProvider {...props}>
       <AuthHeader

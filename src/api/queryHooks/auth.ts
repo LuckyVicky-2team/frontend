@@ -45,7 +45,7 @@ export const usePostSocialSignupForm = () => {
 export const useGetTermsAgreement = (required: boolean | 'all') => {
   return useQuery({
     queryKey: [QueryKey.TERMS_CONDITION],
-    queryFn: async () => await getTermsAgreement(required),
+    queryFn: async () => await getTermsAgreement(required, false),
   });
 };
 

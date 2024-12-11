@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { getLikeList, getPersonalInfo } from '@/api/apis/mypageApis';
+import { getAlrmList } from '@/api/apis/headerApis';
 
 interface IUserProfile {
   email: string;
@@ -13,6 +14,14 @@ interface IUserProfile {
   profileImage: string;
   averageRating: number;
   prTags: string[];
+}
+
+interface INotification {
+  notificationId: number;
+  title: string;
+  content: string;
+  isRead: boolean;
+  pathUrl: string;
 }
 
 export default function Header() {
@@ -24,6 +33,7 @@ export default function Header() {
   >(undefined);
   // const [error, setError] = useState<string | null>(null);
   const [likeCount, setLikeCount] = useState(0);
+  const [alrmCheck, setAlrmCheck] = useState<INotification[]>([]);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -83,6 +93,21 @@ export default function Header() {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchGetAlrm = async () => {
+      try {
+        const response = await getAlrmList();
+        setAlrmCheck(response.data);
+      } catch (err) {}
+    };
+
+    fetchGetAlrm();
+  }, []);
+
+  // 알람중에서 isRead가 false인것 필터링
+  const filterNoReadAlrm = alrmCheck.filter(alrmItem => !alrmItem.isRead);
+
   return (
     <header>
       <div
@@ -384,7 +409,7 @@ export default function Header() {
                       src="/assets/mainImages/alarm.svg"
                       alt="알람 아이콘"
                     />
-                    <span></span>
+                    {filterNoReadAlrm?.length > 0 ? <span></span> : null}
                   </button>
                   <Link href="/mypage" className={styles.headerMyapgeButton}>
                     <Image

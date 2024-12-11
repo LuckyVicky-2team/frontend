@@ -9,8 +9,8 @@
 
 .detailModal {
   width: 100%;
-  max-width: 552px;
-  max-height: 797px;
+  // max-width: 552px;
+  // max-height: 797px;
   min-height: 50vh;
   padding: 50px 38px 40px 42px;
   background-color: white;
@@ -19,29 +19,40 @@
   overflow-x: hidden;
   word-wrap: break-word;
   word-break: break-word;
+
   .modalHeader {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     color: $gray-dark;
     font-family: LaundryGothicOTF;
-    font-size: 30px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 1.2px;
     h2 {
+      margin-right: 8px;
       white-space: nowrap;
       text-overflow: ellipsis;
       display: inline-block;
-      width: 60%;
+      width: 70%;
       overflow: hidden;
       color: $gray-dark;
       font-family: LaundryGothicOTF;
-      font-size: 30px;
+      font-size: 24px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
       letter-spacing: 1.2px;
+    }
+
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+      h2 {
+        width: 60%;
+        font-size: 20px;
+      }
     }
   }
 }
@@ -89,7 +100,7 @@
 
       min-width: 15%;
       color: $gray-darker;
-      font-size: 18px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 500;
       line-height: 20px;
@@ -107,7 +118,7 @@
         display: inline-block;
         padding: 8px 12px;
         border-radius: 20px;
-        font-size: 15px;
+        font-size: 13px;
         font-weight: 700;
         &.positive {
           background-color: #fff2d3;
@@ -125,8 +136,7 @@
 //320-600px mobile
 @media screen and (max-width: 590px) {
   .detailModal {
-    width: 100vw;
     height: calc(400px * 2 / 3); /* 400px의 2/3 */
-    padding: 24px 15px 15px 15px;
+    padding: 24px 16px 16px 16px;
   }
 }

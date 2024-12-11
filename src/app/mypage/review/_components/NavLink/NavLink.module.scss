@@ -13,15 +13,17 @@
   p {
     width: fit-content;
     color: $gray-normal;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     line-height: 20px;
 
     &.active {
       color: $blue-normal;
-      font-size: 20px;
       font-style: normal;
       line-height: 20px;
+    }
+    @media screen and (max-width: 480px) {
+      font-size: 16px;
     }
   }
 

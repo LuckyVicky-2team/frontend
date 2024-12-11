@@ -16,7 +16,7 @@
       padding: 0 24px;
       color: #757a83;
       font-family: LaundryGothicOTF;
-      font-size: 30px;
+      font-size: 24px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -24,7 +24,7 @@
       display: flex;
       width: 100%;
       .title {
-        font-size: 30px;
+        font-size: 24px;
         margin-right: 6px;
         font-family: inherit;
         max-width: 60%;
@@ -33,7 +33,7 @@
         text-overflow: ellipsis;
       }
 
-      @media only screen and (max-width: 450px) {
+      @media only screen and (max-width: 480px) {
         align-items: center;
         font-size: 20px;
         padding: 0 24px;

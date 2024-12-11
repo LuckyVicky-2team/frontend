@@ -24,7 +24,7 @@ export default function SigninForm() {
       onSuccess: (response: any) => {
         const token = response.headers.authorization;
         localStorage.setItem('accessToken', token);
-        router.push('/main');
+        router.replace('/main');
       },
       onError: (error: any) => {
         if (error.response.status === 401) {

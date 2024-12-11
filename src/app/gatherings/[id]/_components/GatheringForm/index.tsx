@@ -399,12 +399,13 @@ export default function GatheringForm({
                               );
                               return newPrev;
                             });
-                          }}>
+                          }}
+                          style={{ height: '16px' }}>
                           <Image
                             src={'/assets/icons/x-button-blue.svg'}
                             alt="없애기 버튼"
-                            width={24}
-                            height={24}
+                            width={16}
+                            height={16}
                           />
                         </button>
                       </div>

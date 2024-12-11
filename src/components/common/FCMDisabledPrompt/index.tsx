@@ -18,7 +18,7 @@ export default function FCMDisabledPrompt() {
         <BottomSheet
           isOpen={modalOpen}
           onClose={handleModalClose}
-          minHeight={screenWidth >= 450 ? '35vh' : '45vh'}>
+          minHeight={screenWidth >= 450 ? '335px' : '345px'}>
           <div className={styles.prompt}>
             <button
               type="button"

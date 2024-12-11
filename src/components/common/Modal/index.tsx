@@ -72,8 +72,8 @@ export default function Modal({
                 <Image
                   src={'/assets/icons/x-button-blue.svg'}
                   alt="닫기 버튼"
-                  width={46}
-                  height={46}
+                  width={32}
+                  height={32}
                 />
               </button>
             )}

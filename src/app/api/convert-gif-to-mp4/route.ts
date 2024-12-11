@@ -6,15 +6,18 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 // import sharp from 'sharp';
 
+// console.log(`FFmpeg Path: ${ffmpegStatic}`);
+
 // 환경 변수로부터 FFmpeg 경로 가져오기
 // const ffmpegPath = process.env.FFMPEG_PATH
 //   ? path.resolve(process.cwd(), process.env.FFMPEG_PATH)
 //   : null;
 
 // 실행 파일 경로 설정
+// Netlify 환경과 Windows 환경 구분
 const ffmpegPath =
   process.platform === 'win32'
-    ? ffmpegStatic
+    ? ffmpegStatic // Windows용 ffmpeg-static
     : '/var/task/node_modules/ffmpeg-static/ffmpeg';
 
 if (ffmpegPath) {

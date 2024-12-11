@@ -80,13 +80,6 @@ export default function Finish() {
 
   return (
     <div className={styles.myGatheringsListWrap}>
-      {modal === true && selectedMeetingId && selectedMeetingTitle ? (
-        <DeleteModal
-          meetingId={selectedMeetingId}
-          meetingTitle={selectedMeetingTitle}
-          handleModalClose={handleModalClose}
-        />
-      ) : null}
       <div className={styles.tabBtn2}>
         <Link href="participant">참여중 모임</Link>
         <Link href="finish">종료된 모임</Link>
@@ -94,6 +87,13 @@ export default function Finish() {
           내가만든 모임
         </Link>
       </div>
+      {modal === true && selectedMeetingId && selectedMeetingTitle ? (
+        <DeleteModal
+          meetingId={selectedMeetingId}
+          meetingTitle={selectedMeetingTitle}
+          handleModalClose={handleModalClose}
+        />
+      ) : null}
 
       {loading ? ( // 로딩 중일 때
         <div className={styles.loading}></div>

@@ -45,19 +45,20 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
   const formatTimeLeft = (endDate: Date) => {
     const now = new Date();
     const timeDiff = endDate.getTime() - now.getTime();
+
+    if (timeDiff <= 0) return '모집 마감'; // 이미 마감된 경우 처리
+
     const daysLeft = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     const hoursLeft = Math.floor(
       (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
     );
     const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-    const parts = [];
-    if (daysLeft > 0) parts.push(`${daysLeft}일`);
-    if (hoursLeft > 0 || daysLeft > 0) parts.push(`${hoursLeft}시간`);
-    if (minutesLeft > 0 || hoursLeft > 0 || daysLeft > 0)
-      parts.push(`${minutesLeft}분`);
-
-    return parts.join(' ');
+    if (timeDiff < 60 * 1000) return `1분 후 마감`; // 1분 미만
+    if (timeDiff < 60 * 60 * 1000) return `${minutesLeft}분 후 마감`; // 1시간 미만
+    if (timeDiff < 24 * 60 * 60 * 1000)
+      return `${hoursLeft}시간 ${minutesLeft > 0 ? `${minutesLeft}분` : ''} 후 마감`; // 하루 미만
+    return `${daysLeft}일 ${hoursLeft > 0 ? `${hoursLeft}시간` : ''} 후 마감`; // 하루 이상
   };
 
   // 현재 시간 기준으로 필터링: 오늘 이전의 모임 제외, 3일 이내 마감인 모임만 포함
@@ -134,7 +135,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                           height={16}
                           alt={'마감임박 이미지'}
                         />
-                        {formatTimeLeft(gatheringDate)} 후 마감
+                        {formatTimeLeft(gatheringDate)}
                       </span>
                       <span className={styles.img}>
                         <Image

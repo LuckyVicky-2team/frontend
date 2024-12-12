@@ -569,27 +569,29 @@ export default function GatheringForm({
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            disabled={
-              !isValid ||
-              isGameListEmpty ||
-              !locationNameClicked ||
-              locationNameError ||
-              isButtonDisabled
-            }
-            className={styles.submitButton}>
-            {editMode ? '수정하기' : '확인'}
-          </button>
-          {editMode && (
+          <div style={{ display: 'flex', gap: '8px' }}>
             <button
-              type="button"
-              disabled={deleteGathering.isPending}
-              className={styles.deleteButton}
-              onClick={handleGatheringDelete}>
-              모임 삭제
+              type="submit"
+              disabled={
+                !isValid ||
+                isGameListEmpty ||
+                !locationNameClicked ||
+                locationNameError ||
+                isButtonDisabled
+              }
+              className={styles.submitButton}>
+              {editMode ? '수정하기' : '확인'}
             </button>
-          )}
+            {editMode && (
+              <button
+                type="button"
+                disabled={deleteGathering.isPending}
+                className={styles.deleteButton}
+                onClick={handleGatheringDelete}>
+                모임 삭제
+              </button>
+            )}
+          </div>
         </form>
       </FormProvider>
       <Modal

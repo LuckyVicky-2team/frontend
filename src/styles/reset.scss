@@ -141,7 +141,11 @@ textarea {
   appearance: none;
 }
 
-button {
+button,
+div,
+input,
+select,
+textarea {
   //버튼 클릭시 파란색 하이라이트 생기는 현상 제거
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;

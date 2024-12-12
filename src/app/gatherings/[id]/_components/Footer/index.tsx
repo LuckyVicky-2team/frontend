@@ -264,15 +264,16 @@ export default function GatheringFooter({
         onClose={() => {
           handleSuccessModalClose();
         }}
-        maxWidth={552}
+        maxWidth={300}
         xButton>
         <div
           className={styles.modalBackground}
-          style={{
-            height: `${screenWidth * 0.3}px`,
-            maxHeight: '150px',
-            gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
-          }}>
+          // style={{
+          // height: `${screenWidth * 0.3}px`,
+          // maxHeight: '130px',
+          // gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+          // }}>
+        >
           <p className={styles.title}>{title}</p>
           참여 완료 되었습니다.
           {/* {gatheringType === 'ACCEPT' && (
@@ -306,12 +307,14 @@ export default function GatheringFooter({
         </div>
         <div
           className={styles.modalButtons}
-          style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+          // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+        >
           <button
             type="button"
             onClick={handleGoToGatheringList}
             className={styles.modalFirstButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             다른 모임방 둘러보기
           </button>
 
@@ -319,7 +322,8 @@ export default function GatheringFooter({
             type="button"
             onClick={handleChatButtonClick}
             className={styles.modalSecondButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             모임 채팅방 가기
           </button>
         </div>

@@ -1,7 +1,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import Modal from '..';
 import styles from './LoginModal.module.scss';
-import useScreenWidth from '@/hooks/useScreenWidth';
+// import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface ILoginModal {
   modalOpen: boolean;
@@ -12,7 +12,7 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
   const router = useRouter();
   const pathname = usePathname();
   const currentURL = `${window.location.origin}${pathname}`;
-  const { screenWidth } = useScreenWidth();
+  // const { screenWidth } = useScreenWidth();
 
   const handleGoToLoginPage = () => {
     document.cookie = `referer=${currentURL}; path=/`;
@@ -20,14 +20,15 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
   };
 
   return (
-    <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552}>
+    <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={250}>
       <div
         className={styles.modalBackground}
-        style={{
-          height: `${screenWidth * 0.3}px`,
-          maxHeight: '150px',
-          gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
-        }}>
+        // style={{
+        //   height: `${screenWidth * 0.3}px`,
+        //   maxHeight: '150px',
+        //   gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+        // }}
+      >
         <p className={styles.title}>로그인이 필요합니다.</p>
         로그인 하시겠습니까?
       </div>
@@ -35,7 +36,8 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
         type="button"
         onClick={handleGoToLoginPage}
         className={styles.modalFullButton}
-        style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+        // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+      >
         로그인하러 가기
       </button>
     </Modal>

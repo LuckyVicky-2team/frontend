@@ -91,7 +91,7 @@ export default function ChattingRoom({
       return;
     }
 
-    if (stompClient.current && userData) {
+    if (stompClient.current && userData && chattingLog) {
       const chatRequest = {
         roomId: chatRoomId,
         content: message,

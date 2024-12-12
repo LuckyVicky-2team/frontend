@@ -4,7 +4,9 @@
   flex-direction: column;
 
   .gatheringData {
-    position: sticky;
+    position: fixed;
+    max-width: 600px;
+    width: 100%;
     top: 65px;
     z-index: 500;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
@@ -81,6 +83,10 @@
   }
 
   .submit {
+    position: fixed;
+    bottom: 0;
+    max-width: 600px;
+    width: 100%;
     padding: 17px 31px;
     border-top: 2px solid #f5f5f5;
     width: 100%;

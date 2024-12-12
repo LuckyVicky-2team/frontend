@@ -195,7 +195,7 @@ export default function SocialSignupForm() {
       <AuthHeader
         onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
-      <form>
+      <form className={styles.form}>
         <Funnel>
           <Step name="first">
             <div className={styles.formArea}>

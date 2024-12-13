@@ -68,7 +68,7 @@ export default function MyFavoriteGatherings() {
                           width={15}
                           height={15}
                         />
-                        {`오늘 ${processedGatheringDate.time.split(':')[0]}시 마감`}
+                        {`오늘 ${processedGatheringDate.time && processedGatheringDate.time.split(':')[0]}시 마감`}
                       </div>
                     )}
                     <div

@@ -16,7 +16,7 @@ export default function LoginModal({ modalOpen, onClose }: ILoginModal) {
 
   const handleGoToLoginPage = () => {
     document.cookie = `referer=${currentURL}; path=/`;
-    router.push('/signin');
+    router.replace('/signin');
   };
 
   return (

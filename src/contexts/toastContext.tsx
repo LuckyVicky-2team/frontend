@@ -32,7 +32,11 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 
   const addToast = useCallback((message: string, type: 'success' | 'error') => {
     const id = Math.random().toString(36).substr(2, 9);
-    setToasts(prevToasts => [...prevToasts, { id, message, type }]);
+    setToasts(prevToasts => {
+      const newToasts =
+        prevToasts.length >= 3 ? prevToasts.slice(1) : prevToasts;
+      return [...newToasts, { id, message, type }];
+    });
     setTimeout(() => removeToast(id), 4000);
   }, []);
 

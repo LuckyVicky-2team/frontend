@@ -1,7 +1,7 @@
 .searchTabHeader {
   width: 100%;
   padding: 100px 24px 0;
-  @media (max-width: 430px) {
+  @media (max-width: 480px) {
     padding: 80px 24px 0 24px;
   }
 
@@ -68,16 +68,16 @@
 
   .filterCompleteGatheringBtn {
     label {
-      margin: 12px;
+      margin: 0 12px;
       position: relative;
       display: flex;
       gap: 4px;
       align-items: center;
-      .checkIcon {
+
+      .check {
         cursor: pointer;
-        margin-right: 0px;
         position: relative;
-        left: 0;
+        display: flex;
 
         .empty {
           margin: 2px;
@@ -103,6 +103,7 @@
       }
 
       span {
+        word-break: keep-all;
         cursor: pointer;
         font-size: 14px;
       }
@@ -127,8 +128,6 @@
   }
   .sortType {
     border-radius: 12px;
-    // border: 2px solid #f3f4f6;
-    // background: #fff;
     width: 100%;
     max-width: 150px;
     padding: 8px 12px;
@@ -142,5 +141,24 @@
     font-weight: 500;
     line-height: 20px;
     color: #37393d;
+  }
+
+  @media only screen and (max-width: 480px) {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+
+    .resetBtn {
+      margin: 0 12px 0 auto;
+    }
+
+    .sortType {
+      order: 2;
+      width: 100%;
+      display: grid;
+      max-width: 100%;
+      justify-content: flex-end;
+      margin-left: auto;
+    }
   }
 }

@@ -223,7 +223,7 @@ export default function Filter({
       <div className={styles.sortContainer}>
         <div className={styles.filterCompleteGatheringBtn}>
           <label htmlFor={'filterCompleteGatherings'}>
-            <div className={styles.checkIcon}>
+            <div className={styles.check}>
               {state === null ? (
                 <Image
                   width={24}

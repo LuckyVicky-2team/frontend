@@ -45,11 +45,11 @@
 }
 
 // 430px 이하 화면에 대한 반응형 스타일 추가
-@media (max-width: 430px) {
+@media (max-width: 540px) {
   .mainNav {
     flex-direction: column;
     width: 90%;
-    margin-top: 20px;
+    margin-top: 50px;
     padding: 0px;
 
     .mainNavContent {

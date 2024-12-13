@@ -28,7 +28,7 @@ export default function DeleteModal({
       }, 500);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        if (error.response.status === 400) {
+        if (error.response.status === 400 || error.response.status === 404) {
           addToast('참가인원이 존재하여 삭제할수 없습니다', 'error');
         } else {
           alert(

@@ -79,14 +79,16 @@ export default function Info({
       <div className={styles.card}>
         <div className={styles.top}>
           <h2>내 프로필</h2>
-          <button type="button" onClick={handleEditOpen}>
-            <Image
-              width={32}
-              height={32}
-              src="/assets/icons/penEditIco.svg"
-              alt="프로필 편집 아이콘"
-            />
-          </button>
+          {loggedIn && (
+            <button type="button" onClick={handleEditOpen}>
+              <Image
+                width={32}
+                height={32}
+                src="/assets/icons/penEditIco.svg"
+                alt="프로필 편집 아이콘"
+              />
+            </button>
+          )}
         </div>
         <div className={styles.bottom}>
           <div className={styles.profileImg}>

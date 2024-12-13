@@ -56,8 +56,7 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
 
     if (timeDiff < 60 * 1000) return `1분 후 마감`; // 1분 미만
     if (timeDiff < 60 * 60 * 1000) return `${minutesLeft}분 후 마감`; // 1시간 미만
-    if (timeDiff < 24 * 60 * 60 * 1000)
-      return `${hoursLeft}시간 ${minutesLeft > 0 ? `${minutesLeft}분` : ''} 후 마감`; // 하루 미만
+    if (timeDiff < 24 * 60 * 60 * 1000) return `${hoursLeft}시간 후 마감`; // 하루 미만
     return `${daysLeft}일 ${hoursLeft > 0 ? `${hoursLeft}시간` : ''} 후 마감`; // 하루 이상
   };
 

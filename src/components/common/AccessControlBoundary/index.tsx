@@ -21,7 +21,7 @@ export default function AccessControlBoundary({
       const forbiddenPath = new Set(['/signin', '/signup']);
 
       if (forbiddenPath.has(path)) {
-        router.push('/main');
+        router.replace('/main');
         return;
       }
     }
@@ -40,19 +40,19 @@ export default function AccessControlBoundary({
       ]);
 
       if (forbiddenPath.has(path)) {
-        router.push('/signin');
+        router.replace('/signin');
         return;
       }
 
       // '/threads' 하위 경로에 대해서도 접근 제어
       if (path.startsWith('/threads')) {
-        router.push('/signin');
+        router.replace('/signin');
         return;
       }
 
       // '/gatherings/new' 하위 경로에 대해서도 접근 제어
       if (path.startsWith('/gatherings/new')) {
-        router.push('/signin');
+        router.replace('/signin');
         return;
       }
     }

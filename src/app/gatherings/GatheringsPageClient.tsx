@@ -24,7 +24,7 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
   const { getParams, setParams, clearParams } = useQueryStrings();
   const params = getParams();
 
-  const { data, error, fetchNextPage, isFetchingNextPage, status } =
+  const { data, fetchNextPage, isFetchingNextPage, status, refetch } =
     useInfiniteQuery({
       queryKey: QueryKey.GATHERING.LIST({
         // count: 10,
@@ -73,11 +73,11 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
         />
 
         <GatheringList
+          refetch={refetch}
           ref={ref}
           isFetchingNextPage={isFetchingNextPage}
           status={status}
           gatherings={FilteredGatherings}
-          error={error}
         />
       </main>
     </>

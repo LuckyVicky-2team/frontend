@@ -2,7 +2,6 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
-  // min-height: 20vh;
   background: #fff;
   overflow: hidden;
   padding-bottom: 35px;
@@ -11,13 +10,8 @@
   &:nth-last-child(2) {
     border-bottom: none;
   }
-  // .link {
-  //   min-width: 38%;
-  //   min-height: 210px;
-  //   width: fit-content;
-  // }
+
   .thumbnail {
-    border: 1px solid red;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid #e0e2e6;
@@ -153,7 +147,6 @@
       position: relative;
       gap: 4px;
       display: flex;
-
       overflow-x: scroll;
       align-items: center;
       &::-webkit-scrollbar {

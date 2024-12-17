@@ -22,7 +22,7 @@ export default function MyPage() {
   const [prOpen, setPrOpen] = useState(false);
   const [animatedRating, setAnimatedRating] = useState<number>(0); // Initial rating state
   const [checkedLogin, setCheckedLogin] = useState<string | null>(null); // state to hold checkedLogin
-  // const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태 추가
   // 클라이언트 사이드에서만 localStorage를 접근
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -36,6 +36,7 @@ export default function MyPage() {
 
   // 사용자 정보 가져오기
   const fetchPersonalInfo = async () => {
+    setLoading(true);
     try {
       const response = await getPersonalInfo();
       const targetRating = response.data.averageRating;
@@ -64,6 +65,8 @@ export default function MyPage() {
       setInfo(response.data);
     } catch (err) {
       // console.error('Failed to fetch personal info:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,14 +96,19 @@ export default function MyPage() {
       )}
 
       <h1 className={styles.title}>마이페이지</h1>
-      <div>
-        <Info
-          mypageInfo={info}
-          handleEditOpen={handleEditOpen}
-          updateInfo={fetchPersonalInfo}
-          checkedLogin={checkedLogin}
-        />
-      </div>
+      {loading === true ? (
+        <div className={styles.infoSkeleton}></div>
+      ) : (
+        <div>
+          <Info
+            mypageInfo={info}
+            handleEditOpen={handleEditOpen}
+            updateInfo={fetchPersonalInfo}
+            checkedLogin={checkedLogin}
+          />
+        </div>
+      )}
+
       <div className={styles.averageGrade}>
         <b>매너능력치</b>
         <div className={styles.line}>

@@ -205,6 +205,13 @@
 
 // 반응형 스타일 추가
 @media (max-width: 430px) {
+  .noneResi {
+    font-size: 13px;
+    display: block;
+    margin-top: 30px;
+    text-align: center;
+    line-height: 140%;
+  }
   .card {
     .top {
       padding: 15px;

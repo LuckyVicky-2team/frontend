@@ -308,12 +308,12 @@ export default function InfoEdit({
           }}>
           수정하기
         </button>
-        <button
+        {/* <button
           type="button"
           className={styles.cancleBtn}
           onClick={handleEditOpen}>
           취소하기
-        </button>
+        </button> */}
       </form>
     </div>
   );

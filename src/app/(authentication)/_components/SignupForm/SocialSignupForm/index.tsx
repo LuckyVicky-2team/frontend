@@ -79,6 +79,8 @@ export default function SocialSignupForm() {
     control,
     watch,
     setValue,
+    trigger,
+    clearErrors,
   } = props;
 
   const {
@@ -90,7 +92,27 @@ export default function SocialSignupForm() {
   const { mutate: signupMutate, isPending: isSignupPending } =
     usePostSocialSignupForm();
 
+  const firstButtonDisabledCondition =
+    isSignupPending ||
+    !watch('nickName') ||
+    !isValid ||
+    !isNickNameDupOk ||
+    !termsConditionsData.every((item: ITermsAgreementResponseType) => {
+      if (item.required) {
+        return (
+          watch('termsConditions').find(
+            term => item.type === term.termsConditionsType
+          )?.agreement === true
+        );
+      }
+      return true;
+    });
+
   const nickNameDupCheck = async (nickName: string) => {
+    if (errors.nickName?.type === 'needDupCheck') {
+      clearErrors('nickName');
+    }
+
     try {
       setNickNameDupLoading(true);
       await getNickNameDupCheck(nickName);
@@ -173,7 +195,7 @@ export default function SocialSignupForm() {
       <AuthHeader
         onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
-      <form>
+      <form className={styles.form}>
         <Funnel>
           <Step name="first">
             <div className={styles.formArea}>
@@ -216,8 +238,12 @@ export default function SocialSignupForm() {
                   disabled={
                     isNickNameDupOk ||
                     nickNameDupLoading ||
-                    !!errors.nickName ||
-                    !watch('nickName')
+                    !watch('nickName') ||
+                    errors.nickName
+                      ? errors.nickName?.type === 'needDupCheck'
+                        ? false
+                        : true
+                      : false
                   }
                   className={styles.checkButton}>
                   중복확인
@@ -238,32 +264,32 @@ export default function SocialSignupForm() {
                   value={watch('termsConditions')}
                 />
               )}
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  await trigger();
 
-              <Button
-                onClick={() => {
-                  setStep('second');
-                }}
-                className={styles.button}
-                disabled={
-                  isSignupPending ||
-                  !watch('nickName') ||
-                  !isValid ||
-                  !isNickNameDupOk ||
-                  !termsConditionsData.every(
-                    (item: ITermsAgreementResponseType) => {
-                      if (item.required) {
-                        return (
-                          watch('termsConditions').find(
-                            term => item.type === term.termsConditionsType
-                          )?.agreement === true
-                        );
-                      }
-                      return true;
-                    }
-                  )
-                }>
-                확인
-              </Button>
+                  if (!errors.nickName && !isNickNameDupOk) {
+                    setError('nickName', {
+                      message: '닉네임 중복확인을 해주세요.',
+                      type: 'needDupCheck',
+                    });
+                  }
+                }}>
+                <Button
+                  onClick={() => {
+                    setStep('second');
+                  }}
+                  disabled={firstButtonDisabledCondition}
+                  style={
+                    firstButtonDisabledCondition
+                      ? { pointerEvents: 'none' }
+                      : undefined
+                  }
+                  className={styles.button}>
+                  확인
+                </Button>
+              </div>
             </div>
           </Step>
 

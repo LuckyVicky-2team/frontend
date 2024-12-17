@@ -4,7 +4,7 @@ import styles from './info.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { logout } from '@/api/apis/logOutApis';
+import { deleteLoginRT, deleteReissueRT } from '@/api/apis/logOutApis';
 import { useQueryClient } from '@tanstack/react-query';
 import { QueryKey } from '@/utils/QueryKey';
 
@@ -48,7 +48,8 @@ export default function Info({
   }, []);
 
   const handleLogout = async () => {
-    await logout();
+    await deleteLoginRT();
+    await deleteReissueRT();
     localStorage.removeItem('accessToken');
     localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
@@ -69,7 +70,6 @@ export default function Info({
     });
 
     setLoggedIn(false);
-    alert('로그아웃 되었습니다.');
     router.push('/');
   };
 

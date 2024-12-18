@@ -127,6 +127,11 @@
   .outerLayer {
     padding: 22px 18px;
     .innerLayer {
+      .thumbnail {
+        width: 110px;
+        min-width: 100px;
+        height: 133px;
+      }
       .content {
         gap: 10px;
         padding: 4px 10px;

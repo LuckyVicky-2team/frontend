@@ -56,7 +56,7 @@ export default function SingleGatheringPage({
       {meetingData && (
         <div className={styles.meetingDetailContainer}>
           <div className={styles.meetingDetailHeader}>
-            <h1 className={styles.title}>{meetingData.title}</h1> 모임 리뷰
+            <h1 className={styles.title}>{meetingData.title}</h1>
           </div>
 
           <div className={styles.meetingDetailContent}>

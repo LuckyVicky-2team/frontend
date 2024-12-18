@@ -7,13 +7,6 @@ export async function POST() {
   });
 
   response.cookies.set('Authorization', '', {
-    maxAge: -1,
-    path: '/',
-    secure: true,
-    httpOnly: true,
-  });
-
-  response.cookies.set('Authorization', '', {
     domain: '.board-go.net',
     maxAge: -1,
     path: '/',

@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/Button';
 import AuthInput from '../../AuthInput';
-import { getNickNameDupCheck } from '@/api/apis/authApis';
+import { getNickNameDupCheck, postLogout } from '@/api/apis/authApis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
@@ -18,8 +18,7 @@ import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
-// import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
-// import { logout } from '@/api/apis/logOutApis';
+import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -36,8 +35,10 @@ export default function SocialSignupForm() {
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
 
-  // const [at, setAt] = useState('');
-  // const [rt, setRt] = useState('');
+  const [at, setAt] = useState('');
+  const [rt, setRt] = useState('');
+
+  console.log(at, rt);
 
   const { addToast } = useToast();
 
@@ -134,11 +135,11 @@ export default function SocialSignupForm() {
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
     signupMutate(
-      { data: formData, token: '' },
+      { data: formData, token: at },
       {
         onSuccess: async () => {
-          // localStorage.setItem('accessToken', at);
-          // await saveRefreshToken(rt);
+          localStorage.setItem('accessToken', at);
+          await saveRefreshToken(rt);
           router.replace('/signup/result?type=social');
         },
         onError: () => {
@@ -148,37 +149,30 @@ export default function SocialSignupForm() {
     );
   };
 
-  // useEffect(() => {
-  //   const tempSaveToken = async () => {
-  //     if (at && rt) return;
+  useEffect(() => {
+    const tempSaveToken = async () => {
+      if (at && rt) return;
 
-  //     const tokens = await reissueTokenViaServer();
+      const tokens = await reissueTokenViaServer();
 
-  //     if (!tokens) {
-  //       addToast(
-  //         '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
-  //         'error'
-  //       );
-  //       await logout();
-  //       router.replace('/signin');
-  //       console.log(tokens);
-  //       return;
-  //     }
+      if (tokens.errorCode) {
+        addToast(
+          '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+          'error'
+        );
+        await postLogout();
+        router.replace('/signin');
+        return;
+      }
 
-  //     if (tokens?.at && tokens?.rt) {
-  //       setAt(tokens.at);
-  //       setRt(tokens.rt);
-  //     }
+      setAt(tokens.at);
+      setRt(tokens.rt);
 
-  //     console.log(tokens);
+      await postLogout();
+    };
 
-  //     await logout();
-
-  //     return;
-  //   };
-
-  //   tempSaveToken();
-  // }, []);
+    tempSaveToken();
+  }, []);
 
   useEffect(() => {
     setIsNickNameDupOk(false);

@@ -14,6 +14,7 @@ export function parseQueryString(queryString: string) {
     searchType: (searchParams.get('searchType') || '') as SearchType,
     searchWord: searchParams.get('searchWord') || '',
     sortBy: (searchParams.get('sortBy') || 'MEETING_DATE') as SortBy,
+    state: searchParams.get('state') || null,
   };
   return Object.fromEntries(
     Object.entries(params).filter(([_, value]) => {

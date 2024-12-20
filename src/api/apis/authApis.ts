@@ -65,3 +65,9 @@ export const getTermsAgreement = async (
 export const postTermsAgreement = (data: ConsentFormType) => {
   return axiosInstance.post('/terms-conditions/user', data);
 };
+
+export const postLogout = () => {
+  fetch('https://dev.app.board-go.net/api/logout', {
+    method: 'POST',
+  });
+};

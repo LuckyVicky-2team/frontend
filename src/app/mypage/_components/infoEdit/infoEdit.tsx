@@ -186,7 +186,7 @@ export default function InfoEdit({
         updateData.password = passwordValue;
       }
 
-      console.log('updateData:', updateData); // 값 확인
+      // console.log('updateData:', updateData); // 값 확인
 
       // 수정 항목이 없을 경우 처리
       if (!updateData.nickName && !updateData.password) {
@@ -221,14 +221,14 @@ export default function InfoEdit({
     (passwordValue && isPasswordMatched && !errors.password) || // 비밀번호 관련 조건
     (nameValue.trim() && !isNameDuplicate && isNameChecked); // 닉네임 관련 조건
 
-  console.log('isFormValid:', isFormValid);
-  console.log('passwordValue:', passwordValue);
-  console.log('isPasswordMatched:', isPasswordMatched);
-  console.log('errors.password:', errors.password);
-  console.log('nameValue:', nameValue);
-  console.log('isNameDuplicate:', isNameDuplicate);
-  console.log('isNameChecked:', isNameChecked);
-  console.log(mypageInfo);
+  // console.log('isFormValid:', isFormValid);
+  // console.log('passwordValue:', passwordValue);
+  // console.log('isPasswordMatched:', isPasswordMatched);
+  // console.log('errors.password:', errors.password);
+  // console.log('nameValue:', nameValue);
+  // console.log('isNameDuplicate:', isNameDuplicate);
+  // console.log('isNameChecked:', isNameChecked);
+  // console.log(mypageInfo);
 
   return (
     <div className={styles.infoEditModal}>

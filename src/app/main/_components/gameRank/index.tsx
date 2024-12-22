@@ -65,6 +65,10 @@ export default function GameRank() {
                     src={`https://${cloud}/${e.thumbnail}`}
                     alt="게임랭크 이미지"
                     unoptimized={true}
+                    onError={e => {
+                      e.currentTarget.src =
+                        '/assets/images/emptyGameThumbnail.png';
+                    }}
                   />
                 </div>
                 <div className={styles.info}>

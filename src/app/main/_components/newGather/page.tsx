@@ -103,6 +103,10 @@ export default function NewGather({ meetingList }: NewGatherProps) {
                       width={224}
                       height={224}
                       unoptimized={true}
+                      onError={e => {
+                        e.currentTarget.src =
+                          '/assets/images/emptyThumbnail.png';
+                      }}
                     />
                   </span>
                 </Link>

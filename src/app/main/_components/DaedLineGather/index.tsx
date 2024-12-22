@@ -143,6 +143,10 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
                           width={224}
                           height={224}
                           unoptimized={true}
+                          onError={e => {
+                            e.currentTarget.src =
+                              '/assets/images/emptyThumbnail.png';
+                          }}
                         />
                       </span>
                     </Link>

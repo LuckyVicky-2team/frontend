@@ -169,7 +169,7 @@ export default function Finish() {
               <Image
                 src={
                   `https://${cloud}/${gathering?.thumbnail}` ||
-                  '/assets/images/detail-image-default.png'
+                  '/assets/images/emptyThumbnail.png'
                 } // Use imageUrl if available
                 alt="참여 중 모임 썸네일"
                 width={150}

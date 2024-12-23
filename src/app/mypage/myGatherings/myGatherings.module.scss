@@ -103,6 +103,7 @@
     border-bottom: 3px dashed #e5e7eb;
     @media (max-width: 430px) {
       width: 47%;
+      border-bottom: 0;
     }
 
     .img {
@@ -274,6 +275,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 100px 0;
+  margin: 0 auto;
 
   h1 {
     display: block;

@@ -126,13 +126,13 @@ export default function Finish() {
               <Image
                 src={
                   `https://${cloud}/${gathering?.thumbnail}` ||
-                  '/assets/images/emptyThumbnail.png'
-                } // Use imageUrl if available
+                  '/assets/mainImages/game.png'
+                }
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
+                unoptimized={true}
                 onError={e => {
-                  e.currentTarget.onerror = null; // 추가 에러 핸들링 방지
                   e.currentTarget.src = '/assets/images/emptyThumbnail.png';
                 }}
               />

@@ -27,6 +27,11 @@
       padding: 60px 15px;
       box-sizing: border-box;
       font-size: 18px;
+      @media (max-width: 430px) {
+        font-size: 16px;
+        padding: 30px 15px;
+        text-align: center;
+      }
       span {
         color: #007aff;
         font-weight: bold;
@@ -44,6 +49,10 @@
         padding: 25px 15px;
         box-sizing: border-box;
         font-size: 18px;
+        @media (max-width: 430px) {
+          font-size: 14px;
+          padding: 15px;
+        }
         &.ok {
           background: #fff;
           color: #333;

@@ -34,6 +34,7 @@ export default function OutModal({
       <div className={styles.modalContent}>
         <h1>
           <span>{meetingTitle}</span>에서 나가시겠습니까?
+          <p>모임에서 나가시면 더이상 같은 모임에는 참가 하실수 없습니다.</p>
         </h1>
         <div className={styles.btnWrap}>
           <button

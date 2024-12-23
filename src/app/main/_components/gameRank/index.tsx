@@ -62,7 +62,7 @@ export default function GameRank() {
                     // objectFit="cover"
                     width={125}
                     height={125}
-                    src={`https://${cloud}/${e.thumbnail}`}
+                    src={`https://${cloud}/${e?.thumbnail}`}
                     alt="게임랭크 이미지"
                     unoptimized={true}
                     onError={e => {

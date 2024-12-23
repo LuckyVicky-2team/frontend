@@ -22,14 +22,31 @@
     justify-content: center;
     border-radius: 15px;
     overflow: hidden;
+    @media (max-width: 430px) {
+      border-radius: 10px;
+    }
     h1 {
       display: block;
       padding: 60px 15px;
       box-sizing: border-box;
       font-size: 18px;
+      @media (max-width: 430px) {
+        padding: 30px 15px;
+        font-size: 16px;
+        text-align: center;
+      }
       span {
         color: #007aff;
         font-weight: bold;
+      }
+      p {
+        display: block;
+        margin-top: 10px;
+        font-size: 14px;
+        @media (max-width: 430px) {
+          font-size: 12px;
+          line-height: 140%;
+        }
       }
     }
     .btnWrap {
@@ -44,6 +61,10 @@
         padding: 25px 15px;
         box-sizing: border-box;
         font-size: 18px;
+        @media (max-width: 430px) {
+          font-size: 14px;
+          padding: 15px;
+        }
         &.ok {
           background: #fff;
           color: #333;

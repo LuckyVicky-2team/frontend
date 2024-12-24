@@ -15,17 +15,19 @@ export default function OutModal({
   handleModalClose,
   meetingId,
   meetingTitle,
-}: IOutModalProps) {
+  removeMeeting, // 부모 컴포넌트에서 전달받은 상태 업데이트 함수
+}: IOutModalProps & { removeMeeting: (_id: string) => void }) {
   const { addToast } = useToast();
 
-  const HandleOutMeeting = async (id: string) => {
+  const handleOutMeeting = async (id: string) => {
     try {
       const _response = await outMeeting(id); // API 호출
       addToast('성공적으로 모임을 나갔습니다.', 'success');
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
+      removeMeeting(id); // 부모 상태 업데이트 호출
+    } catch (error) {
+      addToast('모임에서 나가는데 실패했습니다.', 'error');
     } finally {
+      handleModalClose();
     }
   };
 
@@ -39,17 +41,10 @@ export default function OutModal({
         <div className={styles.btnWrap}>
           <button
             className={styles.ok}
-            onClick={() => {
-              HandleOutMeeting(meetingId);
-              handleModalClose();
-            }}>
+            onClick={() => handleOutMeeting(meetingId)}>
             나갈래요
           </button>
-          <button
-            className={styles.no}
-            onClick={() => {
-              handleModalClose();
-            }}>
+          <button className={styles.no} onClick={() => handleModalClose()}>
             안나갈래요
           </button>
         </div>

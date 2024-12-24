@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/Button';
 import AuthInput from '../../AuthInput';
-import { getNickNameDupCheck } from '@/api/apis/authApis';
+import { getNickNameDupCheck, postLogout } from '@/api/apis/authApis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
@@ -18,8 +18,7 @@ import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
-// import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
-// import { logout } from '@/api/apis/logOutApis';
+import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -36,8 +35,10 @@ export default function SocialSignupForm() {
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
 
-  // const [at, setAt] = useState('');
-  // const [rt, setRt] = useState('');
+  const [at, setAt] = useState('');
+  const [rt, setRt] = useState('');
+
+  console.log(at, rt);
 
   const { addToast } = useToast();
 
@@ -79,6 +80,8 @@ export default function SocialSignupForm() {
     control,
     watch,
     setValue,
+    trigger,
+    clearErrors,
   } = props;
 
   const {
@@ -90,7 +93,27 @@ export default function SocialSignupForm() {
   const { mutate: signupMutate, isPending: isSignupPending } =
     usePostSocialSignupForm();
 
+  const firstButtonDisabledCondition =
+    isSignupPending ||
+    !watch('nickName') ||
+    !isValid ||
+    !isNickNameDupOk ||
+    !termsConditionsData.every((item: ITermsAgreementResponseType) => {
+      if (item.required) {
+        return (
+          watch('termsConditions').find(
+            term => item.type === term.termsConditionsType
+          )?.agreement === true
+        );
+      }
+      return true;
+    });
+
   const nickNameDupCheck = async (nickName: string) => {
+    if (errors.nickName?.type === 'needDupCheck') {
+      clearErrors('nickName');
+    }
+
     try {
       setNickNameDupLoading(true);
       await getNickNameDupCheck(nickName);
@@ -112,11 +135,11 @@ export default function SocialSignupForm() {
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
     signupMutate(
-      { data: formData, token: '' },
+      { data: formData, token: at },
       {
         onSuccess: async () => {
-          // localStorage.setItem('accessToken', at);
-          // await saveRefreshToken(rt);
+          localStorage.setItem('accessToken', at);
+          await saveRefreshToken(rt);
           router.replace('/signup/result?type=social');
         },
         onError: () => {
@@ -126,37 +149,30 @@ export default function SocialSignupForm() {
     );
   };
 
-  // useEffect(() => {
-  //   const tempSaveToken = async () => {
-  //     if (at && rt) return;
+  useEffect(() => {
+    const tempSaveToken = async () => {
+      if (at && rt) return;
 
-  //     const tokens = await reissueTokenViaServer();
+      const tokens = await reissueTokenViaServer();
 
-  //     if (!tokens) {
-  //       addToast(
-  //         '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
-  //         'error'
-  //       );
-  //       await logout();
-  //       router.replace('/signin');
-  //       console.log(tokens);
-  //       return;
-  //     }
+      if (tokens.errorCode) {
+        addToast(
+          '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+          'error'
+        );
+        await postLogout();
+        router.replace('/signin');
+        return;
+      }
 
-  //     if (tokens?.at && tokens?.rt) {
-  //       setAt(tokens.at);
-  //       setRt(tokens.rt);
-  //     }
+      setAt(tokens.at);
+      setRt(tokens.rt);
 
-  //     console.log(tokens);
+      await postLogout();
+    };
 
-  //     await logout();
-
-  //     return;
-  //   };
-
-  //   tempSaveToken();
-  // }, []);
+    tempSaveToken();
+  }, []);
 
   useEffect(() => {
     setIsNickNameDupOk(false);
@@ -173,7 +189,7 @@ export default function SocialSignupForm() {
       <AuthHeader
         onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
-      <form>
+      <form className={styles.form}>
         <Funnel>
           <Step name="first">
             <div className={styles.formArea}>
@@ -216,8 +232,12 @@ export default function SocialSignupForm() {
                   disabled={
                     isNickNameDupOk ||
                     nickNameDupLoading ||
-                    !!errors.nickName ||
-                    !watch('nickName')
+                    !watch('nickName') ||
+                    errors.nickName
+                      ? errors.nickName?.type === 'needDupCheck'
+                        ? false
+                        : true
+                      : false
                   }
                   className={styles.checkButton}>
                   중복확인
@@ -238,32 +258,32 @@ export default function SocialSignupForm() {
                   value={watch('termsConditions')}
                 />
               )}
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  await trigger();
 
-              <Button
-                onClick={() => {
-                  setStep('second');
-                }}
-                className={styles.button}
-                disabled={
-                  isSignupPending ||
-                  !watch('nickName') ||
-                  !isValid ||
-                  !isNickNameDupOk ||
-                  !termsConditionsData.every(
-                    (item: ITermsAgreementResponseType) => {
-                      if (item.required) {
-                        return (
-                          watch('termsConditions').find(
-                            term => item.type === term.termsConditionsType
-                          )?.agreement === true
-                        );
-                      }
-                      return true;
-                    }
-                  )
-                }>
-                확인
-              </Button>
+                  if (!errors.nickName && !isNickNameDupOk) {
+                    setError('nickName', {
+                      message: '닉네임 중복확인을 해주세요.',
+                      type: 'needDupCheck',
+                    });
+                  }
+                }}>
+                <Button
+                  onClick={() => {
+                    setStep('second');
+                  }}
+                  disabled={firstButtonDisabledCondition}
+                  style={
+                    firstButtonDisabledCondition
+                      ? { pointerEvents: 'none' }
+                      : undefined
+                  }
+                  className={styles.button}>
+                  확인
+                </Button>
+              </div>
             </div>
           </Step>
 

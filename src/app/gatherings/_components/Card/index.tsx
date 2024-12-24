@@ -55,27 +55,27 @@ export default function Card({
   };
 
   return (
-    <>
+    <Link href={`/gatherings/${id}`} style={{ width: '100%' }}>
       <div className={styles.card} onClick={onClick}>
-        <Link className={styles.link} href={`/gatherings/${id}`} style={{}}>
-          <div className={styles.thumbnail}>
-            <Image
-              src={imgSrc}
-              alt="thumbnail"
-              fill
-              sizes="50%"
-              priority
-              quality={80}
-              onError={handleImageError}
-            />
+        {/* <Link className={styles.link} href={`/gatherings/${id}`}> */}
+        <div className={styles.thumbnail}>
+          <Image
+            src={imgSrc}
+            alt="thumbnail"
+            fill
+            sizes="50%"
+            priority
+            quality={80}
+            onError={handleImageError}
+          />
 
-            {isFullParticipant || isDateOver ? (
-              <div className={styles.fullUser}>
-                <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
-              </div>
-            ) : null}
-          </div>
-        </Link>
+          {isFullParticipant || isDateOver ? (
+            <div className={styles.fullUser}>
+              <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
+            </div>
+          ) : null}
+        </div>
+        {/* </Link> */}
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.topHeader}>
@@ -115,6 +115,7 @@ export default function Card({
               return (
                 <p key={id + idx} className={styles.games}>
                   {el}
+                  <span>&nbsp;| </span>
                 </p>
               );
             })}
@@ -143,11 +144,11 @@ export default function Card({
               value={`${progressValue}`}
               max={'100'}></progress>
           </div>
-          <Link href={`/gatherings/${id}`}>
+          {/* <Link href={`/gatherings/${id}`}>
             <button className={styles.seeDetail}>모임 자세히보기</button>
-          </Link>
+          </Link> */}
         </div>
       </div>
-    </>
+    </Link>
   );
 }

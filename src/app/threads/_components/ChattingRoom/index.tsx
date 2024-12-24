@@ -55,6 +55,8 @@ export default function ChattingRoom({
     isFetchingNextPage,
   } = useGetChattingLog(chatRoomId);
 
+  console.log(chattingLog);
+
   const gatheringMembers = gatheringData?.userParticipantResponseList;
 
   const userId = gatheringMembers?.find(
@@ -91,7 +93,7 @@ export default function ChattingRoom({
       return;
     }
 
-    if (stompClient.current && userData) {
+    if (stompClient.current && userData && chattingLog) {
       const chatRequest = {
         roomId: chatRoomId,
         content: message,
@@ -247,7 +249,7 @@ export default function ChattingRoom({
             </div>
           ) : isChattingError ? (
             <div className={styles.logExcept}>채팅을 불러올 수 없습니다.</div>
-          ) : messages.length === 0 ? (
+          ) : chattingLog.pages[0].status === 204 && messages.length === 0 ? (
             <div className={styles.logExcept}>
               아직 대화가 없습니다. 첫 메시지를 남겨보세요!
             </div>

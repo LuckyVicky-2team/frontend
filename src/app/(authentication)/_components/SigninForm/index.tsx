@@ -13,7 +13,7 @@ export default function SigninForm() {
 
   const props = useForm({ mode: 'onChange' });
 
-  const { register, handleSubmit, watch } = props;
+  const { register, handleSubmit, watch, trigger } = props;
 
   const { addToast } = useToast();
 
@@ -24,7 +24,7 @@ export default function SigninForm() {
       onSuccess: (response: any) => {
         const token = response.headers.authorization;
         localStorage.setItem('accessToken', token);
-        router.push('/main');
+        router.replace('/main');
       },
       onError: (error: any) => {
         if (error.response.status === 401) {
@@ -67,11 +67,18 @@ export default function SigninForm() {
             required: '비밀번호를 입력해주세요',
           })}
         />
-        <Button
-          type="submit"
-          disabled={!watch('username') || !watch('password') || isPending}>
-          로그인하기
-        </Button>
+        <div style={{ cursor: 'pointer' }} onClick={() => trigger()}>
+          <Button
+            type="submit"
+            disabled={!watch('username') || !watch('password') || isPending}
+            style={
+              !watch('username') || !watch('password') || isPending
+                ? { pointerEvents: 'none' }
+                : undefined
+            }>
+            로그인하기
+          </Button>
+        </div>
       </form>
     </FormProvider>
   );

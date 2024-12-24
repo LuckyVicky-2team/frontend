@@ -21,6 +21,7 @@ interface IFilterProps {
   searchWord?: string;
   sortBy?: string;
   page?: number;
+  state?: string | null;
 }
 
 export default function Filter({
@@ -30,6 +31,7 @@ export default function Filter({
     city = '',
     tag = '',
     county = '',
+    state = null,
   },
   setParams,
   clearParams,
@@ -219,8 +221,33 @@ export default function Filter({
       </div>
 
       <div className={styles.sortContainer}>
+        <div className={styles.filterCompleteGatheringBtn}>
+          <label htmlFor={'filterCompleteGatherings'}>
+            <div className={styles.check}>
+              {state === null ? (
+                <Image
+                  width={24}
+                  height={24}
+                  src={'/assets/icons/checkBlue.svg'}
+                  alt={'checkbox'}
+                />
+              ) : (
+                <div className={styles.empty} />
+              )}
+            </div>
+            <input
+              type="checkbox"
+              id={'filterCompleteGatherings'}
+              checked={state === null}
+              onChange={e => {
+                setParams({ state: e.target.checked ? null : 'COMPLETE' });
+              }}
+            />
+            <span>모집중만 보기</span>
+          </label>
+        </div>
         <div className={styles.resetBtn} onClick={handleResetFilters}>
-          <h3>초기화</h3>
+          <span>초기화</span>
           <Image
             width={24}
             height={24}

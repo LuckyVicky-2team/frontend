@@ -5,7 +5,7 @@ import {
 } from '@/app/gatherings/utils/queryStringUtils';
 
 export interface IParamProps {
-  [key: string]: string;
+  [key: string]: string | null;
 }
 
 export default function useQueryStrings() {

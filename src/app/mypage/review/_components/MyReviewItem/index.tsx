@@ -35,31 +35,39 @@ export default function MyReviewItem({
           onClose={handleModalClose}>
           <div className={styles.detailModal}>
             <div className={styles.modalHeader}>
-              <h2>{title}</h2>모임 리뷰
+              <h2>{title}</h2>
             </div>
 
             <div className={styles.reviewList}>
-              {revieweeList?.map((reviewee: any) => (
-                <div key={reviewee.reviewId} className={styles.reviewedUser}>
-                  <h4>{reviewee.revieweeName}</h4>
-                  <div className={styles.tags}>
-                    {reviewee.positiveTags.map((tag: string, index: number) => (
-                      <span
-                        key={index + '_positive'}
-                        className={`${styles.tag} ${styles.positive}`}>
-                        {tag}
-                      </span>
-                    ))}
-                    {reviewee.negativeTags.map((tag: string, index: number) => (
-                      <span
-                        key={index + '_nagative'}
-                        className={`${styles.tag} ${styles.negative}`}>
-                        {tag}
-                      </span>
-                    ))}
+              {revieweeList ? (
+                revieweeList?.map((reviewee: any) => (
+                  <div key={reviewee.reviewId} className={styles.reviewedUser}>
+                    <h4>{reviewee.revieweeName}</h4>
+                    <div className={styles.tags}>
+                      {reviewee.positiveTags.map(
+                        (tag: string, index: number) => (
+                          <span
+                            key={index + '_positive'}
+                            className={`${styles.tag} ${styles.positive}`}>
+                            {tag}
+                          </span>
+                        )
+                      )}
+                      {reviewee.negativeTags.map(
+                        (tag: string, index: number) => (
+                          <span
+                            key={index + '_nagative'}
+                            className={`${styles.tag} ${styles.negative}`}>
+                            {tag}
+                          </span>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className={styles.empty}>아직 받은 리뷰가 없습니다</p>
+              )}
             </div>
           </div>
         </Modal>

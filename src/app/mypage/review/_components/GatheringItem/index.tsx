@@ -42,15 +42,29 @@ export default function GatheringItem({
   return (
     <div className={styles.outerLayer}>
       <div className={styles.innerLayer}>
-        <div className={styles.thumbnail}>
-          <Image
-            src={imgSrc}
-            alt="thumbnail"
-            fill
-            priority
-            onError={handleImageError}
-          />
-        </div>
+        {href ? (
+          <Link href={href}>
+            <div className={styles.thumbnail}>
+              <Image
+                src={imgSrc}
+                alt="thumbnail"
+                fill
+                priority
+                onError={handleImageError}
+              />
+            </div>
+          </Link>
+        ) : (
+          <div className={styles.thumbnail} onClick={modalOpen}>
+            <Image
+              src={imgSrc}
+              alt="thumbnail"
+              fill
+              priority
+              onError={handleImageError}
+            />
+          </div>
+        )}
         <div className={styles.content}>
           <div className={styles.detail}>
             <h3 className={styles.title}>{title}</h3>

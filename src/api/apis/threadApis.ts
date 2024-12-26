@@ -7,11 +7,11 @@ export const getMyChatRooms = async () => {
 };
 
 export const getChattingLog = async (chatRoomId: number, page: number) => {
-  const { data } = await axiosInstance.get(
+  const { data, status, statusText } = await axiosInstance.get(
     `/chatroom?chatRoomId=${chatRoomId}&page=${page}`
   );
 
-  return data;
+  return { ...data, status, statusText };
 };
 
 export const getMyInfo = async () => {

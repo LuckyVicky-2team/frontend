@@ -10,6 +10,7 @@ interface IOutModalProps {
   meetingId: string;
   meetingTitle: string;
   handleModalClose: () => void; // props 인터페이스 정의
+  removeMeeting: (_id: string) => void; // 수정된 부분: 함수 타입으로 변경
 }
 
 export default function DeleteModal({

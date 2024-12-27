@@ -92,6 +92,9 @@ export default function Finish() {
           meetingId={selectedMeetingId}
           meetingTitle={selectedMeetingTitle}
           handleModalClose={handleModalClose}
+          removeMeeting={id => {
+            setGatherings(gatherings.filter(g => g.meetingId !== id)); // 부모 상태 업데이트
+          }}
         />
       ) : null}
 

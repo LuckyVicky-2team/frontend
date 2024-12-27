@@ -65,20 +65,6 @@ export default function InfoEdit({
       window.location.reload();
     }, 1000);
   };
-
-  // 비밀번호와 비밀번호 확인 비교 함수
-  // const validatePasswords = () => {
-  //   if (passwordValue !== confirmPasswordValue) {
-  //     setIsPasswordMatched(false);
-  //     setError('confirmPassword', {
-  //       type: 'manual',
-  //       message: '비밀번호가 일치하지 않습니다.',
-  //     });
-  //   } else {
-  //     setIsPasswordMatched(true);
-  //     clearErrors('confirmPassword');
-  //   }
-  // };
   const validatePassword = () => {
     if (!passwordValue) {
       clearErrors('password'); // 비밀번호가 없으면 에러 제거
@@ -205,11 +191,6 @@ export default function InfoEdit({
       updateInfo();
       reset();
       handleEditOpen();
-
-      // 성공 후 새로고침 (선택적)
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     } catch (error) {
       console.error('정보 수정 중 오류가 발생했습니다.', error);
     } finally {
@@ -220,15 +201,6 @@ export default function InfoEdit({
   const isFormValid =
     (passwordValue && isPasswordMatched && !errors.password) || // 비밀번호 관련 조건
     (nameValue.trim() && !isNameDuplicate && isNameChecked); // 닉네임 관련 조건
-
-  // console.log('isFormValid:', isFormValid);
-  // console.log('passwordValue:', passwordValue);
-  // console.log('isPasswordMatched:', isPasswordMatched);
-  // console.log('errors.password:', errors.password);
-  // console.log('nameValue:', nameValue);
-  // console.log('isNameDuplicate:', isNameDuplicate);
-  // console.log('isNameChecked:', isNameChecked);
-  // console.log(mypageInfo);
 
   return (
     <div className={styles.infoEditModal}>

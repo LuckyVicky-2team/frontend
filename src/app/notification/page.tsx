@@ -13,7 +13,7 @@ export default function NotificationPage() {
   const router = useRouter();
   const { addToast } = useToast();
   const { data, isPending, refetch } = useNotificationList();
-  const { mutate } = useReadNotification();
+  const { mutate, isPending: isMutating } = useReadNotification();
 
   const handleReadAllButtonClick = (data: INotification[]) => {
     const unreadNotificationIds = data
@@ -31,13 +31,12 @@ export default function NotificationPage() {
     refetch();
   };
 
-  const handleNotificationClick = (notificationId: number, pathUrl: string) => {
+  const handleNotificationClick = (notificationId: number) => {
     mutate([notificationId], {
       onError: _ => {
         addToast('알림 읽기에 실패했습니다.', 'error');
       },
     });
-    router.push(pathUrl);
   };
 
   return (
@@ -53,7 +52,8 @@ export default function NotificationPage() {
           <button
             className={styles.readAllButton}
             type="button"
-            onClick={() => handleReadAllButtonClick(data)}>
+            onClick={() => handleReadAllButtonClick(data)}
+            disabled={isMutating || isPending}>
             전체 읽음
           </button>
           <div className={styles.notifications}>
@@ -68,12 +68,13 @@ export default function NotificationPage() {
                         : styles.notification
                     }
                     type="button"
-                    onClick={() =>
-                      handleNotificationClick(
-                        notification.notificationId,
-                        notification.pathUrl
-                      )
-                    }>
+                    onClick={() => {
+                      if (!notification.isRead) {
+                        handleNotificationClick(notification.notificationId);
+                      }
+                      router.push(notification.pathUrl);
+                    }}
+                    disabled={isMutating || isPending}>
                     <div>
                       <div className={styles.title}>{notification.title}</div>
                       <div className={styles.content}>

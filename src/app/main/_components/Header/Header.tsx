@@ -133,7 +133,7 @@ export default function Header() {
               </p>
               <div className={styles.right}>
                 <h2>
-                  <Link href="/">BOGO</Link>
+                  <Link href="/main">BOGO</Link>
                 </h2>
               </div>
             </div>

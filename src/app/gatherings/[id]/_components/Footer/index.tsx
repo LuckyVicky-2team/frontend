@@ -150,18 +150,18 @@ export default function GatheringFooter({
       <footer
         className={styles.background}
         style={{
-          height: `${(screenWidth * 130) / 600}px`,
-          maxHeight: '130px',
+          height: `${(screenWidth * 100) / 600}px`,
+          maxHeight: '100px',
         }}>
         <button
           type="button"
           disabled={isPending}
           className={styles.backButton}
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            width: `${(screenWidth * 80) / 600}px`,
-            maxHeight: '88px',
-            maxWidth: '80px',
+            height: `${(screenWidth * 70) / 600}px`,
+            width: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
+            maxWidth: '70px',
           }}
           onClick={() => {
             router.back();
@@ -182,8 +182,8 @@ export default function GatheringFooter({
                 : styles.cta
           }
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            maxHeight: '88px',
+            height: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
           }}
           type="button"
           onClick={handleButtonClick}
@@ -223,10 +223,10 @@ export default function GatheringFooter({
           <button
             className={styles.editButton}
             style={{
-              height: `${(screenWidth * 88) / 600}px`,
-              width: `${(screenWidth * 80) / 600}px`,
-              maxHeight: '88px',
-              maxWidth: '80px',
+              height: `${(screenWidth * 70) / 600}px`,
+              width: `${(screenWidth * 70) / 600}px`,
+              maxHeight: '70px',
+              maxWidth: '70px',
             }}
             type="button"
             onClick={() => {

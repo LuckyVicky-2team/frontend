@@ -45,7 +45,7 @@
   border: 2px solid var(--lukyviky-Blue-Normal, #007aff);
   background: var(--lukyviky-Blue-Normal, #007aff);
   color: var(--lukyviky-Blue-Light, #e6f2ff);
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -54,6 +54,10 @@
     border: none;
     background: var(--lukyviky-gray-Normal, #9ca3af);
     color: var(--lukyviky-Blue-Light, #e6f2ff);
+  }
+
+  @media only screen and (max-width: 520px) {
+    font-size: 14px;
   }
 }
 

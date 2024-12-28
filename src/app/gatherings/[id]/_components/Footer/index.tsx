@@ -72,7 +72,7 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const { screenWidth } = useScreenWidth();
+  const { isMobile, screenWidth } = useScreenWidth();
   const screenHeight = useScreenHeight();
 
   const handleButtonClick = () => {
@@ -169,8 +169,8 @@ export default function GatheringFooter({
           <Image
             src={'/assets/icons/chevron-left.svg'}
             alt="뒤로가기 이미지"
-            width={36}
-            height={36}
+            width={isMobile ? 20 : 36}
+            height={isMobile ? 20 : 36}
           />
         </button>
         <button
@@ -235,8 +235,8 @@ export default function GatheringFooter({
             <Image
               src={'/assets/icons/pen.svg'}
               alt="수정 이미지"
-              width={36}
-              height={36}
+              width={isMobile ? 20 : 36}
+              height={isMobile ? 20 : 36}
             />
           </button>
         )}

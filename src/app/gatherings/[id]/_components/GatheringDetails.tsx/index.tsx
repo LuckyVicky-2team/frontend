@@ -260,15 +260,15 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                 </button>
               </div>
             )}
-            <ShareModal
-              modalOpen={shareModalOpen}
-              onClose={handleShareModalClose}
-              pathname={pathname}
-              shareCount={data.shareCount}
-              isMobile={isMobile}
-              meetingId={data.meetingId}
-            />
           </div>
+          <ShareModal
+            modalOpen={shareModalOpen}
+            onClose={handleShareModalClose}
+            pathname={pathname}
+            shareCount={data.shareCount}
+            isMobile={isMobile}
+            meetingId={data.meetingId}
+          />
           <div className={styles.stroke}>
             <Image alt="점선" src={'/assets/icons/stroke.svg'} fill />
           </div>

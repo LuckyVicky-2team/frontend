@@ -344,6 +344,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
               address={data.detailAddress}
               mapLatio={`${screenWidth / 320}`}
               isMobile={isMobile}
+              page="detail"
             />
           </div>
         </div>

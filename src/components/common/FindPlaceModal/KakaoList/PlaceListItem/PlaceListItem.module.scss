@@ -1,7 +1,7 @@
 .item,
 .mobileItem {
   width: 100%;
-  padding: 18px 20px 20px;
+  padding: 14px 20px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -12,13 +12,22 @@
 }
 
 .mobileItem {
-  padding: 4px;
+  padding: 10px;
+}
+
+.mapItem {
+  font-size: 12px !important;
+  line-height: 12px !important;
+}
+
+.detailItem {
+  padding: 0 0 0 24px;
 }
 
 .nameArea {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 
   .order {
     display: flex;
@@ -36,7 +45,7 @@
 
   .name {
     color: black;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
 
     &.url {

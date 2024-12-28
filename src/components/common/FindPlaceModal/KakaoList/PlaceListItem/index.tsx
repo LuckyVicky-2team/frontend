@@ -25,7 +25,8 @@ export default function PlaceListItem({
   const addressParts = address.split(' ');
 
   return (
-    <div className={`${styles.item} ${className}`}>
+    <div
+      className={`${isMobile ? styles.mobileItem : styles.item} ${className}`}>
       <div
         className={styles.nameArea}
         style={{
@@ -44,9 +45,6 @@ export default function PlaceListItem({
         ) : (
           <div className={styles.name}>{placeName}</div>
         )}
-        <span className={styles.category}>
-          {categoryName?.split(' > ').at(-1)}
-        </span>
       </div>
       <div
         className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}
@@ -61,15 +59,21 @@ export default function PlaceListItem({
               flexDirection: 'column',
               gap: '4px',
             }}>
+            <span className={styles.category}>
+              {categoryName?.split(' > ').at(-1)}
+            </span>
             <div className={styles.address}>
-              {addressParts[0]} {addressParts[1]}
-            </div>
-            <div className={styles.address}>
-              {addressParts[2]} {addressParts[3]}
+              {addressParts[0]} {addressParts[1]} {addressParts[2]}{' '}
+              {addressParts[3]}
             </div>
           </div>
         ) : (
-          <div className={styles.address}>{address}</div>
+          <>
+            <span className={styles.category}>
+              {categoryName?.split(' > ').at(-1)}
+            </span>
+            <div className={styles.address}>{address}</div>
+          </>
         )}
         {distance && (
           <div

@@ -2,6 +2,10 @@
   padding: 130px 24px;
   background-color: $blue-light;
   min-height: 100vh;
+
+  @media only screen and (max-width: 480px) {
+    padding: 70px 24px;
+  }
 }
 
 .content {
@@ -53,10 +57,14 @@
 
 .title {
   color: var(--lukyviky-gray-Darker, #37393d);
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 20px; /* 83.333% */
+
+  @media only screen and (max-width: 480px) {
+    font-size: 16px;
+  }
 }
 
 .content {
@@ -69,6 +77,10 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 125% */
+
+  @media only screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .spinner {

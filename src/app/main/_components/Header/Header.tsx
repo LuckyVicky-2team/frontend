@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
+// import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { getLikeList, getPersonalInfo } from '@/api/apis/mypageApis';
 import { getAlrmList } from '@/api/apis/headerApis';
@@ -25,6 +26,7 @@ interface INotification {
 }
 
 export default function Header() {
+  // const queryClient = useQueryClient();
   const [info, setInfo] = useState<IUserProfile | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -70,6 +72,10 @@ export default function Header() {
 
     fetchGetLikeList();
   }, []); // Empty dependency array ensures this runs only once when the component mounts
+  // // 찜 리스트를 가져오는 Query
+  // const { data: likeList, isLoading } = useQuery(['likeList'], getLikeList, {
+  //   staleTime: 1000 * 60 * 5, // 5분 동안 데이터 유지
+  // });
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');

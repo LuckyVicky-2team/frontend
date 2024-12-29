@@ -53,6 +53,12 @@ export default function Finish() {
     // 포맷된 문자열 반환
     return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
   };
+  // 모임 목록에서 특정 모임 제거 함수 추가
+  const removeMeetingFromList = (meetingId: string) => {
+    setGatherings(prevGatherings =>
+      prevGatherings.filter(gathering => gathering.meetingId !== meetingId)
+    );
+  };
 
   useEffect(() => {
     const fetchGatherings = async () => {
@@ -122,6 +128,7 @@ export default function Finish() {
           meetingId={selectedMeetingId}
           meetingTitle={selectedMeetingTitle}
           handleModalClose={handleModalClose}
+          removeMeeting={removeMeetingFromList} // 전달
         />
       ) : null}
       {deleteModal === true && selectedMeetingId && selectedMeetingTitle ? (
@@ -129,6 +136,7 @@ export default function Finish() {
           meetingId={selectedMeetingId}
           meetingTitle={selectedMeetingTitle}
           handleModalClose={handleDeleteModalClose}
+          removeMeeting={removeMeetingFromList} // 전달
         />
       ) : null}
 
@@ -169,12 +177,15 @@ export default function Finish() {
               <Image
                 src={
                   `https://${cloud}/${gathering?.thumbnail}` ||
-                  '/assets/images/detail-image-default.png'
+                  '/assets/mainImages/game.png'
                 } // Use imageUrl if available
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
                 unoptimized={true}
+                onError={e => {
+                  e.currentTarget.src = '/assets/images/emptyThumbnail.png';
+                }}
               />
             </div>
             <div className={styles.info}>

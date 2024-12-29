@@ -13,7 +13,7 @@ interface IInfoEditProps {
   handleEditOpen: () => void;
   updateInfo: () => void;
   mypageInfo: {
-    profileImage: string | null;
+    profileImage: string;
     nickName: string;
   };
 }
@@ -52,6 +52,8 @@ export default function InfoEdit({
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
   const [isPasswordMatched, setIsPasswordMatched] = useState<boolean>(true);
+  // 비밀번호 유효성 검사
+  const passwordRegex = /^[a-zA-Z0-9!@#$%^&*()_+=[\]{};':"\\|,.<>/?~-]{8,50}$/;
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev);
   const toggleConfirmPasswordVisibility = () =>
@@ -63,9 +65,29 @@ export default function InfoEdit({
       window.location.reload();
     }, 1000);
   };
-
-  // 비밀번호와 비밀번호 확인 비교 함수
+  const validatePassword = () => {
+    if (!passwordValue) {
+      clearErrors('password'); // 비밀번호가 없으면 에러 제거
+      return;
+    }
+    if (!passwordRegex.test(passwordValue)) {
+      setError('password', {
+        type: 'manual',
+        message:
+          '비밀번호는 8자 이상 50자 이하, 영어, 숫자, 특수문자만 사용 가능합니다.',
+      });
+      setIsPasswordMatched(false); // 비밀번호 확인도 일치하지 않게 처리
+    } else {
+      clearErrors('password');
+      validatePasswords(); // 비밀번호 확인과의 일치 여부 확인
+    }
+  };
   const validatePasswords = () => {
+    if (!passwordValue || !confirmPasswordValue) {
+      setIsPasswordMatched(false); // 입력이 없을 때 기본적으로 불일치로 간주
+      return;
+    }
+
     if (passwordValue !== confirmPasswordValue) {
       setIsPasswordMatched(false);
       setError('confirmPassword', {
@@ -73,14 +95,18 @@ export default function InfoEdit({
         message: '비밀번호가 일치하지 않습니다.',
       });
     } else {
-      setIsPasswordMatched(true);
       clearErrors('confirmPassword');
+      setIsPasswordMatched(true);
     }
   };
 
   useEffect(() => {
-    validatePasswords();
-  }, [passwordValue, confirmPasswordValue]);
+    validatePassword(); // 비밀번호 유효성 검사
+  }, [passwordValue]);
+
+  useEffect(() => {
+    validatePasswords(); // 비밀번호 확인 검사
+  }, [confirmPasswordValue]);
 
   // 닉네임 유효성 검사 함수
   const validateNickname = (nickName: string): boolean => {
@@ -113,16 +139,17 @@ export default function InfoEdit({
       clearErrors('nickName');
     } catch (error: any) {
       if (error.response?.status === 400) {
+        setIsNameChecked(false); // 닉네임 체크 실패 시 상태 초기화
         setIsNameDuplicate(true);
         setError('nickName', {
           type: 'manual',
           message: '이미 사용 중인 닉네임입니다.',
         });
         setErrorMessage('');
-        addToast('이미 사용 중인 닉네임입니다.', 'error');
+        // addToast('이미 사용 중인 닉네임입니다.', 'error');
       } else {
         setErrorMessage('닉네임 확인 중 오류가 발생했습니다.');
-        addToast('닉네임 확인 중 오류가 발생했습니다.', 'error');
+        // addToast('닉네임 확인 중 오류가 발생했습니다.', 'error');
       }
       setIsNameChecked(true);
     }
@@ -130,46 +157,50 @@ export default function InfoEdit({
 
   // 개인정보 수정 제출 함수
   const onSubmit: SubmitHandler<IFormData> = async _data => {
-    if (!isPasswordMatched) {
-      addToast(
-        '비밀번호가 일치하지 않습니다. 다시 한번 확인 해주세요.',
-        'error'
-      );
-      return;
-    }
-
+    console.log('onSubmit 호출됨'); // 로그 확인용
     try {
+      // 업데이트 데이터 생성
       const updateData: { nickName?: string; password?: string } = {};
 
-      if (nameValue && isNameChecked && !isNameDuplicate) {
-        updateData.nickName = nameValue;
+      // 닉네임 수정 조건
+      if (nameValue && (isNameChecked || !isNameDuplicate)) {
+        updateData.nickName = nameValue; // 닉네임이 비어있어도 isNameChecked가 true이면 업데이트
       }
 
-      if (passwordValue.trim()) {
+      // 비밀번호 수정 조건
+      if (passwordValue && passwordValue.trim()) {
         updateData.password = passwordValue;
       }
 
-      if (Object.keys(updateData).length === 0) {
+      // console.log('updateData:', updateData); // 값 확인
+
+      // 수정 항목이 없을 경우 처리
+      if (!updateData.nickName && !updateData.password) {
         addToast('수정할 항목이 없습니다.', 'error');
         return;
       }
 
-      // `updatePersonalInfo` 호출 시, `undefined`인 매개변수를 처리
+      // `updatePersonalInfo` 호출
       await updatePersonalInfo(
-        updateData.nickName || '', // `nickName`이 `undefined`일 경우 빈 문자열로 처리
-        updateData.password || '' // `password`가 `undefined`일 경우 빈 문자열로 처리
+        updateData.nickName || '', // 닉네임: 빈 문자열로 기본값 설정
+        updateData.password || '' // 비밀번호: 빈 문자열로 기본값 설정
       );
 
+      // 성공 메시지 및 UI 업데이트
+      addToast('개인정보가 수정되었습니다.', 'success');
       updateInfo();
       reset();
       handleEditOpen();
-      addToast('개인정보가 수정되었습니다.', 'success');
     } catch (error) {
-      addToast('정보 수정 중 오류가 발생했습니다.', 'error');
+      console.error('정보 수정 중 오류가 발생했습니다.', error);
+    } finally {
+      console.log('파이널리');
     }
   };
 
-  const isFormValid = isPasswordMatched && (isNameChecked || !!passwordValue);
+  const isFormValid =
+    (passwordValue && isPasswordMatched && !errors.password) || // 비밀번호 관련 조건
+    (nameValue.trim() && !isNameDuplicate && isNameChecked); // 닉네임 관련 조건
 
   return (
     <div className={styles.infoEditModal}>
@@ -201,9 +232,10 @@ export default function InfoEdit({
               type="text"
               placeholder="변경하고 싶은 닉네임을 입력해주세요."
               {...register('nickName', {
-                required: '닉네임을 입력해주세요.',
+                // required: '닉네임을 입력해주세요.',
                 validate: validateNickname,
               })}
+              defaultValue={mypageInfo.nickName}
               onChange={e => {
                 setNameValue(e.currentTarget.value);
                 setIsNameChecked(false);
@@ -261,9 +293,13 @@ export default function InfoEdit({
               )}
             </button>
           </div>
+          {errors.password && (
+            <div className={styles.errorMessage}>{errors.password.message}</div>
+          )}
         </div>
+
         <div className={styles.passwordInput}>
-          <b>비밀번호 확인 (선택)</b>
+          <b>비밀번호 확인</b>
           <div className={styles.passwordWrapper}>
             <input
               type={showConfirmPassword ? 'text' : 'password'}
@@ -293,13 +329,14 @@ export default function InfoEdit({
               )}
             </button>
           </div>
-          {!isPasswordMatched && (
+          {errors.confirmPassword && (
             <div className={styles.errorMessage}>
-              비밀번호가 일치하지 않습니다.
+              {errors.confirmPassword.message}
             </div>
           )}
         </div>
-        <button
+
+        {/* <button
           type="submit"
           className={isFormValid ? styles.editBtn : styles.disabledBtn}
           disabled={!isFormValid}
@@ -307,13 +344,19 @@ export default function InfoEdit({
             handleUploadSuccess();
           }}>
           수정하기
-        </button>
+        </button> */}
         <button
+          type="submit"
+          className={isFormValid ? styles.editBtn : styles.disabledBtn}
+          disabled={!isFormValid}>
+          수정하기
+        </button>
+        {/* <button
           type="button"
           className={styles.cancleBtn}
           onClick={handleEditOpen}>
           취소하기
-        </button>
+        </button> */}
       </form>
     </div>
   );

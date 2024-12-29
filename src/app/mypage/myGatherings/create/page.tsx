@@ -92,6 +92,9 @@ export default function Finish() {
           meetingId={selectedMeetingId}
           meetingTitle={selectedMeetingTitle}
           handleModalClose={handleModalClose}
+          removeMeeting={id => {
+            setGatherings(gatherings.filter(g => g.meetingId !== id)); // 부모 상태 업데이트
+          }}
         />
       ) : null}
 
@@ -127,10 +130,14 @@ export default function Finish() {
                 src={
                   `https://${cloud}/${gathering?.thumbnail}` ||
                   '/assets/mainImages/game.png'
-                } // Use imageUrl if available
+                }
                 alt="참여 중 모임 썸네일"
                 width={150}
                 height={200}
+                unoptimized={true}
+                onError={e => {
+                  e.currentTarget.src = '/assets/images/emptyThumbnail.png';
+                }}
               />
             </div>
             <div className={styles.info}>

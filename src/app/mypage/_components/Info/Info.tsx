@@ -79,26 +79,39 @@ export default function Info({
       <div className={styles.card}>
         <div className={styles.top}>
           <h2>내 프로필</h2>
-          <button type="button" onClick={handleEditOpen}>
-            <Image
-              width={32}
-              height={32}
-              src="/assets/icons/penEditIco.svg"
-              alt="프로필 편집 아이콘"
-            />
-          </button>
+          {loggedIn && (
+            <button type="button" onClick={handleEditOpen}>
+              <Image
+                width={32}
+                height={32}
+                src="/assets/icons/penEditIco.svg"
+                alt="프로필 편집 아이콘"
+              />
+            </button>
+          )}
         </div>
         <div className={styles.bottom}>
           <div className={styles.profileImg}>
             <div className={styles.proImgSpace}>
-              <Image
-                width={111}
-                height={111}
-                src={profileImageUrl}
-                alt="프로필사진"
-                style={{ width: '100%', height: '100%' }}
-                unoptimized
-              />
+              {loggedIn ? (
+                <Image
+                  width={111}
+                  height={111}
+                  src={profileImageUrl}
+                  alt="나의 프로필사진"
+                  style={{ width: '100%', height: '100%' }}
+                  unoptimized
+                />
+              ) : (
+                <Image
+                  width={111}
+                  height={111}
+                  src="/assets/images/defaultProfile.png"
+                  alt="기본 프로필사진"
+                  style={{ width: '100%', height: '100%' }}
+                  unoptimized
+                />
+              )}
             </div>
           </div>
           <div className={styles.rightInfo}>
@@ -121,9 +134,9 @@ export default function Info({
             {loggedIn ? (
               <ul className={styles.list}>
                 {/* <li>
-                  <b>company.</b>
-                  <p>BoardGo</p>
-                </li> */}
+                    <b>company.</b>
+                    <p>BoardGo</p>
+                  </li> */}
                 <li>
                   <b>E-mail.</b>
                   <p>{mypageInfo?.email}</p>

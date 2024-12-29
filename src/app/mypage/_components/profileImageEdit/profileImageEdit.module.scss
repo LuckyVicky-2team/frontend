@@ -99,14 +99,14 @@
     }
 
     .preview {
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       margin: 0 auto;
 
       position: relative;
       .previewImgWrap {
-        width: 200px;
-        height: 200px;
+        width: 100px;
+        height: 100px;
         display: block;
         overflow: hidden;
         margin: 0 auto;
@@ -122,18 +122,19 @@
       .inputWrap {
         display: block;
         margin-top: 20px;
-        margin-bottom: 50px;
+        margin-bottom: 0px;
         position: absolute;
-        bottom: -20%;
-        right: 0;
+        bottom: 0%;
+        right: -25%;
         input {
           display: none;
         }
         input + label {
+          width: auto;
           img {
             display: block;
-            width: 100%;
-            height: 100%;
+            width: 50%;
+            height: 50%;
             background: #fff;
             border-radius: 100%;
             cursor: pointer;

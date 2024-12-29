@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use client';
 import React from 'react';
 import styles from './prEdit.module.scss';
@@ -10,13 +11,17 @@ export default function PrEdit() {
   const [newTag, setNewTag] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [inputLengthError, setInputLengthError] = useState<string | null>(null); // 태그 길이 에러 상태
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchPersonalInfo = async () => {
     try {
+      setLoading(true);
       const response = await getPersonalInfo();
       setPrTags(response.data.prTags);
     } catch (err) {
       // console.error('err:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,6 +54,7 @@ export default function PrEdit() {
     const value = e.target.value;
     setNewTag(value);
     validateTagLength(value); // 실시간 길이 검사
+    setError(null); // 다른 오류 메시지 초기화
   };
 
   // 유효성 검사 및 엔터 키를 눌렀을 때 태그 추가하는 함수
@@ -56,8 +62,12 @@ export default function PrEdit() {
     if (e.key === 'Enter') {
       e.preventDefault();
       const trimmedTag = newTag.trim();
-      const tagPattern = /^[a-zA-Z0-9가-힣]+$/; // 띄어쓰기 없는 한글, 영어, 숫자만 허용
+      if (!trimmedTag) {
+        // 빈 문자열이면 아무 작업도 하지 않음
+        return;
+      }
 
+      const tagPattern = /^[a-zA-Z0-9가-힣]+$/; // 띄어쓰기 없는 한글, 영어, 숫자만 허용
       let errorMessage = '';
 
       if (prTags.includes(trimmedTag)) {
@@ -66,20 +76,17 @@ export default function PrEdit() {
         errorMessage = '태그는 최대 10개까지만 추가할 수 있습니다.';
       } else if (!tagPattern.test(trimmedTag)) {
         errorMessage = '한글, 영어, 숫자만 허용됩니다.';
-      } else if (!trimmedTag) {
-        errorMessage = '태그를 입력해주세요.';
       }
 
       if (errorMessage) {
         setError(errorMessage);
-        setNewTag('');
         return;
       }
 
-      setError(null);
+      setError(null); // 오류 초기화
       const updatedTags = [...prTags, trimmedTag];
       setPrTags(updatedTags); // UI 먼저 업데이트
-      setNewTag('');
+      setNewTag(''); // 입력 필드 초기화
 
       try {
         await updateTagsOnServer(updatedTags); // 서버 업데이트
@@ -107,24 +114,28 @@ export default function PrEdit() {
     <div className={styles.prWrap}>
       <h1>PR태그</h1>
       <ul>
-        {prTags.map((tag, index) => (
-          <li key={index} className={styles.tagItem}>
-            <button
-              type="button"
-              onClick={() => handleTagRemove(tag)}
-              className={styles.removeButton}>
-              <span className={styles.tagName}>
-                {tag}
-                <Image
-                  width={16}
-                  height={16}
-                  src={'/assets/icons/x-circle.svg'}
-                  alt="pr태그 수정 삭제 아이콘"
-                />
-              </span>
-            </button>
-          </li>
-        ))}
+        {loading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <li key={index} className={styles.skeletonTag}></li>
+            ))
+          : prTags.map((tag, index) => (
+              <li key={index} className={styles.tagItem}>
+                <button
+                  type="button"
+                  onClick={() => handleTagRemove(tag)}
+                  className={styles.removeButton}>
+                  <span className={styles.tagName}>
+                    {tag}
+                    <Image
+                      width={16}
+                      height={16}
+                      src={'/assets/icons/x-circle.svg'}
+                      alt="pr태그 수정 삭제 아이콘"
+                    />
+                  </span>
+                </button>
+              </li>
+            ))}
       </ul>
       <span className={styles.mobilePlace}>
         PR태그는 입력해주세요. <br /> 10개 까지 추가 할 수 있습니다!

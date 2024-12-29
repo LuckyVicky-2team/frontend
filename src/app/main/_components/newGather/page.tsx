@@ -10,7 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
-interface IMeetingProps {
+interface IMeeting {
   id: number;
   title: string;
   city: string;
@@ -27,7 +27,8 @@ interface IMeetingProps {
 }
 
 interface NewGatherProps {
-  meetingList: IMeetingProps[] | undefined;
+  meetingList: IMeeting[];
+  refetch: () => void;
 }
 
 export default function NewGather({ meetingList }: NewGatherProps) {
@@ -73,7 +74,6 @@ export default function NewGather({ meetingList }: NewGatherProps) {
         <Swiper
           className={styles.genreList}
           modules={[Navigation]}
-          // navigation // 내비게이션 버튼 사용
           navigation={{
             nextEl: `.${styles.swiperButtonNext}`,
             prevEl: `.${styles.swiperButtonPrev}`,

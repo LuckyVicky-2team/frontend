@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import RecommendCase from './_components/RecommendCase';
-import DeadLineGather from './_components/DaedLineGather';
+import DeadLineGather from './_components/DeadLineGather';
 import MainNav from './_components/MainNav/MainNav';
 import GameRank from './_components/gameRank';
 import styles from './main.module.scss';
@@ -16,9 +16,10 @@ import { getPersonalInfo } from '@/api/apis/mypageApis';
 import { app } from '@/service/initFirebase';
 import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
 import { useInApp } from '@/hooks/useInApp';
+import { useQuery } from '@tanstack/react-query';
 
 // Meeting 타입 정의
-interface IMeetingProps {
+interface IMeeting {
   id: number;
   title: string;
   city: string;
@@ -34,10 +35,12 @@ interface IMeetingProps {
   tags: string[];
 }
 
+// API 응답 타입
+interface IMeetingProps {
+  content: IMeeting[];
+}
+
 export default function Main() {
-  const [meetingList, setMeetingList] = useState<IMeetingProps[] | undefined>(
-    undefined
-  );
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
   const token = localStorage.getItem('accessToken');
@@ -81,17 +84,23 @@ export default function Main() {
       });
     }
   }, []);
-
-  useEffect(() => {
-    const fetchMeetingList = async () => {
+  const {
+    data: meetingListInfo,
+    isLoading,
+    refetch,
+  } = useQuery<IMeetingProps>({
+    queryKey: ['meetingList'],
+    queryFn: async () => {
       try {
-        const res = await getMeetingList();
-        setMeetingList(res.data.content);
-      } catch (error) {}
-    };
-
-    fetchMeetingList();
-  }, []);
+        const response = await getMeetingList();
+        console.log('API 응답:', response); // 응답 로깅
+        return response.data;
+      } catch (error) {
+        return null; // 에러 시 null 반환
+      }
+    },
+    staleTime: 5 * 60 * 1000, // 5분으로 설정 (밀리초 단위)
+  });
 
   const scrollToSection = (
     ref: React.RefObject<HTMLDivElement>,
@@ -138,10 +147,24 @@ export default function Main() {
           </div>
           <div className={styles.contentContainer} ref={popularRef}>
             {/* <GenreGather meetingList={meetingList} /> */}
-            <NewGather meetingList={meetingList} />
+            {isLoading ? (
+              <>스켈레톤</>
+            ) : (
+              <NewGather
+                meetingList={meetingListInfo?.content}
+                refetch={refetch}
+              />
+            )}
           </div>
           <div className={styles.contentContainer} ref={deadlineRef}>
-            <DeadLineGather meetingList={meetingList} />
+            {isLoading ? (
+              <>스켈레톤</>
+            ) : (
+              <DeadLineGather
+                meetingList={meetingListInfo?.content}
+                refetch={refetch}
+              />
+            )}
           </div>
           <div className={styles.contentContainer}>
             <GameRank />

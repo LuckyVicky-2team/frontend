@@ -35,7 +35,6 @@
 
       @media only screen and (max-width: 480px) {
         align-items: center;
-        font-size: 20px;
         padding: 0 24px;
         .title {
           font-size: 20px;
@@ -43,7 +42,6 @@
       }
       @media only screen and (max-width: 330px) {
         align-items: center;
-        font-size: 16px;
         padding: 0 24px;
         .title {
           font-size: 16px;
@@ -70,6 +68,7 @@
         width: 25%;
         max-width: 100px;
         max-height: 132px;
+        min-width: 100px;
       }
       .content {
         display: flex;
@@ -124,6 +123,18 @@
           }
         }
       }
+      @media only screen and (max-width: 450px) {
+        gap: 0;
+        .thumbnail {
+          min-width: 30%;
+          width: 45%;
+          max-width: none;
+          max-height: none;
+        }
+        .content {
+          gap: 10px;
+        }
+      }
     }
     .titleAndDate {
       display: flex;
@@ -154,7 +165,7 @@
       }
       @media only screen and (max-width: 450px) {
         span {
-          font-size: 20px;
+          font-size: 18px;
         }
       }
     }
@@ -203,7 +214,7 @@
           font-style: normal;
           font-weight: 700;
           @media only screen and (max-width: 450px) {
-            font-size: 20px;
+            font-size: 16px;
           }
         }
         .writeReviewBtn {

@@ -80,17 +80,15 @@ export default function Header() {
   }, [pathName]);
 
   useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'accessToken' && event.newValue) {
-        setLoggedIn(true);
-        fetchPersonalInfo();
-      }
+    const handleStorageChange = () => {
+      setLoggedIn(true);
+      fetchPersonalInfo();
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('addAccessToken', handleStorageChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('addAccessToken', handleStorageChange);
     };
   }, []);
 

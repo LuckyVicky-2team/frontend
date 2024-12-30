@@ -38,7 +38,7 @@ axiosInstance.interceptors.request.use(
         if (newAccessToken) {
           localStorage.setItem('accessToken', newAccessToken);
           config.headers.Authorization = newAccessToken;
-          window.location.reload();
+          window.dispatchEvent(new Event('addAccessToken'));
         }
       }
     }

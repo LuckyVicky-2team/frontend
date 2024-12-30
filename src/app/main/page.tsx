@@ -4,7 +4,6 @@ import RecommendCase from './_components/RecommendCase';
 import DeadLineGather from './_components/DaedLineGather';
 import MainNav from './_components/MainNav/MainNav';
 import GameRank from './_components/gameRank';
-import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
 import { usePostWishList } from '@/api/queryHooks/wishList';
 import NewGather from './_components/newGather/page';
@@ -16,6 +15,7 @@ import { getPersonalInfo } from '@/api/apis/mypageApis';
 import { app } from '@/service/initFirebase';
 import FCMDisabledPrompt from '@/components/common/FCMDisabledPrompt';
 import { useInApp } from '@/hooks/useInApp';
+import styles from './main.module.scss';
 
 // Meeting 타입 정의
 interface IMeetingProps {
@@ -40,8 +40,10 @@ export default function Main() {
   );
   const deadlineRef = useRef<HTMLDivElement>(null);
   const popularRef = useRef<HTMLDivElement>(null);
-  const token = localStorage.getItem('accessToken');
-  const isVerifiedUser = localStorage.getItem('isVerifiedUser');
+  const isClient = typeof window !== 'undefined';
+
+  const token = isClient && localStorage.getItem('accessToken');
+  const isVerifiedUser = isClient && localStorage.getItem('isVerifiedUser');
   const isInApp = useInApp();
 
   const { mutate: likeMutate } = usePostWishList();

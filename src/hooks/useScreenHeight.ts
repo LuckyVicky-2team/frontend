@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 function useScreenHeight() {
-  const [screenHeight, setScreenHeight] = useState(window.innerHeight);
+  const [screenHeight, setScreenHeight] = useState(
+    typeof window !== 'undefined' ? window.innerHeight : 0
+  );
 
   useEffect(() => {
     const handleResize = () => {

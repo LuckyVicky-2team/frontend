@@ -2,6 +2,7 @@ import axios from 'axios';
 import getNewAccessToken from '@/utils/getNewAccessToken';
 import { checkRefreshToken } from '@/actions/AuthActions';
 import { ICustomAxiosInterceptorConfig } from '@/types/request/authRequestTypes';
+import { removeAccessToken, setAccessToken } from '@/utils/changeAccessToken';
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
@@ -36,9 +37,8 @@ axiosInstance.interceptors.request.use(
         const newAccessToken = await getNewAccessToken();
 
         if (newAccessToken) {
-          localStorage.setItem('accessToken', newAccessToken);
+          setAccessToken(newAccessToken);
           config.headers.Authorization = newAccessToken;
-          window.location.reload();
         }
       }
     }
@@ -66,9 +66,9 @@ axiosInstance.interceptors.response.use(
         const newAccessToken = await getNewAccessToken();
 
         if (newAccessToken) {
-          localStorage.setItem('accessToken', newAccessToken);
+          setAccessToken(newAccessToken);
         } else {
-          localStorage.removeItem('accessToken');
+          removeAccessToken();
           delete error.config.headers.Authorization;
         }
 

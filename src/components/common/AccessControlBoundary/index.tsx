@@ -1,32 +1,23 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
-export default function AccessControlBoundary({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function AccessControlBoundary() {
   const router = useRouter();
   const path = usePathname();
-
-  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     const hasToken = !!localStorage.getItem('accessToken');
 
-    // 회원인 경우 접근 제어
     if (hasToken) {
       const forbiddenPath = new Set(['/signin', '/signup']);
 
       if (forbiddenPath.has(path)) {
         router.replace('/main');
-        return;
       }
     }
 
-    // 비회원인 경우 접근 제어
     if (!hasToken) {
       const forbiddenPath = new Set([
         '/mypage/prEdit',
@@ -39,26 +30,15 @@ export default function AccessControlBoundary({
         '/mypage/review/myReviews',
       ]);
 
-      if (forbiddenPath.has(path)) {
+      if (
+        forbiddenPath.has(path) ||
+        path.startsWith('/threads') ||
+        path.startsWith('/gatherings/new')
+      ) {
         router.replace('/signin');
-        return;
-      }
-
-      // '/threads' 하위 경로에 대해서도 접근 제어
-      if (path.startsWith('/threads')) {
-        router.replace('/signin');
-        return;
-      }
-
-      // '/gatherings/new' 하위 경로에 대해서도 접근 제어
-      if (path.startsWith('/gatherings/new')) {
-        router.replace('/signin');
-        return;
       }
     }
-
-    setIsChecking(false);
   }, [path, router]);
 
-  return isChecking ? null : <>{children}</>;
+  return null;
 }

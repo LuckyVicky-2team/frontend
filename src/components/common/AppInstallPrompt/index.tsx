@@ -45,9 +45,12 @@ const isIOSPromptActive = () => {
 
 export default function AppInstallPrompt() {
   const { modalOpen, handleModalOpen, handleModalClose } = useModal();
-  const isDeviceIOS = /iPad|iPhone|iPod/.test(window.navigator.userAgent);
-  const isFirefox = /firefox/i.test(navigator.userAgent);
-  const isFirefoxOnIOS = /FxiOS/.test(window.navigator.userAgent);
+  const isClient = typeof window !== 'undefined';
+
+  const isDeviceIOS =
+    isClient && /iPad|iPhone|iPod/.test(window.navigator.userAgent);
+  const isFirefox = isClient && /firefox/i.test(navigator.userAgent);
+  const isFirefoxOnIOS = isClient && /FxiOS/.test(window.navigator.userAgent);
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(
       isDeviceIOS ? isIOSPromptActive() : null

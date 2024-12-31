@@ -122,9 +122,11 @@ export default function RootLayout({
           <PWAProvider>
             <ToastList />
             <AccessControlBoundary />
-            <Header />
             <div className="rootContainer">
-              <ReactQueryProvider>{children}</ReactQueryProvider>
+              <ReactQueryProvider>
+                <Header />
+                {children}
+              </ReactQueryProvider>
             </div>
             <Footer />
           </PWAProvider>

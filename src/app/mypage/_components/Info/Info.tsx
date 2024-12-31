@@ -1,12 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
-import styles from './info.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { deleteLoginRT, deleteReissueRT } from '@/api/apis/logOutApis';
 import { useQueryClient } from '@tanstack/react-query';
 import { QueryKey } from '@/utils/QueryKey';
+import { removeAccessToken } from '@/utils/changeAccessToken';
+import styles from './info.module.scss';
 
 // 환경 변수에서 도메인 가져오기
 const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -50,7 +51,7 @@ export default function Info({
   const handleLogout = async () => {
     await deleteLoginRT();
     await deleteReissueRT();
-    localStorage.removeItem('accessToken');
+    removeAccessToken();
     localStorage.removeItem('notification');
     localStorage.removeItem('isVerifiedUser');
 

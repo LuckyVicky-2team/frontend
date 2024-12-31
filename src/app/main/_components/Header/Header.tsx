@@ -1,20 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import styles from './Header.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { getLikeList, getPersonalInfo } from '@/api/apis/mypageApis';
 import { getAlrmList } from '@/api/apis/headerApis';
-
-interface IUserProfile {
-  email: string;
-  nickName: string;
-  profileImage: string;
-  averageRating: number;
-  prTags: string[];
-}
+import { useQuery } from '@tanstack/react-query';
+import { QueryKey } from '@/utils/QueryKey';
+import styles from './Header.module.scss';
 
 interface INotification {
   notificationId: number;
@@ -25,18 +19,33 @@ interface INotification {
 }
 
 export default function Header() {
-  const [info, setInfo] = useState<IUserProfile | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
   const [profileImageTimestamp, setProfileImageTimestamp] = useState<
     string | undefined
   >(undefined);
   // const [error, setError] = useState<string | null>(null);
-  const [likeCount, setLikeCount] = useState(0);
   const [alrmCheck, setAlrmCheck] = useState<INotification[]>([]);
 
   const pathName = usePathname();
   const router = useRouter();
+
+  const { data: info, isPending: isInfoPending } = useQuery({
+    queryKey: [QueryKey.USER.KEY, QueryKey.USER.ME],
+    queryFn: async () => {
+      const { data } = await getPersonalInfo();
+      return data;
+    },
+    enabled: loggedIn,
+  });
+
+  const { data: likeList } = useQuery({
+    queryKey: QueryKey.USER.WISHLIST(),
+    queryFn: async () => {
+      const { data } = await getLikeList();
+      return data;
+    },
+    enabled: loggedIn,
+  });
 
   // const currentPathName = pathName.split('/')[1];
   const cloud = process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN;
@@ -45,52 +54,27 @@ export default function Header() {
     ? `https://${cloud}/${info.profileImage}?t=${profileImageTimestamp}`
     : '/assets/myPageImages/profileImgEdit.png';
 
-  const fetchPersonalInfo = async () => {
-    try {
-      const response = await getPersonalInfo();
-      setInfo(response.data);
-      setProfileImageTimestamp(new Date().getTime().toString());
-    } catch (err) {
-      // console.error('Error fetching personal info:', err);
-      // setError('Failed to fetch personal information');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const fetchGetLikeList = async () => {
-      try {
-        const response = await getLikeList();
-        setLikeCount(response.data.length);
-      } catch (err) {
-        // Handle error
-      }
-    };
-
-    fetchGetLikeList();
-  }, []); // Empty dependency array ensures this runs only once when the component mounts
-
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    setLoggedIn(token !== null);
-    if (token) {
-      fetchPersonalInfo();
-    }
-  }, [pathName]);
+    setLoggedIn(!!token);
+  }, []);
 
   useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'accessToken' && event.newValue) {
-        setLoggedIn(true);
-        fetchPersonalInfo();
-      }
+    if (info) setProfileImageTimestamp(new Date().getTime().toString());
+  }, [info]);
+
+  useEffect(() => {
+    const handleAccessTokenChange = () => {
+      const token = localStorage.getItem('accessToken');
+
+      if (token) setLoggedIn(true);
+      else setLoggedIn(false);
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('changeAccessToken', handleAccessTokenChange);
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('changeAccessToken', handleAccessTokenChange);
     };
   }, []);
 
@@ -112,7 +96,7 @@ export default function Header() {
     <header>
       <div
         className={`${styles.headerContainer} ${
-          !loading ? styles.loaded : styles.loading
+          !isInfoPending ? styles.loaded : styles.loading
         }`}>
         {pathName.startsWith('/mypage/myGathering') ? (
           <div className={styles.customHeader}>
@@ -396,7 +380,7 @@ export default function Header() {
                       src="/assets/mainImages/blackHeart.svg"
                       alt="즐겨찾기 아이콘"
                     />
-                    <span>{likeCount}</span>
+                    <span>{likeList?.length}</span>
                   </a>
                   <button
                     className={styles.headerAlarmIcon}

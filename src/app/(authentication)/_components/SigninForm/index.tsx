@@ -7,7 +7,7 @@ import { usePostSigninForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
 import styles from './SigninForm.module.scss';
-import { getCookie } from '@/utils/getCookie';
+// import { getCookie } from '@/utils/getCookie';
 
 export default function SigninForm() {
   const router = useRouter();
@@ -25,13 +25,13 @@ export default function SigninForm() {
       onSuccess: (response: any) => {
         const token = response.headers.authorization;
         localStorage.setItem('accessToken', token);
-        const referer = getCookie('referer');
-        if (referer) {
-          router.replace(referer);
-          document.cookie =
-            'referer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-          return;
-        }
+        // const referer = getCookie('referer');
+        // if (referer) {
+        //   router.replace(referer);
+        //   document.cookie =
+        //     'referer=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        //   return;
+        // }
         router.replace('/main');
       },
       onError: (error: any) => {

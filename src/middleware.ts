@@ -19,18 +19,18 @@ export function middleware(request: NextRequest) {
   }
 
   // main 입장 시 referer 쿠키 있으면 쿠키 값의 경로로 이동
-  if (currentUrl.pathname === '/main') {
-    const referer = request.cookies.get('referer')?.value;
+  // if (currentUrl.pathname === '/main') {
+  //   const referer = request.cookies.get('referer')?.value;
 
-    if (referer) {
-      const redirectUrl = new URL(referer, request.url);
-      const response = NextResponse.redirect(redirectUrl);
+  //   if (referer) {
+  //     const redirectUrl = new URL(referer, request.url);
+  //     const response = NextResponse.redirect(redirectUrl);
 
-      response.cookies.delete('referer');
+  //     response.cookies.delete('referer');
 
-      return response;
-    }
-  }
+  //     return response;
+  //   }
+  // }
 
   return NextResponse.next();
 }

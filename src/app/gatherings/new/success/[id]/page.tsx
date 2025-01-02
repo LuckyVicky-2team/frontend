@@ -20,8 +20,9 @@ export default function NewSuccess({ params }: { params: any }) {
       <Image
         src={'/assets/images/new-success.png'}
         alt="성공 이미지"
-        width={320}
-        height={320}
+        width={250}
+        height={250}
+        onError={e => (e.currentTarget.src = '/assets/images/logo.png')}
       />
       <h1 className={styles.title}>모임이 개설되었어요!</h1>
       <p className={styles.description}>

@@ -16,6 +16,7 @@ interface IKakaoMapProps {
   className?: string;
   isMobile: boolean;
   mapLatio?: string;
+  page?: 'default' | 'detail';
 }
 
 /**
@@ -40,6 +41,7 @@ export default function KakaoMap({
   className,
   isMobile,
   mapLatio = '1/1',
+  page = 'default',
 }: IKakaoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
 
@@ -119,7 +121,7 @@ export default function KakaoMap({
       <div
         className={styles.map}
         ref={mapRef}
-        style={{ aspectRatio: mapLatio }}></div>
+        style={{ aspectRatio: mapLatio, minHeight: '200px' }}></div>
       <PlaceListItem
         index={index}
         placeName={placeName}
@@ -129,6 +131,8 @@ export default function KakaoMap({
         categoryName={categoryName}
         className={styles.item}
         isMobile={isMobile}
+        mode="map"
+        page={page}
       />
     </div>
   );

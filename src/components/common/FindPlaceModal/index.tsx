@@ -170,8 +170,8 @@ export default function FindPlaceModal({
               <Image
                 src="/assets/icons/backArrow.svg"
                 alt="돌아가기"
-                width={32}
-                height={32}
+                width={16}
+                height={16}
               />
               돌아가기
             </button>

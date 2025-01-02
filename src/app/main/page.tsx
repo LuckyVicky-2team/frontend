@@ -7,7 +7,7 @@ import GameRank from './_components/gameRank';
 import styles from './main.module.scss';
 import { getMeetingList } from '@/api/apis/mypageApis';
 import { usePostWishList } from '@/api/queryHooks/wishList';
-import NewGather from './_components/newGather/page';
+import NewGather from './_components/newGather';
 import MainSearch from './_components/mainSearch';
 import AppInstallPrompt from '@/components/common/AppInstallPrompt';
 import { handleAllowNotification } from '@/service/notificationPermission';
@@ -86,14 +86,14 @@ export default function Main() {
   }, []);
   const {
     data: meetingListInfo,
-    isLoading,
+    // isLoading,
     refetch,
-  } = useQuery<IMeetingProps>({
+  } = useQuery<IMeetingProps | null>({
     queryKey: ['meetingList'],
     queryFn: async () => {
       try {
         const response = await getMeetingList();
-        console.log('API 응답:', response); // 응답 로깅
+        // console.log('API 응답:', response); // 응답 로깅
         return response.data;
       } catch (error) {
         return null; // 에러 시 null 반환
@@ -146,22 +146,17 @@ export default function Main() {
             <RecommendCase />
           </div>
           <div className={styles.contentContainer} ref={popularRef}>
-            {/* <GenreGather meetingList={meetingList} /> */}
-            {isLoading ? (
-              <>스켈레톤</>
-            ) : (
+            {meetingListInfo?.content && (
               <NewGather
-                meetingList={meetingListInfo?.content}
+                meetingList={meetingListInfo.content}
                 refetch={refetch}
               />
             )}
           </div>
           <div className={styles.contentContainer} ref={deadlineRef}>
-            {isLoading ? (
-              <>스켈레톤</>
-            ) : (
+            {meetingListInfo?.content && (
               <DeadLineGather
-                meetingList={meetingListInfo?.content}
+                meetingList={meetingListInfo.content}
                 refetch={refetch}
               />
             )}

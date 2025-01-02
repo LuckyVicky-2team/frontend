@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+'use client';
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Swiper 스타일
@@ -27,6 +28,7 @@ interface IMeetingProps {
 
 interface DeadLineGatherProps {
   meetingList: IMeetingProps[] | undefined;
+  refetch: () => void;
 }
 
 export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
@@ -92,10 +94,6 @@ export default function DeadLineGather({ meetingList }: DeadLineGatherProps) {
           />
         </Link>
       </div>
-      {/* <div className={styles.lineTitle}>
-        <p>추리게임</p>
-      </div> */}
-
       <div className={styles.sliderContainer}>
         {Array.isArray(filteredMeetingList) &&
         filteredMeetingList.length > 0 ? (

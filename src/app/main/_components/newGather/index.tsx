@@ -1,5 +1,5 @@
 'use client';
-
+/* eslint-disable indent */
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css'; // Swiper 스타일
@@ -27,7 +27,7 @@ interface IMeeting {
 }
 
 interface NewGatherProps {
-  meetingList: IMeeting[];
+  meetingList: IMeeting[] | undefined;
   refetch: () => void;
 }
 
@@ -66,10 +66,6 @@ export default function NewGather({ meetingList }: NewGatherProps) {
           />
         </Link>
       </div>
-      {/* <div className={styles.lineTitle}>
-        <p>모임 목록</p>
-      </div> */}
-
       <div className={styles.sliderContainer}>
         <Swiper
           className={styles.genreList}

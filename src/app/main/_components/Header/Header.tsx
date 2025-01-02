@@ -367,7 +367,12 @@ export default function Header() {
             <div className={styles.space}></div>
             <div className={styles.headerContent}>
               <h1>
-                <Link href="/main">BOGO</Link>
+                {/* 모임 상세에서 로고 클릭 시 이동 안되는 문제 해결 (a태그 사용)
+                Next.js의 Link 컴포넌트를 사용하면 기본적으로 클라이언트 라우팅을 수행합니다. 
+                동일한 경로(/main)로 이동하려고 하면, 클라이언트 라우터가 페이지를 새로 요청하지 않고 
+                기존 컴포넌트를 그대로 유지하는 동작을 합니다. 
+                이로 인해 /main으로의 네트워크 요청이 발생하지 않아, 미들웨어가 호출되지 않는 문제가 발생합니다 */}
+                <a href="/main">BOGO</a>
               </h1>
               {loggedIn ? (
                 <div className={styles.right}>

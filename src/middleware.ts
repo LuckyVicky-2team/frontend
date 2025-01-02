@@ -19,18 +19,31 @@ export function middleware(request: NextRequest) {
   }
 
   // main 입장 시 referer 쿠키 있으면 쿠키 값의 경로로 이동
-  // if (currentUrl.pathname === '/main') {
-  //   const referer = request.cookies.get('referer')?.value;
+  if (currentUrl.pathname === '/main') {
+    const referer = request.cookies.get('referer')?.value;
 
-  //   if (referer) {
-  //     const redirectUrl = new URL(referer, request.url);
-  //     const response = NextResponse.redirect(redirectUrl);
+    if (referer) {
+      const redirectUrl = new URL(referer, request.url);
+      const response = NextResponse.redirect(redirectUrl);
 
-  //     response.cookies.delete('referer');
+      // response.cookies.delete('referer');
+      // referer 쿠키 삭제 (path와 domain 명시)
+      response.cookies.set('referer', '', {
+        maxAge: 0, // 만료시간을 0으로 설정
+        path: '/', // 삭제 범위를 명시
+      });
 
-  //     return response;
-  //   }
-  // }
+      // 캐싱 방지 헤더 추가
+      response.headers.set(
+        'Cache-Control',
+        'no-store, no-cache, must-revalidate, proxy-revalidate'
+      );
+      response.headers.set('Pragma', 'no-cache');
+      response.headers.set('Expires', '0');
+
+      return response;
+    }
+  }
 
   return NextResponse.next();
 }

@@ -41,7 +41,6 @@
     }
   }
   input {
-    padding: 0 6px 0 20px;
     outline: none;
     width: 70%;
     margin-right: auto;
@@ -54,7 +53,7 @@
       color: #9ca3af;
     }
     @media (max-width: 430px) {
-      font-size: 18px;
+      font-size: 12px;
       padding: 0 6px 0 3px;
     }
   }

@@ -16,6 +16,12 @@ export default forwardRef(function GatheringList(
   { status, gatherings, isFetchingNextPage, refetch }: IGatheringListProps,
   ref: ForwardedRef<HTMLDivElement>
 ) {
+  const filteredGatherings = gatherings.filter(gathering => {
+    const meetingDate = new Date(gathering.meetingDate);
+    const now = new Date();
+    return meetingDate >= now;
+  });
+
   return (
     <>
       <section className={`${styles.cardContainer} `}>
@@ -39,7 +45,7 @@ export default forwardRef(function GatheringList(
           </div>
         ) : gatherings.length ? (
           <section className={styles.cardContainer}>
-            {gatherings.map(el => {
+            {filteredGatherings.map(el => {
               return <Card key={el.id} {...el} />;
             })}
             {isFetchingNextPage ? <Skeleton /> : <div ref={ref}></div>}

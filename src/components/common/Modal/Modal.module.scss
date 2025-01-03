@@ -62,13 +62,13 @@
 .xButton {
   background: var(--lukyviky-Blue-Normal, #007aff);
   border-radius: 100%;
-  width: 72px;
-  height: 72px;
+  width: 35px;
+  height: 35px;
   z-index: 9000;
-  @media only screen and (max-width: 480px) {
-    width: 47px;
-    height: 47px;
-  }
+  // @media only screen and (max-width: 480px) {
+  //   width: 47px;
+  //   height: 47px;
+  // }
 }
 
 .fullXButton {

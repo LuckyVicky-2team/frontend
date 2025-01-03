@@ -19,6 +19,7 @@ import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
 import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
+import { setAccessToken } from '@/utils/changeAccessToken';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -37,8 +38,6 @@ export default function SocialSignupForm() {
 
   const [at, setAt] = useState('');
   const [rt, setRt] = useState('');
-
-  console.log(at, rt);
 
   const { addToast } = useToast();
 
@@ -138,7 +137,7 @@ export default function SocialSignupForm() {
       { data: formData, token: at },
       {
         onSuccess: async () => {
-          localStorage.setItem('accessToken', at);
+          setAccessToken(at);
           await saveRefreshToken(rt);
           router.replace('/signup/result?type=social');
         },

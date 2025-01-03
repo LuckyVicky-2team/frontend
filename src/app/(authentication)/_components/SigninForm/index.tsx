@@ -6,7 +6,9 @@ import Button from '@/components/common/Button';
 import { usePostSigninForm } from '@/api/queryHooks/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/contexts/toastContext';
+import { setAccessToken } from '@/utils/changeAccessToken';
 import styles from './SigninForm.module.scss';
+// import { getCookie } from '@/utils/getCookie';
 
 export default function SigninForm() {
   const router = useRouter();
@@ -23,7 +25,7 @@ export default function SigninForm() {
     signinMutate(data, {
       onSuccess: (response: any) => {
         const token = response.headers.authorization;
-        localStorage.setItem('accessToken', token);
+        setAccessToken(token);
         router.replace('/main');
       },
       onError: (error: any) => {

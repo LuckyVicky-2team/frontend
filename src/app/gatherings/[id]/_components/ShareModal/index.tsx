@@ -25,7 +25,7 @@ export default function ShareModal({
   const { addToast } = useToast();
   return (
     <div>
-      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={552}>
+      <Modal modalOpen={modalOpen} onClose={onClose} maxWidth={300}>
         <div className={styles.background}>
           {!isMobile ? (
             <p className={styles.title}>내가 좋아하는 모임을 공유해 보세요!</p>
@@ -49,8 +49,8 @@ export default function ShareModal({
                 <Image
                   src={'/assets/icons/copy.svg'}
                   alt="복사 이미지"
-                  width={34}
-                  height={34}
+                  width={28}
+                  height={28}
                 />
               </div>
               클립보드

@@ -29,7 +29,7 @@ export default function PlaceSearchBar({
   return (
     <div className={`${styles.searchBar} ${className}`}>
       <Input
-        className={styles.input}
+        className={`${styles.input} ${styles.important}`}
         placeholder={isMobile ? '장소 검색' : '장소를 검색해주세요!'}
         onChange={e => setValue(e.target.value)}
         value={value}

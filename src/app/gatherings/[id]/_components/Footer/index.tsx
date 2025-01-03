@@ -72,7 +72,7 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const { screenWidth } = useScreenWidth();
+  const { isMobile, screenWidth } = useScreenWidth();
   const screenHeight = useScreenHeight();
 
   const handleButtonClick = () => {
@@ -150,18 +150,18 @@ export default function GatheringFooter({
       <footer
         className={styles.background}
         style={{
-          height: `${(screenWidth * 130) / 600}px`,
-          maxHeight: '130px',
+          height: `${(screenWidth * 100) / 600}px`,
+          maxHeight: '100px',
         }}>
         <button
           type="button"
           disabled={isPending}
           className={styles.backButton}
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            width: `${(screenWidth * 80) / 600}px`,
-            maxHeight: '88px',
-            maxWidth: '80px',
+            height: `${(screenWidth * 70) / 600}px`,
+            width: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
+            maxWidth: '70px',
           }}
           onClick={() => {
             router.back();
@@ -169,8 +169,8 @@ export default function GatheringFooter({
           <Image
             src={'/assets/icons/chevron-left.svg'}
             alt="뒤로가기 이미지"
-            width={36}
-            height={36}
+            width={isMobile ? 20 : 36}
+            height={isMobile ? 20 : 36}
           />
         </button>
         <button
@@ -182,8 +182,8 @@ export default function GatheringFooter({
                 : styles.cta
           }
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            maxHeight: '88px',
+            height: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
           }}
           type="button"
           onClick={handleButtonClick}
@@ -223,10 +223,10 @@ export default function GatheringFooter({
           <button
             className={styles.editButton}
             style={{
-              height: `${(screenWidth * 88) / 600}px`,
-              width: `${(screenWidth * 80) / 600}px`,
-              maxHeight: '88px',
-              maxWidth: '80px',
+              height: `${(screenWidth * 70) / 600}px`,
+              width: `${(screenWidth * 70) / 600}px`,
+              maxHeight: '70px',
+              maxWidth: '70px',
             }}
             type="button"
             onClick={() => {
@@ -235,8 +235,8 @@ export default function GatheringFooter({
             <Image
               src={'/assets/icons/pen.svg'}
               alt="수정 이미지"
-              width={36}
-              height={36}
+              width={isMobile ? 20 : 36}
+              height={isMobile ? 20 : 36}
             />
           </button>
         )}
@@ -264,15 +264,16 @@ export default function GatheringFooter({
         onClose={() => {
           handleSuccessModalClose();
         }}
-        maxWidth={552}
+        maxWidth={300}
         xButton>
         <div
           className={styles.modalBackground}
-          style={{
-            height: `${screenWidth * 0.3}px`,
-            maxHeight: '150px',
-            gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
-          }}>
+          // style={{
+          // height: `${screenWidth * 0.3}px`,
+          // maxHeight: '130px',
+          // gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+          // }}>
+        >
           <p className={styles.title}>{title}</p>
           참여 완료 되었습니다.
           {/* {gatheringType === 'ACCEPT' && (
@@ -306,12 +307,14 @@ export default function GatheringFooter({
         </div>
         <div
           className={styles.modalButtons}
-          style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+          // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+        >
           <button
             type="button"
             onClick={handleGoToGatheringList}
             className={styles.modalFirstButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             다른 모임방 둘러보기
           </button>
 
@@ -319,7 +322,8 @@ export default function GatheringFooter({
             type="button"
             onClick={handleChatButtonClick}
             className={styles.modalSecondButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             모임 채팅방 가기
           </button>
         </div>

@@ -223,7 +223,12 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                   width={24}
                   height={24}
                 />
-                <div style={{ display: 'flex', gap: '11px', flexWrap: 'wrap' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    columnGap: '11px',
+                    flexWrap: 'wrap',
+                  }}>
                   {data.boardGameListResponseList.map(game => {
                     return <div key={game.boardGameId}>{game.title}</div>;
                   })}
@@ -260,15 +265,15 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
                 </button>
               </div>
             )}
-            <ShareModal
-              modalOpen={shareModalOpen}
-              onClose={handleShareModalClose}
-              pathname={pathname}
-              shareCount={data.shareCount}
-              isMobile={isMobile}
-              meetingId={data.meetingId}
-            />
           </div>
+          <ShareModal
+            modalOpen={shareModalOpen}
+            onClose={handleShareModalClose}
+            pathname={pathname}
+            shareCount={data.shareCount}
+            isMobile={isMobile}
+            meetingId={data.meetingId}
+          />
           <div className={styles.stroke}>
             <Image alt="점선" src={'/assets/icons/stroke.svg'} fill />
           </div>
@@ -344,6 +349,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
               address={data.detailAddress}
               mapLatio={`${screenWidth / 320}`}
               isMobile={isMobile}
+              page="detail"
             />
           </div>
         </div>

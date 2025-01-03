@@ -55,8 +55,8 @@ export default function NumberInput({
               : '/assets/icons/minus-blue.svg'
           }
           alt="- 이미지"
-          width={24}
-          height={24}
+          width={18}
+          height={18}
         />
       </button>
       <div
@@ -74,15 +74,15 @@ export default function NumberInput({
           <Image
             src={'/assets/icons/plus-gray.svg'}
             alt="+ 이미지"
-            width={24}
-            height={24}
+            width={18}
+            height={18}
           />
         ) : (
           <Image
             src={'/assets/icons/plus-blue.svg'}
             alt="+ 이미지"
-            width={24}
-            height={24}
+            width={18}
+            height={18}
           />
         )}
       </button>

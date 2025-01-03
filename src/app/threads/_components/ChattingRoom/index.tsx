@@ -229,6 +229,22 @@ export default function ChattingRoom({
     }
   }, [firstMessageView]);
 
+  // 키보드 생길 시 body 높이 조절
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerHeight < document.documentElement.clientHeight) {
+        document.body.style.height = `${window.innerHeight}px`;
+      } else {
+        document.body.style.height = '100%';
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className={styles.chattingRoom}>
       <GatheringInfoOfThread

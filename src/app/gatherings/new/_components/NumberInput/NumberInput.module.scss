@@ -1,21 +1,21 @@
 .input {
   display: flex;
-  gap: 12px;
-  width: 100%;
+  gap: 6px;
+  width: 120px;
 }
 
 .leftButton,
 .rightButton {
   display: flex;
-  height: 61px;
-  padding: 10px 16px;
+  height: 30px;
+  // padding: 10px 16px;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex: 1 0 0;
   border-radius: 6px;
   @media screen and (max-width: 480px) {
-    height: 48px;
+    height: 26px;
   }
 }
 
@@ -38,26 +38,25 @@
 .numberBackground {
   display: flex;
   flex: 2 0 0;
-  height: 61px;
-  padding: 10px 16px;
+  height: 30px;
   justify-content: center;
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
   border-radius: 6px;
   @media screen and (max-width: 480px) {
-    height: 48px;
+    height: 26px;
   }
 }
 
 .number {
   // font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   letter-spacing: 0.96px;
   @media screen and (max-width: 480px) {
-    font-size: 20px;
+    font-size: 16px;
   }
 }

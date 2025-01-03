@@ -88,10 +88,10 @@ export default function SaveGatheringButton({
     <div
       className={rectangle ? styles.rectangle : ''}
       style={{
-        height: screenWidth ? `${(screenWidth * 88) / 600}px` : '',
-        width: screenWidth ? `${(screenWidth * 80) / 600}px` : '',
-        maxHeight: screenWidth ? '88px' : '',
-        maxWidth: screenWidth ? '80px' : '',
+        height: screenWidth ? `${(screenWidth * 70) / 600}px` : '',
+        width: screenWidth ? `${(screenWidth * 70) / 600}px` : '',
+        maxHeight: screenWidth ? '70px' : '',
+        maxWidth: screenWidth ? '70px' : '',
       }}>
       <IconButton
         className={className}

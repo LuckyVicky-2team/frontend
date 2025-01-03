@@ -86,6 +86,7 @@ export default function Filter({
   return (
     <section className={styles.searchTabHeader}>
       <SearchBar
+        placeholder={'전략 게임'}
         searchType={searchType}
         register={register}
         setValue={setValue}

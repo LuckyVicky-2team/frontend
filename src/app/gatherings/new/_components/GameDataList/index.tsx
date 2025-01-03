@@ -1,17 +1,15 @@
-import Image from 'next/image';
 import {
+  useMemo,
   Dispatch,
   SetStateAction,
-  useCallback,
   useEffect,
   useRef,
   useState,
 } from 'react';
+import Image from 'next/image';
+import { useGameList } from '@/api/queryHooks/game';
 import styles from './GameDataList.module.scss';
 import Modal from '@/components/common/Modal';
-import { getGames } from '@/api/apis/gameApi';
-import { useToast } from '@/contexts/toastContext';
-import { debounce } from '@/utils/debounce';
 
 interface IGenre {
   id: number;
@@ -51,88 +49,60 @@ export default function GameDataList({
   setBoardGameIdTitleList,
   setGenreIdList,
 }: IGameDataListProps) {
-  const { addToast } = useToast();
   const [gameTitle, setGameTitle] = useState('');
-  const [debouncedGameTitle, setDebouncedGameTitle] = useState('');
-  const [totalPages, setTotalPages] = useState(24);
   const [currentPage, setCurrentPage] = useState(1);
-  const [gameData, setGameData] = useState<IGame[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [filteredGames, setFilteredGames] = useState<IGame[]>([]);
   const isDebounceActiveRef = useRef(true);
+  const itemsPerPage = 5;
 
-  // const gameDataMock = Array.from({ length: 5 }, (_, i) => i + 1).map(i => {
-  //   return {
-  //     id: i,
-  //     title: `title${i}`,
-  //     thumbnail: '/',
-  //     genres: { title: 'genre', id: 1 },
-  //   };
-  // });
+  const { data: cachedGames, refetch, isFetching, isPending } = useGameList();
 
-  // 디바운스된 검색 함수
-  const debouncedSearch = useCallback(
-    debounce((value: string) => {
-      if (isDebounceActiveRef.current) {
-        setDebouncedGameTitle(value);
-        setCurrentPage(1);
-      }
-    }, 300),
-    []
-  );
-
-  const fetchGames = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const data = await getGames(debouncedGameTitle, currentPage - 1);
-      setTotalPages(data.totalPages);
-      setGameData(data.content);
-    } catch (error) {
-      addToast('게임을 불러오는데 실패했습니다.', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [debouncedGameTitle, currentPage]);
-
-  // useEffect(() => {
-  //   fetchGames();
-  // }, [gameTitle, currentPage]);
-
-  // useEffect(() => {
-  //   if (debouncedGameTitle !== '') {
-  //     setCurrentPage(1); // 검색어가 변경될 때만 페이지를 1로 리셋
-  //     fetchGames();
-  //   }
-  // }, [debouncedGameTitle])
-
-  // debouncedGameTitle이 변경될 때만 검색 실행
+  // 검색어에 따른 필터링 및 페이지네이션
   useEffect(() => {
-    if (debouncedGameTitle !== '') {
-      fetchGames();
+    if (!cachedGames && !isFetching) {
+      refetch();
+      return;
     }
-  }, [debouncedGameTitle, currentPage]);
+    if (cachedGames) {
+      const filtered = cachedGames?.content.filter(game =>
+        game.title.includes(gameTitle)
+      );
+      setFilteredGames(filtered);
+      setCurrentPage(1);
+    }
+  }, [gameTitle, cachedGames]);
+
+  // 현재 페이지의 게임 데이터
+  const currentGames = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredGames.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredGames, currentPage]);
+
+  const totalPages = Math.ceil(filteredGames.length / itemsPerPage);
+
+  const handleSearch = (value: string) => {
+    setGameTitle(value);
+    setShowGameData(value !== '');
+  };
 
   const handlePageChange = (page: number) => {
-    isDebounceActiveRef.current = false;
     setCurrentPage(page);
   };
 
   const handleGameClick = (data: IGame) => {
     setBoardGameIdTitleList(prev => {
-      for (let game of prev) {
-        if (game.id === data.id) return prev;
-      }
-      return [...new Set([...prev, { title: data.title, id: data.id }])];
+      const exists = prev.some(game => game.id === data.id);
+      if (exists) return prev;
+      return [...prev, { title: data.title, id: data.id }];
     });
     setGenreIdList(prev => {
       if (data.genres) {
-        let genreIds = [];
-        for (const genre of data.genres) {
-          genreIds.push(genre.id);
-        }
+        const genreIds = data.genres.map(genre => genre.id);
         return [...new Set([...prev, ...genreIds])];
       }
       return prev;
     });
+
     setShowGameData(false);
     setGameTitle('');
     onClose();
@@ -154,7 +124,7 @@ export default function GameDataList({
                 const isEmpty = e.target.value === '';
                 setGameTitle(e.target.value);
                 isDebounceActiveRef.current = true;
-                debouncedSearch(e.target.value);
+                handleSearch(e.target.value);
                 setShowGameData(!isEmpty);
               }}
             />
@@ -165,10 +135,10 @@ export default function GameDataList({
               height={24}
             />
           </div>
-          {isLoading && <p className={styles.loading}>로딩 중...</p>}
-          {showGameData && !isLoading && (
+          {isPending && <p className={styles.loading}>로딩 중...</p>}
+          {showGameData && !isPending && (
             <div className={styles.gameDataList}>
-              {gameData.map((data, i) => {
+              {currentGames.map((data, i) => {
                 return (
                   <div key={data.id} className={styles.gameDataWithLine}>
                     {i !== 0 && <div className={styles.line} />}
@@ -246,22 +216,11 @@ export default function GameDataList({
                   </div>
                 );
               })}
-              {!isLoading && gameData.length === 0 && (
+              {!isPending && currentGames.length === 0 && (
                 <div className={styles.noResults}>검색결과 없음</div>
               )}
-              {gameData.length !== 0 && (
+              {currentGames.length !== 0 && (
                 <div className={styles.buttons}>
-                  {/* {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  page => (
-                    <button
-                      key={page}
-                      type="button"
-                      onClick={() => handlePageChange(page)}
-                      disabled={currentPage === page}>
-                      {page}
-                    </button>
-                  )
-                )} */}
                   <button type="button" onClick={() => handlePageChange(1)}>
                     <Image
                       src={'/assets/icons/chevron-double-left.svg'}

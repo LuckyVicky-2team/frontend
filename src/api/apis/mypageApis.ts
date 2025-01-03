@@ -23,8 +23,11 @@ export const deleteMeeting = (id: string) => {
 };
 
 // 상황별 추천 조회를 위한 API 요청
-export const getRecommendInfo = (type: string) => {
-  return axiosInstance.get(`/home/situation?situationType=${type}`);
+export const getRecommendInfo = async (type: string) => {
+  const { data } = await axiosInstance.get(
+    `/home/situation?situationType=${type}`
+  );
+  return data;
 };
 // 보드게임 검색 함수
 export const searchBoardGames = (

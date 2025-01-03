@@ -2,13 +2,12 @@ import { IGameData } from '@/types/response/Gathering';
 import { axiosInstance } from '../instance';
 // import axios from 'axios';
 
-export const getGames = async (searchWord: string, page: number) => {
+export const getGames = async () => {
   const response = await axiosInstance.get<IGameData>('/boardgame', {
     params: {
-      searchWord,
-      page,
-      // count: 10,
-      // size: 5,
+      // searchWord,
+      // page,
+      size: 1000,
     },
   });
   return response.data;

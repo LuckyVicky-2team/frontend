@@ -40,12 +40,11 @@ export default function RecommendCategory() {
               <div key={idx} className={styles.recoItem}>
                 <div className={styles.img}>
                   <Image
-                    sizes={'50%'}
-                    style={{ objectFit: 'contain' }}
                     src={`https://${cloud}/${game.thumbnail}`}
                     alt="상황별 추천 게임 이미지"
                     loading={'lazy'}
-                    fill
+                    width={555}
+                    height={555}
                     quality={50}
                   />
                 </div>

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ export default function RecommendLayout({ children }: RecommendLayoutProps) {
   const { category } = useParams();
   const decodedCategory = decodeURIComponent(category as string);
   const { searchKeyword, setSearch } = useSearchQuery();
-  const { handleSubmit, register, setValue } = useForm({
+  const { handleSubmit, register, setValue, resetField } = useForm({
     defaultValues: {
       search_word: searchKeyword,
       search_type: 'ALL',
@@ -25,6 +25,9 @@ export default function RecommendLayout({ children }: RecommendLayoutProps) {
   const onSearch = (data: { [key: string]: any }) => {
     setSearch({ keyword: data['search_word'], type: '' });
   };
+  useEffect(() => {
+    if (!searchKeyword) resetField('search_word');
+  }, [searchKeyword]);
 
   return (
     <div className={styles.recoWrap}>

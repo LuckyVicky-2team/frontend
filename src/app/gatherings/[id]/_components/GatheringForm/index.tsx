@@ -224,8 +224,19 @@ export default function GatheringForm({
             refetchType: 'all',
           });
         },
-        onError: () => {
-          addToast(`모임 생성에 실패했어요.`, 'error');
+        onError: (error: any) => {
+          const errorCode = error.response.data.errorCode;
+
+          if (errorCode === 4010) {
+          } else {
+            addToast(
+              `로그인이 만료되었습니다. 로그인 페이지로 이동합니다`,
+              'error'
+            );
+            setTimeout(() => {
+              router.replace('/signin');
+            }, 2000);
+          }
           setIsButtonDisabled(false);
         },
       });
@@ -239,8 +250,20 @@ export default function GatheringForm({
             refetchType: 'all',
           });
         },
-        onError: () => {
-          addToast(`모임 수정에 실패했어요.`, 'error');
+        onError: (error: any) => {
+          const errorCode = error.response.data.errorCode;
+
+          if (errorCode === 4010) {
+            addToast(
+              `로그인이 만료되었습니다. 로그인 페이지로 이동합니다`,
+              'error'
+            );
+            setTimeout(() => {
+              router.replace('/signin');
+            }, 2000);
+          } else {
+            addToast(`모임 수정에 실패했어요.`, 'error');
+          }
           setIsButtonDisabled(false);
         },
       });

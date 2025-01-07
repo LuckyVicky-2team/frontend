@@ -28,6 +28,7 @@ export const useGatheringList = (req: IGatheringListRequestProps) => {
     queryFn: () => gatheringAPI.gatheringList(req),
     staleTime: 60 * 1000 * 10,
     placeholderData: keepPreviousData,
+    refetchOnMount: true,
   });
 };
 

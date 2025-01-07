@@ -8,6 +8,7 @@
     display: block;
     margin-top: 25px;
     .img {
+      position: relative;
       display: block;
       width: 100%;
       height: 270px;
@@ -15,6 +16,7 @@
       border-radius: 15px;
       padding: 20px 50px;
       img {
+        border-radius: 15px;
         display: block;
         width: 100%;
         height: 100%;
@@ -91,7 +93,7 @@
 
 @media (max-width: 430px) {
   .recoWrap {
-    padding: 80px 30px 150px 30px;
+    padding: 10px 30px 150px 30px;
     box-sizing: border-box;
     .searchBar {
       display: block;

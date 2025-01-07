@@ -28,7 +28,7 @@ export function useSearchQuery() {
         : params.set('searchType', type);
     }
     if (category) {
-      router.replace(`/recommend/${trimmedKeyword}`, {
+      router.replace(`/recommend/ALL?${params.toString()}`, {
         scroll: false,
       });
     } else {

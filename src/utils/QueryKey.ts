@@ -49,8 +49,13 @@ export const QueryKey = {
     REVIEWEE_LIST: (id: number) => [QueryKey.REVIEW.KEY, id, QueryKey.LIST],
     DETAIL: (id: number) => [QueryKey.REVIEW.KEY, id],
   },
-  MYPAGE: {
-    KEY: 'mypage',
-    GAME_LIST: () => [QueryKey.MYPAGE.KEY, 'game', QueryKey.LIST],
+  RECOMMEND: {
+    KEY: 'recommend',
+    GAME_LIST: (filters: string) => [
+      QueryKey.RECOMMEND.KEY,
+      'game',
+      QueryKey.LIST,
+      filters,
+    ],
   },
 };

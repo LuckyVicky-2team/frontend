@@ -11,18 +11,15 @@ export const useGameList = () => {
     staleTime: Infinity,
     gcTime: Infinity,
     refetchOnMount: false,
-    meta: { persist: true },
     enabled: !!localStorage.getItem('accessToken'),
   });
 };
 
-export const useRecommendGameList = () => {
+export const useRecommendGameList = (type: string) => {
   return useQuery({
-    queryKey: QueryKey.MYPAGE.GAME_LIST(),
-    queryFn: () => getRecommendInfo('ALL'),
+    queryKey: QueryKey.RECOMMEND.GAME_LIST(type),
+    queryFn: () => getRecommendInfo(type),
     staleTime: Infinity,
     gcTime: Infinity,
-    refetchOnMount: false,
-    meta: { persist: true },
   });
 };

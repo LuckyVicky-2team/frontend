@@ -55,9 +55,8 @@ export default function Card({
   };
 
   return (
-    <Link href={`/gatherings/${id}`} style={{ width: '100%' }}>
+    <Link href={`/gatherings/${id}`} className={styles.cardLayout}>
       <div className={styles.card} onClick={onClick}>
-        {/* <Link className={styles.link} href={`/gatherings/${id}`}> */}
         <div className={styles.thumbnail}>
           <Image
             src={imgSrc}
@@ -75,7 +74,7 @@ export default function Card({
             </div>
           ) : null}
         </div>
-        {/* </Link> */}
+
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.topHeader}>

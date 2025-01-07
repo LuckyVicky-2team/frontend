@@ -3,10 +3,8 @@ import React from 'react';
 import styles from './RecommendCase.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRecommendGameList } from '@/api/queryHooks/game';
 
 export default function RecommendCase() {
-  const { data: _gameData } = useRecommendGameList();
   return (
     <div>
       <h1 className={styles.title}>주어진 환경은 다르니까!</h1>

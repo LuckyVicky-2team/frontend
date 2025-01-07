@@ -5,13 +5,14 @@ import { getRecommendInfo } from '../apis/mypageApis';
 import { QueryKey } from '@/utils/QueryKey';
 
 export const useGameList = () => {
+  const isBrowser = typeof window !== 'undefined';
   return useQuery<IGameData>({
     queryKey: QueryKey.GATHERING.GAME_LIST(),
     queryFn: () => getGames(),
     staleTime: Infinity,
     gcTime: Infinity,
     refetchOnMount: false,
-    enabled: !!localStorage.getItem('accessToken'),
+    enabled: isBrowser && !!localStorage.getItem('accessToken'),
   });
 };
 

@@ -62,9 +62,9 @@ export default function Card({
             src={imgSrc}
             alt="thumbnail"
             fill
-            sizes="50%"
             priority
             quality={80}
+            sizes="(max-width: 430px) 10vw, 130px, (max-width: 600px) 10vw,183px"
             onError={handleImageError}
           />
 

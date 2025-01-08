@@ -45,7 +45,7 @@ export default function RecommendCategory() {
                     loading={'lazy'}
                     width={157}
                     height={228}
-                    quality={75}
+                    quality={80}
                     sizes="(max-width: 430px) 20vw, 120px"
                   />
                 </div>

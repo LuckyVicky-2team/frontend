@@ -1,22 +1,24 @@
 'use client';
 
-import styles from './Footer.module.scss';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/contexts/toastContext';
+import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import useModal from '@/hooks/useModal';
-import Modal from '@/components/common/Modal';
-import axios from 'axios';
-import LoginModal from '@/components/common/Modal/LoginModal';
-import Spinner from '@/components/common/Spinner';
 import useScreenWidth from '@/hooks/useScreenWidth';
 import useScreenHeight from '@/hooks/useScreenHeight';
+import { QueryKey } from '@/utils/QueryKey';
+import { useToast } from '@/contexts/toastContext';
+import useModal from '@/hooks/useModal';
+import styles from './Footer.module.scss';
+import Modal from '@/components/common/Modal';
+import LoginModal from '@/components/common/Modal/LoginModal';
+import Spinner from '@/components/common/Spinner';
 
 interface IGatheringFooterProps {
   id: number;
@@ -51,6 +53,7 @@ export default function GatheringFooter({
   const { addToast } = useToast();
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
   const { mutate: completeMutate } = usePatchCompleteGathering();
+  const queryClient = useQueryClient();
   const progressGathering =
     meetingDatetime && new Date(meetingDatetime) > new Date();
 
@@ -95,6 +98,10 @@ export default function GatheringFooter({
         setParticipantCount(prev => prev + 1);
         refetch();
         handleSuccessModalOpen();
+        queryClient.invalidateQueries({
+          queryKey: QueryKey.GATHERING.LIST({}),
+          refetchType: 'all',
+        });
         if (participantCount + 1 === limitParticipant) {
           completeMutate(id, {
             onError: _ => {

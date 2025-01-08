@@ -1,7 +1,6 @@
 import styles from './index.module.scss';
 
-interface IRecommendInfo {
-  id: number;
+export interface IRecommendInfo {
   title: string;
   thumbnail: string;
   minPlaytime: number;

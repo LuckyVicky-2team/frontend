@@ -43,9 +43,10 @@ export default function RecommendCategory() {
                     src={`https://${cloud}/${game.thumbnail}`}
                     alt="상황별 추천 게임 이미지"
                     loading={'lazy'}
-                    width={555}
-                    height={555}
-                    quality={50}
+                    width={157}
+                    height={228}
+                    quality={80}
+                    sizes="(max-width: 430px) 20vw, 120px"
                   />
                 </div>
                 <h1 className={styles.title}>{game.title}</h1>

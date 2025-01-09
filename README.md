@@ -94,5 +94,5 @@
 
 | <h4>모임 목록 페이지</h4> | <h4>모임 상세 페이지</h4> | <h4>모임 생성 페이지</h4> | <h4>다른 사람 프로필 페이지</h4> | <h4>채팅 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |
-| <img width="277" alt="meetingList" src="https://github.com/user-attachments/assets/38685c70-e204-4f34-9486-d03e98335157"> | <img width="277" alt="meetingDetail" src="https://github.com/user-attachments/assets/bb825a74-4f7b-4450-8661-8d2037cbd9b1"> | <img width="277" alt="createMeeting" src="https://github.com/user-attachments/assets/4f186a7c-5c42-4451-8da3-220b2030164b"> | <img width="277" alt="othersProfile" src="https://github.com/user-attachments/assets/8b5e1956-0979-45a8-a257-b4886cc70855"> | <img width="277" alt="chat" src=""> |
+| <img width="277" alt="meetingList" src="https://github.com/user-attachments/assets/38685c70-e204-4f34-9486-d03e98335157"> | <img width="277" alt="meetingDetail" src="https://github.com/user-attachments/assets/bb825a74-4f7b-4450-8661-8d2037cbd9b1"> | <img width="277" alt="createMeeting" src="https://github.com/user-attachments/assets/4f186a7c-5c42-4451-8da3-220b2030164b"> | <img width="277" alt="othersProfile" src="https://github.com/user-attachments/assets/8b5e1956-0979-45a8-a257-b4886cc70855"> | <img width="277" alt="chat" src="https://github.com/user-attachments/assets/0ce72d48-3201-4362-aa21-2851b4cf7ee7"> |
 

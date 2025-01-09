@@ -21,7 +21,9 @@ export default function NotFoundPage() {
         />
         <p className={styles.where}>엇? 여긴 어디지?</p>
       </div>
-      <Button onClick={() => router.back()}>이전 페이지로 가기</Button>
+      <Button onClick={() => router.back()} className={styles.button}>
+        이전 페이지로 가기
+      </Button>
     </main>
   );
 }

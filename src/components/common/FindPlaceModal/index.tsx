@@ -37,7 +37,7 @@ export default function FindPlaceModal({
   const [searchLoading, setSearchLoading] = useState(false);
 
   const { addToast } = useToast();
-  const { data: myPosition, isLoading } = useGetCurrentCoordinate();
+  const { data: myPosition, isPending } = useGetCurrentCoordinate();
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -82,7 +82,7 @@ export default function FindPlaceModal({
   };
 
   useEffect(() => {
-    if (!myPosition || isLoading) return;
+    if (!myPosition || isPending) return;
 
     const keyword = '보드카페';
 
@@ -90,7 +90,7 @@ export default function FindPlaceModal({
       lat: myPosition.y,
       lon: myPosition.x,
     });
-  }, [myPosition, isLoading, modalOpen]);
+  }, [myPosition, isPending, modalOpen]);
 
   useEffect(() => {
     if (setValue) {
@@ -140,11 +140,11 @@ export default function FindPlaceModal({
               <PlaceSearchBar
                 onKeyUp={handlePressEnter}
                 onClickZoom={handleClickZoom}
-                disabled={isLoading || searchLoading}
+                disabled={isPending || searchLoading}
                 myPosition={!!myPosition}
                 isMobile={isMobile}
               />
-              {isLoading || searchLoading ? (
+              {isPending || searchLoading ? (
                 <div className={styles.exception}>
                   <Spinner />
                 </div>
@@ -170,8 +170,8 @@ export default function FindPlaceModal({
               <Image
                 src="/assets/icons/backArrow.svg"
                 alt="돌아가기"
-                width={32}
-                height={32}
+                width={16}
+                height={16}
               />
               돌아가기
             </button>

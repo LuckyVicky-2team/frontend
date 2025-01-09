@@ -7,6 +7,10 @@
   height: 100%;
   gap: 10px;
 
+  &.loading {
+    justify-content: center;
+    align-items: center;
+  }
   .rating {
     display: flex;
     gap: 15px;

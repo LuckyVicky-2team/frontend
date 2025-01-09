@@ -14,7 +14,7 @@ export default function MyFavoriteGatherings() {
     IWishListItemProps[]
   >([]);
 
-  const { data: wishList, isLoading } = useGetWishList();
+  const { data: wishList, isPending } = useGetWishList();
 
   useEffect(() => {
     if (wishList) {
@@ -28,7 +28,7 @@ export default function MyFavoriteGatherings() {
     <div className={styles.relative}>
       <div className={styles.title}>찜한 모임</div>
       <div className={styles.myFavoriteGathering}>
-        {isLoading ? (
+        {isPending ? (
           Array.from({ length: 3 }).map((_, index) => (
             <div className={styles.skeleton} key={index}></div>
           ))
@@ -68,7 +68,7 @@ export default function MyFavoriteGatherings() {
                           width={15}
                           height={15}
                         />
-                        {`오늘 ${processedGatheringDate.time.split(':')[0]}시 마감`}
+                        {`오늘 ${processedGatheringDate.time && processedGatheringDate.time.split(':')[0]}시 마감`}
                       </div>
                     )}
                     <div

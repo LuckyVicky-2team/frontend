@@ -1,11 +1,14 @@
 .header {
   color: #000;
   font-family: LaundryGothicOTF;
-  font-size: 30px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   letter-spacing: 1.2px;
+  @media screen and (max-width: 480px) {
+    font-size: 20px;
+  }
 }
 
 .headerDescription {
@@ -17,17 +20,24 @@
   line-height: 18px; /* 112.5% */
   letter-spacing: 0.64px;
   margin: 12px 0 48px;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .title {
   display: block;
   color: var(--lukyviky-gray-Darker, #37393d);
   font-family: Pretendard;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 20px; /* 83.333% */
   margin: 0 0 20px;
+  @media screen and (max-width: 480px) {
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
 }
 
 .titleDescription {
@@ -39,6 +49,10 @@
   line-height: 18px; /* 112.5% */
   letter-spacing: 0.64px;
   margin: 0 0 20px;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+    margin: 0 0 8px;
+  }
 }
 
 .commonInput {
@@ -48,9 +62,15 @@
   border-radius: 10px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
   padding: 0 16px;
+  font-size: 16px;
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+    height: 48px;
   }
 }
 
@@ -79,6 +99,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: 20px; /* 83.333% */
+    @media screen and (max-width: 480px) {
+      font-size: 12px;
+      padding: 4px 12px;
+      line-height: 12px;
+      height: 32px;
+    }
   }
 }
 
@@ -95,6 +121,9 @@
   font-weight: 700;
   line-height: normal;
   margin: 8px 0 16px;
+  @media screen and (max-width: 480px) {
+    font-size: 16px;
+  }
 }
 
 .fileInputDescription {
@@ -104,6 +133,9 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .placeInput {
@@ -111,10 +143,16 @@
   height: 66px;
   border-radius: 10px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
-  padding: 34px;
+  // padding: 34px;
+  font-size: 16px;
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+    height: 48px;
   }
 }
 
@@ -123,9 +161,15 @@
   height: 66px;
   background: var(--lukyviky-gray-Light, #f5f6f7);
   outline: none;
+  font-size: 16px;
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+    height: 48px;
   }
 }
 
@@ -149,7 +193,7 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
-  margin: 48px 0 0;
+  margin: 24px 0 0;
 
   &:hover {
     background: #006ee6;
@@ -161,6 +205,11 @@
 
   &:disabled {
     background: #9ca3af;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    height: 48px;
   }
 }
 .deleteButton {
@@ -173,7 +222,15 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 20px;
-  margin: 20px 0 0;
+  margin: 24px 0 0;
+
+  &:disabled {
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 480px) {
+    height: 48px;
+  }
 }
 
 .error {
@@ -191,6 +248,9 @@
   line-height: 18px; /* 112.5% */
   letter-spacing: 0.64px;
   margin: 8px 0 0;
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
+  }
 }
 
 .successMessage {
@@ -204,6 +264,10 @@
 
   &.info {
     color: var(--lukyviky-Gray-Normal, #9ca3af);
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
   }
 }
 
@@ -222,8 +286,9 @@
   height: 226px;
   gap: 6px;
 
-  @media only screen and (max-width: 520px) {
+  @media only screen and (max-width: 480px) {
     font-size: 16px;
+    height: 150px;
   }
 
   .description {
@@ -236,12 +301,12 @@
     border-radius: 10px;
     color: var(--lukyviky-gray-Darker, #37393d);
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 600;
     line-height: 24px; /* 133.333% */
-    @media only screen and (max-width: 520px) {
-      font-size: 14px;
+    @media only screen and (max-width: 480px) {
+      font-size: 16px;
     }
   }
 }
@@ -250,14 +315,15 @@
   display: flex;
   width: 100%;
   height: 80px;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: 18px; /* 75% */
   letter-spacing: 0.96px;
   text-align: center;
-  @media only screen and (max-width: 520px) {
+  @media only screen and (max-width: 480px) {
     font-size: 16px;
+    height: 60px;
   }
   .modalFirstButton {
     display: flex;

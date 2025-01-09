@@ -1,10 +1,12 @@
 .background {
   position: fixed;
-  bottom: 0;
+  bottom: env(
+    safe-area-inset-bottom,
+    0
+  ); /* Safe Area 인셋 반영, 지원되지 않으면 0으로 설정 */
   left: 50%;
   transform: translate(-50%, 0);
   width: min(100%, 600px);
-  height: 130px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -42,7 +44,7 @@
   border: 2px solid var(--lukyviky-Blue-Normal, #007aff);
   background: var(--lukyviky-Blue-Normal, #007aff);
   color: var(--lukyviky-Blue-Light, #e6f2ff);
-  font-size: 20px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -51,6 +53,10 @@
     border: none;
     background: var(--lukyviky-gray-Normal, #9ca3af);
     color: var(--lukyviky-Blue-Light, #e6f2ff);
+  }
+
+  @media only screen and (max-width: 520px) {
+    font-size: 14px;
   }
 }
 
@@ -77,6 +83,8 @@
 .zzimButton {
   width: 36px;
   height: 36px;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .editButton {
@@ -91,19 +99,18 @@
 }
 
 .modalBackground {
-  padding: 4px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: var(--lukyviky-Blue-Darker, #002b59);
-  font-size: 26px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 500;
-  line-height: 30px;
+  line-height: 20px;
   letter-spacing: 1.04px;
-  height: 226px;
-  gap: 6px;
+  gap: 12px;
 
   @media only screen and (max-width: 450px) {
     font-size: 16px;
@@ -112,13 +119,12 @@
   .title {
     color: var(--lukyviky-Blue-Normal, #007aff);
     text-align: center;
-    font-size: 26px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
-    line-height: 30px; /* 115.385% */
     letter-spacing: 1.04px;
     @media only screen and (max-width: 450px) {
-      font-size: 20px;
+      font-size: 18px;
     }
   }
 
@@ -136,7 +142,6 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
-    line-height: 24px; /* 133.333% */
     @media only screen and (max-width: 450px) {
       font-size: 14px;
     }
@@ -146,15 +151,14 @@
 .modalButtons {
   display: flex;
   width: 100%;
-  height: 113px;
-  font-size: 24px;
+  height: 40px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 18px; /* 75% */
   letter-spacing: 0.96px;
   text-align: center;
   @media only screen and (max-width: 520px) {
-    font-size: 16px;
+    font-size: 13px;
   }
   .modalFirstButton {
     display: flex;
@@ -183,14 +187,13 @@
   background: var(--lukyviky-Blue-Normal, #007aff);
   display: flex;
   width: 100%;
-  height: 113px;
-  font-size: 24px;
+  height: 70px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 18px; /* 75% */
   letter-spacing: 0.96px;
   text-align: center;
   @media only screen and (max-width: 450px) {
-    font-size: 16px;
+    font-size: 13px;
   }
 }

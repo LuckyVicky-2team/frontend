@@ -2,6 +2,7 @@ import { axiosInstance } from '../instance';
 import {
   ConsentFormType,
   EmailSignupFormType,
+  ICustomAxiosRequestConfig,
   SocialSignupFormType,
 } from '@/types/request/authRequestTypes';
 
@@ -36,28 +37,37 @@ export const postSocialSignupForm = (
   });
 };
 
-export const postReissueAccessToken = (refreshToken: string) => {
-  return axiosInstance.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/reissue`,
-    {},
-    {
-      headers: {
-        Cookie: `Authorization=${refreshToken}`,
-      },
-    }
-  );
+export const postRenewAccessToken = () => {
+  return axiosInstance.post(`/reissue`, {}, {
+    noInterceptors: true,
+  } as ICustomAxiosRequestConfig);
 };
 
-export const getTermsAgreement = async (required: boolean | 'all') => {
+export const getTermsAgreement = async (
+  required: boolean | 'all',
+  isServer: boolean
+) => {
   const query = required === 'all' ? 'TRUE,FALSE' : required ? 'TRUE' : 'FALSE';
 
-  const { data } = await axiosInstance.get(
-    `/terms-conditions?required=${query}`
-  );
+  try {
+    const { data } = await axiosInstance.get(
+      isServer
+        ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/terms-conditions?required=${query}`
+        : `/terms-conditions?required=${query}`
+    );
 
-  return data;
+    return data;
+  } catch (error: any) {
+    return error.response.data;
+  }
 };
 
 export const postTermsAgreement = (data: ConsentFormType) => {
   return axiosInstance.post('/terms-conditions/user', data);
+};
+
+export const postLogout = () => {
+  fetch('https://dev.app.board-go.net/api/logout', {
+    method: 'POST',
+  });
 };

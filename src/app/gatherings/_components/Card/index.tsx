@@ -1,7 +1,10 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
-import styles from './Card.module.scss';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
+import styles from './Card.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 
 interface ICardProps {
@@ -19,6 +22,11 @@ interface ICardProps {
   onClick?: (_args: any) => void;
 }
 
+const DEFAULT_IMAGES = [
+  '/assets/images/emptyGameThumbnail.png',
+  '/assets/images/emptyThumbnail.png',
+];
+
 export default function Card({
   id,
   title,
@@ -33,30 +41,40 @@ export default function Card({
   nickName,
   onClick,
 }: ICardProps) {
+  const [imgSrc, setImgSrc] = useState<string>(
+    `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+  );
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
   const isDateOver = new Date(meetingDate) < new Date();
 
+  const handleImageError = () => {
+    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
+    setImgSrc(DEFAULT_IMAGES[randomIndex]);
+  };
+
   return (
-    <>
+    <Link href={`/gatherings/${id}`} className={styles.cardLayout}>
       <div className={styles.card} onClick={onClick}>
         <div className={styles.thumbnail}>
-          <Link href={`/gatherings/${id}`}>
-            <Image
-              src={`https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`}
-              alt="thumbnail"
-              fill
-              sizes="100%"
-              priority
-            />
-            {isFullParticipant || isDateOver ? (
-              <div className={styles.fullUser}>
-                <p>{`마감된 모임이에요, \r\n 다음에 만나요 🙏`}</p>
-              </div>
-            ) : null}
-          </Link>
+          <Image
+            src={imgSrc}
+            alt="thumbnail"
+            fill
+            priority
+            quality={80}
+            sizes="(max-width: 430px) 10vw, 130px, (max-width: 600px) 10vw,183px"
+            onError={handleImageError}
+          />
+
+          {isFullParticipant || isDateOver ? (
+            <div className={styles.fullUser}>
+              <p>{`마감된 모임이에요, \r\n 다음에 만나요!`}</p>
+            </div>
+          ) : null}
         </div>
+
         <div className={styles.content}>
           <div className={styles.header}>
             <div className={styles.topHeader}>
@@ -96,6 +114,7 @@ export default function Card({
               return (
                 <p key={id + idx} className={styles.games}>
                   {el}
+                  <span>&nbsp;| </span>
                 </p>
               );
             })}
@@ -124,11 +143,11 @@ export default function Card({
               value={`${progressValue}`}
               max={'100'}></progress>
           </div>
-          <Link href={`/gatherings/${id}`}>
+          {/* <Link href={`/gatherings/${id}`}>
             <button className={styles.seeDetail}>모임 자세히보기</button>
-          </Link>
+          </Link> */}
         </div>
       </div>
-    </>
+    </Link>
   );
 }

@@ -168,6 +168,7 @@
   }
 
   .right {
+    width: 100%;
     justify-content: end;
     .headerMyapgeButton {
       width: 28px;
@@ -175,10 +176,10 @@
     }
     .headerFavorite {
       width: 10%;
-      display: none;
-    }
-    .headerAlarmIcon {
-      display: none;
+      // display: none;
+      img {
+        width: 28px;
+      }
     }
     button {
       img {

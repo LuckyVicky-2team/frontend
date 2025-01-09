@@ -10,6 +10,7 @@ import { useDeleteGathering } from '@/api/queryHooks/gathering';
 import { useToast } from '@/contexts/toastContext';
 import { dateToString } from '@/utils/dateTostring';
 import useModal from '@/hooks/useModal';
+import { QueryKey } from '@/utils/QueryKey';
 import Modal from '@/components/common/Modal';
 import NumberInput from '@/app/gatherings/new/_components/NumberInput';
 import FindPlaceModal from '@/components/common/FindPlaceModal';
@@ -22,6 +23,7 @@ import {
   useCreateGathering,
   useUpdateGathering,
 } from '@/api/queryHooks/gathering';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface IGatheringFormProps {
   mode: 'create' | 'edit';
@@ -43,6 +45,7 @@ export default function GatheringForm({
   const router = useRouter();
   const createGathering = useCreateGathering();
   const updateGathering = useUpdateGathering(initialData?.meetingId);
+  const queryClient = useQueryClient();
 
   const methods = useForm<INewGatheringFormValuesRequest>({
     mode: 'all',
@@ -71,7 +74,7 @@ export default function GatheringForm({
   const [boardGameIdTitleList, setBoardGameIdTitleList] = useState<
     IBoardGameIdTitle[]
   >([]);
-
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const selectedImageUrl =
     initialData?.thumbnail?.includes('meeting') &&
     `https://d248qe8akqy587.cloudfront.net/${initialData.thumbnail}`;
@@ -93,7 +96,6 @@ export default function GatheringForm({
   const handleDeleteGathering = () => {
     deleteGathering.mutate(initialData?.meetingId, {
       onSuccess: () => {
-        handleDeleteModalClose();
         history.go(-2);
       },
       onError: (error: any) => {
@@ -166,6 +168,7 @@ export default function GatheringForm({
   };
 
   const onSubmit = async (gatheringInfo: INewGatheringFormValuesRequest) => {
+    setIsButtonDisabled(true);
     const {
       contentWithoutHtml,
       image,
@@ -216,9 +219,25 @@ export default function GatheringForm({
         onSuccess: async res => {
           const path = res.headers.location.split('/');
           router.replace(`/gatherings/new/success/${path[2]}`);
+          queryClient.invalidateQueries({
+            queryKey: QueryKey.GATHERING.LIST({}),
+            refetchType: 'all',
+          });
         },
-        onError: () => {
-          addToast(`모임 생성에 실패했어요.`, 'error');
+        onError: (error: any) => {
+          const errorCode = error.response.data.errorCode;
+
+          if (errorCode === 4010) {
+          } else {
+            addToast(
+              `로그인이 만료되었습니다. 로그인 페이지로 이동합니다`,
+              'error'
+            );
+            setTimeout(() => {
+              router.replace('/signin');
+            }, 2000);
+          }
+          setIsButtonDisabled(false);
         },
       });
     } else {
@@ -226,9 +245,26 @@ export default function GatheringForm({
         onSuccess: async () => {
           addToast(`모임이 성공적으로 수정되었습니다.`, 'success');
           router.replace(`/gatherings/${initialData.meetingId}`);
+          queryClient.invalidateQueries({
+            queryKey: QueryKey.GATHERING.LIST({}),
+            refetchType: 'all',
+          });
         },
-        onError: () => {
-          addToast(`모임 수정에 실패했어요.`, 'error');
+        onError: (error: any) => {
+          const errorCode = error.response.data.errorCode;
+
+          if (errorCode === 4010) {
+            addToast(
+              `로그인이 만료되었습니다. 로그인 페이지로 이동합니다`,
+              'error'
+            );
+            setTimeout(() => {
+              router.replace('/signin');
+            }, 2000);
+          } else {
+            addToast(`모임 수정에 실패했어요.`, 'error');
+          }
+          setIsButtonDisabled(false);
         },
       });
     }
@@ -386,12 +422,13 @@ export default function GatheringForm({
                               );
                               return newPrev;
                             });
-                          }}>
+                          }}
+                          style={{ height: '16px' }}>
                           <Image
                             src={'/assets/icons/x-button-blue.svg'}
                             alt="없애기 버튼"
-                            width={24}
-                            height={24}
+                            width={16}
+                            height={16}
                           />
                         </button>
                       </div>
@@ -544,6 +581,7 @@ export default function GatheringForm({
               <div className={styles.numberInput}>
                 <NumberInput
                   setValue={setValue}
+                  currentMaxParticipants={initialData?.limitParticipant}
                   minParticipants={initialData?.totalParticipantCount}
                 />
                 <div className={styles.successMessage}>
@@ -554,25 +592,29 @@ export default function GatheringForm({
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            disabled={
-              !isValid ||
-              isGameListEmpty ||
-              !locationNameClicked ||
-              locationNameError
-            }
-            className={styles.submitButton}>
-            {editMode ? '수정하기' : '확인'}
-          </button>
-          {editMode && (
+          <div style={{ display: 'flex', gap: '8px' }}>
             <button
-              type="button"
-              className={styles.deleteButton}
-              onClick={handleGatheringDelete}>
-              모임 삭제
+              type="submit"
+              disabled={
+                !isValid ||
+                isGameListEmpty ||
+                !locationNameClicked ||
+                locationNameError ||
+                isButtonDisabled
+              }
+              className={styles.submitButton}>
+              {editMode ? '수정하기' : '확인'}
             </button>
-          )}
+            {editMode && (
+              <button
+                type="button"
+                disabled={deleteGathering.isPending}
+                className={styles.deleteButton}
+                onClick={handleGatheringDelete}>
+                모임 삭제
+              </button>
+            )}
+          </div>
         </form>
       </FormProvider>
       <Modal
@@ -590,12 +632,14 @@ export default function GatheringForm({
           <button
             type="button"
             onClick={handleDeleteGathering}
+            disabled={deleteGathering.isPending}
             className={styles.modalFirstButton}>
             네
           </button>
           <button
             type="button"
             onClick={handleDeleteModalClose}
+            disabled={deleteGathering.isPending}
             className={styles.modalSecondButton}>
             아니오
           </button>

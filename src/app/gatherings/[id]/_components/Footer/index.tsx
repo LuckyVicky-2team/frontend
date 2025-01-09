@@ -1,21 +1,24 @@
 'use client';
 
-import styles from './Footer.module.scss';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useToast } from '@/contexts/toastContext';
+import { useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
 import {
   usePatchCompleteGathering,
   usePostJoinGathering,
 } from '@/api/queryHooks/gathering';
-import { Dispatch, SetStateAction } from 'react';
+import useScreenWidth from '@/hooks/useScreenWidth';
+import useScreenHeight from '@/hooks/useScreenHeight';
+import { QueryKey } from '@/utils/QueryKey';
+import { useToast } from '@/contexts/toastContext';
 import useModal from '@/hooks/useModal';
+import styles from './Footer.module.scss';
 import Modal from '@/components/common/Modal';
-import axios from 'axios';
 import LoginModal from '@/components/common/Modal/LoginModal';
 import Spinner from '@/components/common/Spinner';
-import useScreenWidth from '@/hooks/useScreenWidth';
 
 interface IGatheringFooterProps {
   id: number;
@@ -50,6 +53,7 @@ export default function GatheringFooter({
   const { addToast } = useToast();
   const { mutate: joinMutate, isPending } = usePostJoinGathering();
   const { mutate: completeMutate } = usePatchCompleteGathering();
+  const queryClient = useQueryClient();
   const progressGathering =
     meetingDatetime && new Date(meetingDatetime) > new Date();
 
@@ -71,7 +75,8 @@ export default function GatheringFooter({
     handleModalClose: handleLoginModalClose,
   } = useModal();
 
-  const screenWidth = useScreenWidth();
+  const { isMobile, screenWidth } = useScreenWidth();
+  const screenHeight = useScreenHeight();
 
   const handleButtonClick = () => {
     if (type === undefined || type === 'NONE') {
@@ -91,7 +96,12 @@ export default function GatheringFooter({
     joinMutate(id, {
       onSuccess: _ => {
         setParticipantCount(prev => prev + 1);
+        refetch();
         handleSuccessModalOpen();
+        queryClient.invalidateQueries({
+          queryKey: QueryKey.GATHERING.LIST({}),
+          refetchType: 'all',
+        });
         if (participantCount + 1 === limitParticipant) {
           completeMutate(id, {
             onError: _ => {
@@ -116,39 +126,49 @@ export default function GatheringFooter({
   };
 
   const handleChatButtonClick = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
+    router.push(`/threads/${id - 90}?meeting=${id}`);
   };
 
   const handleGoToGatheringList = () => {
     router.push('/gatherings');
   };
 
-  const handleGoToChatting = () => {
-    addToast('아직 구현되지 않은 기능입니다.', 'error');
-    // router.push('/Chatting');
-  };
-
   // const handleAlertLater = () => {
   //   handleSuccessModalClose();
   // };
 
+  useEffect(() => {
+    const footer = document.querySelector(
+      `.${styles.background}`
+    ) as HTMLDivElement;
+    const safeAreaBottom =
+      parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--safe-area-inset-bottom'
+        ) || '0',
+        10
+      ) || 0; // 기본값 0 추가
+
+    footer.style.bottom = `${safeAreaBottom}px`; // Safe Area 처리
+  }, [screenHeight]);
+
   return (
     <>
-      <div
+      <footer
         className={styles.background}
         style={{
-          height: `${(screenWidth * 130) / 600}px`,
-          maxHeight: '130px',
+          height: `${(screenWidth * 100) / 600}px`,
+          maxHeight: '100px',
         }}>
         <button
           type="button"
           disabled={isPending}
           className={styles.backButton}
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            width: `${(screenWidth * 80) / 600}px`,
-            maxHeight: '88px',
-            maxWidth: '80px',
+            height: `${(screenWidth * 70) / 600}px`,
+            width: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
+            maxWidth: '70px',
           }}
           onClick={() => {
             router.back();
@@ -156,8 +176,8 @@ export default function GatheringFooter({
           <Image
             src={'/assets/icons/chevron-left.svg'}
             alt="뒤로가기 이미지"
-            width={36}
-            height={36}
+            width={isMobile ? 20 : 36}
+            height={isMobile ? 20 : 36}
           />
         </button>
         <button
@@ -169,8 +189,8 @@ export default function GatheringFooter({
                 : styles.cta
           }
           style={{
-            height: `${(screenWidth * 88) / 600}px`,
-            maxHeight: '88px',
+            height: `${(screenWidth * 70) / 600}px`,
+            maxHeight: '70px',
           }}
           type="button"
           onClick={handleButtonClick}
@@ -210,10 +230,10 @@ export default function GatheringFooter({
           <button
             className={styles.editButton}
             style={{
-              height: `${(screenWidth * 88) / 600}px`,
-              width: `${(screenWidth * 80) / 600}px`,
-              maxHeight: '88px',
-              maxWidth: '80px',
+              height: `${(screenWidth * 70) / 600}px`,
+              width: `${(screenWidth * 70) / 600}px`,
+              maxHeight: '70px',
+              maxWidth: '70px',
             }}
             type="button"
             onClick={() => {
@@ -222,8 +242,8 @@ export default function GatheringFooter({
             <Image
               src={'/assets/icons/pen.svg'}
               alt="수정 이미지"
-              width={36}
-              height={36}
+              width={isMobile ? 20 : 36}
+              height={isMobile ? 20 : 36}
             />
           </button>
         )}
@@ -245,22 +265,22 @@ export default function GatheringFooter({
           />
           //</button>
         )}
-      </div>
+      </footer>
       <Modal
         modalOpen={successModalOpen}
         onClose={() => {
           handleSuccessModalClose();
-          refetch();
         }}
-        maxWidth={552}
+        maxWidth={300}
         xButton>
         <div
           className={styles.modalBackground}
-          style={{
-            height: `${screenWidth * 0.3}px`,
-            maxHeight: '150px',
-            gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
-          }}>
+          // style={{
+          // height: `${screenWidth * 0.3}px`,
+          // maxHeight: '130px',
+          // gap: `min(16px, ${(screenWidth * 16) / 600}px)`,
+          // }}>
+        >
           <p className={styles.title}>{title}</p>
           참여 완료 되었습니다.
           {/* {gatheringType === 'ACCEPT' && (
@@ -294,20 +314,23 @@ export default function GatheringFooter({
         </div>
         <div
           className={styles.modalButtons}
-          style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+          // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+        >
           <button
             type="button"
             onClick={handleGoToGatheringList}
             className={styles.modalFirstButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             다른 모임방 둘러보기
           </button>
 
           <button
             type="button"
-            onClick={handleGoToChatting}
+            onClick={handleChatButtonClick}
             className={styles.modalSecondButton}
-            style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}>
+            // style={{ height: `${screenWidth * 0.15}px`, maxHeight: '75px' }}
+          >
             모임 채팅방 가기
           </button>
         </div>

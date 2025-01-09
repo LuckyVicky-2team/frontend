@@ -10,6 +10,8 @@ interface IPlaceListItemProps {
   index?: number;
   isMobile: boolean;
   className?: string;
+  mode?: 'map' | 'default';
+  page?: 'detail' | 'default';
 }
 
 export default function PlaceListItem({
@@ -21,15 +23,18 @@ export default function PlaceListItem({
   index,
   isMobile,
   className,
+  mode = 'default',
+  page = 'default',
 }: IPlaceListItemProps) {
   const addressParts = address.split(' ');
 
   return (
-    <div className={`${styles.item} ${className}`}>
+    <div
+      className={`${isMobile ? styles.mobileItem : styles.item} ${className}`}>
       <div
         className={styles.nameArea}
         style={{
-          flexDirection: isMobile ? 'column' : 'row',
+          flexDirection: 'row',
         }}>
         {index !== undefined && (
           <span className={styles.order}>{index + 1}</span>
@@ -38,46 +43,50 @@ export default function PlaceListItem({
           <Link
             href={placeURL}
             target="_blank"
-            className={`${styles.name} ${styles.url}`}>
+            className={`${styles.name} ${styles.url} ${mode === 'map' && isMobile ? styles.mapItem : ''} ${page === 'detail' && isMobile ? styles.detailItem : ''}`}>
             {placeName}
           </Link>
         ) : (
-          <div className={styles.name}>{placeName}</div>
+          <div
+            className={`${styles.name} ${mode === 'map' && isMobile ? styles.mapItem : ''} ${page === 'detail' && isMobile ? styles.detailItem : ''}`}>
+            {placeName}
+          </div>
         )}
-        <span className={styles.category}>
-          {categoryName?.split(' > ').at(-1)}
-        </span>
       </div>
       <div
-        className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo}`}
+        className={`${styles.infoArea} ${index === undefined && styles.notIndexInfo} ${mode === 'map' && isMobile ? styles.mapItem : ''}`}
         style={{
-          padding: isMobile ? '0' : index === undefined ? '0' : '0 0 0 42px',
+          padding: isMobile
+            ? '0 0 0 24px'
+            : index === undefined
+              ? '0'
+              : '0 0 0 24px',
         }}>
         {isMobile ? (
           <div
             style={{
-              textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px',
+              gap: '4px',
             }}>
+            <span
+              className={`${styles.category} ${mode === 'map' && isMobile ? styles.mapItem : ''}`}>
+              {categoryName?.split(' > ').at(-1)}
+            </span>
             <div className={styles.address}>
-              {addressParts[0]} {addressParts[1]}
-            </div>
-            <div className={styles.address}>
-              {addressParts[2]} {addressParts[3]}
+              {addressParts[0]} {addressParts[1]} {addressParts[2]}{' '}
+              {addressParts[3]}
             </div>
           </div>
         ) : (
-          <div className={styles.address}>{address}</div>
+          <>
+            <span className={styles.category}>
+              {categoryName?.split(' > ').at(-1)}
+            </span>
+            <div className={styles.address}>{address}</div>
+          </>
         )}
-        {distance && (
-          <div
-            className={styles.distance}
-            style={{
-              justifyContent: isMobile ? 'center' : undefined,
-            }}>{`${distance}km`}</div>
-        )}
+        {distance && <div className={styles.distance}>{`${distance}km`}</div>}
       </div>
     </div>
   );

@@ -82,17 +82,40 @@ export default function EmailSignupForm() {
     watch,
     trigger,
     setValue,
+    clearErrors,
   } = props;
 
   const {
     data: termsConditionsData,
-    isLoading,
+    isPending: isTermsPending,
     isError,
   } = useGetTermsAgreement('all');
 
-  const { mutate: signupMutate, isPending } = usePostEmailSignupForm();
+  const { mutate: signupMutate, isPending: isSignupPending } =
+    usePostEmailSignupForm();
+
+  const firstButtonDisabledCondition =
+    !isValid ||
+    !isEmailDupOk ||
+    !isNickNameDupOk ||
+    !watch('password') ||
+    !watch('passwordCheck') ||
+    !termsConditionsData.every((item: ITermsAgreementResponseType) => {
+      if (item.required) {
+        return (
+          watch('termsConditions').find(
+            term => item.type === term.termsConditionsType
+          )?.agreement === true
+        );
+      }
+      return true;
+    });
 
   const emailDupCheck = async (email: string) => {
+    if (errors.email?.type === 'needDupCheck') {
+      clearErrors('email');
+    }
+
     try {
       setEmailDupLoading(true);
       await getEmailDupCheck(email);
@@ -113,6 +136,10 @@ export default function EmailSignupForm() {
   };
 
   const nickNameDupCheck = async (nickName: string) => {
+    if (errors.nickName?.type === 'needDupCheck') {
+      clearErrors('nickName');
+    }
+
     try {
       setNickNameDupLoading(true);
       await getNickNameDupCheck(nickName);
@@ -139,7 +166,7 @@ export default function EmailSignupForm() {
 
     signupMutate(newFormData, {
       onSuccess: () => {
-        router.push('/signup/result?type=local');
+        router.replace('/signup/result?type=local');
       },
       onError: () => {
         addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -161,12 +188,18 @@ export default function EmailSignupForm() {
     setIsNickNameDupOk(false);
   }, [watch('nickName')]);
 
+  if (!termsConditionsData || 'errorCode' in termsConditionsData) {
+    addToast('회원가입 페이지를 불러오는데 실패했습니다.', 'error');
+    router.back();
+    return;
+  }
+
   return (
     <FormProvider {...props}>
       <AuthHeader
         onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
-      <form>
+      <form className={styles.form}>
         <Funnel>
           <Step name="first">
             <div className={styles.formArea}>
@@ -202,8 +235,12 @@ export default function EmailSignupForm() {
                   disabled={
                     isEmailDupOk ||
                     emailDupLoading ||
-                    !!errors.email ||
-                    !watch('email')
+                    !watch('email') ||
+                    errors.email
+                      ? errors.email?.type === 'needDupCheck'
+                        ? false
+                        : true
+                      : false
                   }
                   className={styles.checkButton}>
                   중복확인
@@ -245,8 +282,12 @@ export default function EmailSignupForm() {
                   disabled={
                     isNickNameDupOk ||
                     nickNameDupLoading ||
-                    !!errors.nickName ||
-                    !watch('nickName')
+                    !watch('nickName') ||
+                    errors.nickName
+                      ? errors.nickName?.type === 'needDupCheck'
+                        ? false
+                        : true
+                      : false
                   }
                   className={styles.checkButton}>
                   중복확인
@@ -305,7 +346,7 @@ export default function EmailSignupForm() {
                   />
                 )}
               />
-              {isLoading ? (
+              {isTermsPending ? (
                 <div className={styles.consentExcept}>
                   <Spinner />
                 </div>
@@ -320,33 +361,39 @@ export default function EmailSignupForm() {
                   value={watch('termsConditions')}
                 />
               )}
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  await trigger();
 
-              <Button
-                onClick={() => {
-                  setStep('second');
-                }}
-                disabled={
-                  !isValid ||
-                  !isEmailDupOk ||
-                  !isNickNameDupOk ||
-                  !watch('password') ||
-                  !watch('passwordCheck') ||
-                  !termsConditionsData.every(
-                    (item: ITermsAgreementResponseType) => {
-                      if (item.required) {
-                        return (
-                          watch('termsConditions').find(
-                            term => item.type === term.termsConditionsType
-                          )?.agreement === true
-                        );
-                      }
-                      return true;
-                    }
-                  )
-                }
-                className={styles.button}>
-                확인
-              </Button>
+                  if (!errors.email && !isEmailDupOk) {
+                    setError('email', {
+                      message: '이메일 중복확인을 해주세요.',
+                      type: 'needDupCheck',
+                    });
+                  }
+
+                  if (!errors.nickName && !isNickNameDupOk) {
+                    setError('nickName', {
+                      message: '닉네임 중복확인을 해주세요.',
+                      type: 'needDupCheck',
+                    });
+                  }
+                }}>
+                <Button
+                  onClick={() => {
+                    setStep('second');
+                  }}
+                  disabled={firstButtonDisabledCondition}
+                  style={
+                    firstButtonDisabledCondition
+                      ? { pointerEvents: 'none' }
+                      : undefined
+                  }
+                  className={styles.button}>
+                  확인
+                </Button>
+              </div>
 
               <div className={styles.linkContainer}>
                 이미 회원이신가요?
@@ -370,7 +417,7 @@ export default function EmailSignupForm() {
                     submitEmailSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 className={styles.button}>
                 PR 태그 등록하기
               </Button>
@@ -381,7 +428,7 @@ export default function EmailSignupForm() {
                     submitEmailSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 color="white"
                 className={styles.button}>
                 건너뛰기

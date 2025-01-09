@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/Button';
 import AuthInput from '../../AuthInput';
-import { getNickNameDupCheck } from '@/api/apis/authApis';
+import { getNickNameDupCheck, postLogout } from '@/api/apis/authApis';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SocialSignupFormType } from '@/types/request/authRequestTypes';
@@ -13,12 +13,13 @@ import {
   usePostSocialSignupForm,
 } from '@/api/queryHooks/auth';
 import { useToast } from '@/contexts/toastContext';
-import { getTokenFromCookie } from '@/actions/AuthActions';
 import { useFunnel } from '@/hooks/useFunnel';
 import AuthTitle from '../../AuthTitle';
 import AuthHeader from '../../AuthHeader';
 import ConsentForm from '../ConsentForm';
 import Spinner from '@/components/common/Spinner';
+import { reissueTokenViaServer, saveRefreshToken } from '@/actions/AuthActions';
+import { setAccessToken } from '@/utils/changeAccessToken';
 import styles from './SocialSignupForm.module.scss';
 
 interface ITermsAgreementResponseType {
@@ -35,7 +36,9 @@ export default function SocialSignupForm() {
   const [isNickNameDupOk, setIsNickNameDupOk] = useState(false);
   const [nickNameDupLoading, setNickNameDupLoading] = useState(false);
 
-  const [token, setToken] = useState('');
+  const [at, setAt] = useState('');
+  const [rt, setRt] = useState('');
+
   const { addToast } = useToast();
 
   const props = useForm({
@@ -76,17 +79,40 @@ export default function SocialSignupForm() {
     control,
     watch,
     setValue,
+    trigger,
+    clearErrors,
   } = props;
 
   const {
     data: termsConditionsData,
-    isLoading,
+    isPending: isTermsPending,
     isError,
   } = useGetTermsAgreement('all');
 
-  const { mutate: signupMutate, isPending } = usePostSocialSignupForm();
+  const { mutate: signupMutate, isPending: isSignupPending } =
+    usePostSocialSignupForm();
+
+  const firstButtonDisabledCondition =
+    isSignupPending ||
+    !watch('nickName') ||
+    !isValid ||
+    !isNickNameDupOk ||
+    !termsConditionsData.every((item: ITermsAgreementResponseType) => {
+      if (item.required) {
+        return (
+          watch('termsConditions').find(
+            term => item.type === term.termsConditionsType
+          )?.agreement === true
+        );
+      }
+      return true;
+    });
 
   const nickNameDupCheck = async (nickName: string) => {
+    if (errors.nickName?.type === 'needDupCheck') {
+      clearErrors('nickName');
+    }
+
     try {
       setNickNameDupLoading(true);
       await getNickNameDupCheck(nickName);
@@ -108,11 +134,12 @@ export default function SocialSignupForm() {
 
   const submitSocialSignupForm = (formData: SocialSignupFormType) => {
     signupMutate(
-      { data: formData, token },
+      { data: formData, token: at },
       {
-        onSuccess: () => {
-          localStorage.setItem('accessToken', token);
-          router.push('/signup/result?type=social');
+        onSuccess: async () => {
+          setAccessToken(at);
+          await saveRefreshToken(rt);
+          router.replace('/signup/result?type=social');
         },
         onError: () => {
           addToast('회원가입 중 오류가 발생했습니다.', 'error');
@@ -122,27 +149,46 @@ export default function SocialSignupForm() {
   };
 
   useEffect(() => {
-    const transferToken = async () => {
-      const token = await getTokenFromCookie();
+    const tempSaveToken = async () => {
+      if (at && rt) return;
 
-      if (token) {
-        setToken(token);
+      const tokens = await reissueTokenViaServer();
+
+      if (tokens.errorCode) {
+        addToast(
+          '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+          'error'
+        );
+        await postLogout();
+        router.replace('/signin');
+        return;
       }
+
+      setAt(tokens.at);
+      setRt(tokens.rt);
+
+      await postLogout();
     };
 
-    transferToken();
+    tempSaveToken();
   }, []);
 
   useEffect(() => {
     setIsNickNameDupOk(false);
   }, [watch('nickName')]);
 
+  if (!termsConditionsData || 'errorCode' in termsConditionsData) {
+    addToast('회원가입 페이지를 불러오는데 실패했습니다.', 'error');
+    router.back();
+    return;
+  }
+
   return (
     <FormProvider {...props}>
       <AuthHeader
         onClick={currentStep === 'second' ? () => setStep('first') : undefined}
       />
-      <form>
+      <form className={styles.form}>
         <Funnel>
           <Step name="first">
             <div className={styles.formArea}>
@@ -185,14 +231,18 @@ export default function SocialSignupForm() {
                   disabled={
                     isNickNameDupOk ||
                     nickNameDupLoading ||
-                    !!errors.nickName ||
-                    !watch('nickName')
+                    !watch('nickName') ||
+                    errors.nickName
+                      ? errors.nickName?.type === 'needDupCheck'
+                        ? false
+                        : true
+                      : false
                   }
                   className={styles.checkButton}>
                   중복확인
                 </Button>
               </div>
-              {isLoading ? (
+              {isTermsPending ? (
                 <div className={styles.consentExcept}>
                   <Spinner />
                 </div>
@@ -207,32 +257,32 @@ export default function SocialSignupForm() {
                   value={watch('termsConditions')}
                 />
               )}
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  await trigger();
 
-              <Button
-                onClick={() => {
-                  setStep('second');
-                }}
-                className={styles.button}
-                disabled={
-                  isPending ||
-                  !watch('nickName') ||
-                  !isValid ||
-                  !isNickNameDupOk ||
-                  !termsConditionsData.every(
-                    (item: ITermsAgreementResponseType) => {
-                      if (item.required) {
-                        return (
-                          watch('termsConditions').find(
-                            term => item.type === term.termsConditionsType
-                          )?.agreement === true
-                        );
-                      }
-                      return true;
-                    }
-                  )
-                }>
-                확인
-              </Button>
+                  if (!errors.nickName && !isNickNameDupOk) {
+                    setError('nickName', {
+                      message: '닉네임 중복확인을 해주세요.',
+                      type: 'needDupCheck',
+                    });
+                  }
+                }}>
+                <Button
+                  onClick={() => {
+                    setStep('second');
+                  }}
+                  disabled={firstButtonDisabledCondition}
+                  style={
+                    firstButtonDisabledCondition
+                      ? { pointerEvents: 'none' }
+                      : undefined
+                  }
+                  className={styles.button}>
+                  확인
+                </Button>
+              </div>
             </div>
           </Step>
 
@@ -249,7 +299,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 className={styles.button}>
                 PR 태그 등록하기
               </Button>
@@ -260,7 +310,7 @@ export default function SocialSignupForm() {
                     submitSocialSignupForm(formData);
                   })();
                 }}
-                disabled={isPending}
+                disabled={isSignupPending}
                 color="white"
                 className={styles.button}>
                 건너뛰기

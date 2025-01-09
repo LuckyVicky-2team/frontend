@@ -1,6 +1,7 @@
-.item {
+.item,
+.mobileItem {
   width: 100%;
-  padding: 18px 20px 20px;
+  padding: 14px 20px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -10,10 +11,23 @@
   }
 }
 
+.mobileItem {
+  padding: 10px;
+}
+
+.mapItem {
+  font-size: 12px !important;
+  line-height: 12px !important;
+}
+
+.detailItem {
+  padding: 0 0 0 24px;
+}
+
 .nameArea {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
 
   .order {
     display: flex;
@@ -21,17 +35,17 @@
     justify-content: center;
     border-radius: 100%;
     background-color: #3e82f1;
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     color: #ffffff;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 13px;
     flex-shrink: 0;
   }
 
   .name {
     color: black;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
 
     &.url {
@@ -39,12 +53,16 @@
         color: #3e82f1;
       }
     }
-  }
 
-  .category {
-    font-size: 16px;
-    color: #9ca3af;
+    @media screen and (max-width: 480px) {
+      font-size: 16px;
+    }
   }
+}
+
+.category {
+  font-size: 14px;
+  color: #9ca3af;
 }
 
 .infoArea {
@@ -52,7 +70,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  font-size: 16px;
+  font-size: 14px;
   color: #9ca3af;
 
   &.notIndexInfo {
@@ -62,5 +80,11 @@
   .distance {
     display: flex;
     align-items: center;
+  }
+}
+
+.address {
+  @media screen and (max-width: 480px) {
+    font-size: 12px;
   }
 }

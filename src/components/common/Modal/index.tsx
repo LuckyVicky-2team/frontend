@@ -57,7 +57,7 @@ export default function Modal({
               : `${styles.modalWithXButton}`
           }
           style={{
-            width: full ? 'min(100%, 600px)' : `min(${maxWidth}px, 80%)`,
+            width: full ? 'min(100%, 600px)' : `min(${maxWidth}px, 70%)`,
           }}>
           <div
             className={`${full ? '' : modalOpen ? styles.modal : styles.none}`}
@@ -72,8 +72,8 @@ export default function Modal({
                 <Image
                   src={'/assets/icons/x-button-blue.svg'}
                   alt="닫기 버튼"
-                  width={46}
-                  height={46}
+                  width={32}
+                  height={32}
                 />
               </button>
             )}
@@ -84,8 +84,8 @@ export default function Modal({
               <Image
                 src={'/assets/icons/x-button.svg'}
                 alt={'닫기 버튼'}
-                width={38}
-                height={38}
+                width={24}
+                height={24}
               />
             </button>
           )}

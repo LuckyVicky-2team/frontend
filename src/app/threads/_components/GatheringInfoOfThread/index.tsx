@@ -1,38 +1,56 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import BackButton from '@/components/common/BackButton';
+import Members from '@/app/gatherings/[id]/_components/Members';
+import useModal from '@/hooks/useModal';
+import { IParticipant } from '@/types/response/Gathering';
 import styles from './GatheringInfoThread.module.scss';
-
-type Participant = {
-  userId: number;
-  profileImage: string | null;
-  nickname: string;
-  type: string;
-};
 
 interface IGatheringInfoOfThreadProps {
   thumbnail: string;
   title: string;
-  description: string;
   place: string;
   meetingId: number;
-  participants: Participant[];
+  participants: IParticipant[];
+  state: string;
+  userId: number;
   className?: string;
 }
 
 export default function GatheringInfoOfThread({
   thumbnail,
   title,
-  description,
   place,
   meetingId,
   participants,
+  state,
+  userId,
   className,
 }: IGatheringInfoOfThreadProps) {
-  // eslint 오류 방지 위함
-  console.log(participants);
+  const [isMobile, setIsMobile] = useState(false);
+  const {
+    modalOpen: profileModalOpen,
+    handleModalOpen: handleProfileModalOpen,
+    handleModalClose: handleProfileModalClose,
+  } = useModal();
+
+  const myType = participants.find(participant => {
+    return participant.userId === userId;
+  })?.type;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 439);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // 초기 로드 시 체크
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className={`${styles.container} ${className}`}>
@@ -40,7 +58,11 @@ export default function GatheringInfoOfThread({
       <div className={styles.gatheringInfo}>
         <Link href={`/gatherings/${meetingId}`} className={styles.thumbnail}>
           <Image
-            src={thumbnail}
+            src={
+              thumbnail
+                ? `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
+                : '/assets/images/emptyThumbnail.png'
+            }
             alt={title}
             fill
             style={{ objectFit: 'cover', borderRadius: '10px' }}
@@ -53,12 +75,11 @@ export default function GatheringInfoOfThread({
         <div className={styles.texts}>
           <div className={styles.contents}>
             <div className={styles.content}>{title}</div>
-            <div className={styles.content}>{description}</div>
           </div>
           <div className={styles.place}>{place}</div>
         </div>
       </div>
-      <button>
+      <button onClick={handleProfileModalOpen}>
         <Image
           src="/assets/icons/hamburgerIcon.svg"
           alt="참여자 목록"
@@ -66,6 +87,20 @@ export default function GatheringInfoOfThread({
           height={34}
         />
       </button>
+      <Members
+        meetingId={meetingId}
+        modalOpen={profileModalOpen}
+        onClose={handleProfileModalClose}
+        onOpen={handleProfileModalOpen}
+        data={{
+          userParticipantResponseList: participants,
+          meetingState: state,
+        }}
+        isMobile={isMobile}
+        myType={myType}
+        bottomSheetOpen={'zero'}
+        applyPlace="thread"
+      />
     </div>
   );
 }

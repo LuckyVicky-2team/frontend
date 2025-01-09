@@ -1,22 +1,24 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import styles from './GatheringID.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
-import { transDate } from '@/utils/common';
-import IconButton from '@/components/common/IconButton';
-import { useRevieweeList, useMeetingList } from '@/api/queryHooks/review';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/contexts/toastContext';
+import { transDate } from '@/utils/common';
+import { useRevieweeList, useMeetingList } from '@/api/queryHooks/review';
+import styles from './GatheringID.module.scss';
 import Spinner from '@/components/common/Spinner';
+import IconButton from '@/components/common/IconButton';
 
 export default function SingleGatheringPage({
   params,
 }: {
   params: { gatheringId: number };
 }) {
-  const [lastReviewee, setLastReviewee] = useState(false);
   const router = useRouter();
+  const { addToast } = useToast();
+  const [lastReviewee, setLastReviewee] = useState(false);
   const { data: meetingList } = useMeetingList({ reviewType: 'PRE_PROGRESS' });
   const { data: revieweeList, isLoading } = useRevieweeList({
     meetingId: params.gatheringId,
@@ -40,15 +42,21 @@ export default function SingleGatheringPage({
   }, [revieweeList?.length]);
 
   useEffect(() => {
-    if (!meetingData) router.push('/mypage/review');
+    if (!meetingData) {
+      addToast(
+        '리뷰를 작성할 수 없습니다. 잠시 후 다시 시도해주세요.',
+        'error'
+      );
+      router.push('/mypage/review');
+    }
   }, [meetingData]);
 
   return (
     <div className={styles.container}>
       {meetingData && (
         <div className={styles.meetingDetailContainer}>
-          <div className={styles.meetingDeatilHeader}>
-            <h1>{meetingData.title}</h1> 모임 리뷰
+          <div className={styles.meetingDetailHeader}>
+            <h1 className={styles.title}>{meetingData.title}</h1>
           </div>
 
           <div className={styles.meetingDetailContent}>

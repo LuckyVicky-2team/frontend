@@ -9,8 +9,6 @@
 
 .detailModal {
   width: 100%;
-  max-width: 552px;
-  max-height: 797px;
   min-height: 50vh;
   padding: 50px 38px 40px 42px;
   background-color: white;
@@ -19,29 +17,40 @@
   overflow-x: hidden;
   word-wrap: break-word;
   word-break: break-word;
+
   .modalHeader {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     color: $gray-dark;
     font-family: LaundryGothicOTF;
-    font-size: 30px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 1.2px;
     h2 {
+      margin-right: 8px;
       white-space: nowrap;
       text-overflow: ellipsis;
       display: inline-block;
-      width: 60%;
+      width: 100%;
       overflow: hidden;
       color: $gray-dark;
       font-family: LaundryGothicOTF;
-      font-size: 30px;
+      font-size: 24px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
       letter-spacing: 1.2px;
+    }
+
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+      h2 {
+        width: 100%;
+        font-size: 18px;
+      }
     }
   }
 }
@@ -74,29 +83,28 @@
   .reviewedUser {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
     align-self: stretch;
     justify-content: space-between;
     h4 {
       display: inline-block;
-      max-width: 16%;
+      max-width: 20%;
       word-break: keep-all;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
-
       min-width: 15%;
       color: $gray-darker;
-      font-size: 18px;
+      font-size: 16px;
       font-style: normal;
       font-weight: 500;
       line-height: 20px;
     }
 
     .tags {
-      width: 100%;
+      // width: 100%;
       display: flex;
       flex-flow: row wrap;
       justify-content: flex-end;
@@ -107,17 +115,26 @@
         display: inline-block;
         padding: 8px 12px;
         border-radius: 20px;
-        font-size: 15px;
+        font-size: 13px;
         font-weight: 700;
         &.positive {
-          background-color: #fff2d3;
-          color: #f85d1b;
-        }
-        &.negative {
           background-color: #e6f2ff;
           color: #007aff;
         }
+        &.negative {
+          background-color: #fff2d3;
+          color: #f85d1b;
+        }
       }
+    }
+  }
+
+  .empty {
+    font-size: 18px;
+    margin: auto;
+    color: var(--lukyviky-gray-Normal, #9ca3af);
+    @media screen and (max-width: 480px) {
+      font-size: 14px;
     }
   }
 }
@@ -125,8 +142,7 @@
 //320-600px mobile
 @media screen and (max-width: 590px) {
   .detailModal {
-    width: 100vw;
     height: calc(400px * 2 / 3); /* 400px의 2/3 */
-    padding: 24px 15px 15px 15px;
+    padding: 24px 16px 16px 16px;
   }
 }

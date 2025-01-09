@@ -2,7 +2,6 @@ export const QueryKey = {
   LIST: 'list',
   DETAIL: 'detail',
   INFO: 'info',
-  GAME: 'game',
   NOTIFICATION: 'notification',
   TERMS_CONDITION: 'terms-condition',
   USER: {
@@ -30,6 +29,7 @@ export const QueryKey = {
     LIST: (filters: any) => [QueryKey.GATHERING.KEY, QueryKey.LIST, filters],
     DETAIL: (id: number) => [QueryKey.GATHERING.KEY, id],
     THREAD: (id: number) => [QueryKey.GATHERING.KEY, 'chatrooms', id],
+    GAME_LIST: () => [QueryKey.GATHERING.KEY, 'game', QueryKey.LIST],
   },
   REVIEW: {
     KEY: 'review',
@@ -48,5 +48,14 @@ export const QueryKey = {
     RECEIVED_REVIEW: () => [QueryKey.REVIEW.KEY, QueryKey.LIST, 'received'],
     REVIEWEE_LIST: (id: number) => [QueryKey.REVIEW.KEY, id, QueryKey.LIST],
     DETAIL: (id: number) => [QueryKey.REVIEW.KEY, id],
+  },
+  RECOMMEND: {
+    KEY: 'recommend',
+    GAME_LIST: (filters: string) => [
+      QueryKey.RECOMMEND.KEY,
+      'game',
+      QueryKey.LIST,
+      filters,
+    ],
   },
 };

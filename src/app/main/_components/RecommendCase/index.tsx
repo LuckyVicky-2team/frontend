@@ -11,7 +11,7 @@ export default function RecommendCase() {
       <b className={styles.title2}>상황별 추천!</b>
       <ul className={styles.recommendList}>
         <li>
-          <Link href="/recommend">
+          <Link href="/recommend/two">
             <span className={styles.img}>
               <Image
                 width={222}
@@ -24,7 +24,7 @@ export default function RecommendCase() {
           </Link>
         </li>
         <li>
-          <Link href="/recommendThree">
+          <Link href="/recommend/three">
             <span className={styles.img}>
               <Image
                 width={122}
@@ -40,7 +40,7 @@ export default function RecommendCase() {
           <span className={styles.bubble}>
             <span className={styles.font}>인기</span>
           </span>
-          <Link href="/recommendMany">
+          <Link href="/recommend/many">
             <span className={styles.img}>
               <Image
                 width={122}
@@ -53,7 +53,7 @@ export default function RecommendCase() {
           </Link>
         </li>
         <li>
-          <Link href="/recommendAll">
+          <Link href="/recommend/all">
             <span className={styles.img}>
               <Image
                 width={122}

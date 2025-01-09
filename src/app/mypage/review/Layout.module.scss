@@ -22,7 +22,7 @@
     h2 {
       font-family: LaundryGothicOTF;
       padding: 30px 24px 30px 24px;
-      font-size: 30px;
+      font-size: 24px;
       font-style: normal;
       letter-spacing: 1.2px;
       font-weight: 700;
@@ -83,12 +83,12 @@
   }
 }
 
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 480px) {
   .container {
     .header {
       h2 {
         padding: 20px 24px 20px 24px;
-        font-size: 30px;
+        font-size: 20px;
         font-style: normal;
         letter-spacing: 1.2px;
         font-weight: 700;

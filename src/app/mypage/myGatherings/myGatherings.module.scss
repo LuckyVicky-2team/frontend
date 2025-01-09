@@ -85,14 +85,24 @@
   box-sizing: border-box;
   padding-top: 80px;
   padding-bottom: 150px;
+  @media (max-width: 430px) {
+    display: flex;
+    align-items: normal;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 
   .myGathdringsItem {
     display: flex;
     align-items: normal;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 15px;
     padding: 25px 0;
     border-bottom: 3px dashed #e5e7eb;
+    @media (max-width: 430px) {
+      width: 47%;
+    }
 
     .img {
       display: block;
@@ -125,7 +135,7 @@
         cursor: pointer;
 
         @media (max-width: 430px) {
-          font-size: 18px;
+          font-size: 16px;
         }
       }
 
@@ -191,6 +201,7 @@
     .myGathdringsItem {
       flex-direction: column;
       align-items: flex-start;
+      padding: 15px 0;
 
       .img {
         width: 100%;
@@ -201,11 +212,12 @@
         width: 100%;
 
         h1 {
-          font-size: 18px;
+          font-size: 16px;
         }
 
         b {
-          font-size: 16px;
+          font-size: 14px;
+          padding: 10px 0;
         }
 
         p {
@@ -215,7 +227,7 @@
 
           .time,
           .person {
-            font-size: 14px;
+            font-size: 12px;
           }
         }
 
@@ -254,7 +266,7 @@
     padding: 15px 0;
 
     @media (max-width: 430px) {
-      font-size: 18px;
+      font-size: 16px;
     }
   }
 

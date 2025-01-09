@@ -12,23 +12,40 @@
     gap: 8px;
     padding: 46px 24px 0 24px;
 
-    .meetingDeatilHeader {
+    .meetingDetailHeader {
+      padding: 0 24px;
       color: #757a83;
       font-family: LaundryGothicOTF;
-      font-size: 30px;
+      font-size: 24px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
       letter-spacing: 1.2px;
       display: flex;
-      max-width: 90%;
-
-      h1 {
+      width: 100%;
+      .title {
+        font-size: 24px;
+        margin-right: 6px;
         font-family: inherit;
-        max-width: 70%;
+        max-width: 60%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      @media only screen and (max-width: 480px) {
+        align-items: center;
+        padding: 0 24px;
+        .title {
+          font-size: 20px;
+        }
+      }
+      @media only screen and (max-width: 330px) {
+        align-items: center;
+        padding: 0 24px;
+        .title {
+          font-size: 16px;
+        }
       }
     }
     .meetingDetailContent {
@@ -51,6 +68,7 @@
         width: 25%;
         max-width: 100px;
         max-height: 132px;
+        min-width: 100px;
       }
       .content {
         display: flex;
@@ -105,6 +123,18 @@
           }
         }
       }
+      @media only screen and (max-width: 450px) {
+        gap: 0;
+        .thumbnail {
+          min-width: 30%;
+          width: 45%;
+          max-width: none;
+          max-height: none;
+        }
+        .content {
+          gap: 10px;
+        }
+      }
     }
     .titleAndDate {
       display: flex;
@@ -132,6 +162,11 @@
         font-style: normal;
         font-weight: 700;
         line-height: normal;
+      }
+      @media only screen and (max-width: 450px) {
+        span {
+          font-size: 18px;
+        }
       }
     }
     .revieweeCardContainer {
@@ -178,6 +213,9 @@
           font-size: 24px;
           font-style: normal;
           font-weight: 700;
+          @media only screen and (max-width: 450px) {
+            font-size: 16px;
+          }
         }
         .writeReviewBtn {
           width: 100%;
@@ -194,7 +232,11 @@
           font-size: 14px;
           font-style: normal;
           font-weight: 700;
-          line-height: 20px; /* 142.857% */
+          line-height: 20px;
+          @media only screen and (max-width: 450px) {
+            font-size: 12px;
+            max-width: 83px;
+          }
         }
       }
     }

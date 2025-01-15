@@ -59,7 +59,9 @@ export default function SelectBox({
 
   useEffect(() => {
     const noOptionTitle =
-      !optionTitle && value === undefined && optionSet.length > 0;
+      !optionTitle &&
+      (value === undefined || value === '') &&
+      optionSet.length > 0;
     if (noOptionTitle) {
       const firstOption =
         typeof optionSet[0] === 'object' && 'name' in optionSet[0]

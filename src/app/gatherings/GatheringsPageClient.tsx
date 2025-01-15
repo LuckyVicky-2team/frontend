@@ -1,7 +1,6 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import AddGatheringButton from './_components/AddGatheringButton';
 import useQueryStrings from '@/hooks/useQueryStrings';
@@ -9,14 +8,12 @@ import useModal from '@/hooks/useModal';
 import styles from './Gatherings.module.scss';
 import Filter from './_components/Filter';
 import Skeleton from './_components/Skeleton';
+import LoginModal from '@/components/common/Modal/LoginModal';
 
 interface IGatheringPageClientProps {
   prefetchGatheringPage: React.ReactNode;
 }
-const DynamicLoginModal = dynamic(
-  () => import('@/components/common/Modal/LoginModal'),
-  { ssr: false }
-);
+
 export default function GatheringsPageClient({
   prefetchGatheringPage,
 }: IGatheringPageClientProps) {
@@ -59,12 +56,7 @@ export default function GatheringsPageClient({
           {prefetchGatheringPage}
         </Suspense>
       </main>
-      <Suspense>
-        <DynamicLoginModal
-          modalOpen={loginModalOpen}
-          onClose={handleLoginModalClose}
-        />
-      </Suspense>
+      <LoginModal modalOpen={loginModalOpen} onClose={handleLoginModalClose} />
     </>
   );
 }

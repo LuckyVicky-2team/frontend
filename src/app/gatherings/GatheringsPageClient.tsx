@@ -1,51 +1,32 @@
 'use client';
 
-import React, { useEffect, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
-import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import useModal from '@/hooks/useModal';
-import { QueryKey } from '@/utils/QueryKey';
-import { gatheringAPI } from '@/api/apis/gatheringsApis';
-import GatheringList from './_components/GatheringList';
 import AddGatheringButton from './_components/AddGatheringButton';
 import useQueryStrings from '@/hooks/useQueryStrings';
+import useModal from '@/hooks/useModal';
+import styles from './Gatherings.module.scss';
 import Filter from './_components/Filter';
+import Skeleton from './_components/Skeleton';
+import LoginModal from '@/components/common/Modal/LoginModal';
 
-const DynamicLoginModal = dynamic(
-  () => import('@/components/common/Modal/LoginModal'),
-  { ssr: false }
-);
+interface IGatheringPageClientProps {
+  prefetchGatheringPage: React.ReactNode;
+}
 
-function GatheringsPageContent({ handleLoginModalOpen }: any) {
+export default function GatheringsPageClient({
+  prefetchGatheringPage,
+}: IGatheringPageClientProps) {
   const router = useRouter();
-  const { ref, inView } = useInView();
+
   const { getParams, setParams, clearParams } = useQueryStrings();
   const params = getParams();
 
-  const { data, fetchNextPage, isFetchingNextPage, status, refetch } =
-    useInfiniteQuery({
-      queryKey: QueryKey.GATHERING.LIST({
-        // count: 10,
-        ...params,
-      }),
-      queryFn: ({ pageParam = 0 }) =>
-        gatheringAPI.gatheringList({
-          // count: 10,
-          page: pageParam,
-          ...params,
-        }),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage, pages) => {
-        if (!lastPage || lastPage.length < 10) return undefined;
-        return pages.length;
-      },
-      staleTime: 1000 * 60 * 1,
-      refetchOnMount: true,
-    });
-
-  const FilteredGatherings = data?.pages.flat() || [];
+  const {
+    modalOpen: loginModalOpen,
+    handleModalOpen: handleLoginModalOpen,
+    handleModalClose: handleLoginModalClose,
+  } = useModal();
 
   const addNewMeeting = () => {
     const accesssToken = localStorage.getItem('accessToken');
@@ -56,12 +37,6 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
     router.push('/gatherings/new');
   };
 
-  useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-    }
-  }, [inView]);
-
   return (
     <>
       <main>
@@ -71,32 +46,17 @@ function GatheringsPageContent({ handleLoginModalOpen }: any) {
           filterItems={params}
           setParams={setParams}
         />
-
-        <GatheringList
-          refetch={refetch}
-          ref={ref}
-          isFetchingNextPage={isFetchingNextPage}
-          status={status}
-          gatherings={FilteredGatherings}
-        />
+        <Suspense
+          key={JSON.stringify(params)}
+          fallback={
+            <div className={styles.fallbackSkeleton}>
+              <Skeleton />
+            </div>
+          }>
+          {prefetchGatheringPage}
+        </Suspense>
       </main>
+      <LoginModal modalOpen={loginModalOpen} onClose={handleLoginModalClose} />
     </>
-  );
-}
-export default function GatheringsPageClient() {
-  const {
-    modalOpen: loginModalOpen,
-    handleModalOpen: handleLoginModalOpen,
-    handleModalClose: handleLoginModalClose,
-  } = useModal();
-
-  return (
-    <Suspense>
-      <GatheringsPageContent handleLoginModalOpen={handleLoginModalOpen} />
-      <DynamicLoginModal
-        modalOpen={loginModalOpen}
-        onClose={handleLoginModalClose}
-      />
-    </Suspense>
   );
 }

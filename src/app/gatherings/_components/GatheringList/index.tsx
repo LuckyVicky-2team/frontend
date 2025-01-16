@@ -1,63 +1,44 @@
-import { forwardRef, ForwardedRef } from 'react';
-import Image from 'next/image';
-import { ISingleGatheringProps } from '@/types/response/GatheringListRES';
-import styles from './GatheringList.module.scss';
-import Card from '../Card';
-import Skeleton from '../Skeleton';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
+import { QueryKey } from '@/utils/QueryKey';
+import { gatheringAPI } from '@/api/apis/gatheringsApis';
 
-interface IGatheringListProps {
-  gatherings: ISingleGatheringProps[];
-  isFetchingNextPage: boolean;
-  status?: 'pending' | 'error' | 'success';
-  refetch: () => Promise<any>;
-}
+import GatheringListClient from './GatheringListClient';
+import { SearchParams } from '../../page';
 
-export default forwardRef(function GatheringList(
-  { status, gatherings, isFetchingNextPage, refetch }: IGatheringListProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
-  const filteredGatherings = gatherings.filter(gathering => {
-    const meetingDate = new Date(gathering.meetingDate);
-    const now = new Date();
-    return meetingDate >= now;
+export default async function GatheringListPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const queryClient = new QueryClient();
+
+  const req: IGatheringListRequestProps = {
+    sortBy: 'MEETING_DATE',
+    ...searchParams,
+  };
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: QueryKey.GATHERING.LIST(req),
+    queryFn: ({ pageParam }) =>
+      gatheringAPI.gatheringList(
+        {
+          page: pageParam,
+          ...req,
+        },
+        true
+      ),
+    initialPageParam: 0,
   });
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <>
-      <section className={`${styles.cardContainer} `}>
-        {status === 'pending' ? (
-          <Skeleton />
-        ) : status === 'error' ? (
-          <div className={styles.empty}>
-            <p className={styles.emptyContent}>
-              모임 목록을 불러오는 데 문제가 발생했습니다
-            </p>
-
-            <div className={styles.retryButton} onClick={() => refetch()}>
-              <Image
-                alt="retry-button"
-                src={'/assets/icons/arrow-retry.svg'}
-                width={20}
-                height={20}
-              />
-              <div className={styles.label}>다시 시도</div>
-            </div>
-          </div>
-        ) : gatherings.length ? (
-          <section className={styles.cardContainer}>
-            {filteredGatherings.map(el => {
-              return <Card key={el.id} {...el} />;
-            })}
-            {isFetchingNextPage ? <Skeleton /> : <div ref={ref}></div>}
-          </section>
-        ) : (
-          <div className={styles.empty}>
-            <p className={styles.emptyContent}>
-              앗 조건에 해당하는 모임이 없어요!
-            </p>
-          </div>
-        )}
-      </section>
-    </>
+    <HydrationBoundary state={dehydratedState}>
+      <GatheringListClient />
+    </HydrationBoundary>
   );
-});
+}

@@ -1,22 +1,17 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import AddGatheringButton from './_components/AddGatheringButton';
 import useQueryStrings from '@/hooks/useQueryStrings';
 import useModal from '@/hooks/useModal';
-import styles from './Gatherings.module.scss';
 import Filter from './_components/Filter';
-import Skeleton from './_components/Skeleton';
-import LoginModal from '@/components/common/Modal/LoginModal';
 
-interface IGatheringPageClientProps {
-  prefetchGatheringPage: React.ReactNode;
-}
-
-export default function GatheringsPageClient({
-  prefetchGatheringPage,
-}: IGatheringPageClientProps) {
+const DynamicLoginModal = dynamic(
+  () => import('@/components/common/Modal/LoginModal'),
+  { ssr: false }
+);
+export default function GatheringsPageClient() {
   const router = useRouter();
 
   const { getParams, setParams, clearParams } = useQueryStrings();
@@ -39,6 +34,10 @@ export default function GatheringsPageClient({
 
   return (
     <>
+      <DynamicLoginModal
+        modalOpen={loginModalOpen}
+        onClose={handleLoginModalClose}
+      />
       <main>
         <AddGatheringButton handleAddNewMeeting={addNewMeeting} />
         <Filter
@@ -46,17 +45,7 @@ export default function GatheringsPageClient({
           filterItems={params}
           setParams={setParams}
         />
-        <Suspense
-          key={JSON.stringify(params)}
-          fallback={
-            <div className={styles.fallbackSkeleton}>
-              <Skeleton />
-            </div>
-          }>
-          {prefetchGatheringPage}
-        </Suspense>
       </main>
-      <LoginModal modalOpen={loginModalOpen} onClose={handleLoginModalClose} />
     </>
   );
 }

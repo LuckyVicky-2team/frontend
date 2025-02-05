@@ -7,7 +7,6 @@ export default function Loading() {
         width: '80%',
         padding: '40px 0 30px 0',
         margin: 'auto',
-        backgroundColor: 'red',
       }}>
       <Skeleton />
     </div>

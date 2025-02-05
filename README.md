@@ -1,10 +1,9 @@
 # BoardGo(Front-End)
 
-> ### 소개
+> ### 서비스 소개
 >
-> #### BoardGo는 보드게임을 즐기는 사람들에게 만남의 기회를 제공하고, 내 위치 기반으로 모임 장소를 추천해주는 서비스 입니다.
+> ####  보고!(BoardGo) 서비스는 보드게임를 좋아하는 사람들이 오프라인으로 만날 수 있도록 소통 공간을 만들어주는 서비스 입니다. 사용자들은 직접 보드게임과 장소를 선택 해 모임을 생성하고, 별도의 연락망을 사용하지 않아도 보고 서비스 내에서 채팅방을 통해 소통할 수 있도록 편리성을 제공 해 줍니다. 또한, 보드게임에 익숙하지 않은 분들을 위해 1000여 개의 보드게임을 장르별, 상황별로 검색할 수 있습니다.
 >
-> 모임 일정 조율, 참가자 관리, 게임 추천 등 다양한 기능을 통해 친구들과의 보드게임 시간을 더 즐겁고 특별하게 만들어 드립니다.
 >
 > #### 🏠 [HomePage](https://dev.app.board-go.net/)
 
@@ -34,7 +33,7 @@
 
 ## 📆 개발 기간
 
-### 2024.07.19 ~
+### 2024.07.19 ~ 2025.01.18
 
 
 <br>
@@ -62,25 +61,21 @@
 
 ---
 
-## ❄️ 프로젝트 아키텍처
-
-<img width='100%' src='https://github.com/user-attachments/assets/ad938ad3-cf61-4f2a-b732-45d60f6fae5e'>
-
----
-
 ## 🌈 주요기능
 
 1. 메인 : 마감 임박 모임, 상황별 추천, 누적 인기 보드게임
 
 2. 모임 생성 : 현재 위치 기반 보드게임 장소 추천 및 검색, 게임 검색
 
-3. 모임 상세 : 참여자 평균리뷰 확인 및 모임 공유하기
+3. 모임 상세 : 참여자 정보 확인 및 모임 공유하기
   
 4. 모임 목록 : 모임 찜하기, 상세 검색
-   
-5. 알림 : 모임 변경/종료 및 기타 알림
 
-6. 채팅 : 모임 참여자 간 채팅 기능
+5. 모임 리뷰 : 모임 마감후 모임 참여자 간 리뷰 작성 및 리뷰 확인
+   
+6. 알림 : 모임 상세 정보 변경/종료 및 기타 알림
+
+7. 채팅 : 모임 참여자 간 채팅 기능
 
 
 ---
@@ -94,5 +89,5 @@
 
 | <h4>모임 목록 페이지</h4> | <h4>모임 상세 페이지</h4> | <h4>모임 생성 페이지</h4> | <h4>다른 사람 프로필 페이지</h4> | <h4>채팅 페이지</h4> |
 | :-: | :-: | :-: | :-: | :-: |
-| <img width="277" alt="meetingList" src="https://github.com/user-attachments/assets/38685c70-e204-4f34-9486-d03e98335157"> | <img width="277" alt="meetingDetail" src="https://github.com/user-attachments/assets/bb825a74-4f7b-4450-8661-8d2037cbd9b1"> | <img width="277" alt="createMeeting" src="https://github.com/user-attachments/assets/4f186a7c-5c42-4451-8da3-220b2030164b"> | <img width="277" alt="othersProfile" src="https://github.com/user-attachments/assets/8b5e1956-0979-45a8-a257-b4886cc70855"> | <img width="277" alt="chat" src=""> |
+| <img width="277" alt="meetingList" src="https://github.com/user-attachments/assets/38685c70-e204-4f34-9486-d03e98335157"> | <img width="277" alt="meetingDetail" src="https://github.com/user-attachments/assets/bb825a74-4f7b-4450-8661-8d2037cbd9b1"> | <img width="277" alt="createMeeting" src="https://github.com/user-attachments/assets/4f186a7c-5c42-4451-8da3-220b2030164b"> | <img width="277" alt="othersProfile" src="https://github.com/user-attachments/assets/8b5e1956-0979-45a8-a257-b4886cc70855"> | <img width="277" alt="chat" src="https://github.com/user-attachments/assets/0ce72d48-3201-4362-aa21-2851b4cf7ee7"> |
 

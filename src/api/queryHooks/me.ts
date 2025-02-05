@@ -1,14 +1,23 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { QueryKey } from '@/utils/QueryKey';
 import { useQuery } from '@tanstack/react-query';
 import { getMe } from '../apis/meApi';
 
 export const useMe = () => {
-  const hasAuth = Boolean(localStorage.getItem('accessToken'));
+  const [hasAuth, setHasAuth] = useState(false);
 
-  const { data, isError, isPending, isLoading } = useQuery({
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const token = localStorage.getItem('accessToken');
+    setHasAuth(!!token);
+  }, []);
+
+  const { data, isError, isLoading, isPending } = useQuery({
     queryKey: [QueryKey.USER.ME],
     queryFn: getMe,
-    enabled: hasAuth, // accessToken이 없을 때만 쿼리 실행
+    enabled: hasAuth,
   });
 
   return {

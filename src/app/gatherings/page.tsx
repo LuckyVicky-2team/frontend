@@ -2,10 +2,10 @@ import { Suspense } from 'react';
 import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
 import { QueryKey } from '@/utils/QueryKey';
 import { gatheringAPI } from '@/api/apis/gatheringsApis';
-import Loading from './loading';
 import GatheringsPageClient from './GatheringsPageClient';
 import GatheringList from './_components/GatheringList';
 import { PrefetchBoundary } from '@/components/common/PrefetchBoundary/PrefetchBoundary';
+import Loading from './loading';
 
 export type SearchParams = {
   [key: string]: string | string[] | undefined;

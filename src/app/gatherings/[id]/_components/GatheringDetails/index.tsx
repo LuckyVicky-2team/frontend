@@ -22,7 +22,6 @@ import KakaoMap from '@/components/common/FindPlaceModal/KakaoMap';
 import Link from 'next/link';
 import GifToMp4 from '@/utils/gifToMp4';
 import useScreenWidth from '@/hooks/useScreenWidth';
-import Loading from '../../loading';
 // import { IParticipant } from '@/types/response/Gathering';
 
 interface IGatheringDetailsProps {
@@ -108,9 +107,7 @@ export default function GatheringDetails({ id, open }: IGatheringDetailsProps) {
   const LeaderID = data.userParticipantResponseList.find(p => {
     return p.type === 'LEADER';
   })?.userId;
-  if (id === 130) {
-    return <Loading />;
-  }
+
   return (
     <div style={{ margin: '60px 0 120px' }}>
       <div className={styles.section1}>

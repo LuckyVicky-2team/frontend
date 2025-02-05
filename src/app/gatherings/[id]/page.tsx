@@ -1,6 +1,6 @@
 import { getDehydratedQuery, Hydrate } from '@/utils/react-query';
 import { QueryKey } from '@/utils/QueryKey';
-import GatheringDetails from './_components/GatheringDetails.tsx';
+import GatheringDetails from './_components/GatheringDetails/index';
 import { gatheringAPI } from '@/api/apis/gatheringsApis';
 // import { getMe } from '@/api/apis/meApi';
 

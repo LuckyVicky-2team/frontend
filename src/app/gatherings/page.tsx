@@ -2,10 +2,10 @@ import { Suspense } from 'react';
 import { IGatheringListRequestProps } from '@/types/request/GatheringREQ';
 import { QueryKey } from '@/utils/QueryKey';
 import { gatheringAPI } from '@/api/apis/gatheringsApis';
-import Skeleton from './_components/Skeleton';
 import GatheringsPageClient from './GatheringsPageClient';
 import GatheringList from './_components/GatheringList';
 import { PrefetchBoundary } from '@/components/common/PrefetchBoundary/PrefetchBoundary';
+import Loading from './loading';
 
 export type SearchParams = {
   [key: string]: string | string[] | undefined;
@@ -24,18 +24,7 @@ export default function GatheringsPage({
   return (
     <>
       <GatheringsPageClient />
-      <Suspense
-        key={JSON.stringify(searchParams)}
-        fallback={
-          <div
-            style={{
-              width: '80%',
-              padding: '40px 0 30px 0',
-              margin: 'auto',
-            }}>
-            <Skeleton />
-          </div>
-        }>
+      <Suspense key={JSON.stringify(searchParams)} fallback={<Loading />}>
         <PrefetchBoundary
           prefetchOptions={{
             queryKey: QueryKey.GATHERING.LIST(req),

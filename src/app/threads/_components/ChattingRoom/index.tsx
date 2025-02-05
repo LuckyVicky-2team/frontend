@@ -55,8 +55,6 @@ export default function ChattingRoom({
     isFetchingNextPage,
   } = useGetChattingLog(chatRoomId);
 
-  console.log(chattingLog);
-
   const gatheringMembers = gatheringData?.userParticipantResponseList;
 
   const userId = gatheringMembers?.find(

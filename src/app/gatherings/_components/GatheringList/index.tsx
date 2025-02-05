@@ -1,33 +1,46 @@
-import { forwardRef, ForwardedRef } from 'react';
+'use client';
+
+import { forwardRef, useEffect } from 'react';
 import Image from 'next/image';
-import { ISingleGatheringProps } from '@/types/response/GatheringListRES';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteGatheringsQuery } from '@/hooks/useInfiniteGatheringsQuery';
+import useQueryStrings from '@/hooks/useQueryStrings';
 import styles from './GatheringList.module.scss';
 import Card from '../Card';
 import Skeleton from '../Skeleton';
 
-interface IGatheringListProps {
-  gatherings: ISingleGatheringProps[];
-  isFetchingNextPage: boolean;
-  status?: 'pending' | 'error' | 'success';
-  refetch: () => Promise<any>;
-}
+export default forwardRef(function GatheringListClient() {
+  const { getParams } = useQueryStrings();
+  const { ref, inView } = useInView();
+  const params = getParams();
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    refetch,
+    isFetching,
+    isError,
+    isPending,
+  } = useInfiniteGatheringsQuery(params);
 
-export default forwardRef(function GatheringList(
-  { status, gatherings, isFetchingNextPage, refetch }: IGatheringListProps,
-  ref: ForwardedRef<HTMLDivElement>
-) {
+  const gatherings = data?.pages?.flat() || [];
+
   const filteredGatherings = gatherings.filter(gathering => {
     const meetingDate = new Date(gathering.meetingDate);
     const now = new Date();
     return meetingDate >= now;
   });
-
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
   return (
     <>
       <section className={`${styles.cardContainer} `}>
-        {status === 'pending' ? (
+        {isPending && isFetching ? (
           <Skeleton />
-        ) : status === 'error' ? (
+        ) : isError ? (
           <div className={styles.empty}>
             <p className={styles.emptyContent}>
               모임 목록을 불러오는 데 문제가 발생했습니다

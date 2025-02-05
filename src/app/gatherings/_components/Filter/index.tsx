@@ -32,6 +32,7 @@ export default function Filter({
     tag = '',
     county = '',
     state = null,
+    sortBy = '',
   },
   setParams,
   clearParams,
@@ -264,7 +265,7 @@ export default function Filter({
               { name: '마감임박 순', value: 'MEETING_DATE' },
               { name: '참여인원 순', value: 'PARTICIPANT_COUNT' },
             ]}
-            // value={sortBy}
+            value={sortBy === 'MEETING_DATE' ? '' : sortBy}
             clickOptionHandler={e => setParams({ sortBy: e.target.value })}
             leftLabel={
               <Image

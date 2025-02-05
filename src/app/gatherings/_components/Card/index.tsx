@@ -64,7 +64,7 @@ export default function Card({
             fill
             priority
             quality={80}
-            sizes="(max-width: 430px) 10vw, 130px, (max-width: 600px) 10vw,183px"
+            sizes="(max-width: 430px) 30vw, 130px, (max-width: 600px) 10vw,183px"
             onError={handleImageError}
           />
 

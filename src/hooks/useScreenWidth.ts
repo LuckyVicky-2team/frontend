@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-function useScreenWidth(mobileWidth = 439) {
+function useScreenWidth(mobileWidth = 439, defaultWidth = 600) {
   const [screenWidth, setScreenWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : mobileWidth
+    typeof window !== 'undefined' ? window.innerWidth : defaultWidth
   );
   const [isMobile, setIsMobile] = useState(false);
 

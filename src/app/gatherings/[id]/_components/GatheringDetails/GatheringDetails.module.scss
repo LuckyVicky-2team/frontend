@@ -34,7 +34,11 @@
 .firstGatheringInfoContent {
   max-width: 400px;
 }
-
+.skeletonContent {
+  gap: 24px;
+  width: 100%;
+  padding: 0 24px 30px 24px;
+}
 .title {
   color: var(--lukyviky-Blue-Darker, #002b59);
   font-family: Pretendard;

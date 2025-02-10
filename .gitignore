@@ -42,3 +42,7 @@ next-env.d.ts
 .env.sentry-build-plugin
 # Local Netlify folder
 .netlify
+
+# Auth0
+auth_config.json
+cypress.env.json

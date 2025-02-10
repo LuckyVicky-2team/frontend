@@ -49,7 +49,7 @@ declare global {
   }
 }
 
-import { domain as Auth0Domain } from '../auth_config.json';
+import { domain as Auth0Domain } from '../../auth_config.json';
 
 function logIntoGoogle(email: string, password: string, name: string) {
   // 1. 예외 처리

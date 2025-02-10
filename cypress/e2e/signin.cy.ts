@@ -19,9 +19,9 @@ describe('Signin Page E2E Test', () => {
   });
 
   it('일반 로그인을 통해 로그인 시도 테스트', () => {
-    cy.get('input[name="username"]').type('testmail@naver.com');
+    cy.get('input[name="username"]').type(Cypress.env('DEFAULT_EMAIL'));
 
-    cy.get('input[name="password"]').type('testmail');
+    cy.get('input[name="password"]').type(Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
 

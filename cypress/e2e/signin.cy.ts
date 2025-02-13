@@ -1,12 +1,11 @@
 /* eslint-disable no-undef */
 
 describe('Signin Page E2E Test', () => {
-  beforeEach(req => {
-    console.log('Login request intercepted:', req);
-    cy.intercept('POST', '/api/login', {
-      statusCode: 200,
-      headers: { authorization: 'FAKE_TOKEN' },
-    }).as('login');
+  beforeEach(() => {
+    // cy.intercept('POST', '/api/login', {
+    //   statusCode: 200,
+    //   headers: { authorization: 'FAKE_TOKEN' },
+    // }).as('login');
 
     cy.visit('/signin');
   });

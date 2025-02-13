@@ -25,7 +25,6 @@ export default function SigninForm() {
     signinMutate(data, {
       onSuccess: (response: any) => {
         const token = response.headers.authorization;
-        console.log('로그인 성공, 토큰:', token);
         setAccessToken(token);
         router.replace('/main');
       },

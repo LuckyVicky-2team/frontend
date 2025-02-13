@@ -19,6 +19,12 @@ jobs:
       - cypress/run-tests:
           cypress-command: 'npx wait-on@latest http://localhost:3000 && npx cypress run'
           start-command: 'npm run build && npm run start'
+      - store_artifacts:
+          path: cypress/videos
+          destination: videos
+      - store_artifacts:
+          path: cypress/screenshots
+          destination: screenshots
 
 workflows:
   build:

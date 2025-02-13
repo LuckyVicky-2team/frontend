@@ -24,15 +24,15 @@ describe('Signin Page E2E Test', () => {
     cy.get('input[name="username"]').as('emailInput');
     cy.get('input[name="password"]').as('passwordInput');
 
-    cy.get('@emailInput').type(Cypress.env('DEFAULT_EMAIL'));
-    cy.get('@passwordInput').type(Cypress.env('DEFAULT_PASSWORD'));
+    cy.get('@emailInput').type(Cypress.env('CYPRESS_DEFAULT_EMAIL'));
+    cy.get('@passwordInput').type(Cypress.env('CYPRESS_DEFAULT_PASSWORD'));
 
     cy.get('@emailInput')
       .invoke('val')
-      .should('eq', Cypress.env('DEFAULT_EMAIL'));
+      .should('eq', Cypress.env('CYPRESS_DEFAULT_EMAIL'));
     cy.get('@passwordInput')
       .invoke('val')
-      .should('eq', Cypress.env('DEFAULT_PASSWORD'));
+      .should('eq', Cypress.env('CYPRESS_DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
 

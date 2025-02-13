@@ -2,10 +2,10 @@
 
 describe('Signin Page E2E Test', () => {
   beforeEach(() => {
-    // cy.intercept('POST', '/api/login', {
-    //   statusCode: 200,
-    //   headers: { authorization: 'FAKE_TOKEN' },
-    // }).as('login');
+    cy.intercept('POST', '/api/login', {
+      statusCode: 200,
+      headers: { authorization: 'FAKE_TOKEN' },
+    }).as('login');
 
     cy.visit('/signin');
   });
@@ -35,6 +35,12 @@ describe('Signin Page E2E Test', () => {
       .should('eq', Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
+
+    // 로그인 요청이 완료되는지 기다리고 결과를 로그에 남깁니다.
+    cy.wait('@login').then(interception => {
+      cy.log('Login intercept response:', interception.response);
+      console.log('Login intercept response:', interception.response);
+    });
 
     cy.location('pathname', { timeout: 5000 }).should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');

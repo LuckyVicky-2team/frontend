@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-describe('Signin Page E2E Test', () => {
+describe('로그인 성공 테스트', () => {
   beforeEach(() => {
     cy.intercept('POST', '/api/login', {
       statusCode: 200,
@@ -20,7 +20,7 @@ describe('Signin Page E2E Test', () => {
       .should('have.attr', 'href', '/signup');
   });
 
-  it('일반 로그인을 통해 로그인 시도 테스트', () => {
+  it('일반 로그인을 통해 로그인 시도', () => {
     cy.get('input[name="username"]').as('emailInput');
     cy.get('input[name="password"]').as('passwordInput');
 
@@ -36,17 +36,46 @@ describe('Signin Page E2E Test', () => {
 
     cy.get('button[type="submit"]').click();
 
-    // 로그인 요청이 완료되는지 기다리고 결과를 로그에 남깁니다.
-    cy.wait('@login').then(interception => {
-      cy.log('Login intercept response:', interception.response);
-      console.log('Login intercept response:', interception.response);
-    });
-
+    cy.wait('@login');
     cy.location('pathname', { timeout: 5000 }).should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');
   });
 });
+describe('로그인 실패 테스트', () => {
+  beforeEach(() => {
+    cy.visit('/signin');
+  });
 
+  const fillAndSubmit = () => {
+    cy.get('input[name="username"]').type('test@serverError.com');
+    cy.get('input[name="password"]').type('password');
+    cy.get('button[type="submit"]').click();
+  };
+
+  it('status 500 에러 상황에서 토스트 메세지 표시 확인', () => {
+    cy.intercept('POST', '/api/login', {
+      statusCode: 500,
+    }).as('loginError');
+
+    fillAndSubmit();
+
+    cy.wait('@loginError');
+    cy.contains('button', '로그인에 실패했습니다').should('be.visible');
+  });
+
+  it('status 401 에러 상황에서 토스트 메세지 표시 확인', () => {
+    cy.intercept('POST', '/api/login', {
+      statusCode: 401,
+    }).as('loginError');
+
+    fillAndSubmit();
+
+    cy.wait('@loginError');
+    cy.contains('button', '아이디나 비밀번호가 올바르지 않습니다').should(
+      'be.visible'
+    );
+  });
+});
 // describe('소셜 로그인', () => {
 //   beforeEach(() => {
 //     cy.loginToAuth0ViaSocial('google');

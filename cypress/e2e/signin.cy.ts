@@ -2,9 +2,7 @@
 
 describe('Signin Page E2E Test', () => {
   beforeEach(() => {
-    cy.intercept({
-      method: 'POST',
-      url: '/api/login',
+    cy.intercept('POST', '/api/login', {
       statusCode: 200,
       headers: { authorization: 'FAKE_TOKEN' },
     }).as('login');

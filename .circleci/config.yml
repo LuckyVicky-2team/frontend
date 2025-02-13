@@ -7,16 +7,15 @@ jobs:
     executor:
       name: cypress/default
       node-version: '20.14.0'
-
     steps:
       - checkout
       - cypress/install
       - run:
-        name: 'Prepare env string'
-        command: |
-          env_string=$(printenv | grep '^CYPRESS_' | paste -sd, -)
-          echo "$env_string" > env_string.txt
-          echo "Using env: $env_string"
+          name: 'Prepare env string'
+          command: |
+            env_string=$(printenv | grep '^CYPRESS_' | paste -sd, -)
+            echo "$env_string" > env_string.txt
+            echo "Using env: $env_string"
       - cypress/run-tests:
           cypress-command: >
             npx wait-on@latest http://localhost:3000 &&

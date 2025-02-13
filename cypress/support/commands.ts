@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 // (※ TS를 '모듈'로 인식시키기 위해, 최소 한 번의 export 구문이 필요)
 /* eslint-disable no-undef */
-export {}; // 빈 export로 모듈로 만듦
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -138,3 +137,5 @@ Cypress.Commands.add(
     log.end();
   }
 );
+
+export {};

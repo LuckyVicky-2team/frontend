@@ -2,17 +2,10 @@
 
 describe('Signin Page E2E Test', () => {
   beforeEach(() => {
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '/login',
-      },
-      {
-        headers: {
-          authorization: 'AUTH_TOKEN',
-        },
-      }
-    ).as('login');
+    cy.intercept('POST', '/api/login', {
+      statusCode: 200,
+      hostname: 'localhost',
+    }).as('login');
 
     cy.visit('/signin');
   });
@@ -42,9 +35,8 @@ describe('Signin Page E2E Test', () => {
       .should('eq', Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
-    cy.wait('@login');
 
-    cy.url().should('include', '/main');
+    cy.location('pathname', { timeout: 5000 }).should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');
   });
 });

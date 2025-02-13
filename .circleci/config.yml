@@ -11,18 +11,19 @@ jobs:
     steps:
       - checkout
       - cypress/install
-      - cypress/run-tests:
-          cypress-command: >
-            npx wait-on@latest http://localhost:3000 &&
-            npx cypress run --env CYPRESS_DEFAULT_EMAIL=$CYPRESS_DEFAULT_EMAIL,CYPRESS_DEFAULT_PASSWORD=$CYPRESS_DEFAULT_PASSWORD
-          start-command: 'npm run build && npm run start'
-      - store_artifacts:
-          path: cypress/videos
-          destination: videos
-      - store_artifacts:
-          path: cypress/screenshots
-          destination: screenshots
-
+      - run:
+        name: "Build and Start Application"
+        command: |
+          npm run build
+          npm run start &
+      -run : 
+        name: "Run Cypress with all CYPRESS_ env vars"
+        command: |              
+              env_string=$(printenv | grep '^CYPRESS_' | sed 's/^\(.*\)=\(.*\)$/\1=\2/' | paste -sd, -)
+              echo "Using env: $env_string"
+              npx wait-on@latest http://localhost:3000
+              npx cypress run --env $env_string
+     
 workflows:
   build:
     jobs:

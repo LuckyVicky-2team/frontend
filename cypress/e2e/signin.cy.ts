@@ -35,7 +35,7 @@ describe('Signin Page E2E Test', () => {
       .should('eq', Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
-    cy.wait(10000);
+
     cy.location('pathname', { timeout: 5000 }).should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');
   });

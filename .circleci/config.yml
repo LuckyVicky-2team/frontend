@@ -8,12 +8,6 @@ jobs:
       name: cypress/default
       node-version: '20.14.0'
     steps:
-      - checkout
-      - run:
-          name: 'echo an env var that is part of our project'
-          command: |
-            echo $CYPRESS_DEFAULT_EMAIL
-            echo $CYPRESS_DEFAULT_PASSWORD
       - cypress/install
       - cypress/run-tests:
           cypress-command: 'npx wait-on@latest http://localhost:3000 && npx cypress run'
@@ -27,5 +21,8 @@ jobs:
 
 workflows:
   build:
+    environment:
+      CYPRESS_DEFAULT_EMAIL: $CYPRESS_DEFAULT_EMAIL
+      CYPRESS_DEFAULT_PASSWORD: $CYPRESS_DEFAULT_PASSWORD
     jobs:
       - cypress-run

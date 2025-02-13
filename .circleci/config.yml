@@ -11,10 +11,17 @@ jobs:
     executor:
       name: cypress/default
       node-version: '20.14.0'
-    environment:
-      CYPRESS_DEFAULT_EMAIL: CYPRESS_DEFAULT_EMAIL
-      CYPRESS_DEFAULT_PASSWORD: CYPRESS_DEFAULT_PASSWORD
+      command: |
+        echo $CYPRESS_DEFAULT_EMAIL
+        echo $CYPRESS_DEFAULT_PASSWORD
+
     steps:
+      - checkout
+      -run:
+          name: "Debug: print Cypress env vars"
+          command: |
+            printenv | grep CYPRESS_DEFAULT_EMAIL
+            printenv | grep CYPRESS_DEFAULT_PASSWORD
       - cypress/install
       - cypress/run-tests:
           cypress-command: 'npx wait-on@latest http://localhost:3000 && npx cypress run'

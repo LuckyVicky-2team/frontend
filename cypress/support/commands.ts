@@ -49,8 +49,6 @@ declare global {
   }
 }
 
-import { domain as Auth0Domain } from '../../auth_config.json';
-
 function logIntoGoogle(email: string, password: string, name: string) {
   // 1. 예외 처리
   Cypress.on('uncaught:exception', err => {
@@ -65,7 +63,7 @@ function logIntoGoogle(email: string, password: string, name: string) {
   cy.get('a[href*="/signin"]').click();
 
   // 3. Auth0 도메인에서 Google provider 선택
-  cy.origin(Auth0Domain, () => {
+  cy.origin(Cypress.env('domain'), () => {
     cy.scrollTo('bottom');
     cy.get('form[data-provider="google"]').submit();
   });

@@ -44,5 +44,4 @@ next-env.d.ts
 .netlify
 
 # Auth0
-auth_config.json
 cypress.env.json

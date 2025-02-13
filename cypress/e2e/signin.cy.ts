@@ -2,6 +2,18 @@
 
 describe('Signin Page E2E Test', () => {
   beforeEach(() => {
+    cy.intercept(
+      {
+        method: 'POST',
+        url: '/login',
+      },
+      {
+        headers: {
+          authorization: 'AUTH_TOKEN',
+        },
+      }
+    ).as('login');
+
     cy.visit('/signin');
   });
 
@@ -19,9 +31,18 @@ describe('Signin Page E2E Test', () => {
   });
 
   it('일반 로그인을 통해 로그인 시도 테스트', () => {
-    cy.get('input[name="username"]').type(Cypress.env('DEFAULT_EMAIL'));
+    cy.get('input[name="username"]').as('emailInput');
+    cy.get('input[name="password"]').as('passwordInput');
 
-    cy.get('input[name="password"]').type(Cypress.env('DEFAULT_PASSWORD'));
+    cy.get('@emailInput').type(Cypress.env('DEFAULT_EMAIL'));
+    cy.get('@passwordInput').type(Cypress.env('DEFAULT_PASSWORD'));
+
+    cy.get('@emailInput')
+      .invoke('val')
+      .should('eq', Cypress.env('DEFAULT_EMAIL'));
+    cy.get('@passwordInput')
+      .invoke('val')
+      .should('eq', Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
 

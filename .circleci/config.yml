@@ -11,10 +11,9 @@ jobs:
       - checkout
       - cypress/install
       - cypress/run-tests:
-          cypress-command:
-            cypress-command: >
-              npx wait-on@latest http://localhost:3000 &&
-              npx cypress run --env CYPRESS_DEFAULT_EMAIL=$CYPRESS_DEFAULT_EMAIL,CYPRESS_DEFAULT_PASSWORD=$CYPRESS_DEFAULT_PASSWORD
+          cypress-command: >
+            npx wait-on@latest http://localhost:3000 &&
+            npx cypress run --env CYPRESS_DEFAULT_EMAIL=$CYPRESS_DEFAULT_EMAIL,CYPRESS_DEFAULT_PASSWORD=$CYPRESS_DEFAULT_PASSWORD
           start-command: 'npm run build && npm run start'
       - store_artifacts:
           path: cypress/videos

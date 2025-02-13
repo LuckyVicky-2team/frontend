@@ -11,6 +11,9 @@ jobs:
     executor:
       name: cypress/default
       node-version: '20.14.0'
+    environment:
+      DEFAULT_EMAIL: $DEFAULT_EMAIL
+      DEFAULT_PASSWORD: $DEFAULT_PASSWORD
     steps:
       - cypress/install
       - cypress/run-tests:

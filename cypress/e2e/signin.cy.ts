@@ -20,6 +20,7 @@ describe('Signin Page E2E Test', () => {
   it('페이지 로드 확인', () => {
     cy.get('main').should('exist');
 
+    cy.url().should('include', '/signin');
     cy.contains('로그인').should('be.visible');
   });
 

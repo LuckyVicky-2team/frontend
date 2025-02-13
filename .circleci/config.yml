@@ -1,9 +1,5 @@
 version: 2.1
 orbs:
-  # "cypress-io/cypress@3" installs the latest published
-  # version "s.x.y" of the orb. We recommend you then use
-  # the strict explicit version "cypress-io/cypress@3.x.y"
-  # to lock the version and prevent unexpected CI changes.
   cypress: cypress-io/cypress@3.3.1
 
 jobs:
@@ -11,14 +7,10 @@ jobs:
     executor:
       name: cypress/default
       node-version: '20.14.0'
-      command: |
-        echo $CYPRESS_DEFAULT_EMAIL
-        echo $CYPRESS_DEFAULT_PASSWORD
-
     steps:
       - checkout
-      -run:
-          name: "Debug: print Cypress env vars"
+      - run:
+          name: 'Debug: print Cypress env vars'
           command: |
             printenv | grep CYPRESS_DEFAULT_EMAIL
             printenv | grep CYPRESS_DEFAULT_PASSWORD

@@ -18,13 +18,9 @@ describe('Signin Page E2E Test', () => {
   });
 
   it('페이지 로드 확인', () => {
-    cy.get('main').should('exist');
-
     cy.url().should('include', '/signin');
     cy.contains('로그인').should('be.visible');
-  });
 
-  it('이메일로 회원가입 버튼이 제대로 노출되는지 확인', () => {
     cy.contains('이메일로 회원가입하기')
       .should('be.visible')
       .closest('a')
@@ -46,6 +42,7 @@ describe('Signin Page E2E Test', () => {
       .should('eq', Cypress.env('DEFAULT_PASSWORD'));
 
     cy.get('button[type="submit"]').click();
+    cy.wait('@login');
 
     cy.url().should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');

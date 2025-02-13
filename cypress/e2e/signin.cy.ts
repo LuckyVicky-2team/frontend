@@ -36,7 +36,7 @@ describe('Signin Page E2E Test', () => {
 
     cy.get('button[type="submit"]').click();
 
-    // cy.location('pathname', { timeout: 5000 }).should('include', '/main');
+    cy.location('pathname', { timeout: 5000 }).should('include', '/main');
     cy.get('h1').should('contain', '주어진 환경은 다르니까!');
   });
 });

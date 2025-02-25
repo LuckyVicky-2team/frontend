@@ -1,0 +1,32 @@
+[
+  {
+    "type": "TERMS",
+    "title": "[필수] 이용약관 동의",
+    "content": "이용약관 동의 내용입니다",
+    "required": true
+  },
+  {
+    "type": "PRIVACY",
+    "title": "개인정보 이용 수집 동의(필수)",
+    "content": "개인정보 이용 수집 동의 내용입니다",
+    "required": true
+  },
+  {
+    "type": "LOCATION",
+    "title": "위치정보 이용 수집 동의(필수)",
+    "content": "위치정보 이용 수집 동의 내용입니다. ",
+    "required": true
+  },
+  {
+    "type": "AGE14",
+    "title": "[필수] 본인은 만 14세 이상입니다",
+    "content": "본인은 만 14세 이상입니다",
+    "required": true
+  },
+  {
+    "type": "PUSH",
+    "title": "[선택] 푸시 알림 동의",
+    "content": "푸시 알림 동의 내용입니다",
+    "required": false
+  }
+]

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { transDate } from '@/utils/common';
 import styles from './Card.module.scss';
 import SaveGatheringButton from '@/components/common/SaveGatheringButton';
+import OptimizedImage from '@/utils/gifToWebp';
 
 interface ICardProps {
   id: number;
@@ -22,11 +22,6 @@ interface ICardProps {
   onClick?: (_args: any) => void;
 }
 
-const DEFAULT_IMAGES = [
-  '/assets/images/emptyGameThumbnail.png',
-  '/assets/images/emptyThumbnail.png',
-];
-
 export default function Card({
   id,
   title,
@@ -41,32 +36,16 @@ export default function Card({
   nickName,
   onClick,
 }: ICardProps) {
-  const [imgSrc, setImgSrc] = useState<string>(
-    `https://${process.env.NEXT_PUBLIC_CLOUDFRONT_DOMAIN}/${thumbnail}`
-  );
   const progressValue = (participantCount / limitParticipant) * 100;
   const { mondthAndDay, time } = transDate(meetingDate);
   const isFullParticipant = participantCount === limitParticipant;
   const isDateOver = new Date(meetingDate) < new Date();
 
-  const handleImageError = () => {
-    const randomIndex = Math.floor(Math.random() * DEFAULT_IMAGES.length);
-    setImgSrc(DEFAULT_IMAGES[randomIndex]);
-  };
-
   return (
     <Link href={`/gatherings/${id}`} className={styles.cardLayout}>
       <div className={styles.card} onClick={onClick}>
         <div className={styles.thumbnail}>
-          <Image
-            src={imgSrc}
-            alt="thumbnail"
-            fill
-            priority
-            quality={80}
-            sizes="(max-width: 430px) 10vw, 130px, (max-width: 600px) 10vw,183px"
-            onError={handleImageError}
-          />
+          <OptimizedImage thumbnail={thumbnail} />
 
           {isFullParticipant || isDateOver ? (
             <div className={styles.fullUser}>
@@ -143,9 +122,6 @@ export default function Card({
               value={`${progressValue}`}
               max={'100'}></progress>
           </div>
-          {/* <Link href={`/gatherings/${id}`}>
-            <button className={styles.seeDetail}>모임 자세히보기</button>
-          </Link> */}
         </div>
       </div>
     </Link>

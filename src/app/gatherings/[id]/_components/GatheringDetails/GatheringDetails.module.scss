@@ -34,7 +34,11 @@
 .firstGatheringInfoContent {
   max-width: 400px;
 }
-
+.skeletonContent {
+  gap: 24px;
+  width: 100%;
+  padding: 0 24px 30px 24px;
+}
 .title {
   color: var(--lukyviky-Blue-Darker, #002b59);
   font-family: Pretendard;
@@ -294,5 +298,21 @@
     font-style: normal;
     font-weight: 500;
     line-height: 20px; /* 125% */
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }

@@ -13,13 +13,26 @@ export const gatheringAPI = {
     return response.data;
   },
 
-  gatheringList: async (req: IGatheringListRequestProps) => {
-    const {
-      data: { content },
-    } = await axiosInstance.get(`/meeting`, {
-      params: req,
-    });
-    return content;
+  gatheringList: async (
+    req: IGatheringListRequestProps,
+    isServer: boolean = false
+  ) => {
+    try {
+      const {
+        data: { content },
+      } = await axiosInstance.get(
+        isServer
+          ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/meeting`
+          : `/meeting`,
+        {
+          params: req,
+        }
+      );
+
+      return content;
+    } catch (error: any) {
+      return error.response.data;
+    }
   },
 
   joinGathering: async (id: number) => {

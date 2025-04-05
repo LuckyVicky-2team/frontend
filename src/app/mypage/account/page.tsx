@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './account.module.scss';
 export default function Account() {
   return (

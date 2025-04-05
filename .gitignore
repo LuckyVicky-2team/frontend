@@ -45,3 +45,4 @@ next-env.d.ts
 
 # Auth0
 cypress.env.json
+auth_config.json
